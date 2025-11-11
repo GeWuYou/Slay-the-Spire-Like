@@ -11,7 +11,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s55cg"]
 size = Vector2(25, 30)
 
-[node name="CardUI" type="Control" node_paths=PackedStringArray("ColorRect", "StateText", "DropPointDetector", "StateMachine")]
+[node name="CardUI" type="Control" node_paths=PackedStringArray("ColorRect", "StateText", "DropPointDetector", "StateMachine", "Targets")]
 custom_minimum_size = Vector2(25, 30)
 layout_mode = 3
 anchors_preset = 15
@@ -21,13 +21,13 @@ offset_right = -231.0
 offset_bottom = -114.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
 theme = ExtResource("1_s55cg")
 script = ExtResource("2_vk10k")
 ColorRect = NodePath("Color")
 StateText = NodePath("State")
 DropPointDetector = NodePath("DropPointDetector")
 StateMachine = NodePath("CardStateMachine")
+Targets = []
 
 [node name="Color" type="ColorRect" parent="."]
 layout_mode = 1
@@ -51,6 +51,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DropPointDetector" type="Area2D" parent="."]
+collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DropPointDetector"]
@@ -79,3 +80,5 @@ StateValue = 4
 [connection signal="gui_input" from="." to="." method="OnGuiInput"]
 [connection signal="mouse_entered" from="." to="." method="OnMouseEntered"]
 [connection signal="mouse_exited" from="." to="." method="OnMouseExited"]
+[connection signal="area_entered" from="DropPointDetector" to="." method="OnDropPointDetectorAreaEntered"]
+[connection signal="area_exited" from="DropPointDetector" to="." method="OnDropPointDetectorAreaExited"]

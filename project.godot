@@ -12,17 +12,9 @@ config_version=5
 
 config/name="Deck Builder Tutorial"
 config/tags=PackedStringArray("gamelab")
-run/main_scene="res://scenes/run/run.tscn"
+run/main_scene="uid://cxksgeo2osgek"
 config/features=PackedStringArray("4.5", "C#", "Mobile")
 config/icon="uid://b80t1pkjhxn6s"
-
-[autoload]
-
-Events="*res://global/events.gd"
-Shaker="*res://global/shaker.gd"
-MusicPlayer="*res://global/music_player.tscn"
-SFXPlayer="*res://global/sfx_player.tscn"
-RNG="*res://global/rng.gd"
 
 [debug]
 
