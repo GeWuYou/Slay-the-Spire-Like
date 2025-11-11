@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using DeckBuilderTutorial.scripts.extensions;
 using Godot;
 
@@ -25,7 +25,7 @@ public partial class CardBaseState : CardState
             }
             
             // 请求重新设置父节点并更新UI状态显示
-            EmitSignal(CardUi.SignalName.ReparentRequested, CardUi);
+            CardUi.EmitSignal(CardUi.SignalName.ReparentRequested, CardUi);
             CardUi.ColorRect.Color = Colors.Green;
             CardUi.StateText.Text = "Base";
             CardUi.PivotOffset = Vector2.Zero;
