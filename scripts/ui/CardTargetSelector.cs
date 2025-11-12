@@ -74,6 +74,7 @@ public partial class CardTargetSelector : Node2D
 
         var points = new List<Vector2>();
         var start = _currentCard.GlobalPosition;
+        // 从卡片顶部中央开始绘制箭头
         start.X += _currentCard.Size.X / 2;
         var target = GetLocalMousePosition();
         var distance = target - start;
@@ -85,7 +86,7 @@ public partial class CardTargetSelector : Node2D
         for (var i = 0; i < ArcPoints; i++)
         {
             // 计算当前点在总点数中的比例
-            var t = (1 / ArcPoints) * i;
+            var t = (1.0f / ArcPoints) * i;
             
             // 水平坐标：从起始点开始，按等间距递增
             var x = start.X + (distance.X / ArcPoints) * i;
@@ -106,7 +107,7 @@ public partial class CardTargetSelector : Node2D
     /// </summary>
     /// <param name="number">插值参数</param>
     /// <returns>缓动后的浮点值</returns>
-    private static float EaseOutCubic(int number)
+    private static float EaseOutCubic(float number)
     {
         return (float)(1.0f - Math.Pow(1.0 - number, 3));
     }
