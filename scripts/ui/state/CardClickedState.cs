@@ -19,7 +19,7 @@ public partial class CardClickedState: CardState
         // 设置卡牌背景颜色为橙色以表示选中状态
         CardUi.ColorRect.Color = Colors.Orange;
         // 更新状态文本显示
-        CardUi.StateText.Text = "Clicked";
+        CardUi.StateText.Text = "点击";
         // 启用拖放检测器
         CardUi.DropPointDetector.Monitoring = true;
     }

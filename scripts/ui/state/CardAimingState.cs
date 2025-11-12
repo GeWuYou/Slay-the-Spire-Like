@@ -11,7 +11,7 @@ public partial class CardAimingState: CardState
     public override void Enter()
     {
         CardUi.ColorRect.Color = Colors.Yellow;
-        CardUi.StateText.Text = "Aiming";
+        CardUi.StateText.Text = "瞄准";
     }
 
     public override void OnInput(InputEvent @event)

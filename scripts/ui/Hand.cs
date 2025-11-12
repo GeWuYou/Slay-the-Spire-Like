@@ -18,7 +18,6 @@ public partial class Hand : HBoxContainer
 
     public void OnCardReparentRequested(CardUi cardUi)
     {
-        GD.Print("已重置");
         cardUi.Reparent(this);
     }
 }

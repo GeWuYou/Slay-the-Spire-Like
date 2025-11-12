@@ -10,6 +10,22 @@ namespace DeckBuilderTutorial.scripts.ui.state;
 public partial class CardDraggingState : CardState
 {
     /// <summary>
+    /// 获取或设置拖拽操作的最小阈值距离
+    /// </summary>
+    /// <remarks>
+    /// 用于判断用户是否开始了有效的拖拽操作的距离阈值
+    /// </remarks>
+    [Export] public float DragMinimumThreshold { private set; get; } = 0.05f;
+
+    /// <summary>
+    /// 获取或设置最小拖拽时间是否已过期
+    /// </summary>
+    /// <remarks>
+    /// 用于判断拖拽操作是否满足最小时间要求的标志位
+    /// </remarks>
+    public bool MinimumDragTimeElapsed { private set; get; }
+
+    /// <summary>
     /// 进入拖拽状态时执行的初始化操作
     /// 将卡牌UI重新父级到UI层，并设置拖拽状态的视觉效果
     /// </summary>
@@ -24,7 +40,16 @@ public partial class CardDraggingState : CardState
 
         // 设置拖拽状态的视觉样式
         CardUi.ColorRect.Color = Colors.NavyBlue;
-        CardUi.StateText.Text = "Dragging";
+        CardUi.StateText.Text = "拖拽";
+        
+        // 初始化最小拖拽时间标记为false，表示尚未达到最小拖拽时间要求
+        MinimumDragTimeElapsed = false;
+        
+        // 创建一个计时器，用于检测是否达到最小拖拽时间阈值
+        // 当计时器超时时，将最小拖拽时间标记设置为true
+        var timer = GetTree().CreateTimer(DragMinimumThreshold, false);
+        timer.Timeout+= () => MinimumDragTimeElapsed = true;
+
     }
 
     /// <summary>
@@ -38,7 +63,7 @@ public partial class CardDraggingState : CardState
         var isMouseMotion = @event is InputEventMouseMotion;
         var cancel = @event.IsActionPressed("right_mouse");
         var confirm = @event.IsActionReleased("left_mouse") || @event.IsActionPressed("left_mouse");
-        
+
         // 处理鼠标移动事件，更新卡牌位置
         if (isMouseMotion)
         {
@@ -46,14 +71,18 @@ public partial class CardDraggingState : CardState
         }
 
         // 处理取消操作或确认操作的状态转换
+        // 当用户取消操作时，触发状态转换信号，将卡片状态转换为基础状态
         if (cancel)
         {
             EmitSignal(CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
         }
-        else if (confirm)
+        // 当用户确认操作且最小拖拽时间已过时，触发状态转换信号，将卡片状态转换为释放状态
+        else if (confirm&&MinimumDragTimeElapsed)
         {
+            // 标记输入事件已被处理，防止事件继续传播
             GetViewport().SetInputAsHandled();
             EmitSignal(CardState.SignalName.TransitionRequested, this, State.Released.GetCardStateValue());
         }
+
     }
 }

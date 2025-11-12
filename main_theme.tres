@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://bda6jdmo18uon"]
 
-[ext_resource type="FontFile" uid="uid://dskmdk146n4rq" path="res://art/pixel_rpg.ttf" id="1_nmkrf"]
+[ext_resource type="FontFile" uid="uid://cqf1hihpeind6" path="res://art/fusion-pixel-8px-proportional-zh_hant.ttf" id="1_470mv"]
 
 [resource]
-default_font = ExtResource("1_nmkrf")
-default_font_size = 6
+default_font = ExtResource("1_470mv")
+default_font_size = 8
