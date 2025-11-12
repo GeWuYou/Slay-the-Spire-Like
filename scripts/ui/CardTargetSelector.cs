@@ -57,6 +57,8 @@ public partial class CardTargetSelector : Node2D
 
         // 更新轨迹线的点
         CardArc.Points = GetPoints().ToArray();
+        Area2D.AreaEntered += OnArea2DAreaEntered;
+        Area2D.AreaExited += OnArea2DAreaExited;
     }
 
     /// <summary>

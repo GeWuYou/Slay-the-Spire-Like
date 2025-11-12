@@ -24,6 +24,3 @@ shape = SubResource("RectangleShape2D_3dsvf")
 layer = 2
 
 [node name="CardArc" parent="CanvasLayer" instance=ExtResource("1_fm8qq")]
-
-[connection signal="area_entered" from="Area2D" to="." method="OnArea2DAreaEntered"]
-[connection signal="area_exited" from="Area2D" to="." method="OnArea2DAreaExited"]
