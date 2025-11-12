@@ -94,6 +94,11 @@ public partial class Card : Resource
         /// <summary>
         /// 所有敌人目标，卡片效果作用于所有敌人
         /// </summary>
-        AllEnemies
+        AllEnemies,
+        
+        /// <summary>
+        /// 盟友目标，卡片效果作用于指定盟友
+        /// </summary>
+        Ally
     }
 }

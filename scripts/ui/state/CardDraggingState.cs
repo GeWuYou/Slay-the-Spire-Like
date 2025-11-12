@@ -60,13 +60,13 @@ public partial class CardDraggingState : CardState
     public override void OnInput(InputEvent @event)
     {
         // 检查各种输入条件
-        var isEnemyTarget = CardUi.Card.CardTarget.IsEnemyTarget();
+        var isSingleTargeted = CardUi.Card.CardTarget.IsSingleTargeted();
         var isMouseMotion = @event is InputEventMouseMotion;
         var cancel = @event.IsActionPressed("right_mouse");
         var confirm = @event.IsActionReleased("left_mouse") || @event.IsActionPressed("left_mouse");
 
         // 如果当前目标是敌人且有可用目标并且是鼠标移动事件，则切换到瞄准状态
-        if (isEnemyTarget && isMouseMotion && CardUi.Targets.Count > 0)
+        if (isSingleTargeted && isMouseMotion && CardUi.Targets.Count > 0)
         {
             EmitSignal(CardState.SignalName.TransitionRequested, this, State.Aiming.GetCardStateValue());
             return;

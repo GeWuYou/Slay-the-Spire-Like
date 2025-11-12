@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2uug2tri1nns"]
+[gd_scene load_steps=4 format=3 uid="uid://b2uug2tri1nns"]
 
 [ext_resource type="PackedScene" uid="uid://cuaryxk0kk61p" path="res://scenes/ui/card_arc.tscn" id="1_fm8qq"]
+[ext_resource type="Script" uid="uid://dxnh1x4ixlp6j" path="res://scripts/ui/CardTargetSelector.cs" id="1_se4ql"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3dsvf"]
 size = Vector2(4, 4)
 
 [node name="CardTargetSelector" type="Node2D"]
+script = ExtResource("1_se4ql")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_mask = 4
@@ -20,3 +22,6 @@ shape = SubResource("RectangleShape2D_3dsvf")
 layer = 2
 
 [node name="CardArc" parent="CanvasLayer" instance=ExtResource("1_fm8qq")]
+
+[connection signal="area_entered" from="Area2D" to="." method="OnArea2DAreaEntered"]
+[connection signal="area_exited" from="Area2D" to="." method="OnArea2DAreaExited"]
