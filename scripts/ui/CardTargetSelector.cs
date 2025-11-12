@@ -112,6 +112,23 @@ public partial class CardTargetSelector : Node2D
     }
 
     /// <summary>
+    /// 当卡牌瞄准开始时触发，重置目标选择状态。
+    /// </summary>
+    /// <param name="cardUi">当前卡牌 UI 实例</param>
+    private void OnCardAimingStarted(CardUi cardUi)
+    {
+        if (!cardUi.Card.CardTarget.IsSingleTargeted())
+        {
+            return;
+        }
+        GD.Print("瞄准开始");
+        _targeting = true;
+        Area2D.Monitoring = true;
+        Area2D.Monitorable = true;
+        _currentCard = cardUi;
+    }
+    
+    /// <summary>
     /// 当卡牌瞄准结束时触发，开始目标选择逻辑。
     /// </summary>
     /// <param name="cardUi">当前卡牌 UI 实例</param>
@@ -122,19 +139,6 @@ public partial class CardTargetSelector : Node2D
             return;
         }
         GD.Print("瞄准结束");
-        _targeting = true;
-        Area2D.Monitoring = true;
-        Area2D.Monitorable = true;
-        _currentCard = cardUi;
-    }
-
-    /// <summary>
-    /// 当卡牌瞄准开始时触发，重置目标选择状态。
-    /// </summary>
-    /// <param name="cardUi">当前卡牌 UI 实例</param>
-    private void OnCardAimingStarted(CardUi cardUi)
-    {
-        GD.Print("瞄准开始");
         _targeting = false;
         CardArc.ClearPoints();
         Area2D.Position = Vector2.Zero;
@@ -142,6 +146,8 @@ public partial class CardTargetSelector : Node2D
         Area2D.Monitorable = false;
         _currentCard = null;
     }
+
+
 
     /// <summary>
     /// 当目标区域进入检测范围时触发，添加目标到卡牌目标列表。
