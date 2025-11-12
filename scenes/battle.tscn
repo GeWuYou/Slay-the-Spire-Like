@@ -42,7 +42,6 @@ shape = SubResource("RectangleShape2D_yahae")
 debug_color = Color(0.8541318, 0.3120418, 0.5089011, 0.22745098)
 
 [node name="CardTargetSelector" parent="." instance=ExtResource("3_4k1nj")]
-position = Vector2(209, 76)
 
 [node name="BattleUI" type="CanvasLayer" parent="." groups=["ui_layer"]]
 

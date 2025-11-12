@@ -39,6 +39,8 @@ public partial class CardTargetSelector : Node2D
         _events = this.Events();
         _events.CardAimingStarted += OnCardAimingStarted;
         _events.CardAimingEnded += OnCardAimingEnded;
+        Area2D.AreaEntered += OnArea2DAreaEntered;
+        Area2D.AreaExited += OnArea2DAreaExited;
     }
 
     /// <summary>
@@ -57,8 +59,6 @@ public partial class CardTargetSelector : Node2D
 
         // 更新轨迹线的点
         CardArc.Points = GetPoints().ToArray();
-        Area2D.AreaEntered += OnArea2DAreaEntered;
-        Area2D.AreaExited += OnArea2DAreaExited;
     }
 
     /// <summary>
@@ -117,11 +117,11 @@ public partial class CardTargetSelector : Node2D
     /// <param name="cardUi">当前卡牌 UI 实例</param>
     private void OnCardAimingEnded(CardUi cardUi)
     {
-        if (cardUi.Card.CardTarget.IsSingleTargeted())
+        if (!cardUi.Card.CardTarget.IsSingleTargeted())
         {
             return;
         }
-
+        GD.Print("瞄准结束");
         _targeting = true;
         Area2D.Monitoring = true;
         Area2D.Monitorable = true;
@@ -134,6 +134,7 @@ public partial class CardTargetSelector : Node2D
     /// <param name="cardUi">当前卡牌 UI 实例</param>
     private void OnCardAimingStarted(CardUi cardUi)
     {
+        GD.Print("瞄准开始");
         _targeting = false;
         CardArc.ClearPoints();
         Area2D.Position = Vector2.Zero;

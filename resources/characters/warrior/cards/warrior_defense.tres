@@ -7,4 +7,5 @@ script = ExtResource("1_wax8u")
 Id = "warrior_2"
 Name = "防御"
 Description = "战士展示举起盾牌，为自己增加6点格挡值"
+CardType = 2
 metadata/_custom_type_script = "uid://ch7vp4mxba551"
