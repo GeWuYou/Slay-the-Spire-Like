@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Deck Builder Tutorial"
+config/name="Spire Like"
 config/tags=PackedStringArray("gamelab")
 run/main_scene="uid://cxksgeo2osgek"
 config/features=PackedStringArray("4.5", "C#", "Mobile")

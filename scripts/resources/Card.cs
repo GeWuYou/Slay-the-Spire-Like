@@ -5,24 +5,24 @@ namespace DeckBuilderTutorial.scripts.resources;
 [GlobalClass]
 public partial class Card : Resource
 {
-    [ExportGroup("卡牌属性")] 
-    [Export(PropertyHint.None, "卡牌的唯一标识符")] 
+    [ExportGroup("卡牌属性")]
+    [Export(PropertyHint.None, "卡牌的唯一标识符")]
     public string Id { private set; get; }
-    
-    [ExportGroup("卡牌属性")] 
-    [Export(PropertyHint.None, "卡牌的名称")] 
+
+    [ExportGroup("卡牌属性")]
+    [Export(PropertyHint.None, "卡牌的名称")]
     public string Name { private set; get; }
-    
-    [ExportGroup("卡牌属性")] 
-    [Export(PropertyHint.MultilineText, "卡牌的描述信息")] 
+
+    [ExportGroup("卡牌属性")]
+    [Export(PropertyHint.MultilineText, "卡牌的描述信息")]
     public string Description { private set; get; }
-    
-    [ExportGroup("卡牌属性")] 
-    [Export(PropertyHint.None, "卡牌的类型（攻击、能力、技能等）")] 
+
+    [ExportGroup("卡牌属性")]
+    [Export(PropertyHint.None, "卡牌的类型（攻击、能力、技能等）")]
     public Type CardType { private set; get; }
-    
-    [ExportGroup("卡牌属性")] 
-    [Export(PropertyHint.None, "卡牌的目标类型（自身、敌人、全体等）")] 
+
+    [ExportGroup("卡牌属性")]
+    [Export(PropertyHint.None, "卡牌的目标类型（自身、敌人、全体等）")]
     public Target CardTarget { private set; get; }
 
     /// <summary>
@@ -90,15 +90,24 @@ public partial class Card : Resource
         /// 随机盟友目标，卡片效果作用于随机选择的盟友
         /// </summary>
         RandomAlly,
-        
+
         /// <summary>
         /// 所有敌人目标，卡片效果作用于所有敌人
         /// </summary>
         AllEnemies,
-        
+
         /// <summary>
         /// 盟友目标，卡片效果作用于指定盟友
         /// </summary>
         Ally
+    }
+
+    /// <summary>
+    /// 重写ToString方法，返回卡牌的完整信息字符串
+    /// </summary>
+    /// <returns>包含卡牌所有属性的详细字符串</returns>
+    public override string ToString()
+    {
+        return $"Card(Id: {Id}, Name: {Name}, Description: {Description}, Type: {CardType}, Target: {CardTarget})";
     }
 }
