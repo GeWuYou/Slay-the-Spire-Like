@@ -71,7 +71,7 @@ public static class CardTargetExtensions
 
     public static bool IsSingleTargeted(this Card.Target target)
     {
-        return IsEnemyTarget(target)||IsSelfTarget(target)||IsAllyTarget(target);
+        return IsEnemyTarget(target)||IsAllyTarget(target);
     }
     
     /// <summary>
