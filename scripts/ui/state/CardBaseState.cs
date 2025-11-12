@@ -23,6 +23,11 @@ public partial class CardBaseState : CardState
             {
                 await ToSignal(CardUi, "ready");
             }
+
+            if (CardUi.Tween!=null && CardUi.Tween.IsRunning())
+            {
+                CardUi.Tween.Kill();
+            }
             
             // 请求重新设置父节点并更新UI状态显示
             CardUi.EmitSignal(CardUi.SignalName.ReparentRequested, CardUi);

@@ -122,7 +122,6 @@ public partial class CardTargetSelector : Node2D
         {
             return;
         }
-        GD.Print("瞄准开始");
         _targeting = true;
         Area2D.Monitoring = true;
         Area2D.Monitorable = true;
@@ -139,7 +138,6 @@ public partial class CardTargetSelector : Node2D
         {
             return;
         }
-        GD.Print("瞄准结束");
         _targeting = false;
         CardArc.ClearPoints();
         Area2D.Position = Vector2.Zero;

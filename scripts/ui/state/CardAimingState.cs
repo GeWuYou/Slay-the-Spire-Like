@@ -12,7 +12,8 @@ public partial class CardAimingState : CardState
     /// <summary>
     /// 鼠标 Y 轴位置的阈值，当鼠标 Y 坐标超过此值时将触发返回基础状态的转换。
     /// </summary>
-    [Export] public float MouseYSnapbackThreshold { private set; get; } = 138f;
+    [Export]
+    public float MouseYSnapbackThreshold { private set; get; } = 138f;
 
     private Events _events;
 
@@ -38,17 +39,17 @@ public partial class CardAimingState : CardState
         // 获取父级控件并计算卡牌应移动到的位置
         var parent = CardUi.Parent;
         var parentSize = parent.Size;
-        
+
         // 计算卡片UI的偏移位置，使其居中显示在父容器上方
         var offset = new Vector2(parentSize.X / 2, -CardUi.Size.Y / 2);
         offset.X -= CardUi.Size.X / 2;
-        
+
         // 触发卡片UI的位置动画信号，将其移动到计算好的位置
-        CardUi.AnimateToPosition( parent.GlobalPosition + offset, 0.2f);
-        
+        CardUi.AnimateToPosition(parent.GlobalPosition + offset, 0.2f);
+
         // 关闭卡片UI的掉落点检测器监控功能
         CardUi.DropPointDetector.Monitoring = false;
-        
+
         // 发出卡片瞄准开始事件信号
         _events.EmitSignal(Events.SignalName.CardAimingStarted, CardUi);
     }
@@ -71,13 +72,13 @@ public partial class CardAimingState : CardState
         var mouseAtBottom = CardUi.GetGlobalMousePosition().Y > MouseYSnapbackThreshold;
         if (mouseAtBottom || @event.IsActionPressed("right_mouse"))
         {
-            EmitSignal(CardState.SignalName.TransitionRequested,this, State.Base.GetCardStateValue());
+            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
         }
         else if (@event.IsActionReleased("left_mouse") || @event.IsActionPressed("left_mouse"))
         {
             // 左键按下或释放则进入释放状态，并标记输入已被处理
             GetViewport().SetInputAsHandled();
-            EmitSignal(CardState.SignalName.TransitionRequested,this, State.Released.GetCardStateValue());
+            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Released.GetCardStateValue());
         }
     }
 

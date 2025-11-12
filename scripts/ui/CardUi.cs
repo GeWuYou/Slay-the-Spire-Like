@@ -56,7 +56,7 @@ public partial class CardUi : Control
     /// <summary>
     /// 动画补间对象，用于执行UI动画效果。
     /// </summary>
-    private Tween Tween { set; get; }
+    public Tween Tween { private set; get; }
     
     /// <summary>
     /// 获取或设置当前控件的父级容器。
