@@ -22,6 +22,7 @@ public static class CardTargetExtensions
             Card.Target.Random => 3,
             Card.Target.RandomEnemy => 4,
             Card.Target.RandomAlly => 5,
+            Card.Target.AllEnemies => 6,
             _ => 0
         };
     }
@@ -41,6 +42,7 @@ public static class CardTargetExtensions
             3 => Card.Target.Random,
             4 => Card.Target.RandomEnemy,
             5 => Card.Target.RandomAlly,
+            6 => Card.Target.AllEnemies,
             _ => Card.Target.Self
         };
     }
@@ -103,5 +105,15 @@ public static class CardTargetExtensions
     public static bool IsRandomAllyTarget(this Card.Target target)
     {
         return target == Card.Target.RandomAlly;
+    }
+    
+    /// <summary>
+    /// 判断目标是否为所有敌人
+    /// </summary>
+    /// <param name="target">要判断的目标类型</param>
+    /// <returns>如果目标是所有敌人返回true，否则返回false</returns>
+    public static bool IsAllEnemiesTarget(this Card.Target target)
+    {
+        return target == Card.Target.AllEnemies;
     }
 }

@@ -16,6 +16,10 @@ run/main_scene="uid://cxksgeo2osgek"
 config/features=PackedStringArray("4.5", "C#", "Mobile")
 config/icon="uid://b80t1pkjhxn6s"
 
+[autoload]
+
+Events="*res://scripts/global/Events.cs"
+
 [debug]
 
 gdscript/warnings/unused_signal=0

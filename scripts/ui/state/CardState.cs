@@ -1,7 +1,6 @@
-﻿using Godot;
+using Godot;
+
 namespace DeckBuilderTutorial.scripts.ui.state;
-
-
 
 /// <summary>
 /// 卡牌状态管理类，负责处理卡牌状态转换相关的逻辑
@@ -39,6 +38,7 @@ public partial class CardState : Node
         /// </summary>
         Released
     }
+
     [Export] public State StateValue { get; private set; }
 
     public CardUi CardUi { get; set; }
@@ -56,15 +56,13 @@ public partial class CardState : Node
     /// </summary>
     public virtual void Enter()
     {
-        
     }
-    
+
     /// <summary>
     /// 退出操作
     /// </summary>
     public virtual void Exit()
     {
-        
     }
 
     /// <summary>

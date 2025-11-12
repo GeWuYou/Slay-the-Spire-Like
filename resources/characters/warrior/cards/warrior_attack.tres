@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Card" load_steps=2 format=3 uid="uid://v5qn4n335o18"]
+
+[ext_resource type="Script" uid="uid://ch7vp4mxba551" path="res://scripts/resources/Card.cs" id="1_b0gtt"]
+
+[resource]
+script = ExtResource("1_b0gtt")
+Id = "warrior_1"
+Name = "攻击"
+Description = "战士挥舞武器，砍向敌人，对敌人造成6点伤害"
+CardTarget = 1
+metadata/_custom_type_script = "uid://ch7vp4mxba551"

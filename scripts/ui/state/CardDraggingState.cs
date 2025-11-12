@@ -23,7 +23,7 @@ public partial class CardDraggingState : CardState
     /// <remarks>
     /// 用于判断拖拽操作是否满足最小时间要求的标志位
     /// </remarks>
-    public bool MinimumDragTimeElapsed { private set; get; }
+    private bool MinimumDragTimeElapsed { set; get; }
 
     /// <summary>
     /// 进入拖拽状态时执行的初始化操作
@@ -60,9 +60,17 @@ public partial class CardDraggingState : CardState
     public override void OnInput(InputEvent @event)
     {
         // 检查各种输入条件
+        var isEnemyTarget = CardUi.Card.CardTarget.IsEnemyTarget();
         var isMouseMotion = @event is InputEventMouseMotion;
         var cancel = @event.IsActionPressed("right_mouse");
         var confirm = @event.IsActionReleased("left_mouse") || @event.IsActionPressed("left_mouse");
+
+        // 如果当前目标是敌人且有可用目标并且是鼠标移动事件，则切换到瞄准状态
+        if (isEnemyTarget && isMouseMotion && CardUi.Targets.Count > 0)
+        {
+            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Aiming.GetCardStateValue());
+            return;
+        }
 
         // 处理鼠标移动事件，更新卡牌位置
         if (isMouseMotion)
@@ -71,18 +79,16 @@ public partial class CardDraggingState : CardState
         }
 
         // 处理取消操作或确认操作的状态转换
-        // 当用户取消操作时，触发状态转换信号，将卡片状态转换为基础状态
         if (cancel)
         {
+            // 当用户取消操作时，触发状态转换信号，将卡片状态转换为基础状态
             EmitSignal(CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
         }
-        // 当用户确认操作且最小拖拽时间已过时，触发状态转换信号，将卡片状态转换为释放状态
-        else if (confirm&&MinimumDragTimeElapsed)
+        else if (confirm && MinimumDragTimeElapsed)
         {
-            // 标记输入事件已被处理，防止事件继续传播
+            // 当用户确认操作且最小拖拽时间已过时，触发状态转换信号，将卡片状态转换为释放状态
             GetViewport().SetInputAsHandled();
             EmitSignal(CardState.SignalName.TransitionRequested, this, State.Released.GetCardStateValue());
         }
-
     }
 }

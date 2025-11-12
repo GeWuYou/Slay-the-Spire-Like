@@ -1,36 +1,91 @@
 using DeckBuilderTutorial.scripts.extensions;
+using global::DeckBuilderTutorial.scripts.global;
 using Godot;
 
 namespace DeckBuilderTutorial.scripts.ui.state;
 
 /// <summary>
-/// CardAimingState
+/// 表示卡牌处于瞄准状态时的逻辑处理类。该状态下卡牌会响应鼠标移动，并根据鼠标位置决定是否触发状态转换。
 /// </summary>
-public partial class CardAimingState: CardState
+public partial class CardAimingState : CardState
 {
-    public override void Enter()
+    /// <summary>
+    /// 鼠标 Y 轴位置的阈值，当鼠标 Y 坐标超过此值时将触发返回基础状态的转换。
+    /// </summary>
+    [Export] public float MouseYSnapbackThreshold { private set; get; } = 138f;
+
+    private Events _events;
+
+    /// <summary>
+    /// 在节点准备就绪时调用。用于初始化事件系统引用。
+    /// </summary>
+    public override void _Ready()
     {
-        CardUi.ColorRect.Color = Colors.Yellow;
-        CardUi.StateText.Text = "瞄准";
+        _events = this.Events();
     }
 
+    /// <summary>
+    /// 进入瞄准状态时调用。设置卡牌 UI 的颜色和文本提示，清空目标列表，并播放动画将卡牌移动到指定位置。
+    /// 同时关闭 DropPointDetector 的监测功能，并发出 CardAimingStarted 事件。
+    /// </summary>
+    public override void Enter()
+    {
+        // 设置卡牌UI的颜色与状态文字
+        CardUi.ColorRect.Color = Colors.WebPurple;
+        CardUi.StateText.Text = "瞄准";
+        CardUi.Targets.Clear();
+
+        // 获取父级控件并计算卡牌应移动到的位置
+        var parent = CardUi.Parent;
+        var parentSize = parent.Size;
+        
+        // 计算卡片UI的偏移位置，使其居中显示在父容器上方
+        var offset = new Vector2(parentSize.X / 2, -CardUi.Size.Y / 2);
+        offset.X -= CardUi.Size.X / 2;
+        
+        // 触发卡片UI的位置动画信号，将其移动到计算好的位置
+        CardUi.AnimateToPosition( parent.GlobalPosition + offset, 0.2f);
+        
+        // 关闭卡片UI的掉落点检测器监控功能
+        CardUi.DropPointDetector.Monitoring = false;
+        
+        // 发出卡片瞄准开始事件信号
+        _events.EmitSignal(Events.SignalName.CardAimingStarted, CardUi);
+    }
+
+    /// <summary>
+    /// 处理输入事件。在瞄准状态下，根据鼠标移动或按键操作判断是否需要切换状态：
+    /// - 如果鼠标 Y 坐标超过阈值或按下右键，则切换回基础状态；
+    /// - 如果释放或按下左键，则切换到释放状态。
+    /// </summary>
+    /// <param name="event">当前输入事件对象。</param>
     public override void OnInput(InputEvent @event)
     {
-        if (@event is InputEventMouseMotion)
+        // 只处理鼠标移动事件
+        if (@event is not InputEventMouseMotion)
         {
-            // 在瞄准状态下跟随鼠标移动
-            CardUi.GlobalPosition = CardUi.GetGlobalMousePosition() - CardUi.PivotOffset;
+            return;
         }
-        
-        if (@event.IsActionPressed("left_mouse"))
+
+        // 判断鼠标是否位于底部区域或按下右键以决定是否返回基础状态
+        var mouseAtBottom = CardUi.GetGlobalMousePosition().Y > MouseYSnapbackThreshold;
+        if (mouseAtBottom || @event.IsActionPressed("right_mouse"))
         {
-            // 切换到释放状态
-            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Released.GetCardStateValue());
+            EmitSignal(CardState.SignalName.TransitionRequested,this, State.Base.GetCardStateValue());
         }
-        else if (@event.IsActionPressed("right_mouse"))
+        else if (@event.IsActionReleased("left_mouse") || @event.IsActionPressed("left_mouse"))
         {
-            // 取消瞄准回到基础状态
-            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
+            // 左键按下或释放则进入释放状态，并标记输入已被处理
+            GetViewport().SetInputAsHandled();
+            EmitSignal(CardState.SignalName.TransitionRequested,this, State.Released.GetCardStateValue());
         }
+    }
+
+    /// <summary>
+    /// 退出瞄准状态时调用。发出 CardAimingEnded 事件通知其他系统该卡牌已结束瞄准。
+    /// </summary>
+    public override void Exit()
+    {
+        _events.EmitSignal(Events.SignalName.CardAimingEnded, CardUi);
     }
 }
