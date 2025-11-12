@@ -6,8 +6,10 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3dsvf"]
 size = Vector2(4, 4)
 
-[node name="CardTargetSelector" type="Node2D"]
+[node name="CardTargetSelector" type="Node2D" node_paths=PackedStringArray("Area2D", "CardArc")]
 script = ExtResource("1_se4ql")
+Area2D = NodePath("Area2D")
+CardArc = NodePath("CanvasLayer/CardArc")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_mask = 4
