@@ -1,4 +1,4 @@
-﻿using global::DeckBuilderTutorial.scripts.global;
+﻿using DeckBuilderTutorial.scripts.global;
 using Godot;
 
 namespace DeckBuilderTutorial.scripts.extensions;

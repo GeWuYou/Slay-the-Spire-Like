@@ -10,6 +10,22 @@ namespace DeckBuilderTutorial.scripts.global;
 /// </summary>
 public partial class Events : Node
 {
+    public static Events Instance { get; private set; }
+
+    public override void _Ready()
+    {
+        base._Ready();
+        Instance = this;
+    }
+
+    public override void _ExitTree()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+        base._ExitTree();
+    }
     /// <summary>
     /// 卡牌瞄准开始事件
     /// 当玩家开始瞄准一张卡牌时触发此事件

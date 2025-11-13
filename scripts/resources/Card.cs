@@ -6,9 +6,15 @@ using DeckBuilderTutorial.scripts.global;
 
 namespace DeckBuilderTutorial.scripts.resources;
 
+/// <summary>
+/// 表示一张游戏中的卡牌资源，继承自Godot的Resource类。
+/// 包含卡牌的基本属性如ID、名称、描述、类型、目标、费用以及图标等。
+/// 提供获取目标节点和播放卡牌的方法。
+/// </summary>
 [GlobalClass]
 public partial class Card : Resource
 {
+
     [ExportGroup("卡牌属性")]
     [Export(PropertyHint.None, "卡牌的唯一标识符")]
     public string Id { private set; get; }
@@ -205,4 +211,24 @@ public partial class Card : Resource
         }
     }
 
+    /// <summary>
+    /// 播放该卡牌并触发相关事件与效果
+    /// </summary>
+    /// <param name="targets">原始目标节点列表</param>
+    /// <param name="stats">角色统计数据对象，用于扣除法力值</param>
+    public void Play(Array<Node> targets, CharacterStats stats)
+    {
+        Events.Instance.EmitSignal(Events.SignalName.CardPlayed, this);
+        stats.Mana -= Cost;
+        ApplyEffects(GetTargets(targets));
+    }
+
+    /// <summary>
+    /// 应用卡牌的效果到指定的目标上。子类应重写此方法以实现具体逻辑。
+    /// </summary>
+    /// <param name="targets">经过处理后的真实目标节点列表</param>
+    protected virtual void ApplyEffects(Array<Node> targets)
+    {
+        
+    }
 }
