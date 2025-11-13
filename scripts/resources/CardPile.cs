@@ -10,6 +10,7 @@ namespace DeckBuilderTutorial.scripts.resources;
 /// 表示一个卡牌堆资源，用于管理一组卡片的集合
 /// 提供抽卡、添加卡牌、洗牌等基本操作
 /// </summary>
+[GlobalClass]
 public partial class CardPile : Resource
 {
     /// <summary>
