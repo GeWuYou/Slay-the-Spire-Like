@@ -119,7 +119,7 @@ public partial class Stats : Resource
     /// 创建资源实例
     /// </summary>
     /// <returns>返回创建的资源实例</returns>
-    public virtual Resource CreateInstance()
+    public virtual Stats CreateInstance()
     {
         return CreateInstance<Stats>();
     }

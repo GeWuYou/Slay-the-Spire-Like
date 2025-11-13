@@ -36,6 +36,12 @@ window/stretch/mode="viewport"
 
 project/assembly_name="Deck Builder Tutorial"
 
+[global_group]
+
+enemies=""
+player=""
+ui_layer=""
+
 [gui]
 
 theme/custom="res://main_theme.tres"

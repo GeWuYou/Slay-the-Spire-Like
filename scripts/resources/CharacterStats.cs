@@ -12,17 +12,20 @@ public partial class CharacterStats : Stats
     /// <summary>
     /// 起始卡组，通过Godot导出属性可在编辑器中配置
     /// </summary>
-    [Export] public CardPile StartingDeck { private set; get; }
+    [Export]
+    public CardPile StartingDeck { private set; get; }
 
     /// <summary>
     /// 每回合抽卡数量，默认为5张
     /// </summary>
-    [Export] public int CardsPerTurn { private set; get; } = 5;
+    [Export]
+    public int CardsPerTurn { private set; get; } = 5;
 
     /// <summary>
     /// 最大法力值，默认为3点
     /// </summary>
-    [Export] public int MaxMana { private set; get; } = 3;
+    [Export]
+    public int MaxMana { private set; get; } = 3;
 
 
     private int _mana;
@@ -80,7 +83,7 @@ public partial class CharacterStats : Stats
     {
         return Mana >= card.Cost;
     }
-    
+
     /// <summary>
     /// 创建角色统计数据的实例副本
     /// 初始化各个卡牌堆并重置法力值
@@ -91,7 +94,7 @@ public partial class CharacterStats : Stats
         var instance = base.CreateInstance<CharacterStats>();
         // 初始化游戏状态相关属性
         instance.ResetMana();
-        instance.Deck = instance.StartingDeck.Duplicate() as CardPile;
+        instance.Deck = StartingDeck.Duplicate() as CardPile;
         instance.Discard = new CardPile();
         instance.DrawPile = new CardPile();
         instance.RemovedDeck = new CardPile();

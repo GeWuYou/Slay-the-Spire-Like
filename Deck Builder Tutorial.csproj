@@ -5,4 +5,8 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>DeckBuilderTutorial</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="scripts\enemies\" />
+    <Folder Include="scripts\player\" />
+  </ItemGroup>
 </Project>
