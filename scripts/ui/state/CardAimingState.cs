@@ -32,8 +32,6 @@ public partial class CardAimingState : CardState
     public override void Enter()
     {
         // 设置卡牌UI的颜色与状态文字
-        CardUi.ColorRect.Color = Colors.WebPurple;
-        CardUi.StateText.Text = "瞄准";
         CardUi.Targets.Clear();
 
         // 获取父级控件并计算卡牌应移动到的位置

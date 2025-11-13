@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://crm4ushqx6pa1"]
+[gd_scene load_steps=12 format=3 uid="uid://crm4ushqx6pa1"]
 
 [ext_resource type="Theme" uid="uid://bda6jdmo18uon" path="res://main_theme.tres" id="1_s55cg"]
 [ext_resource type="Script" uid="uid://b4qa1t70ycq6b" path="res://scripts/ui/CardUi.cs" id="2_vk10k"]
+[ext_resource type="Texture2D" uid="uid://c6rme2o6dyaoj" path="res://art/tile_0104.png" id="3_7cyci"]
 [ext_resource type="Script" uid="uid://dmkme4wx47g53" path="res://scripts/ui/CardStateMachine.cs" id="3_im7p3"]
 [ext_resource type="Script" uid="uid://skdqq0nq5dfb" path="res://scripts/ui/state/CardBaseState.cs" id="4_7cyci"]
 [ext_resource type="Script" uid="uid://cnta14dgyaac" path="res://scripts/ui/state/CardClickedState.cs" id="5_u2fwa"]
@@ -9,10 +10,20 @@
 [ext_resource type="Script" uid="uid://c1ukhrkgsn6ls" path="res://scripts/ui/state/CardReleasedState.cs" id="7_l46qu"]
 [ext_resource type="Script" uid="uid://udftnohhwpw7" path="res://scripts/ui/state/CardAimingState.cs" id="8_im7p3"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7cyci"]
+bg_color = Color(0.8745098, 0.45490196, 0.4627451, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.74509805, 0.69803923, 0.3019608, 1)
+shadow_color = Color(0.74509805, 0.69803923, 0.3019608, 0.3019608)
+shadow_size = 2
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s55cg"]
 size = Vector2(25, 30)
 
-[node name="CardUI" type="Control" node_paths=PackedStringArray("ColorRect", "StateText", "DropPointDetector", "StateMachine", "Targets")]
+[node name="CardUI" type="Control" node_paths=PackedStringArray("Panel", "Cost", "Icon", "DropPointDetector", "StateMachine", "Targets")]
 custom_minimum_size = Vector2(25, 30)
 layout_mode = 3
 anchors_preset = 15
@@ -24,13 +35,14 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_s55cg")
 script = ExtResource("2_vk10k")
-ColorRect = NodePath("Color")
-StateText = NodePath("State")
+Panel = NodePath("Panel")
+Cost = NodePath("Cost")
+Icon = NodePath("Icon")
 DropPointDetector = NodePath("DropPointDetector")
 StateMachine = NodePath("CardStateMachine")
 Targets = []
 
-[node name="Color" type="ColorRect" parent="."]
+[node name="Panel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,18 +50,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.084605895, 0.26033637, 0.23579335, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_7cyci")
 
-[node name="State" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "state"
+[node name="Cost" type="Label" parent="."]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 12.0
+text = "2"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_7cyci")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="DropPointDetector" type="Area2D" parent="."]
 collision_mask = 2

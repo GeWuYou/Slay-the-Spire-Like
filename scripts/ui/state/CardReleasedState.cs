@@ -14,8 +14,6 @@ public partial class CardReleasedState: CardState
 
     public override void Enter()
     {
-        CardUi.ColorRect.Color = Colors.DarkViolet;
-        CardUi.StateText.Text = "释放";
         Played = false;
         if (CardUi.Targets.Count == 0)
         {

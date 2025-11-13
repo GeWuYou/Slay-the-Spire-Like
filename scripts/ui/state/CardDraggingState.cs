@@ -38,10 +38,6 @@ public partial class CardDraggingState : CardState
             CardUi.Reparent(uiLayer);
         }
 
-        // 设置拖拽状态的视觉样式
-        CardUi.ColorRect.Color = Colors.NavyBlue;
-        CardUi.StateText.Text = "拖拽";
-        
         // 初始化最小拖拽时间标记为false，表示尚未达到最小拖拽时间要求
         MinimumDragTimeElapsed = false;
         

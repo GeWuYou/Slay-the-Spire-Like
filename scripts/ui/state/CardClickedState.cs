@@ -16,10 +16,6 @@ public partial class CardClickedState: CardState
     /// </summary>
     public override void Enter()
     {
-        // 设置卡牌背景颜色为橙色以表示选中状态
-        CardUi.ColorRect.Color = Colors.Orange;
-        // 更新状态文本显示
-        CardUi.StateText.Text = "点击";
         // 启用拖放检测器
         CardUi.DropPointDetector.Monitoring = true;
     }

@@ -40,7 +40,22 @@ public partial class Enemy : Area2D
     [Export] public Sprite2D Sprite2D { get; set; }
     [Export] public StatsUi StatsUi { get; set; }
     [Export] public Sprite2D Arrow { get; set; }
-    
+
+    public override void _Ready()
+    {
+        AreaEntered += OnAreaEntered;
+        AreaExited += OnAreaExited;
+    }
+
+    private void OnAreaExited(Area2D area)
+    {
+        Arrow.Hide();
+    }
+
+    private void OnAreaEntered(Area2D area)
+    {
+        Arrow.Show();
+    }
 
     /// <summary>
     /// 当角色属性发生变化时调用此方法更新UI界面中展示的数值。

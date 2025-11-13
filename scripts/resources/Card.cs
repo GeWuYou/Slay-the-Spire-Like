@@ -28,10 +28,12 @@ public partial class Card : Resource
     [ExportGroup("卡牌属性")]
     [Export(PropertyHint.None, "卡牌的初始费用")]
     public int InitCost { private set; get; }
-    
+
     [ExportGroup("卡牌属性")]
     [Export(PropertyHint.None, "卡牌的当前费用")]
     public int Cost { private set; get; }
+
+    [ExportGroup("卡牌视觉效果")] [Export] public Texture Icon { get; private set; }
 
     /// <summary>
     /// 卡片类型枚举，定义了游戏中不同类型的卡片

@@ -1,4 +1,3 @@
-using System.Linq;
 using DeckBuilderTutorial.scripts.resources;
 using Godot;
 using Godot.Collections;
@@ -11,21 +10,11 @@ namespace DeckBuilderTutorial.scripts.ui;
 /// </summary>
 public partial class CardUi : Control
 {
-    /// <summary>
-    /// 颜色矩形组件，用于显示卡片的背景颜色。
-    /// 通过 Export 特性暴露给编辑器，允许在编辑器中进行配置。
-    /// </summary>
-    [ExportGroup("卡片UI属性")]
-    [Export]
-    public ColorRect ColorRect { private set; get; }
+    private Card _card;
+    [ExportGroup("卡片UI属性")] [Export] public Panel Panel { get; private set; }
 
-    /// <summary>
-    /// 标签组件，用于显示卡片的状态信息。
-    /// 通过 Export 特性暴露给编辑器，允许在编辑器中进行配置。
-    /// </summary>
-    [Export]
-    public Label StateText { private set; get; }
-
+    [Export] public Label Cost { get; private set; }
+    [Export] public TextureRect Icon { get; private set; }
 
     /// <summary>
     /// 获取或设置掉落点检测器区域。
@@ -50,18 +39,47 @@ public partial class CardUi : Control
     /// <summary>
     /// 获取或设置当前绑定的卡片数据模型。
     /// </summary>
-    [Export] 
-    public Card Card { get; private set; }
+    [Export]
+    public Card Card
+    {
+        get => _card;
+        set
+        {
+            if (_card == value)
+            {
+                return;
+            }
+        
+            _card = value;
+            if (IsNodeReady())
+            {
+                OnCardChanged();
+            }
+            else
+            {
+                Callable.From(OnCardChanged).CallDeferred();
+            }
+        }
+    }
+    private void OnCardChanged()
+    {
+        if (_card == null)
+        {
+            return;
+        }
+        Cost.Text = _card.Cost.ToString();
+        Icon.Texture = _card.Icon as Texture2D;
+    }
 
     /// <summary>
     /// 动画补间对象，用于执行UI动画效果。
     /// </summary>
     public Tween Tween { private set; get; }
-    
+
     /// <summary>
     /// 获取或设置当前控件的父级容器。
     /// </summary>
-    public Control Parent { get;  set; }
+    public Control Parent { get; set; }
 
     /// <summary>
     /// ReparentRequested 信号委托。
