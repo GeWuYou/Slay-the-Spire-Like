@@ -30,6 +30,7 @@ public partial class CardBaseState : CardState
             }
             
             // 请求重新设置父节点并更新UI状态显示
+            CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.BaseStyleBox);
             CardUi.EmitSignal(CardUi.SignalName.ReparentRequested, CardUi);
             CardUi.PivotOffset = Vector2.Zero;
         }
@@ -57,5 +58,16 @@ public partial class CardBaseState : CardState
         
         // 触发状态转换请求信号
         EmitSignal(CardState.SignalName.TransitionRequested, this, State.Clicked.GetCardStateValue());
+    }
+
+    public override void OnMouseEntered()
+    {
+        // 请求重新设置父节点并更新UI状态显示
+        CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.HoverStyleBox);
+    }
+    public override void OnMouseExited()
+    {
+        // 恢复原始父节点并更新UI状态显示
+        CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.BaseStyleBox);
     }
 }

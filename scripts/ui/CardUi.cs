@@ -11,6 +11,10 @@ namespace DeckBuilderTutorial.scripts.ui;
 public partial class CardUi : Control
 {
     private Card _card;
+    [ExportGroup("卡片UI样式属性")] 
+    [Export] public StyleBoxFlat BaseStyleBox { private set; get; }
+    [Export] public StyleBoxFlat HoverStyleBox { private set; get; }
+    [Export] public StyleBoxFlat SelectedStyleBox { private set; get; }
     [ExportGroup("卡片UI属性")] [Export] public Panel Panel { get; private set; }
 
     [Export] public Label Cost { get; private set; }
@@ -49,7 +53,7 @@ public partial class CardUi : Control
             {
                 return;
             }
-        
+
             _card = value;
             if (IsNodeReady())
             {
@@ -61,12 +65,14 @@ public partial class CardUi : Control
             }
         }
     }
+
     private void OnCardChanged()
     {
         if (_card == null)
         {
             return;
         }
+
         Cost.Text = _card.Cost.ToString();
         Icon.Texture = _card.Icon as Texture2D;
     }

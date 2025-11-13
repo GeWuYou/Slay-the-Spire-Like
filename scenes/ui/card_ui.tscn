@@ -1,24 +1,17 @@
-[gd_scene load_steps=12 format=3 uid="uid://crm4ushqx6pa1"]
+[gd_scene load_steps=14 format=3 uid="uid://crm4ushqx6pa1"]
 
 [ext_resource type="Theme" uid="uid://bda6jdmo18uon" path="res://main_theme.tres" id="1_s55cg"]
 [ext_resource type="Script" uid="uid://b4qa1t70ycq6b" path="res://scripts/ui/CardUi.cs" id="2_vk10k"]
 [ext_resource type="Texture2D" uid="uid://c6rme2o6dyaoj" path="res://art/tile_0104.png" id="3_7cyci"]
 [ext_resource type="Script" uid="uid://dmkme4wx47g53" path="res://scripts/ui/CardStateMachine.cs" id="3_im7p3"]
+[ext_resource type="StyleBox" uid="uid://j5yvpn3on27" path="res://scenes/ui/card_base_style_box_.tres" id="3_u2fwa"]
 [ext_resource type="Script" uid="uid://skdqq0nq5dfb" path="res://scripts/ui/state/CardBaseState.cs" id="4_7cyci"]
+[ext_resource type="StyleBox" uid="uid://djd1xtgsgtefj" path="res://scenes/ui/card_hover_style_box_.tres" id="4_l46qu"]
+[ext_resource type="StyleBox" uid="uid://bmnd12m5qdvo7" path="res://scenes/ui/card_dragging_style_box_.tres" id="5_0og8s"]
 [ext_resource type="Script" uid="uid://cnta14dgyaac" path="res://scripts/ui/state/CardClickedState.cs" id="5_u2fwa"]
 [ext_resource type="Script" uid="uid://c5scrl4ag4cxs" path="res://scripts/ui/state/CardDraggingState.cs" id="6_nhbwl"]
 [ext_resource type="Script" uid="uid://c1ukhrkgsn6ls" path="res://scripts/ui/state/CardReleasedState.cs" id="7_l46qu"]
 [ext_resource type="Script" uid="uid://udftnohhwpw7" path="res://scripts/ui/state/CardAimingState.cs" id="8_im7p3"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7cyci"]
-bg_color = Color(0.8745098, 0.45490196, 0.4627451, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.74509805, 0.69803923, 0.3019608, 1)
-shadow_color = Color(0.74509805, 0.69803923, 0.3019608, 0.3019608)
-shadow_size = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s55cg"]
 size = Vector2(25, 30)
@@ -35,6 +28,9 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_s55cg")
 script = ExtResource("2_vk10k")
+BaseStyleBox = ExtResource("3_u2fwa")
+HoverStyleBox = ExtResource("4_l46qu")
+SelectedStyleBox = ExtResource("5_0og8s")
 Panel = NodePath("Panel")
 Cost = NodePath("Cost")
 Icon = NodePath("Icon")
@@ -50,7 +46,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_7cyci")
+theme_override_styles/panel = ExtResource("3_u2fwa")
 
 [node name="Cost" type="Label" parent="."]
 layout_mode = 0

@@ -37,7 +37,8 @@ public partial class CardDraggingState : CardState
         {
             CardUi.Reparent(uiLayer);
         }
-
+        // 请求重新设置父节点并更新UI状态显示
+        CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.SelectedStyleBox);
         // 初始化最小拖拽时间标记为false，表示尚未达到最小拖拽时间要求
         MinimumDragTimeElapsed = false;
         
