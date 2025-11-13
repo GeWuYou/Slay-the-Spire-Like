@@ -11,13 +11,36 @@ namespace DeckBuilderTutorial.scripts.ui;
 public partial class CardUi : Control
 {
     private Card _card;
+    
+    /// <summary>
+    /// 基础样式框，定义了卡片在默认状态下的外观。
+    /// </summary>
     [ExportGroup("卡片UI样式属性")] 
     [Export] public StyleBoxFlat BaseStyleBox { private set; get; }
+    
+    /// <summary>
+    /// 悬停样式框，当鼠标悬停在卡片上时使用的样式。
+    /// </summary>
     [Export] public StyleBoxFlat HoverStyleBox { private set; get; }
+    
+    /// <summary>
+    /// 选中样式框，当卡片被选中时应用的样式。
+    /// </summary>
     [Export] public StyleBoxFlat SelectedStyleBox { private set; get; }
+    
+    /// <summary>
+    /// 面板组件，作为卡片UI的主要容器。
+    /// </summary>
     [ExportGroup("卡片UI属性")] [Export] public Panel Panel { get; private set; }
 
+    /// <summary>
+    /// 成本标签，用于展示卡片所需消耗的资源数值。
+    /// </summary>
     [Export] public Label Cost { get; private set; }
+    
+    /// <summary>
+    /// 图标纹理矩形，用于展示卡片的图标图像。
+    /// </summary>
     [Export] public TextureRect Icon { get; private set; }
 
     /// <summary>
@@ -55,6 +78,7 @@ public partial class CardUi : Control
             }
 
             _card = value;
+            // 如果节点已经准备好则立即更新UI；否则延迟调用以确保初始化完成后再更新
             if (IsNodeReady())
             {
                 OnCardChanged();
@@ -66,6 +90,9 @@ public partial class CardUi : Control
         }
     }
 
+    /// <summary>
+    /// 当卡片数据发生变化时调用此方法，同步更新UI中的成本文本和图标纹理。
+    /// </summary>
     private void OnCardChanged()
     {
         if (_card == null)
