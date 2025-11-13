@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DeckBuilderTutorial.scripts.resources;
 using DeckBuilderTutorial.scripts.ui;
 using Godot;
+using DeckBuilderTutorial.scripts.global;
 
 namespace DeckBuilderTutorial.scripts.enemies;
 
@@ -82,7 +83,7 @@ public partial class Enemy : Area2D
             // 等待节点准备就绪
             if (!IsInsideTree())
             {
-                await ToSignal(this, "ready");
+                await ToSignal(this, GameConstants.Signals.Ready);
             }
 
             // 更新角色图像

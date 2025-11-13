@@ -1,3 +1,4 @@
+using DeckBuilderTutorial.scripts.resources;
 using DeckBuilderTutorial.scripts.ui;
 using Godot;
 
@@ -24,4 +25,12 @@ public partial class Events : Node
     /// <param name="cardUi">结束瞄准的卡牌UI对象</param>
     [Signal]
     public delegate void CardAimingEndedEventHandler(CardUi cardUi);
+
+    /// <summary>
+    /// 卡牌打出事件处理委托
+    /// </summary>
+    /// <param name="card">被打出的卡牌对象</param>
+    [Signal]
+    public delegate void CardPlayedEventHandler(Card card);
+
 }

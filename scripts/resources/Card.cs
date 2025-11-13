@@ -1,4 +1,8 @@
+using System;
+using System.Linq;
 using Godot;
+using Godot.Collections;
+using DeckBuilderTutorial.scripts.global;
 
 namespace DeckBuilderTutorial.scripts.resources;
 
@@ -109,7 +113,22 @@ public partial class Card : Resource
         /// <summary>
         /// 盟友目标，卡片效果作用于指定盟友
         /// </summary>
-        Ally
+        Ally,
+        
+        /// <summary>
+        /// 所有盟友目标，卡片效果作用于所有盟友
+        /// </summary>
+        AllAllies,
+        
+        /// <summary>
+        /// 所有角色目标，卡片效果作用于所有盟友和玩家
+        /// </summary>
+        AllSelf,
+        
+        /// <summary>
+        /// 随机己方目标，卡片效果作用于随机选择的己方角色
+        /// </summary>
+        RandomSelf,
     }
 
     /// <summary>
@@ -120,4 +139,70 @@ public partial class Card : Resource
     {
         return $"Card(Id: {Id}, Name: {Name}, Description: {Description}, Type: {CardType}, Target: {CardTarget})";
     }
+
+    /// <summary>
+    /// 根据卡片目标类型获取实际的目标节点集合
+    /// </summary>
+    /// <param name="targets">原始目标节点数组，用于Enemy和Ally类型的目标选择</param>
+    /// <returns>根据CardTarget类型筛选后的目标节点数组</returns>
+    public Array<Node> GetTargets(Array<Node> targets)
+    {
+        // 检查输入目标数组是否为空或无元素
+        if (targets is null || targets.Count == 0)
+        {
+            return [];
+        }
+
+        var tree = targets[0].GetTree();
+        
+        // 根据不同的目标类型返回相应的节点集合
+        switch (CardTarget)
+        {
+            case Target.Self:
+                // 返回玩家组的所有节点
+                return tree.GetNodesInGroup(GameConstants.Groups.Player);
+            case Target.AllEnemies:
+                // 返回敌人组的所有节点
+                return tree.GetNodesInGroup(GameConstants.Groups.Enemies);
+            case Target.All:
+                // 返回玩家组和敌人组的所有节点
+                return tree.GetNodesInGroup(GameConstants.Groups.Player) 
+                       + tree.GetNodesInGroup(GameConstants.Groups.Enemies)
+                       // todo 后续加入盟友
+                       // + tree.GetNodesInGroup(GameConstants.Groups.Allies)
+                       ;
+            case Target.Enemy:
+                // 返回传入的目标节点
+                return targets;
+            case Target.Random:
+                // 从所有角色中随机选择一个目标
+                var allTargets = tree.GetNodesInGroup(GameConstants.Groups.Player) + tree.GetNodesInGroup(GameConstants.Groups.Enemies);
+                return [allTargets[new Random().Next(0, allTargets.Count)]];
+            case Target.RandomEnemy:
+                // 从敌人中随机选择一个目标
+                var enemyTargets = tree.GetNodesInGroup(GameConstants.Groups.Enemies);
+                return [enemyTargets[new Random().Next(0, enemyTargets.Count)]];
+            case Target.RandomAlly:
+                // 从盟友中随机选择一个目标
+                var allyTargets = tree.GetNodesInGroup(GameConstants.Groups.Player);
+                return [allyTargets[new Random().Next(0, allyTargets.Count)]];
+            case Target.Ally:
+                // 返回传入的目标节点
+                return targets;
+            case Target.AllAllies:
+                // 返回所有盟友节点
+                return tree.GetNodesInGroup(GameConstants.Groups.Allies);
+            case Target.AllSelf:
+                // 返回所有盟友和己方
+                return tree.GetNodesInGroup(GameConstants.Groups.Player) + tree.GetNodesInGroup(GameConstants.Groups.Allies);
+            case Target.RandomSelf:
+                // 从所有盟友和己方中随机选择一个目标
+                var selfTargets = tree.GetNodesInGroup(GameConstants.Groups.Player) + tree.GetNodesInGroup(GameConstants.Groups.Allies);
+                return [selfTargets[new Random().Next(0, selfTargets.Count)]];
+            default:
+                // 默认情况下返回空数组
+                return  [];
+        }
+    }
+
 }
