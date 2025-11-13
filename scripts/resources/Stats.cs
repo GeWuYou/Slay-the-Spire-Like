@@ -7,6 +7,7 @@ namespace DeckBuilderTutorial.scripts.resources;
 /// 提供了健康值和护盾值的管理逻辑，并支持伤害与治疗操作。
 /// 当属性发生变化时会发出信号通知监听者。
 /// </summary>
+[GlobalClass]
 public partial class Stats : Resource
 {
     /// <summary>
@@ -18,17 +19,20 @@ public partial class Stats : Resource
     /// <summary>
     /// 最大生命值上限，默认为 70。
     /// </summary>
-    [Export] public int MaxHeath { set; get; } = 70;
+    [Export]
+    public int MaxHeath { set; get; } = 70;
 
     /// <summary>
     /// 最大护盾值上限，默认为 999。
     /// </summary>
-    [Export] public int MaxBlock { set; get; } = 999;
+    [Export]
+    public int MaxBlock { set; get; } = 999;
 
     /// <summary>
     /// 角色的艺术资源纹理。
     /// </summary>
-    [Export] public Texture Art { private set; get; }
+    [Export]
+    public Texture Art { private set; get; }
 
     private int _health;
     private int _block;
@@ -112,17 +116,25 @@ public partial class Stats : Resource
     }
 
     /// <summary>
+    /// 创建资源实例
+    /// </summary>
+    /// <returns>返回创建的资源实例</returns>
+    public virtual Resource CreateInstance()
+    {
+        return CreateInstance<Stats>();
+    }
+
+    /// <summary>
     /// 创建此 Stats 实例的一个副本并初始化其 Health 值为 MaxHeath。
     /// </summary>
     /// <returns>一个新的 Stats 实例；如果复制失败则返回 null 并打印错误信息。</returns>
-    public Resource CreateInstance()
+    public T CreateInstance<T>() where T : Stats, new()
     {
-        if (Duplicate() is not Stats instance)
-        {
-            GD.PrintErr("找不到Stats资源！");
-            return null;
-        }
+        var instance = new T();
+        // 复制属性值
+        instance.Art = Art;
         instance.Health = MaxHeath;
+        instance.Block = 0;
         return instance;
     }
 }

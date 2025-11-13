@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=3 format=3 uid="uid://brjylmmioukdw"]
+
+[ext_resource type="Texture2D" uid="uid://1u3b3hwqd8yh" path="res://art/tile_0110.png" id="1_ab7rt"]
+[ext_resource type="Script" uid="uid://dhukhm52qxqfh" path="res://scripts/resources/Stats.cs" id="1_feanb"]
+
+[resource]
+script = ExtResource("1_feanb")
+Art = ExtResource("1_ab7rt")
+metadata/_custom_type_script = "uid://dhukhm52qxqfh"
