@@ -1,6 +1,5 @@
 using DeckBuilderTutorial.scripts.resources;
-using DeckBuilderTutorial.scripts.global;
-using DeckBuilderTutorial.scripts.player;
+using global::DeckBuilderTutorial.scripts.global;
 using Godot;
 using Godot.Collections;
 
@@ -13,7 +12,7 @@ namespace DeckBuilderTutorial.scripts.ui;
 public partial class CardUi : Control
 {
     private Card _card;
-    private bool _playable;
+    private bool _playable = true;
 
     /// <summary>
     /// 基础样式框，定义了卡片在默认状态下的外观。
@@ -96,13 +95,29 @@ public partial class CardUi : Control
             _playable = value;
             if (!_playable)
             {
-                Cost.AddThemeColorOverride("font_color", Colors.Red);
-                Icon.Modulate = new Color(1, 1, 1, 0.5f);
+                // 检查Cost控件是否仍然有效
+                if (IsInstanceValid(Cost))
+                {
+                    Cost.AddThemeColorOverride("font_color", Colors.Red);
+                }
+            
+                if (IsInstanceValid(Icon))
+                {
+                    Icon.Modulate = new Color(1, 1, 1, 0.5f);
+                }
             }
             else
             {
-                Cost.RemoveThemeColorOverride("font_color");
-                Icon.Modulate = new Color(1, 1, 1);
+                // 检查Cost控件是否仍然有效
+                if (IsInstanceValid(Cost))
+                {
+                    Cost.RemoveThemeColorOverride("font_color");
+                }
+            
+                if (IsInstanceValid(Icon))
+                {
+                    Icon.Modulate = new Color(1, 1, 1);
+                }
             }
         }
     }
@@ -199,6 +214,8 @@ public partial class CardUi : Control
 
     private void OnCardDraggingOrAimingEnded(CardUi cardUi)
     {
+        // 确保当前节点未被释放
+        if (!IsInstanceValid(this) || !IsInstanceValid(_characterStats) || !IsInstanceValid(Card)) return;
         Disabled = false;
         Playable = _characterStats.CanPlayCard(Card);
     }

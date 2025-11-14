@@ -71,6 +71,7 @@ public partial class CardBaseState : CardState
         // 检查卡片是否可执行且未被禁用，如果不满足条件则直接返回
         if (!CardUi.Playable || CardUi.Disabled)
         {
+            GD.Print($"状态 可打出{!CardUi.Playable} 禁用{CardUi.Disabled}");
             return;
         }
         // 请求重新设置父节点并更新UI状态显示
