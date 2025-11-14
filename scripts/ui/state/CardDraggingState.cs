@@ -1,4 +1,5 @@
 ﻿using DeckBuilderTutorial.scripts.extensions;
+using global::DeckBuilderTutorial.scripts.global;
 using Godot;
 
 namespace DeckBuilderTutorial.scripts.ui.state;
@@ -39,6 +40,8 @@ public partial class CardDraggingState : CardState
         }
         // 请求重新设置父节点并更新UI状态显示
         CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.SelectedStyleBox);
+        // 发送卡牌开始拖拽的事件
+        Events.EmitSignal(Events.SignalName.CardDraggingStarted, CardUi);
         // 初始化最小拖拽时间标记为false，表示尚未达到最小拖拽时间要求
         MinimumDragTimeElapsed = false;
         
@@ -47,6 +50,12 @@ public partial class CardDraggingState : CardState
         var timer = GetTree().CreateTimer(DragMinimumThreshold, false);
         timer.Timeout+= () => MinimumDragTimeElapsed = true;
 
+    }
+
+    public override void Exit()
+    {
+        // 发送卡牌结束拖拽的事件
+        Events.EmitSignal(Events.SignalName.CardDraggingEnded, CardUi);
     }
 
     /// <summary>

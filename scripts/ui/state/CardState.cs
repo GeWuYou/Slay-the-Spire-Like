@@ -1,5 +1,6 @@
 using DeckBuilderTutorial.scripts.extensions;
 using DeckBuilderTutorial.scripts.resources;
+using global::DeckBuilderTutorial.scripts.global;
 using Godot;
 
 namespace DeckBuilderTutorial.scripts.ui.state;
@@ -10,6 +11,7 @@ namespace DeckBuilderTutorial.scripts.ui.state;
 /// </summary>
 public partial class CardState : Node
 {
+    protected Events Events;
     /// <summary>
     /// 卡牌状态枚举，定义了卡牌可能处于的各种状态
     /// </summary>
@@ -55,10 +57,11 @@ public partial class CardState : Node
 
     public override void _Ready()
     {
-        TransitionRequested += ((from, to) =>
+        TransitionRequested += (from, to) =>
         {
             GD.Print($"{from.StateValue} 转换为 {to.GetCardState()}");
-        });
+        };
+        Events = Events.Instance;
     }
 
     /// <summary>

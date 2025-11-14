@@ -24,11 +24,11 @@ public partial class CardBaseState : CardState
                 await ToSignal(CardUi, "ready");
             }
 
-            if (CardUi.Tween!=null && CardUi.Tween.IsRunning())
+            if (CardUi.Tween != null && CardUi.Tween.IsRunning())
             {
                 CardUi.Tween.Kill();
             }
-            
+
             // 请求重新设置父节点并更新UI状态显示
             CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.BaseStyleBox);
             CardUi.EmitSignal(CardUi.SignalName.ReparentRequested, CardUi);
@@ -47,26 +47,43 @@ public partial class CardBaseState : CardState
     /// <param name="event">输入事件对象</param>
     public override void OnGuiInput(InputEvent @event)
     {
+        // 检查卡片是否可执行且未被禁用，如果不满足条件则直接返回
+        if (!CardUi.Playable || CardUi.Disabled)
+        {
+            return;
+        }
+
         // 只处理鼠标左键按下事件
         if (!@event.IsActionPressed("left_mouse"))
         {
             return;
         }
-        
+
         // 设置卡牌的旋转中心点为鼠标点击位置
         CardUi.PivotOffset = CardUi.GetGlobalMousePosition() - CardUi.GlobalPosition;
-        
+
         // 触发状态转换请求信号
         EmitSignal(CardState.SignalName.TransitionRequested, this, State.Clicked.GetCardStateValue());
     }
 
     public override void OnMouseEntered()
     {
+        // 检查卡片是否可执行且未被禁用，如果不满足条件则直接返回
+        if (!CardUi.Playable || CardUi.Disabled)
+        {
+            return;
+        }
         // 请求重新设置父节点并更新UI状态显示
         CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.HoverStyleBox);
     }
+
     public override void OnMouseExited()
     {
+        // 检查卡片是否可执行且未被禁用，如果不满足条件则直接返回
+        if (!CardUi.Playable || CardUi.Disabled)
+        {
+            return;
+        }
         // 恢复原始父节点并更新UI状态显示
         CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.BaseStyleBox);
     }

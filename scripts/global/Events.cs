@@ -14,7 +14,6 @@ public partial class Events : Node
 
     public override void _Ready()
     {
-        base._Ready();
         Instance = this;
     }
 
@@ -24,8 +23,8 @@ public partial class Events : Node
         {
             Instance = null;
         }
-        base._ExitTree();
     }
+
     /// <summary>
     /// 卡牌瞄准开始事件
     /// 当玩家开始瞄准一张卡牌时触发此事件
@@ -43,10 +42,24 @@ public partial class Events : Node
     public delegate void CardAimingEndedEventHandler(CardUi cardUi);
 
     /// <summary>
+    /// 卡牌拖拽开始事件处理委托
+    /// </summary>
+    /// <param name="cardUi">正在被拖拽的卡牌UI对象</param>
+    [Signal]
+    public delegate void CardDraggingStartedEventHandler(CardUi cardUi);
+
+    /// <summary>
+    /// 卡牌拖拽结束事件处理委托
+    /// </summary>
+    /// <param name="cardUi">完成拖拽的卡牌UI对象</param>
+    [Signal]
+    public delegate void CardDraggingEndedEventHandler(CardUi cardUi);
+
+
+    /// <summary>
     /// 卡牌打出事件处理委托
     /// </summary>
     /// <param name="card">被打出的卡牌对象</param>
     [Signal]
     public delegate void CardPlayedEventHandler(Card card);
-
 }

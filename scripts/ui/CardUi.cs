@@ -13,37 +13,45 @@ namespace DeckBuilderTutorial.scripts.ui;
 public partial class CardUi : Control
 {
     private Card _card;
-    
+    private bool _playable;
+
     /// <summary>
     /// 基础样式框，定义了卡片在默认状态下的外观。
     /// </summary>
-    [ExportGroup("卡片UI样式属性")] 
-    [Export] public StyleBoxFlat BaseStyleBox { private set; get; }
-    
+    [ExportGroup("卡片UI样式属性")]
+    [Export]
+    public StyleBoxFlat BaseStyleBox { private set; get; }
+
     /// <summary>
     /// 悬停样式框，当鼠标悬停在卡片上时使用的样式。
     /// </summary>
-    [Export] public StyleBoxFlat HoverStyleBox { private set; get; }
-    
+    [Export]
+    public StyleBoxFlat HoverStyleBox { private set; get; }
+
     /// <summary>
     /// 选中样式框，当卡片被选中时应用的样式。
     /// </summary>
-    [Export] public StyleBoxFlat SelectedStyleBox { private set; get; }
-    
+    [Export]
+    public StyleBoxFlat SelectedStyleBox { private set; get; }
+
     /// <summary>
     /// 面板组件，作为卡片UI的主要容器。
     /// </summary>
-    [ExportGroup("卡片UI属性")] [Export] public Panel Panel { get; private set; }
+    [ExportGroup("卡片UI属性")]
+    [Export]
+    public Panel Panel { get; private set; }
 
     /// <summary>
     /// 成本标签，用于展示卡片所需消耗的资源数值。
     /// </summary>
-    [Export] public Label Cost { get; private set; }
-    
+    [Export]
+    public Label Cost { get; private set; }
+
     /// <summary>
     /// 图标纹理矩形，用于展示卡片的图标图像。
     /// </summary>
-    [Export] public TextureRect Icon { get; private set; }
+    [Export]
+    public TextureRect Icon { get; private set; }
 
     /// <summary>
     /// 获取或设置掉落点检测器区域。
@@ -64,9 +72,44 @@ public partial class CardUi : Control
     /// </summary>
     [Export]
     public Array<Node> Targets { private set; get; } = [];
-    
+
     [Export]
-    public CharacterStats CharacterStats { get; set; }
+    public CharacterStats CharacterStats
+    {
+        get => _characterStats;
+        set
+        {
+            _characterStats = value;
+            _characterStats.StatsChanged += OnStatsChanged;
+        }
+    }
+
+    private void OnStatsChanged()
+    {
+        Playable = _characterStats.CanPlayCard(Card);
+    }
+
+    public bool Playable
+    {
+        get => _playable;
+        set
+        {
+            _playable = value;
+            if (!_playable)
+            {
+                Cost.AddThemeColorOverride("font_color", Colors.Red);
+                Icon.Modulate = new Color(1, 1, 1, 0.5f);
+            }
+            else
+            {
+                Cost.RemoveThemeColorOverride("font_color");
+                Icon.Modulate = new Color(1, 1, 1);
+            }
+        }
+    }
+
+    public bool Disabled { private set; get; }
+    private CharacterStats _characterStats;
 
     /// <summary>
     /// 获取或设置当前绑定的卡片数据模型。
@@ -147,7 +190,28 @@ public partial class CardUi : Control
     /// </summary>
     public override void _Ready()
     {
+        var events = Events.Instance;
+        events.CardAimingStarted += OnCardDraggingOrAimingStarted;
+        events.CardAimingEnded += OnCardDraggingOrAimingEnded;
+        events.CardDraggingStarted += OnCardDraggingOrAimingStarted;
+        events.CardDraggingEnded += OnCardDraggingOrAimingEnded;
         StateMachine.Init(this);
+    }
+
+    private void OnCardDraggingOrAimingEnded(CardUi cardUi)
+    {
+        Disabled = false;
+        Playable = _characterStats.CanPlayCard(Card);
+    }
+
+    private void OnCardDraggingOrAimingStarted(CardUi cardUi)
+    {
+        if (cardUi == this)
+        {
+            return;
+        }
+
+        Disabled = true;
     }
 
     /// <summary>
@@ -219,7 +283,8 @@ public partial class CardUi : Control
             GD.Print("卡牌为空");
             return;
         }
-        Card.Play(Targets,CharacterStats);
+
+        Card.Play(Targets, CharacterStats);
         QueueFree();
     }
 }
