@@ -21,7 +21,7 @@ public partial class DamageEffect : Effect
     /// 遍历所有目标节点，根据目标类型调用相应的受伤方法
     /// </summary>
     /// <param name="targets">目标节点数组，包含需要受到伤害的所有目标</param>
-    protected override void Execute(Array<Node> targets)
+    public override void Execute(Array<Node> targets)
     {
         // 遍历所有目标并造成伤害
         foreach (var target in targets)

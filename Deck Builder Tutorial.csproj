@@ -7,6 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="scripts\enemies\" />
-    <Folder Include="scripts\player\" />
+    <Folder Include="scripts\player\warrior\" />
   </ItemGroup>
 </Project>

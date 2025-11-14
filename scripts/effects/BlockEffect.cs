@@ -16,7 +16,7 @@ public partial class BlockEffect : Effect
     /// 执行格挡效果，为目标增加指定数量的格挡值
     /// </summary>
     /// <param name="targets">效果作用的目标节点数组，可以包含敌人或玩家</param>
-    protected override void Execute(Array<Node> targets)
+    public override void Execute(Array<Node> targets)
     {
         // 遍历所有目标并增加格挡值
         foreach (var target in targets)
