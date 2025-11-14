@@ -7,7 +7,7 @@
 script = ExtResource("1_wax8u")
 Id = "warrior_2"
 Name = "防御"
-Description = "战士展示举起盾牌，为自己增加6点格挡值"
+Description = "战士举起盾牌，为自己增加6点格挡值"
 CardType = 2
 InitCost = 1
 Cost = 1

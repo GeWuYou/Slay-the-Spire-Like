@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="Card" load_steps=3 format=3 uid="uid://v5qn4n335o18"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://v5qn4n335o18"]
 
-[ext_resource type="Script" uid="uid://ch7vp4mxba551" path="res://scripts/resources/Card.cs" id="1_b0gtt"]
 [ext_resource type="Texture2D" uid="uid://ck1t4hdip6xrl" path="res://art/tile_0119.png" id="1_jq0uc"]
+[ext_resource type="Script" uid="uid://b2pp3vfiwyhx6" path="res://scripts/player/warrior/cards/WarriorAttack.cs" id="2_jq0uc"]
 
 [resource]
-script = ExtResource("1_b0gtt")
+script = ExtResource("2_jq0uc")
 Id = "warrior_1"
 Name = "攻击"
 Description = "战士挥舞武器，砍向敌人，对敌人造成6点伤害"
