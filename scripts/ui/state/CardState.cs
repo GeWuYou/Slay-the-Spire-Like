@@ -1,3 +1,5 @@
+using DeckBuilderTutorial.scripts.extensions;
+using DeckBuilderTutorial.scripts.resources;
 using Godot;
 
 namespace DeckBuilderTutorial.scripts.ui.state;
@@ -50,6 +52,14 @@ public partial class CardState : Node
     /// </summary>
     [Signal]
     public delegate void TransitionRequestedEventHandler(CardState from, int to);
+
+    public override void _Ready()
+    {
+        TransitionRequested += ((from, to) =>
+        {
+            GD.Print($"{from.StateValue} 转换为 {to.GetCardState()}");
+        });
+    }
 
     /// <summary>
     /// 进入操作

@@ -14,13 +14,15 @@ public partial class CardReleasedState: CardState
 
     public override void Enter()
     {
+        GD.Print("进入发布状态!");
         Played = false;
         if (CardUi.Targets.Count == 0)
         {
             return;
         }
+        GD.Print("打出");
         Played = true;
-        GD.Print($"play card for target {CardUi.Targets}");
+        CardUi.Play();
     }
 
     public override void OnInput(InputEvent @event)

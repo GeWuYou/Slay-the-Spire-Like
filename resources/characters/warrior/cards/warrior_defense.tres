@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="Card" load_steps=3 format=3 uid="uid://l2t7bwi7eu2x"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://l2t7bwi7eu2x"]
 
 [ext_resource type="Texture2D" uid="uid://oe7v35ii8vrs" path="res://art/tile_0102.png" id="1_3v103"]
-[ext_resource type="Script" uid="uid://ch7vp4mxba551" path="res://scripts/resources/Card.cs" id="1_wax8u"]
+[ext_resource type="Script" uid="uid://dc64rdjnou06q" path="res://scripts/player/warrior/cards/WarriorDefend.cs" id="2_3v103"]
 
 [resource]
-script = ExtResource("1_wax8u")
+script = ExtResource("2_3v103")
 Id = "warrior_2"
 Name = "防御"
 Description = "战士举起盾牌，为自己增加6点格挡值"

@@ -78,11 +78,13 @@ public partial class CardDraggingState : CardState
         // 处理取消操作或确认操作的状态转换
         if (cancel)
         {
+            GD.Print("取消操作");
             // 当用户取消操作时，触发状态转换信号，将卡片状态转换为基础状态
             EmitSignal(CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
         }
         else if (confirm && MinimumDragTimeElapsed)
         {
+            GD.Print("打出卡牌");
             // 当用户确认操作且最小拖拽时间已过时，触发状态转换信号，将卡片状态转换为释放状态
             GetViewport().SetInputAsHandled();
             EmitSignal(CardState.SignalName.TransitionRequested, this, State.Released.GetCardStateValue());

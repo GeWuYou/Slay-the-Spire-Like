@@ -62,6 +62,9 @@ public partial class CardUi : Control
     /// </summary>
     [Export]
     public Array<Node> Targets { private set; get; } = [];
+    
+    [Export]
+    public CharacterStats CharacterStats { get; set; }
 
     /// <summary>
     /// 获取或设置当前绑定的卡片数据模型。
@@ -204,5 +207,17 @@ public partial class CardUi : Control
     public void OnDropPointDetectorAreaExited(Area2D area2D)
     {
         Targets.Remove(area2D);
+    }
+
+    public void Play()
+    {
+        GD.Print("执行！");
+        if (Card is null)
+        {
+            GD.Print("卡牌为空");
+            return;
+        }
+        Card.Play(Targets,CharacterStats);
+        QueueFree();
     }
 }
