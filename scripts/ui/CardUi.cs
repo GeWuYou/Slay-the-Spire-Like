@@ -72,6 +72,8 @@ public partial class CardUi : Control
     [Export]
     public Array<Node> Targets { private set; get; } = [];
 
+    public int OriginalIndex { get; private set; } 
+
     public CharacterStats CharacterStats
     {
         get => _characterStats;
@@ -199,6 +201,7 @@ public partial class CardUi : Control
         events.CardDraggingStarted += OnCardDraggingOrAimingStarted;
         events.CardDraggingEnded += OnCardDraggingOrAimingEnded;
         StateMachine.Init(this);
+        OriginalIndex = GetIndex();
     }
 
     private void OnCardDraggingOrAimingEnded(CardUi cardUi)
