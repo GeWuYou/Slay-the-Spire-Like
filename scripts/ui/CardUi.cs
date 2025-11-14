@@ -92,32 +92,21 @@ public partial class CardUi : Control
         get => _playable;
         set
         {
+            if (!IsInstanceValid(this))
+            {
+                return;
+            }
+
             _playable = value;
             if (!_playable)
             {
-                // 检查Cost控件是否仍然有效
-                if (IsInstanceValid(Cost))
-                {
-                    Cost.AddThemeColorOverride("font_color", Colors.Red);
-                }
-            
-                if (IsInstanceValid(Icon))
-                {
-                    Icon.Modulate = new Color(1, 1, 1, 0.5f);
-                }
+                Cost.AddThemeColorOverride("font_color", Colors.Red);
+                Icon.Modulate = new Color(1, 1, 1, 0.5f);
             }
             else
             {
-                // 检查Cost控件是否仍然有效
-                if (IsInstanceValid(Cost))
-                {
-                    Cost.RemoveThemeColorOverride("font_color");
-                }
-            
-                if (IsInstanceValid(Icon))
-                {
-                    Icon.Modulate = new Color(1, 1, 1);
-                }
+                Cost.RemoveThemeColorOverride("font_color");
+                Icon.Modulate = new Color(1, 1, 1);
             }
         }
     }
@@ -215,7 +204,11 @@ public partial class CardUi : Control
     private void OnCardDraggingOrAimingEnded(CardUi cardUi)
     {
         // 确保当前节点未被释放
-        if (!IsInstanceValid(this) || !IsInstanceValid(_characterStats) || !IsInstanceValid(Card)) return;
+        if (!IsInstanceValid(this))
+        {
+            return;
+        }
+
         Disabled = false;
         Playable = _characterStats.CanPlayCard(Card);
     }
