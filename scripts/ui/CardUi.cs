@@ -73,7 +73,6 @@ public partial class CardUi : Control
     [Export]
     public Array<Node> Targets { private set; get; } = [];
 
-    [Export]
     public CharacterStats CharacterStats
     {
         get => _characterStats;

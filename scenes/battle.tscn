@@ -44,7 +44,7 @@ Stats = ExtResource("4_v7i3o")
 
 [node name="BattleUI" type="CanvasLayer" parent="." groups=["ui_layer"]]
 
-[node name="Hand" type="HBoxContainer" parent="BattleUI"]
+[node name="Hand" type="HBoxContainer" parent="BattleUI" node_paths=PackedStringArray("_player")]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -57,21 +57,19 @@ grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
 script = ExtResource("2_p1qf1")
+_player = NodePath("../../Player")
 
 [node name="CardUI" parent="BattleUI/Hand" instance=ExtResource("2_th188")]
 layout_mode = 2
-CharacterStats = ExtResource("4_v7i3o")
 Card = ExtResource("4_6vh42")
 
 [node name="CardUI2" parent="BattleUI/Hand" instance=ExtResource("2_th188")]
 layout_mode = 2
-CharacterStats = ExtResource("4_v7i3o")
 Card = ExtResource("4_6vh42")
 
 [node name="CardUI3" parent="BattleUI/Hand" instance=ExtResource("2_th188")]
 layout_mode = 2
-CharacterStats = ExtResource("4_v7i3o")
 Card = ExtResource("5_4k1nj")
 
-[node name="ManaUI" parent="BattleUI" instance=ExtResource("11_66ngm")]
-CharacterStats = ExtResource("4_v7i3o")
+[node name="ManaUI" parent="BattleUI" node_paths=PackedStringArray("_player") instance=ExtResource("11_66ngm")]
+_player = NodePath("../../Player")

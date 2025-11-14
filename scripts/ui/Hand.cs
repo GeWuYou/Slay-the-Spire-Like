@@ -1,3 +1,4 @@
+using DeckBuilderTutorial.scripts.player;
 using Godot;
 
 namespace DeckBuilderTutorial.scripts.ui;
@@ -8,6 +9,7 @@ namespace DeckBuilderTutorial.scripts.ui;
 /// </summary>
 public partial class Hand : HBoxContainer
 {
+    [Export] private Player _player;
     /// <summary>
     /// 当节点准备就绪时调用此方法
     /// 遍历所有子节点，为卡片UI组件建立事件连接并设置父节点引用
@@ -29,6 +31,7 @@ public partial class Hand : HBoxContainer
             
             // 设置卡片的父节点引用为当前手牌容器
             cardUi.Parent = this;
+            cardUi.CharacterStats = _player.Stats;
         }
     }
 

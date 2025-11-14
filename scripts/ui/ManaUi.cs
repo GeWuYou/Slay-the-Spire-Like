@@ -1,3 +1,4 @@
+using DeckBuilderTutorial.scripts.player;
 using DeckBuilderTutorial.scripts.resources;
 using Godot;
 
@@ -5,9 +6,9 @@ namespace DeckBuilderTutorial.scripts.ui;
 
 public partial class ManaUi : Panel
 {
+    [Export] private Player _player;
     private CharacterStats _characterStats;
-
-    [Export]
+    
     public CharacterStats CharacterStats
     {
         get => _characterStats;
@@ -36,4 +37,8 @@ public partial class ManaUi : Panel
     }
 
     [Export] public Label ManaLabel { get; private set; }
+    public override void _Ready()
+    {
+        CharacterStats = _player.Stats;
+    }
 }
