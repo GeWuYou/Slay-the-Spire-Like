@@ -118,7 +118,7 @@ public partial class CardTargetSelector : Node2D
     /// <param name="cardUi">当前卡牌 UI 实例</param>
     private void OnCardAimingStarted(CardUi cardUi)
     {
-        if (!cardUi.Card.CardTarget.IsSingleTargeted())
+        if (!cardUi.Card.CardTarget.IsEnemyTarget())
         {
             return;
         }
@@ -134,7 +134,8 @@ public partial class CardTargetSelector : Node2D
     /// <param name="cardUi">当前卡牌 UI 实例</param>
     private void OnCardAimingEnded(CardUi cardUi)
     {
-        if (!cardUi.Card.CardTarget.IsSingleTargeted())
+        //todo 目前只有敌人才会显示选择箭头 
+        if (!cardUi.Card.CardTarget.IsEnemyTarget())
         {
             return;
         }

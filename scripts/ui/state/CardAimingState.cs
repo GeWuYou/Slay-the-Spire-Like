@@ -60,21 +60,15 @@ public partial class CardAimingState : CardState
     /// <param name="event">当前输入事件对象。</param>
     public override void OnInput(InputEvent @event)
     {
-        // 只处理鼠标移动事件
-        if (@event is not InputEventMouseMotion)
-        {
-            return;
-        }
-
         // 判断鼠标是否位于底部区域或按下右键以决定是否返回基础状态
         var mouseAtBottom = CardUi.GetGlobalMousePosition().Y > MouseYSnapbackThreshold;
+        
         if (mouseAtBottom || @event.IsActionPressed("right_mouse"))
         {
             EmitSignal(CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
         }
         else if (@event.IsActionReleased("left_mouse") || @event.IsActionPressed("left_mouse"))
         {
-            // 左键按下或释放则进入释放状态，并标记输入已被处理
             GetViewport().SetInputAsHandled();
             EmitSignal(CardState.SignalName.TransitionRequested, this, State.Released.GetCardStateValue());
         }

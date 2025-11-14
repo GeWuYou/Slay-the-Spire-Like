@@ -1,4 +1,6 @@
 using DeckBuilderTutorial.scripts.resources;
+using DeckBuilderTutorial.scripts.global;
+using DeckBuilderTutorial.scripts.player;
 using Godot;
 using Godot.Collections;
 

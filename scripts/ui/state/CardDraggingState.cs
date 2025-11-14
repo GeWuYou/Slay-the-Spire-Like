@@ -56,14 +56,13 @@ public partial class CardDraggingState : CardState
     /// <param name="event">输入事件对象</param>
     public override void OnInput(InputEvent @event)
     {
-        // 检查各种输入条件
-        var isSingleTargeted = CardUi.Card.CardTarget.IsSingleTargeted();
+        var isEnemyTarget = CardUi.Card.CardTarget.IsEnemyTarget();
         var isMouseMotion = @event is InputEventMouseMotion;
         var cancel = @event.IsActionPressed("right_mouse");
         var confirm = @event.IsActionReleased("left_mouse") || @event.IsActionPressed("left_mouse");
 
-        // 如果当前目标是敌人且有可用目标并且是鼠标移动事件，则切换到瞄准状态
-        if (isSingleTargeted && isMouseMotion && CardUi.Targets.Count > 0)
+        // 只有敌人目标且有可用目标时才切换到瞄准状态
+        if (isEnemyTarget && isMouseMotion && CardUi.Targets.Count > 0)
         {
             EmitSignal(CardState.SignalName.TransitionRequested, this, State.Aiming.GetCardStateValue());
             return;
@@ -79,13 +78,11 @@ public partial class CardDraggingState : CardState
         if (cancel)
         {
             GD.Print("取消操作");
-            // 当用户取消操作时，触发状态转换信号，将卡片状态转换为基础状态
             EmitSignal(CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
         }
         else if (confirm && MinimumDragTimeElapsed)
         {
             GD.Print("打出卡牌");
-            // 当用户确认操作且最小拖拽时间已过时，触发状态转换信号，将卡片状态转换为释放状态
             GetViewport().SetInputAsHandled();
             EmitSignal(CardState.SignalName.TransitionRequested, this, State.Released.GetCardStateValue());
         }

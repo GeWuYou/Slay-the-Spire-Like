@@ -20,6 +20,7 @@ public partial class CardReleasedState: CardState
         {
             return;
         }
+        
         GD.Print("打出");
         Played = true;
         CardUi.Play();

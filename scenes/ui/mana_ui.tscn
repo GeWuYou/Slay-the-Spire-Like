@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://bda6jdmo18uon" path="res://main_theme.tres" id="1_rpnp3"]
 [ext_resource type="Script" uid="uid://buvfqlebk2dcb" path="res://scripts/ui/ManaUi.cs" id="2_jwxui"]
 
-[node name="ManaUI" type="Panel"]
+[node name="ManaUI" type="Panel" node_paths=PackedStringArray("ManaLabel")]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -14,6 +14,7 @@ offset_bottom = -4.0
 grow_vertical = 0
 theme = ExtResource("1_rpnp3")
 script = ExtResource("2_jwxui")
+ManaLabel = NodePath("ManaLabel")
 
 [node name="ManaLabel" type="Label" parent="."]
 layout_mode = 1
