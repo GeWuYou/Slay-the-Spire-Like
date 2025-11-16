@@ -1,6 +1,6 @@
 using DeckBuilderTutorial.scripts.player;
 using DeckBuilderTutorial.scripts.resources;
-using global::DeckBuilderTutorial.scripts.global;
+using DeckBuilderTutorial.scripts.global;
 using Godot;
 
 namespace DeckBuilderTutorial.scripts.ui;
@@ -46,7 +46,7 @@ public partial class Hand : HBoxContainer
         }
     }
 
-    private void DiscardCard(CardUi card)
+    public static void DiscardCard(CardUi card)
     {
         card.QueueFree();
     }

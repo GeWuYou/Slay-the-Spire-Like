@@ -23,7 +23,19 @@ public partial class PlayerHandler : Node
     public override void _Ready()
     {
         _events = Events.Instance;
+        _events.CardPlayed+= OnCardPlayed;
     }
+
+    /// <summary>
+    /// 当卡片被使用时的回调处理函数
+    /// </summary>
+    /// <param name="card">被使用的卡片对象</param>
+    private void OnCardPlayed(Card card)
+    {
+       // 将使用过的卡片添加到弃牌堆中
+       _playerStats.Discard.AddCard(card);
+    }
+
 
     /// <summary>
     /// 开始战斗，初始化玩家状态和牌堆。
