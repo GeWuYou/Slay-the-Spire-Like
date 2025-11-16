@@ -1,6 +1,5 @@
-using DeckBuilderTutorial.scripts.player;
 using DeckBuilderTutorial.scripts.resources;
-using DeckBuilderTutorial.scripts.global;
+using global::DeckBuilderTutorial.scripts.global;
 using Godot;
 
 namespace DeckBuilderTutorial.scripts.ui;
@@ -12,7 +11,6 @@ namespace DeckBuilderTutorial.scripts.ui;
 public partial class Hand : HBoxContainer
 {
     private int _cardsPlayedThisTurn;
-    [Export] private Player _player;
     public CharacterStats PlayerStats { get; set; }
     private Events _events;
     
