@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cxksgeo2osgek"]
+[gd_scene load_steps=15 format=3 uid="uid://cxksgeo2osgek"]
 
 [ext_resource type="Script" uid="uid://wmplux2455e6" path="res://scripts/Battle.cs" id="1_6ni85"]
 [ext_resource type="Texture2D" uid="uid://cp4iq5fd6j8be" path="res://art/background.png" id="1_dn72j"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://dixubx5wgteys" path="res://scripts/BattleUi.cs" id="8_vceff"]
 [ext_resource type="PackedScene" uid="uid://di6mroovg4m14" path="res://scenes/ui/mana_ui.tscn" id="11_66ngm"]
 [ext_resource type="PackedScene" uid="uid://b6ap38ykbfvgc" path="res://scenes/ui/tool_tip.tscn" id="12_03edq"]
+[ext_resource type="Theme" uid="uid://bda6jdmo18uon" path="res://main_theme.tres" id="13_22uqi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dn72j"]
 size = Vector2(256, 100)
@@ -75,3 +76,19 @@ _player = NodePath("../../Player")
 [node name="ToolTip" parent="BattleUI" instance=ExtResource("12_03edq")]
 offset_top = 3.0
 offset_bottom = 39.0
+
+[node name="EndTurnButton" type="Button" parent="BattleUI"]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -49.0
+offset_top = -20.0
+offset_right = -4.0
+offset_bottom = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("13_22uqi")
+text = "结束回合"
