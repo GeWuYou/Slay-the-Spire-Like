@@ -132,7 +132,7 @@ public partial class CardUi : Control
         }
     }
 
-    public bool Disabled { private set; get; }
+    public bool Disabled { set; get; }
     private CharacterStats _characterStats;
 
     /// <summary>

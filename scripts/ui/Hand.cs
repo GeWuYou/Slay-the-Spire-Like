@@ -14,6 +14,7 @@ public partial class Hand : HBoxContainer
     private int _cardsPlayedThisTurn;
     [Export] private Player _player;
     public CharacterStats PlayerStats { get; set; }
+    private Events _events;
     
     /// <summary>
     /// 当节点准备就绪时调用此方法
@@ -21,7 +22,33 @@ public partial class Hand : HBoxContainer
     /// </summary>
     public override void _Ready()
     {
-        Events.Instance.CardPlayed += OnCardPlayed;
+        _events = Events.Instance; 
+        _events.CardPlayed += OnCardPlayed;
+    }
+    
+    /// <summary>
+    /// 禁用手牌中的所有卡牌
+    /// </summary>
+    /// <remarks>
+    /// 遍历手牌容器中的所有子元素，将CardUi类型的卡牌组件设置为禁用状态
+    /// </remarks>
+    public void DisableHand()
+    {
+        // 遍历所有子卡牌并禁用CardUi组件
+        foreach (var card in GetChildren())
+        {
+            if(card is not CardUi cardUi)
+            {
+                continue;
+            }
+            cardUi.Disabled = true;
+            
+        }
+    }
+
+    private void DiscardCard(CardUi card)
+    {
+        card.QueueFree();
     }
 
     /// <summary>

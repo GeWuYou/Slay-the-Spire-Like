@@ -17,10 +17,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dn72j"]
 size = Vector2(256, 100)
 
-[node name="Battle" type="Node2D" node_paths=PackedStringArray("PlayerHandler")]
+[node name="Battle" type="Node2D" node_paths=PackedStringArray("PlayerHandler", "Player")]
 script = ExtResource("1_6ni85")
 PlayerStats = ExtResource("4_v7i3o")
 PlayerHandler = NodePath("PlayerHandler")
+Player = NodePath("Player")
 metadata/_edit_lock_ = true
 
 [node name="Background" type="Sprite2D" parent="."]
@@ -43,7 +44,6 @@ Stats = ExtResource("3_v7i3o")
 
 [node name="Player" parent="." instance=ExtResource("3_yahae")]
 position = Vector2(43, 69)
-Stats = ExtResource("4_v7i3o")
 
 [node name="CardTargetSelector" parent="." instance=ExtResource("3_4k1nj")]
 
@@ -51,10 +51,11 @@ Stats = ExtResource("4_v7i3o")
 script = ExtResource("8_03edq")
 Hand = NodePath("../BattleUI/Hand")
 
-[node name="BattleUI" type="CanvasLayer" parent="." node_paths=PackedStringArray("ManaUi", "Hand") groups=["ui_layer"]]
+[node name="BattleUI" type="CanvasLayer" parent="." node_paths=PackedStringArray("ManaUi", "Hand", "EndTurnButton") groups=["ui_layer"]]
 script = ExtResource("8_vceff")
 ManaUi = NodePath("ManaUI")
 Hand = NodePath("Hand")
+EndTurnButton = NodePath("EndTurnButton")
 
 [node name="Hand" type="HBoxContainer" parent="BattleUI" node_paths=PackedStringArray("_player")]
 anchors_preset = 7

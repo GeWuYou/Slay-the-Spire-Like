@@ -17,13 +17,12 @@ public partial class Player : Node2D
     /// <summary>
     /// 获取或设置玩家的角色属性。当设置时会创建一个新的属性实例并连接属性变化事件。
     /// </summary>
-    [Export]
     public CharacterStats Stats
     {
         get => _stats;
         set
         {
-            _stats = value.CreateInstance();
+            _stats = value;
             // 检查是否已连接属性变化事件，避免重复连接
             if (!_stats.IsConnected(resources.Stats.SignalName.StatsChanged,
                     Callable.From(UpdateStats)))

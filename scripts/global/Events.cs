@@ -99,6 +99,17 @@ public partial class Events : Node
     /// </remarks>
     [Signal]
     public delegate void PlayerHandDrawnEventHandler();
+    /// <summary>
+    /// 玩家手牌弃置事件处理器委托
+    /// </summary>
+    [Signal]
+    public delegate void PlayerHandDiscardedEventHandler();
+
+    /// <summary>
+    /// 玩家回合结束事件处理器委托
+    /// </summary>
+    [Signal]
+    public delegate void PlayerTurnEndedEventHandler();
 
     #endregion
 
