@@ -88,4 +88,18 @@ public partial class Events : Node
 
 
     #endregion
+
+    #region 玩家
+
+    /// <summary>
+    /// 玩家手牌绘制事件处理委托
+    /// </summary>
+    /// <remarks>
+    /// 当玩家手牌被绘制时触发此事件
+    /// </remarks>
+    [Signal]
+    public delegate void PlayerHandDrawnEventHandler();
+
+    #endregion
+
 }

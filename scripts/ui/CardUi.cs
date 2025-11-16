@@ -1,3 +1,4 @@
+using System;
 using DeckBuilderTutorial.scripts.resources;
 using global::DeckBuilderTutorial.scripts.global;
 using Godot;
@@ -14,6 +15,24 @@ public partial class CardUi : Control
     private Card _card;
     private bool _playable = true;
 
+    #region 工厂方法
+
+    private static readonly Lazy<PackedScene> SceneLoader = new(() =>
+        GD.Load<PackedScene>($"res://scenes/ui/card_ui.tscn")
+    );
+    private static PackedScene Scene => SceneLoader.Value;
+    public static CardUi CreateInstance()
+    {
+        if (Scene != null)
+        {
+            return Scene.Instantiate<CardUi>();
+        }
+        GD.PrintErr("CardUi scene failed to load!");
+        return null;
+
+    }
+
+    #endregion
     /// <summary>
     /// 基础样式框，定义了卡片在默认状态下的外观。
     /// </summary>

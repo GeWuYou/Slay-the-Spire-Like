@@ -13,7 +13,8 @@ public partial class Hand : HBoxContainer
 {
     private int _cardsPlayedThisTurn;
     [Export] private Player _player;
-
+    public CharacterStats PlayerStats { get; set; }
+    
     /// <summary>
     /// 当节点准备就绪时调用此方法
     /// 遍历所有子节点，为卡片UI组件建立事件连接并设置父节点引用
@@ -21,25 +22,27 @@ public partial class Hand : HBoxContainer
     public override void _Ready()
     {
         Events.Instance.CardPlayed += OnCardPlayed;
-        
-        // 遍历所有子节点，为卡片UI组件建立事件连接
-        foreach (var child in GetChildren())
-        {
-            // 检查子节点是否为CardUi类型，如果不是则跳过
-            if (child is not CardUi cardUi)
-            {
-                continue;
-            }
-            
-            // 连接卡片的重定位请求信号到处理方法
-            cardUi.Connect(CardUi.SignalName.ReparentRequested,
-                Callable.From((CardUi card) => OnCardReparentRequested(card)));
-            
-            // 设置卡片的父节点引用为当前手牌容器
-            cardUi.Parent = this;
-            cardUi.CharacterStats = _player.Stats;
-        }
     }
+
+    /// <summary>
+    /// 向当前容器中添加一张卡片UI元素
+    /// </summary>
+    /// <param name="card">要添加的卡片数据对象</param>
+    public void AddCard(Card card)
+    {
+        // 创建卡片UI实例并添加到子元素中
+        var cardUi = CardUi.CreateInstance();
+        AddChild(cardUi);
+        
+        // 注册卡片重定位请求事件
+        cardUi.ReparentRequested += OnCardReparentRequested;
+        
+        // 设置卡片UI的相关属性
+        cardUi.Card = card;
+        cardUi.Parent = this;
+        cardUi.CharacterStats = PlayerStats;
+    }
+
 
     /// <summary>
     /// 卡片被使用时的回调方法，增加本回合已使用的卡牌计数
