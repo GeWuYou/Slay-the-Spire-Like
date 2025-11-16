@@ -70,7 +70,7 @@ public partial class CharacterStats : Stats
     /// </summary>
     public void ResetMana()
     {
-        _mana = MaxMana;
+        Mana = MaxMana;
     }
 
     /// <summary>
