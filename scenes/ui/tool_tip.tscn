@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6ap38ykbfvgc"]
+
+[ext_resource type="Script" uid="uid://tsk8md4mflj5" path="res://scripts/ui/ToolTip.cs" id="1_261h5"]
+[ext_resource type="Texture2D" uid="uid://ck1t4hdip6xrl" path="res://art/tile_0119.png" id="1_cpbve"]
+
+[node name="ToolTip" type="PanelContainer" node_paths=PackedStringArray("Icon", "Text")]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -55.0
+offset_right = 55.0
+offset_bottom = 36.0
+grow_horizontal = 2
+script = ExtResource("1_261h5")
+Icon = NodePath("MarginContainer/VBoxContainer/ToolTipIcon")
+Text = NodePath("MarginContainer/VBoxContainer/ToolTipContext")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ToolTipIcon" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+texture = ExtResource("1_cpbve")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ToolTipContext" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "工具提示说明
+工具提示说明
+工具提示说明"

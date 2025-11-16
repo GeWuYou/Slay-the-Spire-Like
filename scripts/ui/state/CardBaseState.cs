@@ -1,5 +1,6 @@
 using System;
 using DeckBuilderTutorial.scripts.extensions;
+using global::DeckBuilderTutorial.scripts.global;
 using Godot;
 
 namespace DeckBuilderTutorial.scripts.ui.state;
@@ -10,6 +11,12 @@ namespace DeckBuilderTutorial.scripts.ui.state;
 /// </summary>
 public partial class CardBaseState : CardState
 {
+    private Events _events;
+    public override void _Ready()
+    {
+        _events = Events.Instance;
+    }
+
     /// <summary>
     /// 进入基础状态时执行的方法
     /// 初始化卡牌UI的显示状态，包括颜色、文本和位置
@@ -33,6 +40,8 @@ public partial class CardBaseState : CardState
             CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.BaseStyleBox);
             CardUi.EmitSignal(CardUi.SignalName.ReparentRequested, CardUi);
             CardUi.PivotOffset = Vector2.Zero;
+            // 默认隐藏卡牌提示
+            _events.EmitSignal(Events.SignalName.CardToolTipHideRequest);
         }
         catch (Exception e)
         {
@@ -76,6 +85,7 @@ public partial class CardBaseState : CardState
         }
         // 请求重新设置父节点并更新UI状态显示
         CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.HoverStyleBox);
+        _events.EmitSignal(Events.SignalName.CardToolTipShowRequest, CardUi.Icon.Texture, CardUi.Card.Description);
     }
 
     public override void OnMouseExited()
@@ -87,5 +97,7 @@ public partial class CardBaseState : CardState
         }
         // 恢复原始父节点并更新UI状态显示
         CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.BaseStyleBox);
+        // 隐藏卡牌提示
+        _events.EmitSignal(Events.SignalName.CardToolTipHideRequest);
     }
 }

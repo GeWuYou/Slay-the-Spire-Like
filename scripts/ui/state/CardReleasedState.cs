@@ -1,5 +1,6 @@
 ﻿
 using DeckBuilderTutorial.scripts.extensions;
+using global::DeckBuilderTutorial.scripts.global;
 using Godot;
 
 namespace DeckBuilderTutorial.scripts.ui.state;
@@ -9,6 +10,12 @@ namespace DeckBuilderTutorial.scripts.ui.state;
 /// </summary>
 public partial class CardReleasedState: CardState
 {
+    private Events _events;
+
+    public override void _Ready()
+    {
+        _events = Events.Instance;
+    }
     [Export]
     public bool Played { private set; get; }
 
@@ -24,6 +31,7 @@ public partial class CardReleasedState: CardState
         GD.Print("打出");
         Played = true;
         CardUi.Play();
+        _events.EmitSignal(Events.SignalName.CardToolTipHideRequest);
     }
 
     public override void OnInput(InputEvent @event)

@@ -7,7 +7,8 @@
 script = ExtResource("2_jq0uc")
 Id = "warrior_1"
 Name = "攻击"
-Description = "战士挥舞武器，砍向敌人，对敌人造成6点伤害"
+Description = "[center][color=green]战士[/color]挥舞武器，砍向敌人，对敌人造成[color=red]6[/color]点伤害[/center]
+"
 CardTarget = 1
 InitCost = 1
 Cost = 1

@@ -19,6 +19,10 @@ public partial class Enemy : Area2D
     private Stats _stats;
 
 
+    /// <summary>
+    /// 获取或设置敌人的统计数据。当设置新值时会自动克隆一份实例以防止引用共享，
+    /// 并确保只连接一次StatsChanged事件来更新UI。
+    /// </summary>
     [Export]
     public Stats Stats
     {
@@ -42,17 +46,29 @@ public partial class Enemy : Area2D
     [Export] public StatsUi StatsUi { get; set; }
     [Export] public Sprite2D Arrow { get; set; }
 
+    /// <summary>
+    /// 初始化节点，在_ready阶段注册区域进入和退出的事件监听器。
+    /// </summary>
     public override void _Ready()
     {
         AreaEntered += OnAreaEntered;
         AreaExited += OnAreaExited;
     }
 
+    
+    /// <summary>
+    /// 当有其他区域离开本敌人区域范围时调用，隐藏指示箭头。
+    /// </summary>
+    /// <param name="area">离开的区域对象。</param>
     private void OnAreaExited(Area2D area)
     {
         Arrow.Hide();
     }
 
+    /// <summary>
+    /// 当有其他区域进入本敌人区域范围时调用，显示指示箭头。
+    /// </summary>
+    /// <param name="area">进入的区域对象。</param>
     private void OnAreaEntered(Area2D area)
     {
         Arrow.Show();

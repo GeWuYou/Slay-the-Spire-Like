@@ -10,6 +10,8 @@ namespace DeckBuilderTutorial.scripts.global;
 /// </summary>
 public partial class Events : Node
 {
+    #region 实例代码
+
     public static Events Instance { get; private set; }
 
     public override void _Ready()
@@ -24,6 +26,10 @@ public partial class Events : Node
             Instance = null;
         }
     }
+
+    #endregion
+
+    #region 卡牌事件
 
     /// <summary>
     /// 卡牌瞄准开始事件
@@ -62,4 +68,24 @@ public partial class Events : Node
     /// <param name="card">被打出的卡牌对象</param>
     [Signal]
     public delegate void CardPlayedEventHandler(Card card);
+
+    /// <summary>
+    /// 卡片工具提示显示请求事件处理委托
+    /// 当需要显示卡片工具提示时触发此事件
+    /// </summary>
+    /// <param name="icon">要显示在工具提示中的图标纹理</param>
+    /// <param name="text">要显示在工具提示中的文本内容</param>
+    [Signal]
+    public delegate void CardToolTipShowRequestEventHandler(Texture icon, string text);
+
+    
+    /// <summary>
+    /// 卡片工具提示隐藏请求事件处理委托
+    /// 当需要隐藏卡片工具提示时触发此事件
+    /// </summary>
+    [Signal]
+    public delegate void CardToolTipHideRequestEventHandler();
+
+
+    #endregion
 }
