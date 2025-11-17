@@ -21,7 +21,11 @@ public partial class StatsUi : HBoxContainer
     /// </summary>
     /// <param name="stats">包含Block和Health数值的Stats对象</param>
     public void UpdateStats(Stats stats)
-    { 
+    {
+        if (!(IsInstanceValid(BlockLabel) && IsInstanceValid(HealthLabel)))
+        {
+            return;
+        }
         // 更新Block和Health的标签文本
         BlockLabel.Text = stats.Block.ToString();
         HealthLabel.Text = stats.Health.ToString();
