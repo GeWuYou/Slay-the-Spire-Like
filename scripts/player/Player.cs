@@ -63,7 +63,7 @@ public partial class Player : Node2D
         }
         catch (Exception e)
         {
-           GD.PrintErr(e);
+            GD.PrintErr(e);
         }
     }
 
@@ -86,11 +86,13 @@ public partial class Player : Node2D
         {
             return;
         }
+
         Stats.TakeDamage(damage);
         // 检查玩家是否死亡
         if (Stats.Health <= 0)
         {
-           QueueFree();
+            Events.Instance.EmitSignal(Events.SignalName.PlayerDied);
+            QueueFree();
         }
     }
 }

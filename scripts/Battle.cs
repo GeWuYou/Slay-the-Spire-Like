@@ -46,7 +46,24 @@ public partial class Battle : Node2D
         _events.EnemyTurnEnded += OnEnemyTurnEnded;
         // 注册玩家手牌丢弃事件
         _events.PlayerHandDiscarded += EnemyHandler.StartTurn;
+        // 注册玩家死亡事件
+        _events.PlayerDied+=OnPlayerDied;
+        // 注册敌人子节点顺序改变事件
+        EnemyHandler.ChildOrderChanged+=OnEnmiesChildOrderChanged;
         StartBattle(_battleUi.PlayerStats);
+    }
+
+    private static void OnPlayerDied()
+    {
+        GD.Print("游戏结束");
+    }
+
+    private void OnEnmiesChildOrderChanged()
+    {
+        if (EnemyHandler.GetChildCount() == 0)
+        {
+            GD.Print("胜利!");
+        }
     }
 
     /// <summary>

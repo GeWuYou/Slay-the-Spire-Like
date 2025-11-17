@@ -112,6 +112,11 @@ public partial class Events : Node
     [Signal]
     public delegate void PlayerTurnEndedEventHandler();
 
+    /// <summary>
+    /// 玩家死亡事件处理器委托
+    /// </summary>
+    [Signal]
+    public delegate void PlayerDiedEventHandler();
     #endregion
 
     #region 敌人
@@ -132,6 +137,5 @@ public partial class Events : Node
     /// </remarks>
     [Signal]
     public delegate void EnemyTurnEndedEventHandler();
-
     #endregion
 }
