@@ -58,6 +58,7 @@ public partial class PlayerHandler : Node
     /// </summary>
     public void StartTurn()
     {
+        GD.Print("开始新的玩家回合");
         _playerStats.Block = 0;
         _playerStats.ResetMana();
         DrawCards(_playerStats.CardsPerTurn);

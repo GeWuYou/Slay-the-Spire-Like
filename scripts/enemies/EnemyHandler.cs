@@ -27,11 +27,11 @@ public partial class EnemyHandler : Node2D
 
     public void StartTurn()
     {
+        GD.Print("开始新的敌人回合");
         if (GetChildCount() == 0)
         {
             return;
         }
-
         var firstEnemy = GetChild(0) as Enemy;
         firstEnemy?.DoTurn();
     }
