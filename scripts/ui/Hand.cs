@@ -84,7 +84,7 @@ public partial class Hand : HBoxContainer
     /// 当卡片请求重新设置父节点时，将其重新定位到当前手牌容器中，并调整其在容器内的位置
     /// </summary>
     /// <param name="cardUi">请求重定位的卡片UI组件</param>
-    public void OnCardReparentRequested(CardUi cardUi)
+    private void OnCardReparentRequested(CardUi cardUi)
     {
         cardUi.Reparent(this);
         // 确保卡牌按照原始顺序排列
@@ -96,16 +96,36 @@ public partial class Hand : HBoxContainer
     /// </summary>
     private void RestoreCardOrder()
     {
-        // 获取所有卡牌并按原始索引排序
-        var cards = GetChildren()
+        // 获取所有卡牌
+        var cardUis = GetChildren()
             .OfType<CardUi>()
-            .OrderBy(card => card.OriginalIndex)
             .ToList();
+
+        // 检查是否已经按原始顺序排列，如果已经有序则无需重新排列
+        bool isAlreadyOrdered = true;
+        for (int i = 0; i < cardUis.Count - 1; i++)
+        {
+            if (cardUis[i].OriginalIndex > cardUis[i + 1].OriginalIndex)
+            {
+                isAlreadyOrdered = false;
+                break;
+            }
+        }
+
+        // 如果已经有序，则不需要重新排列
+        if (isAlreadyOrdered)
+        {
+            GD.Print("卡牌已按原始顺序排列");
+            return;
+        }
+
+        // 按原始索引排序
+        var orderedCards = cardUis.OrderBy(card => card.OriginalIndex).ToList();
             
         // 按排序后的顺序重新排列卡牌
-        for (var i = 0; i < cards.Count; i++)
+        for (int i = 0; i < orderedCards.Count; i++)
         {
-            MoveChild(cards[i], i);
+            MoveChild(orderedCards[i], i);
         }
     }
 }
