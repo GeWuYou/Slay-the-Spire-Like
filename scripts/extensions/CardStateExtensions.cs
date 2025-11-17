@@ -1,6 +1,6 @@
-﻿using DeckBuilderTutorial.scripts.ui.state;
+﻿using SlayTheSpireLike.scripts.ui.state;
 
-namespace DeckBuilderTutorial.scripts.extensions;
+namespace SlayTheSpireLike.scripts.extensions;
 
 /// <summary>
 /// CardStateExtensions

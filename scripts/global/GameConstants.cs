@@ -1,6 +1,4 @@
-using Godot;
-
-namespace DeckBuilderTutorial.scripts.global;
+namespace SlayTheSpireLike.scripts.global;
 
 /// <summary>
 /// 游戏中的全局常量定义类

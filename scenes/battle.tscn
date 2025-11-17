@@ -57,7 +57,7 @@ ManaUi = NodePath("ManaUI")
 Hand = NodePath("Hand")
 EndTurnButton = NodePath("EndTurnButton")
 
-[node name="Hand" type="HBoxContainer" parent="BattleUI" node_paths=PackedStringArray("_player")]
+[node name="Hand" type="HBoxContainer" parent="BattleUI"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -70,7 +70,6 @@ grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
 script = ExtResource("2_p1qf1")
-_player = NodePath("../../Player")
 
 [node name="ManaUI" parent="BattleUI" instance=ExtResource("11_66ngm")]
 

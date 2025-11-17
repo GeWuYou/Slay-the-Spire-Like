@@ -1,10 +1,9 @@
 using System;
-using System.Linq;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
-using DeckBuilderTutorial.scripts.global;
 
-namespace DeckBuilderTutorial.scripts.resources;
+namespace SlayTheSpireLike.scripts.resources;
 
 /// <summary>
 /// 表示一张游戏中的卡牌资源，继承自Godot的Resource类。
@@ -218,7 +217,7 @@ public partial class Card : Resource
     /// <param name="stats">角色统计数据对象，用于扣除法力值</param>
     public void Play(Array<Node> targets, CharacterStats stats)
     {
-        Events.Instance.EmitSignal(Events.SignalName.CardPlayed, this);
+        Events.Instance.EmitSignal(SlayTheSpireLike.scripts.global.Events.SignalName.CardPlayed, this);
         stats.Mana -= Cost;
         ApplyEffects(GetTargets(targets));
     }

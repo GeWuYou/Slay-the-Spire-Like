@@ -1,10 +1,10 @@
 using System;
-using DeckBuilderTutorial.scripts.resources;
-using global::DeckBuilderTutorial.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
+using SlayTheSpireLike.scripts.resources;
 
-namespace DeckBuilderTutorial.scripts.ui;
+namespace SlayTheSpireLike.scripts.ui;
 
 /// <summary>
 /// CardUi 类表示一个卡片用户界面控件。

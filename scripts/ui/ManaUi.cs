@@ -1,7 +1,7 @@
-using DeckBuilderTutorial.scripts.resources;
 using Godot;
+using SlayTheSpireLike.scripts.resources;
 
-namespace DeckBuilderTutorial.scripts.ui;
+namespace SlayTheSpireLike.scripts.ui;
 
 public partial class ManaUi : Panel
 {

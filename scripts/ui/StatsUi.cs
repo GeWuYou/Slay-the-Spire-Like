@@ -1,7 +1,7 @@
-using DeckBuilderTutorial.scripts.resources;
 using Godot;
+using SlayTheSpireLike.scripts.resources;
 
-namespace DeckBuilderTutorial.scripts.ui;
+namespace SlayTheSpireLike.scripts.ui;
 
 /// <summary>
 /// StatsUi类负责显示游戏中的统计数据UI

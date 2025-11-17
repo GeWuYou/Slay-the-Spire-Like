@@ -1,9 +1,9 @@
 using System;
-using DeckBuilderTutorial.scripts.extensions;
-using global::DeckBuilderTutorial.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.extensions;
 
-namespace DeckBuilderTutorial.scripts.ui.state;
+namespace SlayTheSpireLike.scripts.ui.state;
 
 /// <summary>
 /// 卡牌基础状态类，继承自CardState
@@ -38,10 +38,10 @@ public partial class CardBaseState : CardState
 
             // 请求重新设置父节点并更新UI状态显示
             CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.BaseStyleBox);
-            CardUi.EmitSignal(CardUi.SignalName.ReparentRequested, CardUi);
+            CardUi.EmitSignal(SlayTheSpireLike.scripts.ui.CardUi.SignalName.ReparentRequested, CardUi);
             CardUi.PivotOffset = Vector2.Zero;
             // 默认隐藏卡牌提示
-            _events.EmitSignal(Events.SignalName.CardToolTipHideRequest);
+            _events.EmitSignal(SlayTheSpireLike.scripts.global.Events.SignalName.CardToolTipHideRequest);
         }
         catch (Exception e)
         {
@@ -72,7 +72,7 @@ public partial class CardBaseState : CardState
         CardUi.PivotOffset = CardUi.GetGlobalMousePosition() - CardUi.GlobalPosition;
 
         // 触发状态转换请求信号
-        EmitSignal(CardState.SignalName.TransitionRequested, this, State.Clicked.GetCardStateValue());
+        EmitSignal(SlayTheSpireLike.scripts.ui.state.CardState.SignalName.TransitionRequested, this, State.Clicked.GetCardStateValue());
     }
 
     public override void OnMouseEntered()
@@ -85,7 +85,7 @@ public partial class CardBaseState : CardState
         }
         // 请求重新设置父节点并更新UI状态显示
         CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.HoverStyleBox);
-        _events.EmitSignal(Events.SignalName.CardToolTipShowRequest, CardUi.Icon.Texture, CardUi.Card.Description);
+        _events.EmitSignal(SlayTheSpireLike.scripts.global.Events.SignalName.CardToolTipShowRequest, CardUi.Icon.Texture, CardUi.Card.Description);
     }
 
     public override void OnMouseExited()
@@ -98,6 +98,6 @@ public partial class CardBaseState : CardState
         // 恢复原始父节点并更新UI状态显示
         CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.BaseStyleBox);
         // 隐藏卡牌提示
-        _events.EmitSignal(Events.SignalName.CardToolTipHideRequest);
+        _events.EmitSignal(SlayTheSpireLike.scripts.global.Events.SignalName.CardToolTipHideRequest);
     }
 }

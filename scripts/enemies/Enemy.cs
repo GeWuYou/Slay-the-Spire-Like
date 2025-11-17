@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
-using DeckBuilderTutorial.scripts.resources;
-using DeckBuilderTutorial.scripts.ui;
+using SlayTheSpireLike.scripts.global;
 using Godot;
-using DeckBuilderTutorial.scripts.global;
+using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.ui;
 
-namespace DeckBuilderTutorial.scripts.enemies;
+namespace SlayTheSpireLike.scripts.enemies;
 
 /// <summary>
 /// 敌人类，继承自Area2D，用于表示游戏中的敌人单位。

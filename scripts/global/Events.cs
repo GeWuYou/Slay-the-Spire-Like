@@ -1,8 +1,8 @@
-using DeckBuilderTutorial.scripts.resources;
-using DeckBuilderTutorial.scripts.ui;
 using Godot;
+using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.ui;
 
-namespace DeckBuilderTutorial.scripts.global;
+namespace SlayTheSpireLike.scripts.global;
 
 /// <summary>
 /// 事件管理类，用于定义和处理游戏中的各种信号

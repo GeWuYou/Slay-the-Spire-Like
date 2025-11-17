@@ -1,8 +1,8 @@
-using DeckBuilderTutorial.scripts.resources;
-using global::DeckBuilderTutorial.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.resources;
 
-namespace DeckBuilderTutorial.scripts.ui;
+namespace SlayTheSpireLike.scripts.ui;
 
 /// <summary>
 /// 手牌容器类，用于管理手牌中的卡片UI元素

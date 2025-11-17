@@ -1,9 +1,9 @@
-using DeckBuilderTutorial.scripts.resources;
-using DeckBuilderTutorial.scripts.ui;
-using global::DeckBuilderTutorial.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.ui;
 
-namespace DeckBuilderTutorial.scripts.player;
+namespace SlayTheSpireLike.scripts.player;
 
 /// <summary>
 /// 玩家处理器类，负责管理玩家的手牌、回合开始逻辑以及抽卡机制。
@@ -100,7 +100,7 @@ public partial class PlayerHandler : Node
             tween.TweenCallback(Callable.From(() => Hand.DiscardCard(cardUi)));
             tween.TweenInterval(_handDiscardInterval);
         }
-        tween.Finished += () => { _events.EmitSignal(Events.SignalName.PlayerHandDiscarded); };
+        tween.Finished += () => { _events.EmitSignal(SlayTheSpireLike.scripts.global.Events.SignalName.PlayerHandDiscarded); };
     }
 
 
@@ -119,7 +119,7 @@ public partial class PlayerHandler : Node
         }
 
         // 所有卡牌绘制完成后的回调处理
-        tween.Finished += () => { _events.EmitSignal(Events.SignalName.PlayerHandDrawn); };
+        tween.Finished += () => { _events.EmitSignal(SlayTheSpireLike.scripts.global.Events.SignalName.PlayerHandDrawn); };
     }
 
     /// <summary>

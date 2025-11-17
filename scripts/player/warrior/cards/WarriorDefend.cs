@@ -1,9 +1,9 @@
-using DeckBuilderTutorial.scripts.effects;
-using DeckBuilderTutorial.scripts.resources;
 using Godot;
 using Godot.Collections;
+using SlayTheSpireLike.scripts.effects;
+using SlayTheSpireLike.scripts.resources;
 
-namespace DeckBuilderTutorial.scripts.player.warrior.cards;
+namespace SlayTheSpireLike.scripts.player.warrior.cards;
 
 /// <summary>
 /// 战士防御卡牌类，继承自Card基类

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using DeckBuilderTutorial.scripts.extensions;
-using DeckBuilderTutorial.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.extensions;
 
-namespace DeckBuilderTutorial.scripts.ui;
+namespace SlayTheSpireLike.scripts.ui;
 
 /// <summary>
 /// CardTargetSelector 类用于处理卡牌目标选择的逻辑。

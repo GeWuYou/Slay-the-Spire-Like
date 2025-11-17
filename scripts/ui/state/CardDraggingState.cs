@@ -1,8 +1,7 @@
-﻿using DeckBuilderTutorial.scripts.extensions;
-using global::DeckBuilderTutorial.scripts.global;
-using Godot;
+﻿using Godot;
+using SlayTheSpireLike.scripts.extensions;
 
-namespace DeckBuilderTutorial.scripts.ui.state;
+namespace SlayTheSpireLike.scripts.ui.state;
 
 /// <summary>
 /// 卡牌拖拽状态类，继承自CardState基类
@@ -41,7 +40,7 @@ public partial class CardDraggingState : CardState
         // 请求重新设置父节点并更新UI状态显示
         CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.SelectedStyleBox);
         // 发送卡牌开始拖拽的事件
-        Events.EmitSignal(Events.SignalName.CardDraggingStarted, CardUi);
+        Events.EmitSignal(SlayTheSpireLike.scripts.global.Events.SignalName.CardDraggingStarted, CardUi);
         // 初始化最小拖拽时间标记为false，表示尚未达到最小拖拽时间要求
         MinimumDragTimeElapsed = false;
         
@@ -55,7 +54,7 @@ public partial class CardDraggingState : CardState
     public override void Exit()
     {
         // 发送卡牌结束拖拽的事件
-        Events.EmitSignal(Events.SignalName.CardDraggingEnded, CardUi);
+        Events.EmitSignal(SlayTheSpireLike.scripts.global.Events.SignalName.CardDraggingEnded, CardUi);
     }
 
     /// <summary>
@@ -73,7 +72,7 @@ public partial class CardDraggingState : CardState
         // 只有敌人目标且有可用目标时才切换到瞄准状态
         if (isEnemyTarget && isMouseMotion && CardUi.Targets.Count > 0)
         {
-            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Aiming.GetCardStateValue());
+            EmitSignal(SlayTheSpireLike.scripts.ui.state.CardState.SignalName.TransitionRequested, this, State.Aiming.GetCardStateValue());
             return;
         }
 
@@ -87,13 +86,13 @@ public partial class CardDraggingState : CardState
         if (cancel)
         {
             GD.Print("取消操作");
-            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
+            EmitSignal(SlayTheSpireLike.scripts.ui.state.CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
         }
         else if (confirm && MinimumDragTimeElapsed)
         {
             GD.Print("打出卡牌");
             GetViewport().SetInputAsHandled();
-            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Released.GetCardStateValue());
+            EmitSignal(SlayTheSpireLike.scripts.ui.state.CardState.SignalName.TransitionRequested, this, State.Released.GetCardStateValue());
         }
     }
 }

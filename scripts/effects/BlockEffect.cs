@@ -1,9 +1,9 @@
-using DeckBuilderTutorial.scripts.enemies;
-using DeckBuilderTutorial.scripts.player;
 using Godot;
 using Godot.Collections;
+using SlayTheSpireLike.scripts.enemies;
+using SlayTheSpireLike.scripts.player;
 
-namespace DeckBuilderTutorial.scripts.effects;
+namespace SlayTheSpireLike.scripts.effects;
 
 /// <summary>
 /// BlockEffect类用于实现格挡效果，可以为目标增加格挡值

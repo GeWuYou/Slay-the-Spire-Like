@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using DeckBuilderTutorial.scripts.extensions;
-using DeckBuilderTutorial.scripts.ui.state;
 using Godot;
+using SlayTheSpireLike.scripts.extensions;
+using SlayTheSpireLike.scripts.ui.state;
 
-namespace DeckBuilderTutorial.scripts.ui;
+namespace SlayTheSpireLike.scripts.ui;
 
 /// <summary>
 /// 卡牌状态机类，用于管理卡牌UI的不同状态转换

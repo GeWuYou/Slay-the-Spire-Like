@@ -1,9 +1,9 @@
-using DeckBuilderTutorial.scripts.resources;
-using DeckBuilderTutorial.scripts.ui;
-using global::DeckBuilderTutorial.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.ui;
 
-namespace DeckBuilderTutorial.scripts;
+namespace SlayTheSpireLike.scripts;
 
 public partial class BattleUi : CanvasLayer
 {
@@ -25,7 +25,7 @@ public partial class BattleUi : CanvasLayer
     private void OnEndTurnButtonPressed()
     {
         EndTurnButton.Disabled = true;
-        _events.EmitSignal(Events.SignalName.PlayerTurnEnded);
+        _events.EmitSignal(SlayTheSpireLike.scripts.global.Events.SignalName.PlayerTurnEnded);
     }
 
     private void OnPlayerHandDrawn()

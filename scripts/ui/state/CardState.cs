@@ -1,9 +1,8 @@
-using DeckBuilderTutorial.scripts.extensions;
-using DeckBuilderTutorial.scripts.resources;
-using global::DeckBuilderTutorial.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.extensions;
 
-namespace DeckBuilderTutorial.scripts.ui.state;
+namespace SlayTheSpireLike.scripts.ui.state;
 
 /// <summary>
 /// 卡牌状态管理类，负责处理卡牌状态转换相关的逻辑
@@ -59,7 +58,7 @@ public partial class CardState : Node
     {
         TransitionRequested += (from, to) =>
         {
-            GD.Print($"{from.StateValue} 转换为 {to.GetCardState()}");
+            GD.Print($"{from.StateValue} 转换为 {CardStateExtensions.GetCardState(to)}");
         };
         Events = Events.Instance;
     }

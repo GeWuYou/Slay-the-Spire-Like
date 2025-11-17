@@ -1,6 +1,6 @@
 using Godot;
 
-namespace DeckBuilderTutorial.scripts.resources;
+namespace SlayTheSpireLike.scripts.resources;
 
 /// <summary>
 /// 角色统计信息类，继承自Stats基类
@@ -40,7 +40,7 @@ public partial class CharacterStats : Stats
         set
         {
             _mana = value;
-            EmitSignal(Stats.SignalName.StatsChanged);
+            EmitSignal(SlayTheSpireLike.scripts.resources.Stats.SignalName.StatsChanged);
         }
     }
 

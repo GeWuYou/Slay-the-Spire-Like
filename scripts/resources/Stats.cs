@@ -1,6 +1,6 @@
 using Godot;
 
-namespace DeckBuilderTutorial.scripts.resources;
+namespace SlayTheSpireLike.scripts.resources;
 
 /// <summary>
 /// 表示一个角色或实体的基本属性（如生命值、护盾等）的数据资源。
@@ -55,7 +55,7 @@ public partial class Stats : Resource
             }
 
             _health = newHealth;
-            EmitSignal(SignalName.StatsChanged);
+            EmitSignal(SlayTheSpireLike.scripts.resources.Stats.SignalName.StatsChanged);
         }
     }
 
@@ -75,7 +75,7 @@ public partial class Stats : Resource
             }
 
             _block = newBlock;
-            EmitSignal(SignalName.StatsChanged);
+            EmitSignal(SlayTheSpireLike.scripts.resources.Stats.SignalName.StatsChanged);
         }
         get => _block;
     }

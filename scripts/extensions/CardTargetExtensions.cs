@@ -1,6 +1,6 @@
-using DeckBuilderTutorial.scripts.resources;
+using SlayTheSpireLike.scripts.resources;
 
-namespace DeckBuilderTutorial.scripts.extensions;
+namespace SlayTheSpireLike.scripts.extensions;
 
 /// <summary>
 /// CardTargetExtensions

@@ -1,10 +1,8 @@
-using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using Godot.Collections;
-using Godot.NativeInterop;
 
-namespace DeckBuilderTutorial.scripts.resources;
+namespace SlayTheSpireLike.scripts.resources;
 
 /// <summary>
 /// 表示一个卡牌堆资源，用于管理一组卡片的集合
@@ -49,7 +47,7 @@ public partial class CardPile : Resource
 
         var card = Cards[0];
         Cards.RemoveAt(0);
-        EmitSignal(SignalName.CardPileSizeChanged, Cards.Count);
+        EmitSignal(SlayTheSpireLike.scripts.resources.CardPile.SignalName.CardPileSizeChanged, Cards.Count);
         return card;
     }
 
@@ -60,7 +58,7 @@ public partial class CardPile : Resource
     public void AddCard(Card card)
     {
         Cards.Add(card);
-        EmitSignal(SignalName.CardPileSizeChanged, Cards.Count);
+        EmitSignal(SlayTheSpireLike.scripts.resources.CardPile.SignalName.CardPileSizeChanged, Cards.Count);
     }
 
     /// <summary>
@@ -77,7 +75,7 @@ public partial class CardPile : Resource
     public void Clear()
     {
         Cards.Clear();
-        EmitSignal(SignalName.CardPileSizeChanged, Cards.Count);
+        EmitSignal(SlayTheSpireLike.scripts.resources.CardPile.SignalName.CardPileSizeChanged, Cards.Count);
     }
 
     /// <summary>

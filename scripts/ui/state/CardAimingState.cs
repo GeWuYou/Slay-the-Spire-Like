@@ -1,8 +1,8 @@
-using DeckBuilderTutorial.scripts.extensions;
-using global::DeckBuilderTutorial.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.extensions;
 
-namespace DeckBuilderTutorial.scripts.ui.state;
+namespace SlayTheSpireLike.scripts.ui.state;
 
 /// <summary>
 /// 表示卡牌处于瞄准状态时的逻辑处理类。该状态下卡牌会响应鼠标移动，并根据鼠标位置决定是否触发状态转换。
@@ -49,7 +49,7 @@ public partial class CardAimingState : CardState
         CardUi.DropPointDetector.Monitoring = false;
 
         // 发出卡片瞄准开始事件信号
-        _events.EmitSignal(Events.SignalName.CardAimingStarted, CardUi);
+        _events.EmitSignal(SlayTheSpireLike.scripts.global.Events.SignalName.CardAimingStarted, CardUi);
     }
 
     /// <summary>
@@ -65,12 +65,12 @@ public partial class CardAimingState : CardState
         
         if (mouseAtBottom || @event.IsActionPressed("right_mouse"))
         {
-            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
+            EmitSignal(SlayTheSpireLike.scripts.ui.state.CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
         }
         else if (@event.IsActionReleased("left_mouse") || @event.IsActionPressed("left_mouse"))
         {
             GetViewport().SetInputAsHandled();
-            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Released.GetCardStateValue());
+            EmitSignal(SlayTheSpireLike.scripts.ui.state.CardState.SignalName.TransitionRequested, this, State.Released.GetCardStateValue());
         }
     }
 
@@ -79,6 +79,6 @@ public partial class CardAimingState : CardState
     /// </summary>
     public override void Exit()
     {
-        _events.EmitSignal(Events.SignalName.CardAimingEnded, CardUi);
+        _events.EmitSignal(SlayTheSpireLike.scripts.global.Events.SignalName.CardAimingEnded, CardUi);
     }
 }

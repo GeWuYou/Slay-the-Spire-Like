@@ -1,9 +1,9 @@
-using DeckBuilderTutorial.scripts.player;
-using DeckBuilderTutorial.scripts.resources;
-using global::DeckBuilderTutorial.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.player;
+using SlayTheSpireLike.scripts.resources;
 
-namespace DeckBuilderTutorial.scripts;
+namespace SlayTheSpireLike.scripts;
 
 public partial class Battle : Node2D
 {

@@ -1,9 +1,9 @@
-using DeckBuilderTutorial.scripts.enemies;
-using DeckBuilderTutorial.scripts.player;
 using Godot;
 using Godot.Collections;
+using SlayTheSpireLike.scripts.enemies;
+using SlayTheSpireLike.scripts.player;
 
-namespace DeckBuilderTutorial.scripts.effects;
+namespace SlayTheSpireLike.scripts.effects;
 
 /// <summary>
 /// 伤害效果类，用于对目标造成指定数值的伤害

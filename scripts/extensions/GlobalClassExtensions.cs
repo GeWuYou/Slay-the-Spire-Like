@@ -1,7 +1,7 @@
-﻿using DeckBuilderTutorial.scripts.global;
+﻿using global::SlayTheSpireLike.scripts.global;
 using Godot;
 
-namespace DeckBuilderTutorial.scripts.extensions;
+namespace SlayTheSpireLike.scripts.extensions;
 
 /// <summary>
 /// 提供全局类扩展方法的静态类

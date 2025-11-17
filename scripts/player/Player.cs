@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
-using DeckBuilderTutorial.scripts.resources;
-using DeckBuilderTutorial.scripts.ui;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
-using DeckBuilderTutorial.scripts.global;
+using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.ui;
 
-namespace DeckBuilderTutorial.scripts.player;
+namespace SlayTheSpireLike.scripts.player;
 
 /// <summary>
 /// 玩家角色类，继承自Node2D节点。负责管理玩家的角色属性、显示和伤害处理。
@@ -24,7 +24,7 @@ public partial class Player : Node2D
         {
             _stats = value;
             // 检查是否已连接属性变化事件，避免重复连接
-            if (!_stats.IsConnected(resources.Stats.SignalName.StatsChanged,
+            if (!_stats.IsConnected(SlayTheSpireLike.scripts.resources.Stats.SignalName.StatsChanged,
                     Callable.From(UpdateStats)))
             {
                 _stats.StatsChanged += UpdateStats;

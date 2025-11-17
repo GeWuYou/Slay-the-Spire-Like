@@ -1,9 +1,8 @@
-﻿
-using DeckBuilderTutorial.scripts.extensions;
-using global::DeckBuilderTutorial.scripts.global;
+﻿using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.extensions;
 
-namespace DeckBuilderTutorial.scripts.ui.state;
+namespace SlayTheSpireLike.scripts.ui.state;
 
 /// <summary>
 
@@ -31,7 +30,7 @@ public partial class CardReleasedState: CardState
         GD.Print("打出");
         Played = true;
         CardUi.Play();
-        _events.EmitSignal(Events.SignalName.CardToolTipHideRequest);
+        _events.EmitSignal(SlayTheSpireLike.scripts.global.Events.SignalName.CardToolTipHideRequest);
     }
 
     public override void OnInput(InputEvent @event)
@@ -41,6 +40,6 @@ public partial class CardReleasedState: CardState
             return;
         }
 
-        EmitSignal(CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
+        EmitSignal(SlayTheSpireLike.scripts.ui.state.CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
     }
 }

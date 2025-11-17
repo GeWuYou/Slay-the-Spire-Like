@@ -1,7 +1,7 @@
-﻿using DeckBuilderTutorial.scripts.extensions;
-using Godot;
+﻿using Godot;
+using SlayTheSpireLike.scripts.extensions;
 
-namespace DeckBuilderTutorial.scripts.ui.state;
+namespace SlayTheSpireLike.scripts.ui.state;
 
 /// <summary>
 /// 卡牌点击状态类，处理卡牌被点击后的状态逻辑
@@ -30,7 +30,7 @@ public partial class CardClickedState: CardState
         // 检测鼠标移动事件，用于触发拖拽状态转换
         if (@event is InputEventMouseMotion)
         {
-            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Dragging.GetCardStateValue());
+            EmitSignal(SlayTheSpireLike.scripts.ui.state.CardState.SignalName.TransitionRequested, this, State.Dragging.GetCardStateValue());
         }
     }
 }

@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
 
-namespace DeckBuilderTutorial.scripts.effects;
+namespace SlayTheSpireLike.scripts.effects;
 
 /// <summary>
 /// 效果类，用于执行各种游戏效果
