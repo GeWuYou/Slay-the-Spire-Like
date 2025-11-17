@@ -18,6 +18,8 @@ public partial class CardClickedState: CardState
     {
         // 启用拖放检测器
         CardUi.DropPointDetector.Monitoring = true;
+        // 保存原始索引
+        CardUi.OriginalIndex = CardUi.GetIndex();
     }
 
     /// <summary>
