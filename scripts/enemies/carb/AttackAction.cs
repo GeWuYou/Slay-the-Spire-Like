@@ -12,6 +12,8 @@ namespace SlayTheSpireLike.scripts.enemies.carb;
 /// </summary>
 public partial class AttackAction : EnemyAction
 {
+    [Export]
+    public int Damage { get; set; } = 5;
     /// <summary>
     /// 执行敌人攻击动作
     /// 包含敌人向目标移动、造成伤害、然后返回原位的完整动画流程
@@ -34,7 +36,7 @@ public partial class AttackAction : EnemyAction
         // 创建伤害效果并设置伤害数值
         var damageEffect = new DamageEffect();
         Array<Node> targetArray = [Target];
-        damageEffect.Amount = Enemy.Stats.Damage;
+        damageEffect.Amount = Damage;
 
         // 执行攻击动画序列：移动到目标位置 -> 造成伤害 -> 等待 -> 返回起始位置
         tween.TweenProperty(Enemy, "global_position", end, 0.4f);

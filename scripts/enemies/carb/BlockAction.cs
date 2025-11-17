@@ -1,3 +1,4 @@
+using Godot;
 using SlayTheSpireLike.scripts.global;
 using SlayTheSpireLike.scripts.effects;
 using SlayTheSpireLike.scripts.resources;
@@ -10,6 +11,7 @@ namespace SlayTheSpireLike.scripts.enemies.carb;
 /// </summary>
 public partial class BlockAction :EnemyAction
 {
+    [Export] public int Block { get; set; } = 6;
     /// <summary>
     /// 执行格挡动作
     /// 该方法会创建一个格挡效果并应用到目标身上，然后在延迟后发出动作完成信号
@@ -24,8 +26,7 @@ public partial class BlockAction :EnemyAction
         
         // 创建格挡效果实例并设置格挡数值
         var blockEffect = new BlockEffect();
-        blockEffect.Amount = Enemy.Stats.Block;
-        
+        blockEffect.Amount = Block;
         // 执行格挡效果，应用到目标身上
         blockEffect.Execute([Enemy]);
         
