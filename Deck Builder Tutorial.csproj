@@ -3,12 +3,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net9.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
-    <RootNamespace>SlayTheSpireLike</RootNamespace>
-    <Nullable>disable</Nullable>
-    <Company>gewuyou</Company>
+    <RootNamespace>DeckBuilderTutorial</RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="scripts\enemies\carb\" />
-    <Folder Include="scripts\player\warrior\" />
-  </ItemGroup>
 </Project>

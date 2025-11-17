@@ -1,4 +1,5 @@
 using Godot;
+using SlayTheSpireLike.scripts.enemies;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
 
@@ -78,14 +79,13 @@ public partial class Events : Node
     [Signal]
     public delegate void CardToolTipShowRequestEventHandler(Texture icon, string text);
 
-    
+
     /// <summary>
     /// 卡片工具提示隐藏请求事件处理委托
     /// 当需要隐藏卡片工具提示时触发此事件
     /// </summary>
     [Signal]
     public delegate void CardToolTipHideRequestEventHandler();
-
 
     #endregion
 
@@ -99,6 +99,7 @@ public partial class Events : Node
     /// </remarks>
     [Signal]
     public delegate void PlayerHandDrawnEventHandler();
+
     /// <summary>
     /// 玩家手牌弃置事件处理器委托
     /// </summary>
@@ -113,4 +114,24 @@ public partial class Events : Node
 
     #endregion
 
+    #region 敌人
+
+    /// <summary>
+    /// 敌人行为完成事件处理委托
+    /// </summary>
+    /// <param name="enemy">执行完行为的敌人对象</param>
+    [Signal]
+    public delegate void EnemyActionCompletedEventHandler(Enemy enemy);
+
+    /// <summary>
+    /// 敌人回合结束事件处理器委托
+    /// </summary>
+    /// <remarks>
+    /// 该委托用于定义敌人回合结束时触发的事件处理方法签名。
+    /// 当敌人的行动回合完成时，会调用此委托关联的所有事件处理方法。
+    /// </remarks>
+    [Signal]
+    public delegate void EnemyTurnEndedEventHandler();
+
+    #endregion
 }

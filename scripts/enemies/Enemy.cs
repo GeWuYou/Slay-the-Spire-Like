@@ -16,28 +16,51 @@ public partial class Enemy : Area2D
     [Export] public int ArrowOffset { get; set; } = 5;
 
 
-    private Stats _stats;
+    private EnemyStats _stats;
 
+    public EnemyActionPicker EnemyActionPicker { get; set; }
+    public EnemyAction CurrentAction { get; set; }
 
     /// <summary>
     /// 获取或设置敌人的统计数据。当设置新值时会自动克隆一份实例以防止引用共享，
     /// 并确保只连接一次StatsChanged事件来更新UI。
     /// </summary>
     [Export]
-    public Stats Stats
+    public EnemyStats Stats
     {
         get => _stats;
         set
         {
             _stats = value.CreateInstance();
             // 检查是否已连接属性变化事件，避免重复连接
-            if (!_stats.IsConnected(Stats.SignalName.StatsChanged,
+            if (!_stats.IsConnected(resources.Stats.SignalName.StatsChanged,
                     Callable.From(UpdateStats)))
             {
                 _stats.StatsChanged += UpdateStats;
+                _stats.StatsChanged += UpdateAction;
             }
 
             _ = UpdateEnemy();
+        }
+    }
+
+    public void UpdateAction()
+    {
+        if (EnemyActionPicker is null)
+        {
+            return;
+        }
+
+        if (CurrentAction is null)
+        {
+            CurrentAction = EnemyActionPicker.GetAction();
+            return;
+        }
+
+        var action = EnemyActionPicker.GetFirstConditionalAction();
+        if (action is not null && CurrentAction != action)
+        {
+            CurrentAction = action;
         }
     }
 
@@ -45,6 +68,18 @@ public partial class Enemy : Area2D
     [Export] public Sprite2D Sprite2D { get; set; }
     [Export] public StatsUi StatsUi { get; set; }
     [Export] public Sprite2D Arrow { get; set; }
+
+    public void SetupAi()
+    {
+        EnemyActionPicker?.QueueFree();
+        var newPicker = _stats.Ai.Instantiate();
+        AddChild(newPicker);
+        EnemyActionPicker = newPicker as EnemyActionPicker;
+        if (EnemyActionPicker != null)
+        {
+            EnemyActionPicker.Enemy = this;
+        }
+    }
 
     /// <summary>
     /// 初始化节点，在_ready阶段注册区域进入和退出的事件监听器。
@@ -55,7 +90,7 @@ public partial class Enemy : Area2D
         AreaExited += OnAreaExited;
     }
 
-    
+
     /// <summary>
     /// 当有其他区域离开本敌人区域范围时调用，隐藏指示箭头。
     /// </summary>
@@ -82,6 +117,17 @@ public partial class Enemy : Area2D
         StatsUi.UpdateStats(Stats);
     }
 
+    public void DoTurn()
+    {
+        Stats.Block = 0;
+        if (CurrentAction is null)
+        {
+            return;
+        }
+
+        CurrentAction.PerformAction();
+    }
+
     /// <summary>
     /// 异步更新敌人相关的视觉元素与数据状态。
     /// 包括加载角色贴图、调整箭头位置，并触发一次统计数据刷新。
@@ -105,6 +151,7 @@ public partial class Enemy : Area2D
             // 更新角色图像
             Sprite2D.Texture = characterStats.Art as Texture2D;
             Arrow.Position = Vector2.Right * (Sprite2D.GetRect().Size.X / 2 + ArrowOffset);
+            SetupAi();
             UpdateStats();
         }
         catch (Exception e)
@@ -112,7 +159,7 @@ public partial class Enemy : Area2D
             GD.PrintErr(e);
         }
     }
-  
+
     /// <summary>
     /// 对当前敌人造成指定数量的伤害。
     /// 若敌人生命值降至0或以下，则从场景中移除该敌人对象。
@@ -124,6 +171,7 @@ public partial class Enemy : Area2D
         {
             return;
         }
+
         Stats.TakeDamage(damage);
         if (Stats.Health <= 0)
         {
