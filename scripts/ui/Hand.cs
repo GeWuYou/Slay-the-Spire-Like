@@ -91,41 +91,38 @@ public partial class Hand : HBoxContainer
         RestoreCardOrder();
     }
     
-    /// <summary>
-    /// 恢复所有卡牌到原始顺序
-    /// </summary>
-    private void RestoreCardOrder()
+/// <summary>
+/// 恢复所有卡牌到原始顺序
+/// </summary>
+private void RestoreCardOrder()
+{
+    var cardUis = GetChildren().OfType<CardUi>().ToList();
+    
+    // 空或单个元素直接返回
+    if (cardUis.Count <= 1)
     {
-        // 获取所有卡牌
-        var cardUis = GetChildren()
-            .OfType<CardUi>()
-            .ToList();
-
-        // 检查是否已经按原始顺序排列，如果已经有序则无需重新排列
-        bool isAlreadyOrdered = true;
-        for (int i = 0; i < cardUis.Count - 1; i++)
-        {
-            if (cardUis[i].OriginalIndex > cardUis[i + 1].OriginalIndex)
-            {
-                isAlreadyOrdered = false;
-                break;
-            }
-        }
-
-        // 如果已经有序，则不需要重新排列
-        if (isAlreadyOrdered)
-        {
-            GD.Print("卡牌已按原始顺序排列");
-            return;
-        }
-
-        // 按原始索引排序
-        var orderedCards = cardUis.OrderBy(card => card.OriginalIndex).ToList();
-            
-        // 按排序后的顺序重新排列卡牌
-        for (int i = 0; i < orderedCards.Count; i++)
-        {
-            MoveChild(orderedCards[i], i);
-        }
+        return;
     }
+
+    // 检查是否已有序
+    for (var i = 0; i < cardUis.Count - 1; i++)
+    {
+        if (cardUis[i].OriginalIndex <= cardUis[i + 1].OriginalIndex)
+        {
+            continue;
+        }
+
+        // 发现无序，立即进行排序和重排
+        var orderedCards = cardUis.OrderBy(card => card.OriginalIndex).ToList();
+        for (var j = 0; j < orderedCards.Count; j++)
+        {
+            MoveChild(orderedCards[j], j);
+        }
+        return;
+    }
+    
+    // 已经有序，无需操作
+    GD.Print("卡牌已按原始顺序排列");
+}
+
 }
