@@ -120,12 +120,7 @@ public partial class Enemy : Area2D
     public void DoTurn()
     {
         Stats.Block = 0;
-        if (CurrentAction is null)
-        {
-            return;
-        }
-
-        CurrentAction.PerformAction();
+        CurrentAction?.PerformAction();
     }
 
     /// <summary>

@@ -47,12 +47,12 @@ public partial class MegaBlockAction : EnemyAction
         // 创建并执行格挡效果
         var blockEffect = new BlockEffect();
         blockEffect.Amount = Block;
-        blockEffect.Execute([Target]);
+        blockEffect.Execute([Enemy]);
         
         // 延迟触发动作完成事件
         GetTree().CreateTimer(0.6f, false).Timeout += () =>
         {
-            Events.Instance.EmitSignal(Events.SignalName.EnemyActionCompleted);
+            Events.Instance.EmitSignal(Events.SignalName.EnemyActionCompleted,Enemy);
         };
     }
 }

@@ -27,12 +27,12 @@ public partial class BlockAction :EnemyAction
         blockEffect.Amount = Enemy.Stats.Block;
         
         // 执行格挡效果，应用到目标身上
-        blockEffect.Execute([Target]);
+        blockEffect.Execute([Enemy]);
         
         // 创建定时器，在0.6秒后触发动作完成事件
         GetTree().CreateTimer(0.6f,false).Timeout+=()=>
         {
-            Events.Instance.EmitSignal(Events.SignalName.EnemyActionCompleted);
+            Events.Instance.EmitSignal(Events.SignalName.EnemyActionCompleted,Enemy);
         };
     }
 }

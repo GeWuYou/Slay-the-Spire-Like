@@ -1,4 +1,4 @@
-using global::SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.global;
 using Godot;
 
 namespace SlayTheSpireLike.scripts.enemies;
@@ -27,7 +27,6 @@ public partial class EnemyHandler : Node2D
 
     public void StartTurn()
     {
-        GD.Print("开始新的敌人回合");
         if (GetChildCount() == 0)
         {
             return;

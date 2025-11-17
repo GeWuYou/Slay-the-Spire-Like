@@ -75,7 +75,7 @@ public partial class Stats : Resource
             }
 
             _block = newBlock;
-            EmitSignal(SlayTheSpireLike.scripts.resources.Stats.SignalName.StatsChanged);
+            EmitSignal(SignalName.StatsChanged);
         }
         get => _block;
     }
