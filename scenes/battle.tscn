@@ -96,4 +96,5 @@ offset_bottom = -6.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource("13_22uqi")
+disabled = true
 text = "结束回合"
