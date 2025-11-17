@@ -45,6 +45,7 @@ ui_layer=""
 [gui]
 
 theme/custom="res://main_theme.tres"
+theme/custom_font="uid://cqf1hihpeind6"
 
 [input]
 

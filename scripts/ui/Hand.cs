@@ -1,4 +1,4 @@
-using global::SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.resources;
 using System.Linq;
@@ -11,20 +11,18 @@ namespace SlayTheSpireLike.scripts.ui;
 /// </summary>
 public partial class Hand : HBoxContainer
 {
-    private int _cardsPlayedThisTurn;
     public CharacterStats PlayerStats { get; set; }
     private Events _events;
-    
+
     /// <summary>
     /// 当节点准备就绪时调用此方法
     /// 遍历所有子节点，为卡片UI组件建立事件连接并设置父节点引用
     /// </summary>
     public override void _Ready()
     {
-        _events = Events.Instance; 
-        _events.CardPlayed += OnCardPlayed;
+        _events = Events.Instance;
     }
-    
+
     /// <summary>
     /// 禁用手牌中的所有卡牌
     /// </summary>
@@ -36,12 +34,12 @@ public partial class Hand : HBoxContainer
         // 遍历所有子卡牌并禁用CardUi组件
         foreach (var card in GetChildren())
         {
-            if(card is not CardUi cardUi)
+            if (card is not CardUi cardUi)
             {
                 continue;
             }
+
             cardUi.Disabled = true;
-            
         }
     }
 
@@ -59,25 +57,16 @@ public partial class Hand : HBoxContainer
         // 创建卡片UI实例并添加到子元素中
         var cardUi = CardUi.CreateInstance();
         AddChild(cardUi);
-        
+
         // 注册卡片重定位请求事件
         cardUi.ReparentRequested += OnCardReparentRequested;
-        
+
         // 设置卡片UI的相关属性
         cardUi.Card = card;
         cardUi.Parent = this;
         cardUi.CharacterStats = PlayerStats;
     }
 
-
-    /// <summary>
-    /// 卡片被使用时的回调方法，增加本回合已使用的卡牌计数
-    /// </summary>
-    /// <param name="card">被使用的卡片实例</param>
-    private void OnCardPlayed(Card card)
-    {
-        _cardsPlayedThisTurn++;
-    }
 
     /// <summary>
     /// 处理卡片重定位请求的回调方法
@@ -90,39 +79,39 @@ public partial class Hand : HBoxContainer
         // 确保卡牌按照原始顺序排列
         RestoreCardOrder();
     }
-    
-/// <summary>
-/// 恢复所有卡牌到原始顺序
-/// </summary>
-private void RestoreCardOrder()
-{
-    var cardUis = GetChildren().OfType<CardUi>().ToList();
-    
-    // 空或单个元素直接返回
-    if (cardUis.Count <= 1)
-    {
-        return;
-    }
 
-    // 检查是否已有序
-    for (var i = 0; i < cardUis.Count - 1; i++)
+    /// <summary>
+    /// 恢复所有卡牌到原始顺序
+    /// </summary>
+    private void RestoreCardOrder()
     {
-        if (cardUis[i].OriginalIndex <= cardUis[i + 1].OriginalIndex)
+        var cardUis = GetChildren().OfType<CardUi>().ToList();
+
+        // 空或单个元素直接返回
+        if (cardUis.Count <= 1)
         {
-            continue;
+            return;
         }
 
-        // 发现无序，立即进行排序和重排
-        var orderedCards = cardUis.OrderBy(card => card.OriginalIndex).ToList();
-        for (var j = 0; j < orderedCards.Count; j++)
+        // 检查是否已有序
+        for (var i = 0; i < cardUis.Count - 1; i++)
         {
-            MoveChild(orderedCards[j], j);
-        }
-        return;
-    }
-    
-    // 已经有序，无需操作
-    GD.Print("卡牌已按原始顺序排列");
-}
+            if (cardUis[i].OriginalIndex <= cardUis[i + 1].OriginalIndex)
+            {
+                continue;
+            }
 
+            // 发现无序，立即进行排序和重排
+            var orderedCards = cardUis.OrderBy(card => card.OriginalIndex).ToList();
+            for (var j = 0; j < orderedCards.Count; j++)
+            {
+                MoveChild(orderedCards[j], j);
+            }
+
+            return;
+        }
+
+        // 已经有序，无需操作
+        GD.Print("卡牌已按原始顺序排列");
+    }
 }
