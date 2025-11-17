@@ -25,7 +25,7 @@ public partial class BattleUi : CanvasLayer
     private void OnEndTurnButtonPressed()
     {
         EndTurnButton.Disabled = true;
-        _events.EmitSignal(SlayTheSpireLike.scripts.global.Events.SignalName.PlayerTurnEnded);
+        _events.EmitSignal(Events.SignalName.PlayerTurnEnded);
     }
 
     private void OnPlayerHandDrawn()
