@@ -10,7 +10,7 @@ namespace SlayTheSpireLike.scripts.enemies.carb;
 /// </summary>
 public partial class MegaBlockAction : EnemyAction
 {
-    [Export] public int Block { get; set; } = 10;
+    [Export] public int Block { get; set; } = 15;
     [Export] public int HpThreshold { get; set; } = 13;
 
     private bool _alreadyUsed;

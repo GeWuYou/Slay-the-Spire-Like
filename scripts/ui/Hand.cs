@@ -1,6 +1,7 @@
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.resources;
+using System.Linq;
 
 namespace SlayTheSpireLike.scripts.ui;
 
@@ -86,7 +87,25 @@ public partial class Hand : HBoxContainer
     public void OnCardReparentRequested(CardUi cardUi)
     {
         cardUi.Reparent(this);
-        var newIndex = Mathf.Clamp(cardUi.OriginalIndex - _cardsPlayedThisTurn, 0, GetChildCount());
-        MoveChild(cardUi,newIndex);
+        // 确保卡牌按照原始顺序排列
+        RestoreCardOrder();
+    }
+    
+    /// <summary>
+    /// 恢复所有卡牌到原始顺序
+    /// </summary>
+    private void RestoreCardOrder()
+    {
+        // 获取所有卡牌并按原始索引排序
+        var cards = GetChildren()
+            .OfType<CardUi>()
+            .OrderBy(card => card.OriginalIndex)
+            .ToList();
+            
+        // 按排序后的顺序重新排列卡牌
+        for (var i = 0; i < cards.Count; i++)
+        {
+            MoveChild(cards[i], i);
+        }
     }
 }
