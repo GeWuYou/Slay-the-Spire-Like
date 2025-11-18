@@ -176,15 +176,25 @@ public partial class Enemy : Area2D
     /// <param name="damage">要造成的伤害点数。</param>
     public void TakeDamage(int damage)
     {
+        // 如果敌人已经死亡，则直接返回
         if (Stats.Health <= 0)
         {
             return;
         }
 
-        Stats.TakeDamage(damage);
-        if (Stats.Health <= 0)
-        {
-            QueueFree();
-        }
+        // 创建动画序列来处理伤害效果
+        var tween = CreateTween();
+        tween.TweenCallback(Callable.From(() => Shaker.Instance.Shake(this, 16,0.15f)));
+        tween.TweenCallback(Callable.From(() => Stats.TakeDamage(damage)));
+        tween.TweenInterval(0.2f);
+
+        // 动画完成后检查敌人是否死亡，如果死亡则从场景中移除
+        tween.Finished+=()=>{
+            if (Stats.Health <= 0)
+            {
+                QueueFree();
+            }
+        };
     }
+
 }

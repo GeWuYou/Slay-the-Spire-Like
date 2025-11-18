@@ -19,6 +19,7 @@ config/icon="uid://b80t1pkjhxn6s"
 [autoload]
 
 Events="*res://scripts/global/Events.cs"
+Shaker="*res://scripts/global/Shaker.cs"
 
 [debug]
 

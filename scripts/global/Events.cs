@@ -9,26 +9,8 @@ namespace SlayTheSpireLike.scripts.global;
 /// 事件管理类，用于定义和处理游戏中的各种信号
 /// 继承自Godot的Node类，可以在场景树中作为节点使用
 /// </summary>
-public partial class Events : Node
+public partial class Events : SingletonNode<Events>
 {
-    #region 实例代码
-
-    public static Events Instance { get; private set; }
-
-    public override void _Ready()
-    {
-        Instance = this;
-    }
-
-    public override void _ExitTree()
-    {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
-    }
-
-    #endregion
 
     #region 卡牌事件
 
