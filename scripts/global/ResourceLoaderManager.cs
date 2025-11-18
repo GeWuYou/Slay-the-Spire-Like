@@ -4,91 +4,133 @@ using Godot;
 
 namespace SlayTheSpireLike.scripts.global;
 
-/// <summary>
-/// 资源加载管理器，用于统一管理游戏中所有资源的加载和缓存
-/// 通过单例模式提供全局访问点
-/// </summary>
 public partial class ResourceLoaderManager : SingletonNode<ResourceLoaderManager>
 {
-    // 使用字典缓存已加载的资源，避免重复加载
     private readonly Dictionary<string, Resource> _loadedResources = new();
-    
-    // 使用Lazy延迟加载场景，提高性能
     private static readonly Dictionary<string, Lazy<PackedScene>> SceneLoaders = new();
+    // 缓存“工厂函数”，方便高频实例化
+    private readonly Dictionary<string, Delegate> _sceneFactories = new();
 
-    /// <summary>
-    /// 加载指定路径的资源
-    /// </summary>
-    /// <typeparam name="T">资源类型</typeparam>
-    /// <param name="path">资源路径</param>
-    /// <returns>加载的资源实例</returns>
+    #region 基础加载方法
+
     public T LoadResource<T>(string path) where T : Resource
     {
-        // 检查资源是否已经加载过
-        if (_loadedResources.TryGetValue(path, out var resource))
+        if (string.IsNullOrEmpty(path))
         {
-            return resource as T;
+            GD.PrintErr("LoadResource: path is null or empty");
+            return null;
         }
 
-        // 加载资源并缓存
-        var loadedResource = GD.Load<T>(path);
-        if (loadedResource != null)
+        if (_loadedResources.TryGetValue(path, out var cached))
+            return cached as T;
+
+        var loaded = GD.Load<T>(path);
+        if (loaded != null)
         {
-            _loadedResources[path] = loadedResource;
-        }
-        else
-        {
-            GD.PrintErr($"Failed to load resource at path: {path}");
+            _loadedResources[path] = loaded;
+            return loaded;
         }
 
-        return loadedResource;
+        GD.PrintErr($"Failed to load resource at path: {path}");
+        return null;
     }
 
-    /// <summary>
-    /// 获取指定路径的场景加载器
-    /// 使用Lazy模式确保场景只在首次访问时加载
-    /// </summary>
-    /// <param name="path">场景路径</param>
-    /// <returns>场景加载器</returns>
     public Lazy<PackedScene> GetSceneLoader(string path)
     {
-        // 检查场景加载器是否已经创建
         if (SceneLoaders.TryGetValue(path, out var loader))
-        {
             return loader;
-        }
 
-        // 创建新的场景加载器并缓存
         var sceneLoader = new Lazy<PackedScene>(() => LoadResource<PackedScene>(path));
         SceneLoaders[path] = sceneLoader;
         return sceneLoader;
     }
 
+    #endregion
+
+    #region 便利的实例工厂/直接实例化
+
     /// <summary>
-    /// 从指定路径加载场景并实例化
+    /// 直接根据路径实例化并返回 T（如果失败返回 null）。
+    /// 推荐：开发阶段少量使用，频繁实例化时使用 RegisterSceneFactory + factory 调用。
     /// </summary>
-    /// <typeparam name="T">场景根节点类型</typeparam>
-    /// <param name="path">场景路径</param>
-    /// <returns>实例化的场景根节点</returns>
-    public T InstantiateScene<T>(string path) where T : Node
+    public T CreateInstance<T>(string path) where T : Node
     {
         var scene = GetSceneLoader(path).Value;
-        if (scene != null)
+        if (scene == null)
         {
-            return scene.Instantiate<T>();
+            GD.PrintErr($"CreateInstance<{typeof(T).Name}> failed: scene null at {path}");
+            return null;
         }
 
-        GD.PrintErr($"Failed to instantiate scene at path: {path}");
-        return null;
+        var inst = scene.Instantiate<T>();
+        if (inst == null)
+            GD.PrintErr($"CreateInstance<{typeof(T).Name}> failed to instantiate at {path}");
+
+        return inst;
     }
-    
+
     /// <summary>
-    /// 预加载常用资源
-    /// 在游戏启动时调用以提高运行时性能
+    /// 注册并返回一个可重复使用的工厂函数 
+    /// （内部会缓存 Delegate，下一次会直接返回同一个工厂）
     /// </summary>
-    public void PreloadCommonResources()
+    public Func<T> GetOrRegisterSceneFactory<T>(string path) where T : Node
     {
-        // 在这里可以预加载常用资源
-        // 例如: LoadResource<PackedScene>("res://scenes/ui/card_ui.tscn");
+        if (string.IsNullOrEmpty(path))
+            return null;
+
+        if (_sceneFactories.TryGetValue(path, out var d))
+            return d as Func<T>;
+
+        // 创建工厂 lambda（延迟每次实例化）
+        var factory = () =>
+        {
+            var scene = GetSceneLoader(path).Value;
+            if (scene == null) throw new InvalidOperationException($"Scene not loaded: {path}");
+            var node = scene.Instantiate<T>();
+            return node ?? throw new InvalidOperationException($"Failed to instantiate {typeof(T).Name} from {path}");
+        };
+
+        _sceneFactories[path] = factory;
+        return factory;
     }
+
+    #endregion
+
+    #region 缓存管理 / 卸载 / 预加载
+
+    public void PreloadCommonResources(IEnumerable<string> paths)
+    {
+        foreach (var p in paths)
+        {
+            // 如果是场景，调用 GetSceneLoader 来懒加载 PackedScene
+            GetSceneLoader(p);
+            // 也可以直接 LoadResource 如果想马上把 Resource 加载进内存
+            LoadResource<Resource>(p);
+        }
+    }
+
+    public void UnloadResource(string path)
+    {
+        if (_loadedResources.Remove(path))
+        {
+            GD.Print($"Unloaded resource: {path}");
+        }
+
+        if (SceneLoaders.Remove(path))
+        {
+            GD.Print($"Removed scene loader cache: {path}");
+        }
+
+        _sceneFactories.Remove(path);
+    }
+
+    public void ClearAllCaches()
+    {
+        _loadedResources.Clear();
+        SceneLoaders.Clear();
+        _sceneFactories.Clear();
+        GD.Print("Cleared all resource caches in ResourceLoaderManager.");
+    }
+
+    #endregion
 }

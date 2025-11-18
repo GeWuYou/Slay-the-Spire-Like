@@ -51,7 +51,7 @@ public partial class Hand : HBoxContainer
     public void AddCard(Card card)
     {
         // 创建卡片UI实例并添加到子元素中
-        var cardUi = CardUi.CreateInstance();
+        var cardUi = CardUi.CardUiFactory();
         AddChild(cardUi);
 
         // 注册卡片重定位请求事件

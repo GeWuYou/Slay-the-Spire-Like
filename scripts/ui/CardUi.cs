@@ -1,5 +1,5 @@
 using System;
-using global::SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.resources;
@@ -277,21 +277,8 @@ public partial class CardUi : Control
         Card.Play(Targets, CharacterStats);
         QueueFree();
     }
+    
+    public static readonly Func<CardUi> CardUiFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<CardUi>($"res://scenes/ui/card_ui.tscn");
 
-    #region 工厂方法
-
-    private static readonly Lazy<PackedScene> SceneLoader = new(() =>
-        ResourceLoaderManager.Instance.GetSceneLoader($"res://scenes/ui/card_ui.tscn").Value
-    );
-
-    private static PackedScene Scene => SceneLoader.Value;
-
-    public static CardUi CreateInstance()
-    {
-        if (Scene != null) return Scene.Instantiate<CardUi>();
-        GD.PrintErr("CardUi scene failed to load!");
-        return null;
-    }
-
-    #endregion
 }
