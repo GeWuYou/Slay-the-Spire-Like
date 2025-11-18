@@ -37,4 +37,15 @@ public static class GameConstants
         /// </summary>
         public const string Ready = "ready";
     }
+
+    /// <summary>
+    ///     资源路径常量
+    /// </summary>
+    public static class ResourcePaths
+    {
+        /// <summary>
+        ///     卡牌UI场景路径
+        /// </summary>
+        public const string CardUiScene = "res://scenes/ui/card_ui.tscn";
+    }
 }

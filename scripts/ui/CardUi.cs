@@ -278,7 +278,5 @@ public partial class CardUi : Control
         QueueFree();
     }
     
-    public static readonly Func<CardUi> CardUiFactory =
-        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<CardUi>($"res://scenes/ui/card_ui.tscn");
-
+    public static readonly Func<CardUi> CardUiFactory = ResourceFactories.CardUiFactory;
 }
