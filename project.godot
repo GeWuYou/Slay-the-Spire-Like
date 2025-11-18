@@ -20,6 +20,7 @@ config/icon="uid://b80t1pkjhxn6s"
 
 Events="*res://scripts/global/Events.cs"
 Shaker="*res://scripts/global/Shaker.cs"
+ResourceLoaderManager="*res://scripts/global/ResourceLoaderManager.cs"
 
 [debug]
 

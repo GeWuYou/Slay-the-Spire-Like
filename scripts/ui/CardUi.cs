@@ -281,7 +281,7 @@ public partial class CardUi : Control
     #region 工厂方法
 
     private static readonly Lazy<PackedScene> SceneLoader = new(() =>
-        GD.Load<PackedScene>($"res://scenes/ui/card_ui.tscn")
+        ResourceLoaderManager.Instance.GetSceneLoader($"res://scenes/ui/card_ui.tscn").Value
     );
 
     private static PackedScene Scene => SceneLoader.Value;
