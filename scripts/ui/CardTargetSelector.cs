@@ -39,7 +39,7 @@ public partial class CardTargetSelector : Node2D
     /// </summary>
     public override void _Ready()
     {
-        _events = this.Events();
+        _events = Events.Instance;
         _events.CardAimingStarted += OnCardAimingStarted;
         _events.CardAimingEnded += OnCardAimingEnded;
         Area2D.AreaEntered += OnArea2DAreaEntered;

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cxksgeo2osgek"]
+[gd_scene load_steps=19 format=3 uid="uid://cxksgeo2osgek"]
 
 [ext_resource type="Script" uid="uid://wmplux2455e6" path="res://scripts/Battle.cs" id="1_6ni85"]
 [ext_resource type="Texture2D" uid="uid://cp4iq5fd6j8be" path="res://art/background.png" id="1_dn72j"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://b6ap38ykbfvgc" path="res://scenes/ui/tool_tip.tscn" id="12_03edq"]
 [ext_resource type="Theme" uid="uid://bda6jdmo18uon" path="res://main_theme.tres" id="13_22uqi"]
 [ext_resource type="Script" uid="uid://e5mxrhyp6bjw" path="res://scenes/ui/WindowMask.cs" id="15_vceff"]
+[ext_resource type="PackedScene" uid="uid://lmcbx3ckltlo" path="res://scenes/ui/battle_over_panel.tscn" id="17_djc8l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dn72j"]
 size = Vector2(256, 100)
@@ -120,3 +121,6 @@ color = Color(0.98039216, 0.5137255, 0.49019608, 0)
 [node name="Timer" type="Timer" parent="WindowMask"]
 wait_time = 0.1
 one_shot = true
+
+[node name="BattleOverPanel" parent="WindowMask" instance=ExtResource("17_djc8l")]
+visible = false

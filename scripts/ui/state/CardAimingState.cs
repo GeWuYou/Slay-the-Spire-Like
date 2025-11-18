@@ -22,7 +22,7 @@ public partial class CardAimingState : CardState
     /// </summary>
     public override void _Ready()
     {
-        _events = this.Events();
+        _events = Events.Instance;
     }
 
     /// <summary>

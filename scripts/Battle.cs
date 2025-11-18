@@ -1,8 +1,10 @@
 using SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.enemies;
+using SlayTheSpireLike.scripts.extensions;
 using SlayTheSpireLike.scripts.player;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.ui;
 
 namespace SlayTheSpireLike.scripts;
 
@@ -56,12 +58,13 @@ public partial class Battle : Node2D
 
     private static void OnPlayerDied()
     {
-        GD.Print("游戏结束");
+        Events.Instance.EmitSignal(Events.SignalName.BattleOverScreenRequested, "游戏结束！", BattleOverPanel.Type.Lose.GetBattleOverPanelTypeValue());
     }
 
     private void OnEnmiesChildOrderChanged()
     {
-        if (EnemyHandler.GetChildCount() == 0) GD.Print("胜利!");
+        if (EnemyHandler.GetChildCount() == 0) 
+            Events.Instance.EmitSignal(Events.SignalName.BattleOverScreenRequested, "胜利！", BattleOverPanel.Type.Win.GetBattleOverPanelTypeValue());
     }
 
     /// <summary>

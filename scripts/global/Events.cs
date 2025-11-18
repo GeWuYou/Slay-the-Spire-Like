@@ -127,4 +127,17 @@ public partial class Events : SingletonNode<Events>
     public delegate void EnemyTurnEndedEventHandler();
 
     #endregion
+
+    #region 战斗事件
+
+    /// <summary>
+    ///     战斗结束界面请求事件处理委托
+    /// </summary>
+    /// <param name="text">显示在战斗结束面板上的文本内容</param>
+    /// <param name="typeValue">战斗结束面板的类型值</param>
+    [Signal]
+    public delegate void BattleOverScreenRequestedEventHandler(string text,int typeValue);
+
+
+    #endregion
 }
