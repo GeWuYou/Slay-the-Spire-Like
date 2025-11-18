@@ -41,6 +41,12 @@ public partial class BattleOverPanel : Panel
         Events.Instance.BattleOverScreenRequested += ShowScreen;
     }
 
+    public override void _ExitTree()
+    {
+        // 移除事件监听器
+        Events.Instance.BattleOverScreenRequested -= ShowScreen;
+    }
+
     /// <summary>
     /// 显示战斗结束界面
     /// 根据战斗结果类型显示相应的文本和按钮

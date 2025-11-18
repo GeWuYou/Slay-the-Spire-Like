@@ -18,6 +18,10 @@ public partial class EnemyHandler : Node2D
         Events.Instance.EnemyActionCompleted += OnEnemyActionCompleted;
     }
 
+    public override void _ExitTree()
+    {
+        Events.Instance.EnemyActionCompleted -= OnEnemyActionCompleted;
+    }
 
     /// <summary>
     ///     重置所有敌人的行动状态

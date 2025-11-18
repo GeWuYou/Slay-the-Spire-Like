@@ -46,6 +46,22 @@ public partial class CardTargetSelector : Node2D
         Area2D.AreaExited += OnArea2DAreaExited;
     }
 
+    public override void _ExitTree()
+    {
+        if (_events != null)
+        {
+            _events.CardAimingStarted -= OnCardAimingStarted;
+            _events.CardAimingEnded -= OnCardAimingEnded;
+        }
+        
+        // 移除 Area2D 事件监听器
+        if (Area2D != null)
+        {
+            Area2D.AreaEntered -= OnArea2DAreaEntered;
+            Area2D.AreaExited -= OnArea2DAreaExited;
+        }
+    }
+
     /// <summary>
     ///     每帧更新逻辑，处理目标选择和轨迹绘制。
     /// </summary>

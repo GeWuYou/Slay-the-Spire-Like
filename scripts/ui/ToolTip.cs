@@ -24,6 +24,17 @@ public partial class ToolTip : PanelContainer
         Hide();
     }
 
+    public override void _ExitTree()
+    {
+        if (_events == null)
+        {
+            return;
+        }
+
+        _events.CardToolTipShowRequest -= ShowToolTip;
+        _events.CardToolTipHideRequest -= HideToolTip;
+    }
+
     private void ShowToolTip(Texture icon, string text)
     {
         _isVisible = true;

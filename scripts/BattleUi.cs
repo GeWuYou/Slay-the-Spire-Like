@@ -52,6 +52,20 @@ public partial class BattleUi : CanvasLayer
         EndTurnButton.Pressed += OnEndTurnButtonPressed;
     }
 
+    public override void _ExitTree()
+    {
+        if (_events != null)
+        {
+            _events.PlayerHandDrawn -= OnPlayerHandDrawn;
+        }
+        
+        // 移除按钮事件监听器
+        if (EndTurnButton != null)
+        {
+            EndTurnButton.Pressed -= OnEndTurnButtonPressed;
+        }
+    }
+
     /// <summary>
     ///     结束回合按钮按下时的处理方法
     ///     禁用结束回合按钮，防止重复点击，并发出玩家回合结束的信号

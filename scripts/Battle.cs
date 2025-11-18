@@ -56,6 +56,20 @@ public partial class Battle : Node2D
         StartBattle(_battleUi.PlayerStats);
     }
 
+    public override void _ExitTree()
+    {
+        if (_events != null)
+        {
+            _events.PlayerTurnEnded -= PlayerHandler.EndTurn;
+            _events.EnemyTurnEnded -= OnEnemyTurnEnded;
+            _events.PlayerHandDiscarded -= EnemyHandler.StartTurn;
+            _events.PlayerDied -= OnPlayerDied;
+        }
+        
+        // 移除 ChildOrderChanged 事件监听器
+        EnemyHandler.ChildOrderChanged -= OnEnmiesChildOrderChanged;
+    }
+
     private static void OnPlayerDied()
     {
         Events.Instance.EmitSignal(Events.SignalName.BattleOverScreenRequested, "游戏结束！", BattleOverPanel.Type.Lose.GetBattleOverPanelTypeValue());

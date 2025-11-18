@@ -25,6 +25,14 @@ public partial class PlayerHandler : Node
         _events.CardPlayed += OnCardPlayed;
     }
 
+    public override void _ExitTree()
+    {
+        if (_events != null)
+        {
+            _events.CardPlayed -= OnCardPlayed;
+        }
+    }
+
     /// <summary>
     ///     当卡片被使用时的回调处理函数
     /// </summary>
