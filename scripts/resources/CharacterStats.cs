@@ -1,3 +1,4 @@
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 
 namespace SlayTheSpireLike.scripts.resources;
@@ -70,6 +71,16 @@ public partial class CharacterStats : Stats
     public void ResetMana()
     {
         Mana = MaxMana;
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        var initialHp = Health;
+        base.TakeDamage(damage);
+        if (initialHp > Health)
+        {
+            Events.Instance.EmitSignal(Events.SignalName.PlayerHit);
+        }
     }
 
     /// <summary>

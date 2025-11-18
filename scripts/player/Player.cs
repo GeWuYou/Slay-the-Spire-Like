@@ -76,15 +76,17 @@ public partial class Player : Node2D
         // 如果玩家已经死亡，直接返回
         if (Stats.Health <= 0) return;
 
+        Sprite2D.Material = ResourceFactories.WhiteSpriteMatFactory();
         var tween = CreateTween();
         // 添加震动效果和伤害处理的回调函数
         tween.TweenCallback(Callable.From(() => Shaker.Instance.Shake(this, 16, 0.15f)));
         tween.TweenCallback(Callable.From(() => Stats.TakeDamage(damage)));
-        tween.TweenInterval(0.2f);
+        tween.TweenInterval(0.17f);
 
         // 伤害处理完成后的回调函数
         tween.Finished += () =>
         {
+            Sprite2D.Material = null;
             // 检查玩家是否死亡
             if (Stats.Health > 0) return;
 

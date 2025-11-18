@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cxksgeo2osgek"]
+[gd_scene load_steps=17 format=3 uid="uid://cxksgeo2osgek"]
 
 [ext_resource type="Script" uid="uid://wmplux2455e6" path="res://scripts/Battle.cs" id="1_6ni85"]
 [ext_resource type="Texture2D" uid="uid://cp4iq5fd6j8be" path="res://art/background.png" id="1_dn72j"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://di6mroovg4m14" path="res://scenes/ui/mana_ui.tscn" id="11_66ngm"]
 [ext_resource type="PackedScene" uid="uid://b6ap38ykbfvgc" path="res://scenes/ui/tool_tip.tscn" id="12_03edq"]
 [ext_resource type="Theme" uid="uid://bda6jdmo18uon" path="res://main_theme.tres" id="13_22uqi"]
+[ext_resource type="Script" uid="uid://e5mxrhyp6bjw" path="res://scenes/ui/WindowMask.cs" id="15_vceff"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dn72j"]
 size = Vector2(256, 100)
@@ -98,3 +99,22 @@ grow_vertical = 0
 theme = ExtResource("13_22uqi")
 disabled = true
 text = "结束回合"
+
+[node name="WindowMask" type="CanvasLayer" parent="." node_paths=PackedStringArray("ColorRect", "Timer")]
+layer = 2
+script = ExtResource("15_vceff")
+ColorRect = NodePath("ColorRect")
+Timer = NodePath("Timer")
+
+[node name="ColorRect" type="ColorRect" parent="WindowMask"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.98039216, 0.5137255, 0.49019608, 0)
+
+[node name="Timer" type="Timer" parent="WindowMask"]
+wait_time = 0.1
+one_shot = true

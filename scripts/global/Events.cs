@@ -99,6 +99,12 @@ public partial class Events : SingletonNode<Events>
     [Signal]
     public delegate void PlayerDiedEventHandler();
 
+    
+    /// <summary>
+    ///     玩家被攻击事件处理器委托
+    /// </summary>
+    [Signal]
+    public delegate void PlayerHitEventHandler();
     #endregion
 
     #region 敌人

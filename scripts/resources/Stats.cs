@@ -81,7 +81,7 @@ public partial class Stats : Resource
     ///     忽略小于等于零的伤害输入。
     /// </summary>
     /// <param name="damage">要造成的伤害点数。</param>
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         if (damage <= 0) return;
 
