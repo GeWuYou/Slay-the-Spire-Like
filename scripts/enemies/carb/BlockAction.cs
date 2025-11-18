@@ -24,6 +24,7 @@ public partial class BlockAction : EnemyAction
         // 创建格挡效果实例并设置格挡数值
         var blockEffect = new BlockEffect();
         blockEffect.Amount = Block;
+        blockEffect.Sound = Sound;
         // 执行格挡效果，应用到目标身上
         blockEffect.Execute([Enemy]);
 

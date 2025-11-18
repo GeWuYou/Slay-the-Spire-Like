@@ -40,6 +40,7 @@ public partial class MegaBlockAction : EnemyAction
         // 创建并执行格挡效果
         var blockEffect = new BlockEffect();
         blockEffect.Amount = Block;
+        blockEffect.Sound = Sound;
         blockEffect.Execute([Enemy]);
 
         // 延迟触发动作完成事件

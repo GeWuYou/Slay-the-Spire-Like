@@ -33,6 +33,7 @@ public partial class AttackAction : EnemyAction
         var damageEffect = new DamageEffect();
         Array<Node> targetArray = [Target];
         damageEffect.Amount = Damage;
+        damageEffect.Sound = Sound;
 
         // 执行攻击动画序列：移动到目标位置 -> 造成伤害 -> 等待 -> 返回起始位置
         tween.TweenProperty(Enemy, "global_position", end, 0.4f);
