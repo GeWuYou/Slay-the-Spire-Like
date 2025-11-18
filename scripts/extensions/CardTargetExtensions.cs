@@ -3,60 +3,60 @@ using SlayTheSpireLike.scripts.resources;
 namespace SlayTheSpireLike.scripts.extensions;
 
 /// <summary>
-/// CardTargetExtensions
+///     CardTargetExtensions
 /// </summary>
 public static class CardTargetExtensions
 {
     /// <summary>
-/// 将目标枚举转换为对应的整数值
-/// </summary>
-/// <param name="target">要转换的目标枚举值</param>
-/// <returns>返回与目标对应的整数值，未知目标返回0</returns>
-public static int GetTargetValue(this Card.Target target)
-{
-    return target switch
+    ///     将目标枚举转换为对应的整数值
+    /// </summary>
+    /// <param name="target">要转换的目标枚举值</param>
+    /// <returns>返回与目标对应的整数值，未知目标返回0</returns>
+    public static int GetTargetValue(this Card.Target target)
     {
-        Card.Target.Self => 0,
-        Card.Target.Enemy => 1,
-        Card.Target.All => 2,
-        Card.Target.Random => 3,
-        Card.Target.RandomEnemy => 4,
-        Card.Target.RandomAlly => 5,
-        Card.Target.AllEnemies => 6,
-        Card.Target.Ally => 7,
-        Card.Target.AllAllies => 8,
-        Card.Target.AllSelf => 9,
-        Card.Target.RandomSelf => 10,
-        _ => 0
-    };
-}
+        return target switch
+        {
+            Card.Target.Self => 0,
+            Card.Target.Enemy => 1,
+            Card.Target.All => 2,
+            Card.Target.Random => 3,
+            Card.Target.RandomEnemy => 4,
+            Card.Target.RandomAlly => 5,
+            Card.Target.AllEnemies => 6,
+            Card.Target.Ally => 7,
+            Card.Target.AllAllies => 8,
+            Card.Target.AllSelf => 9,
+            Card.Target.RandomSelf => 10,
+            _ => 0
+        };
+    }
 
-/// <summary>
-/// 将整数值转换为对应的目标枚举
-/// </summary>
-/// <param name="value">要转换的整数值</param>
-/// <returns>返回与整数对应的目标枚举值，无效值返回Self目标</returns>
-public static Card.Target GetTarget(this int value)
-{
-    return value switch
-    {
-        0 => Card.Target.Self,
-        1 => Card.Target.Enemy,
-        2 => Card.Target.All,
-        3 => Card.Target.Random,
-        4 => Card.Target.RandomEnemy,
-        5 => Card.Target.RandomAlly,
-        6 => Card.Target.AllEnemies,
-        7 => Card.Target.Ally,
-        8 => Card.Target.AllAllies,
-        9 => Card.Target.AllSelf,
-        10 => Card.Target.RandomSelf,
-        _ => Card.Target.Self
-    };
-}
-    
     /// <summary>
-    /// 判断目标是否为自身
+    ///     将整数值转换为对应的目标枚举
+    /// </summary>
+    /// <param name="value">要转换的整数值</param>
+    /// <returns>返回与整数对应的目标枚举值，无效值返回Self目标</returns>
+    public static Card.Target GetTarget(this int value)
+    {
+        return value switch
+        {
+            0 => Card.Target.Self,
+            1 => Card.Target.Enemy,
+            2 => Card.Target.All,
+            3 => Card.Target.Random,
+            4 => Card.Target.RandomEnemy,
+            5 => Card.Target.RandomAlly,
+            6 => Card.Target.AllEnemies,
+            7 => Card.Target.Ally,
+            8 => Card.Target.AllAllies,
+            9 => Card.Target.AllSelf,
+            10 => Card.Target.RandomSelf,
+            _ => Card.Target.Self
+        };
+    }
+
+    /// <summary>
+    ///     判断目标是否为自身
     /// </summary>
     /// <param name="target">要判断的目标类型</param>
     /// <returns>如果目标是自身返回true，否则返回false</returns>
@@ -64,9 +64,9 @@ public static Card.Target GetTarget(this int value)
     {
         return target == Card.Target.Self;
     }
-    
+
     /// <summary>
-    /// 判断目标是否为敌人
+    ///     判断目标是否为敌人
     /// </summary>
     /// <param name="target">要判断的目标类型</param>
     /// <returns>如果目标是敌人返回true，否则返回false</returns>
@@ -76,22 +76,22 @@ public static Card.Target GetTarget(this int value)
     }
 
     /// <summary>
-    /// 判断目标是否为单个目标（包括敌人或自己）
+    ///     判断目标是否为单个目标（包括敌人或自己）
     /// </summary>
     /// <param name="target">要判断的目标类型</param>
     /// <returns>如果目标是单个敌人或自己则返回true，否则返回false</returns>
     public static bool IsSingleTargeted(this Card.Target target)
     {
         // 检查是否为敌方目标或己方目标
-        return IsEnemyTarget(target) 
+        return IsEnemyTarget(target)
                // || IsAllyTarget(target)
                || IsSelfTarget(target)
-               ;
+            ;
     }
 
-    
+
     /// <summary>
-    /// 判断目标是否为全体
+    ///     判断目标是否为全体
     /// </summary>
     /// <param name="target">要判断的目标类型</param>
     /// <returns>如果目标是全体返回true，否则返回false</returns>
@@ -99,9 +99,9 @@ public static Card.Target GetTarget(this int value)
     {
         return target == Card.Target.All;
     }
-    
+
     /// <summary>
-    /// 判断目标是否为随机
+    ///     判断目标是否为随机
     /// </summary>
     /// <param name="target">要判断的目标类型</param>
     /// <returns>如果目标是随机返回true，否则返回false</returns>
@@ -109,9 +109,9 @@ public static Card.Target GetTarget(this int value)
     {
         return target == Card.Target.Random;
     }
-    
+
     /// <summary>
-    /// 判断目标是否为随机敌人
+    ///     判断目标是否为随机敌人
     /// </summary>
     /// <param name="target">要判断的目标类型</param>
     /// <returns>如果目标是随机敌人返回true，否则返回false</returns>
@@ -119,9 +119,9 @@ public static Card.Target GetTarget(this int value)
     {
         return target == Card.Target.RandomEnemy;
     }
-    
+
     /// <summary>
-    /// 判断目标是否为随机盟友
+    ///     判断目标是否为随机盟友
     /// </summary>
     /// <param name="target">要判断的目标类型</param>
     /// <returns>如果目标是随机盟友返回true，否则返回false</returns>
@@ -129,9 +129,9 @@ public static Card.Target GetTarget(this int value)
     {
         return target == Card.Target.RandomAlly;
     }
-    
+
     /// <summary>
-    /// 判断目标是否为所有敌人
+    ///     判断目标是否为所有敌人
     /// </summary>
     /// <param name="target">要判断的目标类型</param>
     /// <returns>如果目标是所有敌人返回true，否则返回false</returns>
@@ -139,9 +139,9 @@ public static Card.Target GetTarget(this int value)
     {
         return target == Card.Target.AllEnemies;
     }
-    
+
     /// <summary>
-    /// 判断目标是否为盟友
+    ///     判断目标是否为盟友
     /// </summary>
     /// <param name="target">要判断的目标类型</param>
     /// <returns>如果目标是盟友返回true，否则返回false</returns>
@@ -149,9 +149,9 @@ public static Card.Target GetTarget(this int value)
     {
         return target == Card.Target.Ally;
     }
-    
+
     /// <summary>
-    /// 判断目标是否为所有盟友
+    ///     判断目标是否为所有盟友
     /// </summary>
     /// <param name="target">要判断的目标类型</param>
     /// <returns>如果目标是所有盟友返回true，否则返回false</returns>
@@ -159,9 +159,9 @@ public static Card.Target GetTarget(this int value)
     {
         return target == Card.Target.AllAllies;
     }
-    
+
     /// <summary>
-    /// 判断目标是否为己方角色
+    ///     判断目标是否为己方角色
     /// </summary>
     /// <param name="target">要判断的目标类型</param>
     /// <returns>如果目标是己方则返回true，否则返回false</returns>
@@ -169,8 +169,9 @@ public static Card.Target GetTarget(this int value)
     {
         return target == Card.Target.AllSelf;
     }
+
     /// <summary>
-    /// 判断指定的目标是否为随机自身目标
+    ///     判断指定的目标是否为随机自身目标
     /// </summary>
     /// <param name="target">要判断的卡片目标</param>
     /// <returns>如果目标是随机自身目标则返回true，否则返回false</returns>
@@ -178,6 +179,4 @@ public static Card.Target GetTarget(this int value)
     {
         return target == Card.Target.RandomSelf;
     }
-
-    
 }

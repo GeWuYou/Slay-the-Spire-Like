@@ -3,12 +3,12 @@
 namespace SlayTheSpireLike.scripts.extensions;
 
 /// <summary>
-/// CardStateExtensions
+///     CardStateExtensions
 /// </summary>
 public static class CardStateExtensions
 {
     /// <summary>
-    /// 将卡片状态枚举转换为对应的整数值
+    ///     将卡片状态枚举转换为对应的整数值
     /// </summary>
     /// <param name="state">要转换的卡片状态枚举值</param>
     /// <returns>返回与卡片状态对应的整数值，未知状态返回0</returns>
@@ -27,7 +27,7 @@ public static class CardStateExtensions
     }
 
     /// <summary>
-    /// 将整数值转换为对应的卡片状态枚举
+    ///     将整数值转换为对应的卡片状态枚举
     /// </summary>
     /// <param name="value">要转换的整数值</param>
     /// <returns>返回与整数对应的卡片状态枚举值，无效值返回Base状态</returns>

@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using SlayTheSpireLike.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
@@ -8,17 +8,17 @@ using SlayTheSpireLike.scripts.ui;
 namespace SlayTheSpireLike.scripts.enemies;
 
 /// <summary>
-/// 敌人类，继承自Area2D，用于表示游戏中的敌人单位。
-/// 负责管理敌人的属性、UI显示以及受到伤害后的逻辑处理。
+///     敌人类，继承自Area2D，用于表示游戏中的敌人单位。
+///     负责管理敌人的属性、UI显示以及受到伤害后的逻辑处理。
 /// </summary>
 public partial class Enemy : Area2D
 {
+    private EnemyAction _currentAction;
+
+    private EnemyStats _stats;
     [Export] public int ArrowOffset { get; set; } = 5;
 
     [Export] public IntentUi IntentUi { get; set; }
-
-    private EnemyStats _stats;
-    private EnemyAction _currentAction;
 
     public EnemyActionPicker EnemyActionPicker { get; set; }
 
@@ -28,16 +28,13 @@ public partial class Enemy : Area2D
         set
         {
             _currentAction = value;
-            if (_currentAction != null)
-            {
-                IntentUi.UpdateIntent(_currentAction.Intent);
-            }
+            if (_currentAction != null) IntentUi.UpdateIntent(_currentAction.Intent);
         }
     }
 
     /// <summary>
-    /// 获取或设置敌人的统计数据。当设置新值时会自动克隆一份实例以防止引用共享，
-    /// 并确保只连接一次StatsChanged事件来更新UI。
+    ///     获取或设置敌人的统计数据。当设置新值时会自动克隆一份实例以防止引用共享，
+    ///     并确保只连接一次StatsChanged事件来更新UI。
     /// </summary>
     [Export]
     public EnemyStats Stats
@@ -58,12 +55,14 @@ public partial class Enemy : Area2D
         }
     }
 
+
+    [Export] public Sprite2D Sprite2D { get; set; }
+    [Export] public StatsUi StatsUi { get; set; }
+    [Export] public Sprite2D Arrow { get; set; }
+
     public void UpdateAction()
     {
-        if (EnemyActionPicker is null)
-        {
-            return;
-        }
+        if (EnemyActionPicker is null) return;
 
         if (CurrentAction is null)
         {
@@ -72,16 +71,8 @@ public partial class Enemy : Area2D
         }
 
         var action = EnemyActionPicker.GetFirstConditionalAction();
-        if (action is not null && CurrentAction != action)
-        {
-            CurrentAction = action;
-        }
+        if (action is not null && CurrentAction != action) CurrentAction = action;
     }
-
-
-    [Export] public Sprite2D Sprite2D { get; set; }
-    [Export] public StatsUi StatsUi { get; set; }
-    [Export] public Sprite2D Arrow { get; set; }
 
     public void SetupAi()
     {
@@ -89,14 +80,11 @@ public partial class Enemy : Area2D
         var newPicker = _stats.Ai.Instantiate();
         AddChild(newPicker);
         EnemyActionPicker = newPicker as EnemyActionPicker;
-        if (EnemyActionPicker != null)
-        {
-            EnemyActionPicker.Enemy = this;
-        }
+        if (EnemyActionPicker != null) EnemyActionPicker.Enemy = this;
     }
 
     /// <summary>
-    /// 初始化节点，在_ready阶段注册区域进入和退出的事件监听器。
+    ///     初始化节点，在_ready阶段注册区域进入和退出的事件监听器。
     /// </summary>
     public override void _Ready()
     {
@@ -106,7 +94,7 @@ public partial class Enemy : Area2D
 
 
     /// <summary>
-    /// 当有其他区域离开本敌人区域范围时调用，隐藏指示箭头。
+    ///     当有其他区域离开本敌人区域范围时调用，隐藏指示箭头。
     /// </summary>
     /// <param name="area">离开的区域对象。</param>
     private void OnAreaExited(Area2D area)
@@ -115,7 +103,7 @@ public partial class Enemy : Area2D
     }
 
     /// <summary>
-    /// 当有其他区域进入本敌人区域范围时调用，显示指示箭头。
+    ///     当有其他区域进入本敌人区域范围时调用，显示指示箭头。
     /// </summary>
     /// <param name="area">进入的区域对象。</param>
     private void OnAreaEntered(Area2D area)
@@ -124,7 +112,7 @@ public partial class Enemy : Area2D
     }
 
     /// <summary>
-    /// 当角色属性发生变化时调用此方法更新UI界面中展示的数值。
+    ///     当角色属性发生变化时调用此方法更新UI界面中展示的数值。
     /// </summary>
     private void UpdateStats()
     {
@@ -138,24 +126,18 @@ public partial class Enemy : Area2D
     }
 
     /// <summary>
-    /// 异步更新敌人相关的视觉元素与数据状态。
-    /// 包括加载角色贴图、调整箭头位置，并触发一次统计数据刷新。
+    ///     异步更新敌人相关的视觉元素与数据状态。
+    ///     包括加载角色贴图、调整箭头位置，并触发一次统计数据刷新。
     /// </summary>
     private async Task UpdateEnemy()
     {
         try
         {
             // 检查角色属性是否存在
-            if (_stats is not { } characterStats)
-            {
-                return;
-            }
+            if (_stats is not { } characterStats) return;
 
             // 等待节点准备就绪
-            if (!IsInsideTree())
-            {
-                await ToSignal(this, GameConstants.Signals.Ready);
-            }
+            if (!IsInsideTree()) await ToSignal(this, GameConstants.Signals.Ready);
 
             // 更新角色图像
             Sprite2D.Texture = characterStats.Art as Texture2D;
@@ -170,31 +152,25 @@ public partial class Enemy : Area2D
     }
 
     /// <summary>
-    /// 对当前敌人造成指定数量的伤害。
-    /// 若敌人生命值降至0或以下，则从场景中移除该敌人对象。
+    ///     对当前敌人造成指定数量的伤害。
+    ///     若敌人生命值降至0或以下，则从场景中移除该敌人对象。
     /// </summary>
     /// <param name="damage">要造成的伤害点数。</param>
     public void TakeDamage(int damage)
     {
         // 如果敌人已经死亡，则直接返回
-        if (Stats.Health <= 0)
-        {
-            return;
-        }
+        if (Stats.Health <= 0) return;
 
         // 创建动画序列来处理伤害效果
         var tween = CreateTween();
-        tween.TweenCallback(Callable.From(() => Shaker.Instance.Shake(this, 16,0.15f)));
+        tween.TweenCallback(Callable.From(() => Shaker.Instance.Shake(this, 16, 0.15f)));
         tween.TweenCallback(Callable.From(() => Stats.TakeDamage(damage)));
         tween.TweenInterval(0.2f);
 
         // 动画完成后检查敌人是否死亡，如果死亡则从场景中移除
-        tween.Finished+=()=>{
-            if (Stats.Health <= 0)
-            {
-                QueueFree();
-            }
+        tween.Finished += () =>
+        {
+            if (Stats.Health <= 0) QueueFree();
         };
     }
-
 }

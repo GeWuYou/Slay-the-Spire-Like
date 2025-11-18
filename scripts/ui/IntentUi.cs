@@ -5,10 +5,10 @@ namespace SlayTheSpireLike.scripts.ui;
 
 public partial class IntentUi : HBoxContainer
 {
-    [Export]
-    public TextureRect Icon { get; set; }
-    [Export]
-    public Label Number { get; set; }
+    [Export] public TextureRect Icon { get; set; }
+
+    [Export] public Label Number { get; set; }
+
     public void UpdateIntent(Intent intent)
     {
         if (intent == null)

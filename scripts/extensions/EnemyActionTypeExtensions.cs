@@ -3,12 +3,12 @@ using SlayTheSpireLike.scripts.enemies;
 namespace SlayTheSpireLike.scripts.extensions;
 
 /// <summary>
-/// EnemyActionTypeExtensions
+///     EnemyActionTypeExtensions
 /// </summary>
 public static class EnemyActionTypeExtensions
 {
     /// <summary>
-    /// 将敌人行动类型枚举转换为对应的整数值
+    ///     将敌人行动类型枚举转换为对应的整数值
     /// </summary>
     /// <param name="type">要转换的敌人行动类型枚举值</param>
     /// <returns>返回与敌人行动类型对应的整数值，未知类型返回0</returns>
@@ -23,7 +23,7 @@ public static class EnemyActionTypeExtensions
     }
 
     /// <summary>
-    /// 将整数值转换为对应的敌人行动类型枚举
+    ///     将整数值转换为对应的敌人行动类型枚举
     /// </summary>
     /// <param name="value">要转换的整数值</param>
     /// <returns>返回与整数对应的敌人行动类型枚举值，无效值返回Conditional类型</returns>
@@ -36,9 +36,9 @@ public static class EnemyActionTypeExtensions
             _ => EnemyAction.Type.Conditional
         };
     }
-    
+
     /// <summary>
-    /// 判断敌人行动类型是否为条件类型
+    ///     判断敌人行动类型是否为条件类型
     /// </summary>
     /// <param name="type">要判断的敌人行动类型</param>
     /// <returns>如果是条件类型返回true，否则返回false</returns>
@@ -46,9 +46,9 @@ public static class EnemyActionTypeExtensions
     {
         return type == EnemyAction.Type.Conditional;
     }
-    
+
     /// <summary>
-    /// 判断敌人行动类型是否为概率类型
+    ///     判断敌人行动类型是否为概率类型
     /// </summary>
     /// <param name="type">要判断的敌人行动类型</param>
     /// <returns>如果是概率类型返回true，否则返回false</returns>

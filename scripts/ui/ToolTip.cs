@@ -5,15 +5,15 @@ namespace SlayTheSpireLike.scripts.ui;
 
 public partial class ToolTip : PanelContainer
 {
-    [Export] public float FadeSeconds { get; private set; } = 0.2f;
+    private Events _events;
 
     private bool _isVisible;
 
+    private Tween _tween;
+    [Export] public float FadeSeconds { get; private set; } = 0.2f;
+
     [Export] public TextureRect Icon { get; private set; }
     [Export] public RichTextLabel Text { get; private set; }
-
-    private Tween _tween;
-    private Events _events;
 
     public override void _Ready()
     {
@@ -50,10 +50,7 @@ public partial class ToolTip : PanelContainer
 
     private void HideAnimation()
     {
-        if (_isVisible)
-        {
-            return;
-        }
+        if (_isVisible) return;
         _tween = CreateTween().SetEase(Tween.EaseType.In).SetTrans(Tween.TransitionType.Cubic);
         _tween.TweenProperty(this, "modulate", Colors.Transparent, FadeSeconds);
         _tween.TweenCallback(Callable.From(Hide));
