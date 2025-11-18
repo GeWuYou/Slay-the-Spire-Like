@@ -1,4 +1,4 @@
-using global::SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.extensions;
 
@@ -30,9 +30,13 @@ public partial class BattleOverPanel : Panel
     public override void _Ready()
     {
         // 绑定继续按钮点击事件，点击后退出游戏
-        ContinueButton.Pressed += () => GetTree().Quit();
+        var sceneTree = GetTree();
+        ContinueButton.Pressed += () => sceneTree.Quit();
         // 绑定重启按钮点击事件，点击后重新加载当前场景
-        RestartButton.Pressed += () => GetTree().ReloadCurrentScene();
+        RestartButton.Pressed += () =>
+        {
+            sceneTree.ReloadCurrentScene();
+        };
         // 监听战斗结束界面请求事件
         Events.Instance.BattleOverScreenRequested += ShowScreen;
     }
@@ -50,5 +54,6 @@ public partial class BattleOverPanel : Panel
         ContinueButton.Visible = type == Type.Win;
         RestartButton.Visible = type == Type.Lose;
         Show();
+        GetTree().Paused = true;
     }
 }

@@ -83,7 +83,7 @@ public partial class Battle : Node2D
     /// <param name="newStats">玩家角色的属性统计信息</param>
     private void StartBattle(CharacterStats newStats)
     {
-        GD.Print("开始战斗");
+        GetTree().Paused = false;
         AudioPlayerManager.Instance.PlayMusic(BattleMusic,true);
         EnemyHandler.ResetEnemyAcitons();
         PlayerHandler.StartBattle(newStats);
