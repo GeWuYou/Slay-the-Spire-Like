@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using global::SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
@@ -160,16 +160,17 @@ public partial class Enemy : Area2D
     {
         // 如果敌人已经死亡，则直接返回
         if (Stats.Health <= 0) return;
-
+        Sprite2D.Material = ResourceFactories.WhiteSpriteMatFactory();
         // 创建动画序列来处理伤害效果
         var tween = CreateTween();
         tween.TweenCallback(Callable.From(() => Shaker.Instance.Shake(this, 16, 0.15f)));
         tween.TweenCallback(Callable.From(() => Stats.TakeDamage(damage)));
-        tween.TweenInterval(0.2f);
+        tween.TweenInterval(0.17f);
 
         // 动画完成后检查敌人是否死亡，如果死亡则从场景中移除
         tween.Finished += () =>
         {
+            Sprite2D.Material = null;
             if (Stats.Health <= 0) QueueFree();
         };
     }

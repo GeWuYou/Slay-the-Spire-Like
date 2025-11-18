@@ -1,4 +1,5 @@
 using System;
+using Godot;
 using SlayTheSpireLike.scripts.ui;
 
 namespace SlayTheSpireLike.scripts.global;
@@ -13,4 +14,11 @@ public static class ResourceFactories
     /// </summary>
     public static readonly Func<CardUi> CardUiFactory =
         ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<CardUi>(GameConstants.ResourcePaths.CardUiScene);
+
+    /// <summary>
+    ///     白色精灵材质工厂函数
+    /// </summary>
+    public static readonly Func<Material> WhiteSpriteMatFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Material>(
+            GameConstants.ResourcePaths.WhiteSpriteMaterial, false);
 }

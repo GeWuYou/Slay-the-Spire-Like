@@ -10,6 +10,8 @@ public partial class ResourceLoaderManager : SingletonNode<ResourceLoaderManager
     private static readonly Dictionary<string, Lazy<PackedScene>> SceneLoaders = new();
     // 缓存“工厂函数”，方便高频实例化
     private readonly Dictionary<string, Delegate> _sceneFactories = new();
+    private readonly Dictionary<string, Delegate> _resourceFactories = new();
+
 
     #region 基础加载方法
 
@@ -93,7 +95,41 @@ public partial class ResourceLoaderManager : SingletonNode<ResourceLoaderManager
         _sceneFactories[path] = factory;
         return factory;
     }
+    /// <summary>
+    /// 返回一个 Func，每次调用会返回一个资源实例或副本（取决于 duplicate）。
+    /// T 必须继承 Godot.Resource（如 Material、Texture、AudioStream 等）
+    /// </summary>
+    public Func<T> GetOrRegisterResourceFactory<T>(string path, bool duplicate = true) where T : Resource
+    {
+        if (string.IsNullOrEmpty(path))
+            throw new ArgumentNullException(nameof(path));
 
+        if (_resourceFactories.TryGetValue(path, out var d))
+            return d as Func<T>;
+
+        Func<T> factory = () =>
+        {
+            // 优先用已缓存的 Resource（LoadResource 会缓存到 _loadedResources）
+            var res = LoadResource<T>(path);
+            if (res == null) throw new InvalidOperationException($"Failed to load resource at {path}");
+
+            if (!duplicate)
+            {
+                return res;
+            }
+
+            // 尝试复制资源，Godot.Resource.Duplicate() 返回 Resource
+            var dupObj = res.Duplicate();
+            if (dupObj is T typedDup)
+                return typedDup;
+
+            // 兜底：如果 Duplicate 不适用或失败，直接返回原始资源（注意：可能会共享状态）
+            return res;
+        };
+
+        _resourceFactories[path] = factory;
+        return factory;
+    }
     #endregion
 
     #region 缓存管理 / 卸载 / 预加载

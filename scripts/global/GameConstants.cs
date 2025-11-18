@@ -47,5 +47,10 @@ public static class GameConstants
         ///     卡牌UI场景路径
         /// </summary>
         public const string CardUiScene = "res://scenes/ui/card_ui.tscn";
+        
+        /// <summary>
+        ///     白色精灵材质路径
+        /// </summary>
+        public const string WhiteSpriteMaterial = "res://art/white_sprite_material.tres";
     }
 }
