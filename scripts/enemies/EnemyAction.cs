@@ -1,4 +1,5 @@
 using Godot;
+using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.enemies;
 
@@ -8,14 +9,20 @@ namespace SlayTheSpireLike.scripts.enemies;
 /// 支持动作的可执行性判断和具体执行逻辑的实现
 /// </summary>
 public partial class EnemyAction : Node
-
 {
+    
+    /// <summary>
+    /// 意图，描述动作的意图和效果
+    /// </summary>
+    [Export]
+    public Intent Intent { get; set; }
     /// <summary>
     /// 动作类型枚举，决定动作的选择策略
     /// Conditional: 基于特定条件是否满足来决定是否执行
     /// ChanceBased: 基于权重概率系统来决定是否被选中
     /// </summary>
-    [Export] public Type ActionType { get; set; }
+    [Export]
+    public Type ActionType { get; set; }
 
     /// <summary>
     /// 概率权重值，仅在Type为ChanceBased时生效
@@ -34,14 +41,12 @@ public partial class EnemyAction : Node
     /// 执行此动作的敌方单位引用
     /// 用于访问敌人的属性和方法，如攻击力、生命值等
     /// </summary>
-    [Export]
     public Enemy Enemy { get; set; }
 
     /// <summary>
     /// 动作的目标对象引用，通常指向玩家角色
     /// 用于获取目标位置、状态等信息，支持面向目标的动作逻辑
     /// </summary>
-    [Export]
     public Node2D Target { get; set; }
 
     /// <summary>

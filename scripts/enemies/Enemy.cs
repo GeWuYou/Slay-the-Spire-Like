@@ -15,11 +15,25 @@ public partial class Enemy : Area2D
 {
     [Export] public int ArrowOffset { get; set; } = 5;
 
+    [Export] public IntentUi IntentUi { get; set; }
 
     private EnemyStats _stats;
+    private EnemyAction _currentAction;
 
     public EnemyActionPicker EnemyActionPicker { get; set; }
-    public EnemyAction CurrentAction { get; set; }
+
+    public EnemyAction CurrentAction
+    {
+        get => _currentAction;
+        set
+        {
+            _currentAction = value;
+            if (_currentAction != null)
+            {
+                IntentUi.UpdateIntent(_currentAction.Intent);
+            }
+        }
+    }
 
     /// <summary>
     /// 获取或设置敌人的统计数据。当设置新值时会自动克隆一份实例以防止引用共享，

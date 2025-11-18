@@ -1,15 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://c600g5a3uta2v"]
+[gd_scene load_steps=7 format=3 uid="uid://c600g5a3uta2v"]
 
 [ext_resource type="Texture2D" uid="uid://1u3b3hwqd8yh" path="res://art/tile_0110.png" id="1_6xk8f"]
 [ext_resource type="Script" uid="uid://csxyb2cdrt21r" path="res://scripts/enemies/Enemy.cs" id="1_fcftc"]
 [ext_resource type="Texture2D" uid="uid://bb3rcs5nqntir" path="res://art/arrow.png" id="2_38ino"]
 [ext_resource type="PackedScene" uid="uid://c1i5vft4k70p3" path="res://scenes/ui/stats_ui.tscn" id="3_fcftc"]
+[ext_resource type="PackedScene" uid="uid://j38fqwslvasr" path="res://scenes/ui/intent_ui.tscn" id="5_lu5c6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yahae"]
 
-[node name="Enemy" type="Area2D" node_paths=PackedStringArray("Sprite2D", "StatsUi", "Arrow") groups=["enemies"]]
+[node name="Enemy" type="Area2D" node_paths=PackedStringArray("IntentUi", "Sprite2D", "StatsUi", "Arrow") groups=["enemies"]]
 collision_layer = 4
 script = ExtResource("1_fcftc")
+IntentUi = NodePath("IntentUI")
 Sprite2D = NodePath("Sprite2D")
 StatsUi = NodePath("StatsUI")
 Arrow = NodePath("Arrow")
@@ -31,3 +33,7 @@ debug_color = Color(0.8541318, 0.3120418, 0.5089011, 0.22745098)
 [node name="StatsUI" parent="." instance=ExtResource("3_fcftc")]
 offset_top = 6.0
 offset_bottom = 22.0
+
+[node name="IntentUI" parent="." instance=ExtResource("5_lu5c6")]
+offset_top = -23.0
+offset_bottom = -9.0
