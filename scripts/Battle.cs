@@ -81,7 +81,7 @@ public partial class Battle : Node2D
     private void StartBattle(CharacterStats newStats)
     {
         GD.Print("开始战斗");
-        SoundPlayer.Instance.Play(BattleMusic,true);
+        AudioPlayerManager.Instance.PlayMusic(BattleMusic,true);
         EnemyHandler.ResetEnemyAcitons();
         PlayerHandler.StartBattle(newStats);
     }

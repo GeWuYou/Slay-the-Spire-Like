@@ -21,7 +21,7 @@ config/icon="uid://b80t1pkjhxn6s"
 Events="*res://scripts/global/Events.cs"
 Shaker="*res://scripts/global/Shaker.cs"
 ResourceLoaderManager="*res://scripts/global/ResourceLoaderManager.cs"
-MusicPlayer="*res://global/music_player.tscn"
+AudioPlayerManager="*res://global/audio_player_manager.tscn"
 
 [debug]
 
