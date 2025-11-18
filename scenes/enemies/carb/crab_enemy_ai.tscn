@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://blp1g2cbrmjks"]
+[gd_scene load_steps=14 format=3 uid="uid://blp1g2cbrmjks"]
 
 [ext_resource type="Script" uid="uid://dql82x8uvowj0" path="res://scripts/enemies/EnemyActionPicker.cs" id="1_qlrgk"]
 [ext_resource type="Script" uid="uid://f5bu40rxeic7" path="res://scripts/enemies/carb/AttackAction.cs" id="2_flyhw"]
@@ -6,8 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://bfvi02kojsa00" path="res://art/tile_0103.png" id="3_q32of"]
 [ext_resource type="Script" uid="uid://da43ihixka6hk" path="res://scripts/resources/Intent.cs" id="4_6p1lv"]
 [ext_resource type="Script" uid="uid://6cq2ihxcwr3y" path="res://scripts/enemies/carb/MegaBlockAction.cs" id="4_82ptr"]
+[ext_resource type="AudioStream" uid="uid://de2ryat1pxq6" path="res://art/enemy_attack.ogg" id="5_gg41o"]
 [ext_resource type="Texture2D" uid="uid://bi6pfjs32f820" path="res://art/tile_0101.png" id="6_gg41o"]
 [ext_resource type="Texture2D" uid="uid://oe7v35ii8vrs" path="res://art/tile_0102.png" id="8_xi8wj"]
+[ext_resource type="AudioStream" uid="uid://k8m4o3hlwm7l" path="res://art/enemy_block.ogg" id="8_yksr4"]
 
 [sub_resource type="Resource" id="Resource_yksr4"]
 script = ExtResource("4_6p1lv")
@@ -33,15 +35,18 @@ script = ExtResource("1_qlrgk")
 script = ExtResource("2_flyhw")
 Damage = 7
 Intent = SubResource("Resource_yksr4")
+Sound = ExtResource("5_gg41o")
 ActionType = 1
 ChanceWeight = 1.0
 
 [node name="BlockAction" type="Node" parent="."]
 script = ExtResource("3_ijohe")
 Intent = SubResource("Resource_4ny5x")
+Sound = ExtResource("8_yksr4")
 ActionType = 1
 ChanceWeight = 1.0
 
 [node name="MegaBlockAction" type="Node" parent="."]
 script = ExtResource("4_82ptr")
 Intent = SubResource("Resource_3qq3d")
+Sound = ExtResource("8_yksr4")

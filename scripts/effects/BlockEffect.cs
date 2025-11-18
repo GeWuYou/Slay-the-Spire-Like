@@ -1,7 +1,7 @@
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
-using SlayTheSpireLike.scripts.enemies;
-using SlayTheSpireLike.scripts.player;
+using SlayTheSpireLike.scripts.component;
 
 namespace SlayTheSpireLike.scripts.effects;
 
@@ -20,18 +20,14 @@ public partial class BlockEffect : Effect
     {
         // 遍历所有目标并增加格挡值
         foreach (var target in targets)
-            switch (target)
+        {
+            if (target is not IBlockableComponent blockableComponent)
             {
-                case null:
-                    continue;
-                case Enemy enemy:
-                    // 为敌人增加格挡值
-                    enemy.Stats.Block += Amount;
-                    break;
-                case Player player:
-                    // 为玩家增加格挡值
-                    player.Stats.Block += Amount;
-                    break;
+                continue;
             }
+            blockableComponent.TakeBlock(Amount);
+            AudioPlayerManager.Instance.PlaySfx(Sound);
+        }
+           
     }
 }

@@ -38,6 +38,12 @@ public partial class EnemyAction : Node
     /// </summary>
     [Export]
     public Intent Intent { get; set; }
+    
+    /// <summary>
+    ///     动作对应的音频流，用于播放动作的音效
+    /// </summary>
+    [Export]
+    public AudioStream Sound { get; set; }
 
     /// <summary>
     ///     动作类型枚举，决定动作的选择策略

@@ -132,9 +132,11 @@ public partial class Card : Resource
     [ExportGroup("卡牌属性")]
     [Export(PropertyHint.None, "卡牌的当前费用")]
     public int Cost { private set; get; }
-
+    
     [ExportGroup("卡牌视觉效果")] [Export] public Texture Icon { get; private set; }
 
+    [Export]
+    public AudioStream Sound { get; set; }
     /// <summary>
     ///     重写ToString方法，返回卡牌的完整信息字符串
     /// </summary>

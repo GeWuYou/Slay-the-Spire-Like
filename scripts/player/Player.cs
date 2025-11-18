@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.component;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
 
@@ -10,7 +11,7 @@ namespace SlayTheSpireLike.scripts.player;
 /// <summary>
 ///     玩家角色类，继承自Node2D节点。负责管理玩家的角色属性、显示和伤害处理。
 /// </summary>
-public partial class Player : Node2D
+public partial class Player : Node2D, IDamageableComponent, IBlockableComponent
 {
     private CharacterStats _stats;
 
@@ -93,5 +94,10 @@ public partial class Player : Node2D
             Events.Instance.EmitSignal(Events.SignalName.PlayerDied);
             QueueFree();
         };
+    }
+
+    public void TakeBlock(int block)
+    {
+        Stats.Block = Math.Min(Stats.Block + block, Stats.MaxBlock);
     }
 }

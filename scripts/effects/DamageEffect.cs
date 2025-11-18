@@ -1,5 +1,7 @@
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
+using SlayTheSpireLike.scripts.component;
 using SlayTheSpireLike.scripts.enemies;
 using SlayTheSpireLike.scripts.player;
 
@@ -26,19 +28,15 @@ public partial class DamageEffect : Effect
     {
         // 遍历所有目标并造成伤害
         foreach (var target in targets)
-            switch (target)
+        {
+            if (target is not IDamageableComponent damageableComponent)
             {
-                // 跳过空目标
-                case null:
-                    continue;
-                // 对敌人目标造成伤害
-                case Enemy enemy:
-                    enemy.TakeDamage(Amount);
-                    break;
-                // 对玩家目标造成伤害
-                case Player player:
-                    player.TakeDamage(Amount);
-                    break;
+                continue;
             }
+
+            damageableComponent.TakeDamage(Amount);
+            AudioPlayerManager.Instance.PlaySfx(Sound);
+        }
+        
     }
 }

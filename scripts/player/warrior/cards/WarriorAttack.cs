@@ -1,3 +1,4 @@
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.effects;
@@ -21,6 +22,7 @@ public partial class WarriorAttack : Card
         // 创建伤害效果实例
         var effect = new DamageEffect();
         effect.Amount = 6;
+        effect.Sound = Sound;
         // 执行伤害效果
         effect.Execute(targets);
     }

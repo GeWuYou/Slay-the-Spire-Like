@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.component;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
 
@@ -11,7 +12,7 @@ namespace SlayTheSpireLike.scripts.enemies;
 ///     敌人类，继承自Area2D，用于表示游戏中的敌人单位。
 ///     负责管理敌人的属性、UI显示以及受到伤害后的逻辑处理。
 /// </summary>
-public partial class Enemy : Area2D
+public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent
 {
     private EnemyAction _currentAction;
 
@@ -173,5 +174,10 @@ public partial class Enemy : Area2D
             Sprite2D.Material = null;
             if (Stats.Health <= 0) QueueFree();
         };
+    }
+
+    public void TakeBlock(int block)
+    {
+        Stats.Block = Math.Min(Stats.Block + block, Stats.MaxBlock);
     }
 }

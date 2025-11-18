@@ -1,7 +1,8 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://v5qn4n335o18"]
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://v5qn4n335o18"]
 
 [ext_resource type="Texture2D" uid="uid://ck1t4hdip6xrl" path="res://art/tile_0119.png" id="1_jq0uc"]
 [ext_resource type="Script" uid="uid://b2pp3vfiwyhx6" path="res://scripts/player/warrior/cards/WarriorAttack.cs" id="2_jq0uc"]
+[ext_resource type="AudioStream" uid="uid://b1vpjjmi5cj3n" path="res://art/axe.ogg" id="2_r0vnb"]
 
 [resource]
 script = ExtResource("2_jq0uc")
@@ -13,4 +14,5 @@ CardTarget = 1
 InitCost = 1
 Cost = 1
 Icon = ExtResource("1_jq0uc")
+Sound = ExtResource("2_r0vnb")
 metadata/_custom_type_script = "uid://ch7vp4mxba551"
