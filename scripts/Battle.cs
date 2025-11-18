@@ -1,4 +1,4 @@
-using global::SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.enemies;
 using SlayTheSpireLike.scripts.player;
@@ -21,6 +21,8 @@ public partial class Battle : Node2D
     [Export] public EnemyHandler EnemyHandler { get; set; }
 
     [Export] public Player Player { get; set; }
+    
+    [Export] public AudioStream BattleMusic { get; set; }
 
     /// <summary>
     ///     当节点进入场景树时调用，初始化战斗UI并设置玩家属性
@@ -79,6 +81,7 @@ public partial class Battle : Node2D
     private void StartBattle(CharacterStats newStats)
     {
         GD.Print("开始战斗");
+        SoundPlayer.Instance.Play(BattleMusic,true);
         EnemyHandler.ResetEnemyAcitons();
         PlayerHandler.StartBattle(newStats);
     }
