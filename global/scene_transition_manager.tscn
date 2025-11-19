@@ -1,0 +1,79 @@
+[gd_scene load_steps=6 format=3 uid="uid://b8bc41fsvyysl"]
+
+[ext_resource type="Script" uid="uid://6ipi55weeuhd" path="res://scripts/global/SceneTransitionManager.cs" id="1_cw311"]
+
+[sub_resource type="Animation" id="Animation_yfjd3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeRect:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_3qqtv"]
+resource_name = "fade_in"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeRect:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.6, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_oxs4f"]
+resource_name = "fade_out"
+length = 0.45
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeRect:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.45),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_651m7"]
+_data = {
+&"RESET": SubResource("Animation_yfjd3"),
+&"fade_in": SubResource("Animation_oxs4f"),
+&"fade_out": SubResource("Animation_3qqtv")
+}
+
+[node name="SceneTransitionManager" type="CanvasLayer" node_paths=PackedStringArray("FadeRect", "Anim")]
+script = ExtResource("1_cw311")
+FadeRect = NodePath("FadeRect")
+Anim = NodePath("AnimationPlayer")
+
+[node name="FadeRect" type="ColorRect" parent="."]
+editor_description = "全屏覆盖的矩形，实际显示 shader 效果"
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+editor_description = "驱动 shader 参数与其他动画"
+libraries = {
+&"": SubResource("AnimationLibrary_651m7")
+}
+playback_auto_capture_transition_type = 7

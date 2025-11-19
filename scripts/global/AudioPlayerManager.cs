@@ -34,7 +34,6 @@ public partial class AudioPlayerManager : Node
     /// </summary>
     public override void _Ready()
     {
-        base._Ready();
         Instance = this;
 
         // 如果场景中已经预置了一些 AudioStreamPlayer，优先使用它们（按名字或者顺序）

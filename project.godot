@@ -22,6 +22,7 @@ Events="*res://scripts/global/Events.cs"
 Shaker="*res://scripts/global/Shaker.cs"
 ResourceLoaderManager="*res://scripts/global/ResourceLoaderManager.cs"
 AudioPlayerManager="*res://global/audio_player_manager.tscn"
+SceneTransitionManager="*res://global/scene_transition_manager.tscn"
 
 [debug]
 
