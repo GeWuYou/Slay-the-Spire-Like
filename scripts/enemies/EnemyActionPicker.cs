@@ -16,7 +16,6 @@ public partial class EnemyActionPicker : Node
     /// <summary>
     ///     关联的敌人对象。设置时会同步更新所有子动作的 Enemy 属性。
     /// </summary>
-    [Export]
     public Enemy Enemy
     {
         get => _enemy;
@@ -32,7 +31,6 @@ public partial class EnemyActionPicker : Node
     /// <summary>
     ///     动作的目标节点（通常是玩家）。设置时会同步更新所有子动作的 Target 属性。
     /// </summary>
-    [Export]
     public Node2D Target
     {
         get => _target;

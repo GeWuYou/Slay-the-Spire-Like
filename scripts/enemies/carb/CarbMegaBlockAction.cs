@@ -8,7 +8,7 @@ namespace SlayTheSpireLike.scripts.enemies.carb;
 ///     敌人动作类，用于处理巨型方块敌人的特殊行动
 ///     当敌人的生命值低于指定阈值时，执行格挡效果
 /// </summary>
-public partial class MegaBlockAction : EnemyAction
+public partial class CarbMegaBlockAction : EnemyAction
 {
     private bool _alreadyUsed;
     [Export] public int Block { get; set; } = 15;

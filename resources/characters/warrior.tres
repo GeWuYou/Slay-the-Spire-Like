@@ -7,6 +7,5 @@
 [resource]
 script = ExtResource("1_2m8aq")
 StartingDeck = ExtResource("2_g5w5n")
-MaxHeath = 1
 Art = ExtResource("1_e7muu")
 metadata/_custom_type_script = "uid://canfeskbo4xkh"

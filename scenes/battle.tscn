@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cxksgeo2osgek"]
+[gd_scene load_steps=20 format=3 uid="uid://cxksgeo2osgek"]
 
 [ext_resource type="Script" uid="uid://wmplux2455e6" path="res://scripts/Battle.cs" id="1_6ni85"]
 [ext_resource type="Texture2D" uid="uid://cp4iq5fd6j8be" path="res://art/background.png" id="1_dn72j"]
@@ -11,11 +11,12 @@
 [ext_resource type="Resource" uid="uid://r7n55ig8gn7a" path="res://resources/characters/warrior.tres" id="4_v7i3o"]
 [ext_resource type="Resource" uid="uid://fwm36rtlao7t" path="res://resources/enemies/carb/carb_enemy.tres" id="5_22uqi"]
 [ext_resource type="Script" uid="uid://c7qhjh0rx77qq" path="res://scripts/player/PlayerHandler.cs" id="8_03edq"]
+[ext_resource type="Resource" uid="uid://b7umfumtmm8vd" path="res://resources/enemies/bat/bat_enemy.tres" id="8_h4dll"]
 [ext_resource type="Script" uid="uid://dixubx5wgteys" path="res://scripts/BattleUi.cs" id="8_vceff"]
 [ext_resource type="PackedScene" uid="uid://di6mroovg4m14" path="res://scenes/ui/mana_ui.tscn" id="11_66ngm"]
 [ext_resource type="PackedScene" uid="uid://b6ap38ykbfvgc" path="res://scenes/ui/tool_tip.tscn" id="12_03edq"]
 [ext_resource type="Theme" uid="uid://bda6jdmo18uon" path="res://main_theme.tres" id="13_22uqi"]
-[ext_resource type="Script" uid="uid://e5mxrhyp6bjw" path="res://scenes/ui/WindowMask.cs" id="15_vceff"]
+[ext_resource type="Script" uid="uid://e5mxrhyp6bjw" path="res://scripts/ui/WindowMask.cs" id="15_vceff"]
 [ext_resource type="PackedScene" uid="uid://lmcbx3ckltlo" path="res://scenes/ui/battle_over_panel.tscn" id="17_djc8l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dn72j"]
@@ -47,9 +48,13 @@ debug_color = Color(0, 0.6, 0.69803923, 0.14117648)
 [node name="EnemyHandler" type="Node2D" parent="."]
 script = ExtResource("4_6ni85")
 
-[node name="Enemy" parent="EnemyHandler" instance=ExtResource("2_yahae")]
+[node name="CarbEnemy" parent="EnemyHandler" instance=ExtResource("2_yahae")]
 position = Vector2(191, 69)
 Stats = ExtResource("5_22uqi")
+
+[node name="BatEnemy" parent="EnemyHandler" instance=ExtResource("2_yahae")]
+position = Vector2(220, 69)
+Stats = ExtResource("8_h4dll")
 
 [node name="Player" parent="." instance=ExtResource("3_yahae")]
 position = Vector2(43, 69)

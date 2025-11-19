@@ -1,4 +1,4 @@
-using global::SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.effects;
 
@@ -8,7 +8,7 @@ namespace SlayTheSpireLike.scripts.enemies.carb;
 ///     敌人执行格挡动作的类，继承自EnemyAction
 ///     该类负责处理敌人给自己或目标添加格挡效果的逻辑
 /// </summary>
-public partial class BlockAction : EnemyAction
+public partial class CarbBlockAction : EnemyAction
 {
     [Export] public int Block { get; set; } = 6;
 

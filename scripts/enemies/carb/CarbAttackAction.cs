@@ -1,4 +1,4 @@
-using global::SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.effects;
@@ -9,7 +9,7 @@ namespace SlayTheSpireLike.scripts.enemies.carb;
 ///     敌人攻击动作类，继承自EnemyAction
 ///     负责执行敌人的攻击行为，包括移动、造成伤害和返回原位的动画过程
 /// </summary>
-public partial class AttackAction : EnemyAction
+public partial class CarbAttackAction : EnemyAction
 {
     [Export] public int Damage { get; set; } = 5;
 

@@ -1,7 +1,7 @@
-using SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.global;
 
-namespace SlayTheSpireLike.scenes.ui;
+namespace SlayTheSpireLike.scripts.ui;
 
 public partial class WindowMask : CanvasLayer
 {

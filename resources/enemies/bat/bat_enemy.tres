@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyStats" load_steps=4 format=3 uid="uid://b7umfumtmm8vd"]
+
+[ext_resource type="Script" uid="uid://de3hf2w6u5g52" path="res://scripts/resources/EnemyStats.cs" id="1_04gie"]
+[ext_resource type="PackedScene" uid="uid://bj3vygit53dhn" path="res://scenes/enemies/bat/bat_enemy_ai.tscn" id="1_gpcvl"]
+[ext_resource type="Texture2D" uid="uid://con6y7mc74c5a" path="res://art/tile_0120.png" id="2_pwhlo"]
+
+[resource]
+script = ExtResource("1_04gie")
+Ai = ExtResource("1_gpcvl")
+Damage = 9
+MaxHeath = 16
+Art = ExtResource("2_pwhlo")
+metadata/_custom_type_script = "uid://de3hf2w6u5g52"

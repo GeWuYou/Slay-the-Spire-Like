@@ -37,7 +37,17 @@ window/stretch/mode="viewport"
 
 [dotnet]
 
-project/assembly_name="Deck Builder Tutorial"
+project/assembly_name="Slay the Spire Like"
+
+[file_customization]
+
+folder_colors={
+"res://global/": "teal",
+"res://resources/": "orange",
+"res://scenes/": "pink",
+"res://script_templates/Node/": "green",
+"res://scripts/": "blue"
+}
 
 [global_group]
 
