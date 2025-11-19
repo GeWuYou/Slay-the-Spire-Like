@@ -1,4 +1,4 @@
-﻿using global::SlayTheSpireLike.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.extensions;
 
@@ -70,7 +70,7 @@ public partial class CardDraggingState : CardState
         // 只有敌人目标且有可用目标时才切换到瞄准状态
         if (isEnemyTarget && isMouseMotion && CardUi.Targets.Count > 0)
         {
-            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Aiming.GetCardStateValue());
+            EmitSignal(CardState.SignalName.TransitionRequested, this, (int)State.Aiming);
             return;
         }
 
@@ -81,13 +81,13 @@ public partial class CardDraggingState : CardState
         if (cancel)
         {
             GD.Print("取消操作");
-            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
+            EmitSignal(CardState.SignalName.TransitionRequested, this, (int)State.Base);
         }
         else if (confirm && MinimumDragTimeElapsed)
         {
             GD.Print("打出卡牌");
             GetViewport().SetInputAsHandled();
-            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Released.GetCardStateValue());
+            EmitSignal(CardState.SignalName.TransitionRequested, this, (int)State.Released);
         }
     }
 }

@@ -1,18 +1,18 @@
 [gd_resource type="Resource" load_steps=4 format=3 uid="uid://dxds0oraijofn"]
 
-[ext_resource type="Texture2D" uid="uid://ck1t4hdip6xrl" path="res://art/tile_0119.png" id="1_s4gc5"]
-[ext_resource type="AudioStream" uid="uid://b1vpjjmi5cj3n" path="res://art/axe.ogg" id="2_834p1"]
-[ext_resource type="Script" uid="uid://b2pp3vfiwyhx6" path="res://scripts/player/warrior/cards/WarriorAttack.cs" id="3_jgpy4"]
+[ext_resource type="Texture2D" uid="uid://c6rme2o6dyaoj" path="res://art/tile_0104.png" id="1_had3m"]
+[ext_resource type="AudioStream" uid="uid://b1vpjjmi5cj3n" path="res://art/axe.ogg" id="2_e8mpc"]
+[ext_resource type="Script" uid="uid://b2pp3vfiwyhx6" path="res://scripts/player/warrior/cards/WarriorAttack.cs" id="3_q14ol"]
 
 [resource]
-script = ExtResource("3_jgpy4")
-Id = "warrior_attack"
+script = ExtResource("3_q14ol")
+Id = "assassin_attack"
 Name = "攻击"
-Description = "[center][color=green]战士[/color]挥舞武器，砍向敌人，对敌人造成[color=red]6[/color]点伤害[/center]
+Description = "[center][color=green]刺客[/color]挥舞匕首，刺向敌人，对敌人造成[color=red]6[/color]点伤害[/center]
 "
 CardTarget = 1
 InitCost = 1
 Cost = 1
-Icon = ExtResource("1_s4gc5")
-Sound = ExtResource("2_834p1")
+Icon = ExtResource("1_had3m")
+Sound = ExtResource("2_e8mpc")
 metadata/_custom_type_script = "uid://ch7vp4mxba551"

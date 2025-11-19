@@ -52,10 +52,9 @@ public partial class BattleOverPanel : Panel
     /// 根据战斗结果类型显示相应的文本和按钮
     /// </summary>
     /// <param name="text">要显示的文本内容</param>
-    /// <param name="typeValue">战斗结果类型值（胜利或失败）</param>
-    public void ShowScreen(string text, int typeValue)
+    /// <param name="type">战斗结果类型（胜利或失败）</param>
+    public void ShowScreen(string text, Type type)
     {
-        var type = typeValue.GetBattleOverPanelType();
         Label.Text = text;
         ContinueButton.Visible = type == Type.Win;
         RestartButton.Visible = type == Type.Lose;

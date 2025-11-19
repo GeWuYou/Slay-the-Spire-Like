@@ -31,6 +31,6 @@ public partial class CardClickedState : CardState
     {
         // 检测鼠标移动事件，用于触发拖拽状态转换
         if (@event is InputEventMouseMotion)
-            EmitSignal(CardState.SignalName.TransitionRequested, this, State.Dragging.GetCardStateValue());
+            EmitSignal(CardState.SignalName.TransitionRequested, this, (int)State.Dragging);
     }
 }

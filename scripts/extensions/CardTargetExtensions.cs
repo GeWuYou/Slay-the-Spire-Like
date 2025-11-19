@@ -8,54 +8,6 @@ namespace SlayTheSpireLike.scripts.extensions;
 public static class CardTargetExtensions
 {
     /// <summary>
-    ///     将目标枚举转换为对应的整数值
-    /// </summary>
-    /// <param name="target">要转换的目标枚举值</param>
-    /// <returns>返回与目标对应的整数值，未知目标返回0</returns>
-    public static int GetTargetValue(this Card.Target target)
-    {
-        return target switch
-        {
-            Card.Target.Self => 0,
-            Card.Target.Enemy => 1,
-            Card.Target.All => 2,
-            Card.Target.Random => 3,
-            Card.Target.RandomEnemy => 4,
-            Card.Target.RandomAlly => 5,
-            Card.Target.AllEnemies => 6,
-            Card.Target.Ally => 7,
-            Card.Target.AllAllies => 8,
-            Card.Target.AllSelf => 9,
-            Card.Target.RandomSelf => 10,
-            _ => 0
-        };
-    }
-
-    /// <summary>
-    ///     将整数值转换为对应的目标枚举
-    /// </summary>
-    /// <param name="value">要转换的整数值</param>
-    /// <returns>返回与整数对应的目标枚举值，无效值返回Self目标</returns>
-    public static Card.Target GetTarget(this int value)
-    {
-        return value switch
-        {
-            0 => Card.Target.Self,
-            1 => Card.Target.Enemy,
-            2 => Card.Target.All,
-            3 => Card.Target.Random,
-            4 => Card.Target.RandomEnemy,
-            5 => Card.Target.RandomAlly,
-            6 => Card.Target.AllEnemies,
-            7 => Card.Target.Ally,
-            8 => Card.Target.AllAllies,
-            9 => Card.Target.AllSelf,
-            10 => Card.Target.RandomSelf,
-            _ => Card.Target.Self
-        };
-    }
-
-    /// <summary>
     ///     判断目标是否为自身
     /// </summary>
     /// <param name="target">要判断的目标类型</param>

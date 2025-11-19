@@ -1,18 +1,18 @@
 [gd_resource type="Resource" load_steps=4 format=3 uid="uid://dta15hjxw0qee"]
 
-[ext_resource type="Texture2D" uid="uid://oe7v35ii8vrs" path="res://art/tile_0102.png" id="1_a6ibj"]
-[ext_resource type="AudioStream" uid="uid://df64e7qat73gs" path="res://art/block.ogg" id="2_4llvq"]
-[ext_resource type="Script" uid="uid://dc64rdjnou06q" path="res://scripts/player/warrior/cards/WarriorDefend.cs" id="3_3dx2t"]
+[ext_resource type="Texture2D" uid="uid://oe7v35ii8vrs" path="res://art/tile_0102.png" id="1_qaays"]
+[ext_resource type="AudioStream" uid="uid://df64e7qat73gs" path="res://art/block.ogg" id="2_o3fvp"]
+[ext_resource type="Script" uid="uid://dc64rdjnou06q" path="res://scripts/player/warrior/cards/WarriorDefend.cs" id="3_wyi6u"]
 
 [resource]
-script = ExtResource("3_3dx2t")
+script = ExtResource("3_wyi6u")
 Id = "warrior_defense"
 Name = "防御"
-Description = "[center][color=green]战士[/color]举起盾牌，为自己增加[color=blue]6[/color]点格挡值[/center]
+Description = "[center][color=green]巫师[/color]释放护盾，为自己增加[color=blue]6[/color]点格挡值[/center]
 "
 CardType = 2
 InitCost = 1
 Cost = 1
-Icon = ExtResource("1_a6ibj")
-Sound = ExtResource("2_4llvq")
+Icon = ExtResource("1_qaays")
+Sound = ExtResource("2_o3fvp")
 metadata/_custom_type_script = "uid://ch7vp4mxba551"

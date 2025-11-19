@@ -78,12 +78,12 @@ public partial class CardStateMachine : Node
     /// </summary>
     /// <param name="from">源状态</param>
     /// <param name="to">目标状态枚举值</param>
-    private void OnTransitionRequested(CardState from, int to)
+    private void OnTransitionRequested(CardState from, CardState.State to)
     {
         // 验证请求来源是否为当前状态
         if (from != _currentState) return;
 
-        var newState = _states[to.GetCardState()];
+        var newState = _states[to];
         // 检查目标状态是否存在
         if (newState is null) return;
 

@@ -61,7 +61,7 @@ public partial class CardBaseState : CardState
         CardUi.PivotOffset = CardUi.GetGlobalMousePosition() - CardUi.GlobalPosition;
 
         // 触发状态转换请求信号
-        EmitSignal(CardState.SignalName.TransitionRequested, this, State.Clicked.GetCardStateValue());
+        EmitSignal(CardState.SignalName.TransitionRequested, this,(int) State.Clicked);
     }
 
     public override void OnMouseEntered()

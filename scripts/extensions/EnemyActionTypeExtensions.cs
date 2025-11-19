@@ -8,36 +8,6 @@ namespace SlayTheSpireLike.scripts.extensions;
 public static class EnemyActionTypeExtensions
 {
     /// <summary>
-    ///     将敌人行动类型枚举转换为对应的整数值
-    /// </summary>
-    /// <param name="type">要转换的敌人行动类型枚举值</param>
-    /// <returns>返回与敌人行动类型对应的整数值，未知类型返回0</returns>
-    public static int GetEnemyActionTypeValue(this EnemyAction.Type type)
-    {
-        return type switch
-        {
-            EnemyAction.Type.Conditional => 0,
-            EnemyAction.Type.ChanceBased => 1,
-            _ => 0
-        };
-    }
-
-    /// <summary>
-    ///     将整数值转换为对应的敌人行动类型枚举
-    /// </summary>
-    /// <param name="value">要转换的整数值</param>
-    /// <returns>返回与整数对应的敌人行动类型枚举值，无效值返回Conditional类型</returns>
-    public static EnemyAction.Type GetEnemyActionType(this int value)
-    {
-        return value switch
-        {
-            0 => EnemyAction.Type.Conditional,
-            1 => EnemyAction.Type.ChanceBased,
-            _ => EnemyAction.Type.Conditional
-        };
-    }
-
-    /// <summary>
     ///     判断敌人行动类型是否为条件类型
     /// </summary>
     /// <param name="type">要判断的敌人行动类型</param>

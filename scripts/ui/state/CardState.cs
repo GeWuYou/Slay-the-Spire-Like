@@ -16,7 +16,7 @@ public partial class CardState : Node
     ///     参数to: 转换后的状态目标
     /// </summary>
     [Signal]
-    public delegate void TransitionRequestedEventHandler(CardState from, int to);
+    public delegate void TransitionRequestedEventHandler(CardState from, State to);
 
     /// <summary>
     ///     卡牌状态枚举，定义了卡牌可能处于的各种状态
@@ -57,7 +57,7 @@ public partial class CardState : Node
 
     public override void _Ready()
     {
-        TransitionRequested += (from, to) => { GD.Print($"{from.StateValue} 转换为 {to.GetCardState()}"); };
+        TransitionRequested += (from, to) => { GD.Print($"{from.StateValue} 转换为 {to}"); };
         Events = Events.Instance;
     }
 

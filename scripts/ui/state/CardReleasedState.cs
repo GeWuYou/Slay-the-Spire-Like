@@ -1,4 +1,4 @@
-﻿using global::SlayTheSpireLike.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.extensions;
 
@@ -33,6 +33,6 @@ public partial class CardReleasedState : CardState
     {
         if (Played) return;
 
-        EmitSignal(CardState.SignalName.TransitionRequested, this, State.Base.GetCardStateValue());
+        EmitSignal(CardState.SignalName.TransitionRequested, this, (int)State.Base);
     }
 }

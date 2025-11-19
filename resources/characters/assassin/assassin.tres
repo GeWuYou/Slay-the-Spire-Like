@@ -1,7 +1,17 @@
-[gd_resource type="Resource" script_class="CharacterStats" load_steps=2 format=3 uid="uid://57272s5v0e6y"]
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=4 format=3 uid="uid://57272s5v0e6y"]
 
 [ext_resource type="Script" uid="uid://canfeskbo4xkh" path="res://scripts/resources/CharacterStats.cs" id="1_5rbmc"]
+[ext_resource type="Texture2D" uid="uid://dxg7y1wlh86kj" path="res://art/tile_0100.png" id="1_jxrxb"]
+[ext_resource type="Resource" uid="uid://ox5xm3gb7l4p" path="res://resources/characters/assassin/assassin_starting_deck.tres" id="2_ul2dq"]
 
 [resource]
 script = ExtResource("1_5rbmc")
+Description = "一位隐居多年的刺客大师！
+今天他将踏上前往地牢的旅程！"
+Portrait = ExtResource("1_jxrxb")
+StartingDeck = ExtResource("2_ul2dq")
+CardsPerTurn = 4
+MaxHeath = 50
+Art = ExtResource("1_jxrxb")
+Name = "刺客"
 metadata/_custom_type_script = "uid://canfeskbo4xkh"
