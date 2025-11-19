@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("2_jq0uc")
-Id = "warrior_1"
+Id = "warrior_attack"
 Name = "攻击"
 Description = "[center][color=green]战士[/color]挥舞武器，砍向敌人，对敌人造成[color=red]6[/color]点伤害[/center]
 "

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://dvhm0uhaevn44"]
+
+[ext_resource type="Texture2D" uid="uid://b80t1pkjhxn6s" path="res://icon.png" id="1_tgeg2"]
+[ext_resource type="AudioStream" uid="uid://dixklg6g4jnsq" path="res://art/slash.ogg" id="2_r1tm5"]
+[ext_resource type="Script" uid="uid://b26jg3o6qs6nf" path="res://scripts/player/warrior/cards/WarriorSlash.cs" id="3_tgeg2"]
+
+[resource]
+script = ExtResource("3_tgeg2")
+Id = "warrior_slash"
+Name = "斩击"
+Description = "[center]对所有敌人造成[color=red]5[/color]点伤害[/center]"
+CardTarget = 6
+InitCost = 2
+Cost = 2
+Icon = ExtResource("1_tgeg2")
+Sound = ExtResource("2_r1tm5")
+metadata/_custom_type_script = "uid://ch7vp4mxba551"

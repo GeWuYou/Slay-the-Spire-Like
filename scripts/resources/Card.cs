@@ -1,6 +1,5 @@
-
 using System;
-using global::SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 

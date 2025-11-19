@@ -1,3 +1,4 @@
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.effects;
@@ -9,7 +10,7 @@ namespace SlayTheSpireLike.scripts.player.warrior.cards;
 ///     战士攻击卡牌类，继承自Card基类
 ///     代表战士职业的一种攻击卡牌，用于对目标造成伤害
 /// </summary>
-public partial class WarriorAttack : Card
+public partial class WarriorSlash : Card
 {
     /// <summary>
     ///     应用卡牌效果到指定目标
@@ -20,7 +21,7 @@ public partial class WarriorAttack : Card
     {
         // 创建伤害效果实例
         var effect = new DamageEffect();
-        effect.Amount = 6;
+        effect.Amount = 5;
         effect.Sound = Sound;
         // 执行伤害效果
         effect.Execute(targets);
