@@ -6,6 +6,10 @@
 
 [resource]
 script = ExtResource("1_2m8aq")
+Description = "厉害の战士！
+我第二喜欢的角色！"
+Portrait = ExtResource("1_e7muu")
 StartingDeck = ExtResource("2_g5w5n")
 Art = ExtResource("1_e7muu")
+Name = "战士"
 metadata/_custom_type_script = "uid://canfeskbo4xkh"

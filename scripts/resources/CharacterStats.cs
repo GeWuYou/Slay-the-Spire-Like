@@ -13,9 +13,24 @@ public partial class CharacterStats : Stats
     private int _mana;
 
     /// <summary>
+    /// 获取或设置描述信息
+    /// </summary>
+    [ExportGroup("视觉")]
+    [Export(PropertyHint.MultilineText)]
+    public string Description { private set; get; }
+
+    /// <summary>
+    /// 获取或设置肖像纹理
+    /// </summary>
+    [ExportGroup("视觉")]
+    [Export]
+    public Texture Portrait { private set; get; }
+
+    /// <summary>
     ///     起始卡组，通过Godot导出属性可在编辑器中配置
     /// </summary>
     [Export]
+    [ExportGroup("游戏数据")]
     public CardPile StartingDeck { private set; get; }
 
     /// <summary>

@@ -23,6 +23,7 @@ public partial class Stats : Resource
     /// <summary>
     ///     最大生命值上限，默认为 70。
     /// </summary>
+    [ExportGroup("游戏数据")]
     [Export]
     public int MaxHeath { set; get; } = 70;
 
@@ -37,6 +38,19 @@ public partial class Stats : Resource
     /// </summary>
     [Export]
     public Texture Art { private set; get; }
+    /// <summary>
+    /// 获取或设置视觉组的名称属性
+    /// </summary>
+    /// <remarks>
+    /// 该属性使用ExportGroup和Export特性标记，表明它是一个可导出的视觉相关属性。
+    /// 属性具有公共的getter和私有的setter，允许外部读取但只能在类内部修改。
+    /// </remarks>
+    [ExportGroup("视觉")]
+    [Export]
+    public string Name { private set; get; }
+
+
+    
 
     /// <summary>
     ///     获取或设置当前的生命值。

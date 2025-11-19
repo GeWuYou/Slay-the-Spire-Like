@@ -1,0 +1,124 @@
+[gd_scene load_steps=11 format=3 uid="uid://bd57sb6e3ma7y"]
+
+[ext_resource type="Script" uid="uid://b2tlo4yrf0me1" path="res://scripts/ui/MainMenu.cs" id="1_btxxm"]
+[ext_resource type="Texture2D" uid="uid://dpfqok8tuy4r7" path="res://art/tile_0084.png" id="1_uhagc"]
+[ext_resource type="Texture2D" uid="uid://dxg7y1wlh86kj" path="res://art/tile_0100.png" id="2_btxxm"]
+[ext_resource type="Texture2D" uid="uid://cpydvk8mq66o5" path="res://art/tile_0087.png" id="3_wb0q5"]
+[ext_resource type="Texture2D" uid="uid://con6y7mc74c5a" path="res://art/tile_0120.png" id="4_q85j6"]
+[ext_resource type="Texture2D" uid="uid://1u3b3hwqd8yh" path="res://art/tile_0110.png" id="5_8g5eo"]
+[ext_resource type="Texture2D" uid="uid://c24y6l0ivlqp7" path="res://art/tile_0108.png" id="6_7suek"]
+
+[sub_resource type="Gradient" id="Gradient_otr3d"]
+offsets = PackedFloat32Array(0, 0.88314605)
+colors = PackedColorArray(0.39001125, 0.26823837, 0.19540715, 1, 0.15127596, 0.15127608, 0.15127626, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8ekit"]
+gradient = SubResource("Gradient_otr3d")
+width = 50
+
+[sub_resource type="LabelSettings" id="LabelSettings_n4uci"]
+shadow_size = 4
+shadow_color = Color(0.636551, 0.24370313, 0.07002159, 0.35686275)
+
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("ContinueButton", "NewGameButton", "QuitButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_btxxm")
+ContinueButton = NodePath("VBoxContainer/ContinueButton")
+NewGameButton = NodePath("VBoxContainer/NewGameButton")
+QuitButton = NodePath("VBoxContainer/QuitButton")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_8ekit")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -93.0
+offset_top = -61.0
+offset_right = 93.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "我超棒的
+全新RogueLike卡组构筑！"
+label_settings = SubResource("LabelSettings_n4uci")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_right = 30.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 6
+
+[node name="ContinueButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "继续"
+
+[node name="NewGameButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "新游戏"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "退出"
+
+[node name="Sprites" type="Node" parent="."]
+
+[node name="Wizard" type="Sprite2D" parent="Sprites"]
+position = Vector2(27, 102)
+scale = Vector2(2, 2)
+texture = ExtResource("1_uhagc")
+
+[node name="Assassin" type="Sprite2D" parent="Sprites"]
+position = Vector2(55, 96)
+scale = Vector2(2, 2)
+texture = ExtResource("2_btxxm")
+
+[node name="Warrior" type="Sprite2D" parent="Sprites"]
+position = Vector2(47, 117)
+scale = Vector2(2, 2)
+texture = ExtResource("3_wb0q5")
+
+[node name="Bat" type="Sprite2D" parent="Sprites"]
+position = Vector2(201, 102)
+scale = Vector2(2, 2)
+texture = ExtResource("4_q85j6")
+flip_h = true
+
+[node name="Crab" type="Sprite2D" parent="Sprites"]
+position = Vector2(221, 117)
+scale = Vector2(2, 2)
+texture = ExtResource("5_8g5eo")
+flip_h = true
+
+[node name="Ghost" type="Sprite2D" parent="Sprites"]
+position = Vector2(229, 96)
+scale = Vector2(2, 2)
+texture = ExtResource("6_7suek")
+flip_h = true
