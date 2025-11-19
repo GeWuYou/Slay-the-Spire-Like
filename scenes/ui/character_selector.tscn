@@ -25,7 +25,7 @@ shadow_color = Color(0.636551, 0.24370313, 0.07002159, 0.35686275)
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_uy6wb"]
 
-[node name="CharacterSelector" type="Control"]
+[node name="CharacterSelector" type="Control" node_paths=PackedStringArray("StartButton", "WarriorButton", "WizardButton", "AssassinButton", "Title", "Description", "CharacterPortrait")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,6 +33,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_to3sr")
+StartButton = NodePath("StartButton")
+WarriorButton = NodePath("CharacterButtons/WarriorButton")
+WizardButton = NodePath("CharacterButtons/WizardButton")
+AssassinButton = NodePath("CharacterButtons/AssassinButton")
+Title = NodePath("CharacterContainer/Title")
+Description = NodePath("CharacterContainer/Description")
+CharacterPortrait = NodePath("CharacterPortrait")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1

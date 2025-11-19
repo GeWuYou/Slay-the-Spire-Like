@@ -49,8 +49,29 @@ public static class GameConstants
         public const string CardUiScene = "res://scenes/ui/card_ui.tscn";
         
         /// <summary>
+        ///     选择角色场景路径
+        /// </summary>
+        public const string CharacterSelectorScene = "res://scenes/ui/character_selector.tscn";
+        
+        /// <summary>
         ///     白色精灵材质路径
         /// </summary>
         public const string WhiteSpriteMaterial = "res://art/white_sprite_material.tres";
+        
+        /// <summary>
+        ///     刺客角色属性配置文件路径
+        /// </summary>
+        public const string AssassinStats = "res://resources/characters/assassin/assassin.tres";
+        
+        /// <summary>
+        ///     战士角色属性配置文件路径
+        /// </summary>
+        public const string WarriorStats = "res://resources/characters/warrior/warrior.tres";
+        
+        /// <summary>
+        ///     法师角色属性配置文件路径
+        /// </summary>
+        public const string WizardStats = "res://resources/characters/wizard/wizard.tres";
+
     }
 }

@@ -1,3 +1,4 @@
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 namespace SlayTheSpireLike.scripts.ui;
 public partial class MainMenu : Control
@@ -19,7 +20,7 @@ public partial class MainMenu : Control
     
     private void OnNewGameButtonPressed()
     {
-        throw new System.NotImplementedException();
+        GetTree().ChangeSceneToPacked(ResourceLoaderManager.Instance.GetSceneLoader(GameConstants.ResourcePaths.CharacterSelectorScene).Value);
     }
 
     private void OnContinueButtonPressed()
