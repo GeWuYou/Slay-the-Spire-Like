@@ -30,6 +30,54 @@ public static class ResourceFactories
 
 
     /// <summary>
+    /// 战斗场景工厂函数，用于创建Battle场景实例
+    /// </summary>
+    /// <returns>返回一个新的Battle场景对象实例</returns>
+    public static readonly Func<Node> BattleSceneFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<Node>(
+            GameConstants.ResourcePaths.BattleScene);
+
+    /// <summary>
+    /// 战斗奖励场景工厂函数，用于创建BattleReward场景实例
+    /// </summary>
+    /// <returns>返回一个新的BattleReward场景对象实例</returns>
+    public static readonly Func<Node> BattleRewardSceneFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<Node>(
+            GameConstants.ResourcePaths.BattleRewardScene);
+
+    /// <summary>
+    /// 营火场景工厂函数，用于创建Campfire场景实例
+    /// </summary>
+    /// <returns>返回一个新的Campfire场景对象实例</returns>
+    public static readonly Func<Node> CampfireSceneFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<Node>(
+            GameConstants.ResourcePaths.CampfireScene);
+
+    /// <summary>
+    /// 地图场景工厂函数，用于创建Map场景实例
+    /// </summary>
+    /// <returns>返回一个新的Map场景对象实例</returns>
+    public static readonly Func<Node> MapSceneFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<Node>(
+            GameConstants.ResourcePaths.MapScene);
+
+    /// <summary>
+    /// 商店场景工厂函数，用于创建Shop场景实例
+    /// </summary>
+    /// <returns>返回一个新的Shop场景对象实例</returns>
+    public static readonly Func<Node> ShopSceneFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<Node>(
+            GameConstants.ResourcePaths.ShopScene);
+
+    /// <summary>
+    /// 宝箱场景工厂函数，用于创建Treasure场景实例
+    /// </summary>
+    /// <returns>返回一个新的Treasure场景对象实例</returns>
+    public static readonly Func<Node> TreasureSceneFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<Node>(
+            GameConstants.ResourcePaths.TreasureScene);
+
+    /// <summary>
     ///     白色精灵材质工厂函数
     /// </summary>
     public static readonly Func<Material> WhiteSpriteMatFactory =

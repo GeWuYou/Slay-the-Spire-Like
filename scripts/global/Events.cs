@@ -136,8 +136,84 @@ public partial class Events : SingletonNode<Events>
     /// <param name="text">显示在战斗结束面板上的文本内容</param>
     /// <param name="type">战斗结束面板的类型</param>
     [Signal]
-    public delegate void BattleOverScreenRequestedEventHandler(string text,BattleOverPanel.Type type);
+    public delegate void BattleOverScreenRequestedEventHandler(string text, BattleOverPanel.Type type);
 
+    /// <summary>
+    ///     战斗胜利事件处理委托
+    /// </summary>
+    [Signal]
+    public delegate void BattleWonEventHandler();
+    
+    /// <summary>
+    ///     战斗奖励界面退出事件处理委托
+    /// </summary>
+    [Signal]
+    public delegate void BattleRewardExitedEventHandler();
 
     #endregion
+
+    #region 地图事件
+
+    /// <summary>
+    ///     地图退出事件处理委托
+    /// </summary>
+    [Signal]
+    public delegate void MapExitedEventHandler();
+    
+    /// <summary>
+    ///     地图进入事件处理委托
+    /// </summary>
+    [Signal]
+    public delegate void MapEnteredEventHandler();
+
+    #endregion
+
+    #region 商店事件
+
+    /// <summary>
+    ///     商店退出事件处理委托
+    /// </summary>
+    [Signal]
+    public delegate void ShopExitedEventHandler();
+    
+    /// <summary>
+    ///     商店进入事件处理委托
+    /// </summary>
+    [Signal]
+    public delegate void ShopEnteredEventHandler();
+
+    #endregion
+
+    #region 营火事件
+
+    /// <summary>
+    ///     营火退出事件处理委托
+    /// </summary>
+    [Signal]
+    public delegate void CampfireExitedEventHandler();
+    
+    /// <summary>
+    ///     营火进入事件处理委托
+    /// </summary>
+    [Signal]
+    public delegate void CampfireEnteredEventHandler();
+
+    #endregion
+
+    #region 宝箱房间事件
+
+    /// <summary>
+    ///     宝箱房退出事件处理委托
+    /// </summary>
+    [Signal]
+    public delegate void TreasureRoomExitedEventHandler();
+    
+    /// <summary>
+    ///     宝箱房进入事件处理委托
+    /// </summary>
+    [Signal]
+    public delegate void TreasureRoomEnteredEventHandler();
+
+    #endregion
+
 }
