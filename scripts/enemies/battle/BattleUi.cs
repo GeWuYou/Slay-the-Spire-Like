@@ -73,7 +73,7 @@ public partial class BattleUi : CanvasLayer
     private void OnEndTurnButtonPressed()
     {
         EndTurnButton.Disabled = true;
-        _events.EmitSignal(Events.SignalName.PlayerTurnEnded);
+        _events.RaisePlayerTurnEnded();
     }
 
     /// <summary>

@@ -218,7 +218,7 @@ public partial class Card : Resource
     /// <param name="stats">角色统计数据对象，用于扣除法力值</param>
     public void Play(Array<Node> targets, CharacterStats stats)
     {
-        Events.Instance.EmitSignal(Events.SignalName.CardPlayed, this);
+        Events.Instance.RaiseCardPlayed(this);
         stats.Mana -= Cost;
         ApplyEffects(GetTargets(targets));
     }

@@ -62,7 +62,7 @@ public partial class EnemyHandler : Node2D
         // 判断是否为最后一个敌人
         if (enemy.GetIndex() == GetChildCount() - 1)
         {
-            Events.Instance.EmitSignal(Events.SignalName.EnemyTurnEnded);
+            Events.Instance.RaiseEnemyTurnEnded();
             return;
         }
 

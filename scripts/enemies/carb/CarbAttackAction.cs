@@ -41,6 +41,6 @@ public partial class CarbAttackAction : EnemyAction
         tween.TweenInterval(0.25f);
         tween.TweenProperty(Enemy, "global_position", start, 0.4f);
         // 动画完成后发出信号表示敌人行动结束
-        tween.Finished += () => Events.Instance.EmitSignal(Events.SignalName.EnemyActionCompleted, Enemy);
+        tween.Finished += () => Events.Instance.RaiseEnemyActionCompleted(Enemy);
     }
 }

@@ -10,7 +10,6 @@ public partial class Campfire : Control
 
     public override void _Ready()
     {
-        GoBackButton ??= GetNode<Button>("Button");
-        Events.Instance.EmitSignal(Events.SignalName.CampfireExited);
+        GoBackButton.Pressed += () => Events.Instance.RaiseCampfireExited();
     }
 }

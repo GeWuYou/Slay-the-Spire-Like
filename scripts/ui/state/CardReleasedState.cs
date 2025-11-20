@@ -26,7 +26,7 @@ public partial class CardReleasedState : CardState
         GD.Print("打出");
         Played = true;
         CardUi.Play();
-        _events.EmitSignal(Events.SignalName.CardToolTipHideRequest);
+        _events.RaiseCardToolTipHideRequest();
     }
 
     public override void OnInput(InputEvent @event)

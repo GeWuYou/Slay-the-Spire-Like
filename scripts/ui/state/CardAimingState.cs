@@ -49,7 +49,7 @@ public partial class CardAimingState : CardState
         CardUi.DropPointDetector.Monitoring = false;
 
         // 发出卡片瞄准开始事件信号
-        _events.EmitSignal(Events.SignalName.CardAimingStarted, CardUi);
+        _events.RaiseCardAimingStarted(CardUi);
     }
 
     /// <summary>
@@ -79,6 +79,6 @@ public partial class CardAimingState : CardState
     /// </summary>
     public override void Exit()
     {
-        _events.EmitSignal(Events.SignalName.CardAimingEnded, CardUi);
+        _events.RaiseCardAimingEnded(CardUi);
     }
 }

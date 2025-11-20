@@ -94,7 +94,7 @@ public partial class CharacterStats : Stats
         base.TakeDamage(damage);
         if (initialHp > Health)
         {
-            Events.Instance.EmitSignal(Events.SignalName.PlayerHit);
+            Events.Instance.RaisePlayerHit();
         }
     }
 

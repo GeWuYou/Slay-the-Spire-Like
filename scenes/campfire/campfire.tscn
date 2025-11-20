@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://r4bwfh6xkphw" path="res://scripts/campfire/Campfire.cs" id="1_mfytg"]
 
-[node name="Campfire" type="Control"]
+[node name="Campfire" type="Control" node_paths=PackedStringArray("GoBackButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,6 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_mfytg")
+GoBackButton = NodePath("VBoxContainer/Button")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1

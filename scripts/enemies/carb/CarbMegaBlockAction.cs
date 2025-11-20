@@ -46,7 +46,7 @@ public partial class CarbMegaBlockAction : EnemyAction
         // 延迟触发动作完成事件
         GetTree().CreateTimer(0.6f, false).Timeout += () =>
         {
-            Events.Instance.EmitSignal(Events.SignalName.EnemyActionCompleted, Enemy);
+            Events.Instance.RaiseEnemyActionCompleted(Enemy);
         };
     }
 }

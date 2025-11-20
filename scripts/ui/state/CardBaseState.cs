@@ -36,7 +36,7 @@ public partial class CardBaseState : CardState
             CardUi.EmitSignal(CardUi.SignalName.ReparentRequested, CardUi);
             CardUi.PivotOffset = Vector2.Zero;
             // 默认隐藏卡牌提示
-            _events.EmitSignal(Events.SignalName.CardToolTipHideRequest);
+            _events.RaiseCardToolTipHideRequest();
         }
         catch (Exception e)
         {
@@ -75,7 +75,7 @@ public partial class CardBaseState : CardState
 
         // 请求重新设置父节点并更新UI状态显示
         CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.HoverStyleBox);
-        _events.EmitSignal(Events.SignalName.CardToolTipShowRequest, CardUi.Icon.Texture, CardUi.Card.Description);
+        _events.RaiseCardToolTipShowRequest(CardUi.Icon.Texture, CardUi.Card.Description);
     }
 
     public override void OnMouseExited()
@@ -85,6 +85,6 @@ public partial class CardBaseState : CardState
         // 恢复原始父节点并更新UI状态显示
         CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.BaseStyleBox);
         // 隐藏卡牌提示
-        _events.EmitSignal(Events.SignalName.CardToolTipHideRequest);
+        _events.RaiseCardToolTipHideRequest();
     }
 }

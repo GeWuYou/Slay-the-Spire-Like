@@ -91,7 +91,7 @@ public partial class Player : Node2D, IDamageableComponent, IBlockableComponent
             // 检查玩家是否死亡
             if (Stats.Health > 0) return;
 
-            Events.Instance.EmitSignal(Events.SignalName.PlayerDied);
+            Events.Instance.RaisePlayerDied();
             QueueFree();
         };
     }

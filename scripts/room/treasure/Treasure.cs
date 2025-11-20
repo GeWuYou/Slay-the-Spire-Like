@@ -10,7 +10,6 @@ public partial class Treasure : Control
 
     public override void _Ready()
     {
-        GoBackButton ??= GetNode<Button>("Button");
-        Events.Instance.EmitSignal(Events.SignalName.TreasureRoomExited);
+        GoBackButton.Pressed += () => Events.Instance.RaiseTreasureRoomExited();
     }
 }

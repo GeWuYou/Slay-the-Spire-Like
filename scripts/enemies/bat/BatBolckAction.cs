@@ -31,7 +31,7 @@ public partial class BatBolckAction : EnemyAction
 		// 创建定时器，在0.6秒后触发动作完成事件
 		GetTree().CreateTimer(0.6f, false).Timeout += () =>
 		{
-			Events.Instance.EmitSignal(Events.SignalName.EnemyActionCompleted, Enemy);
+			Events.Instance.RaiseEnemyActionCompleted(Enemy);
 		};
 	}
 }

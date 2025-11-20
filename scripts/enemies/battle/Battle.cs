@@ -72,13 +72,13 @@ public partial class Battle : Node2D
 
     private static void OnPlayerDied()
     {
-        Events.Instance.EmitSignal(Events.SignalName.BattleOverScreenRequested, "游戏结束！",(int) BattleOverPanel.Type.Lose);
+        Events.Instance.RaiseBattleOverScreenRequested("游戏结束！", BattleOverPanel.Type.Lose);
     }
 
     private void OnEnmiesChildOrderChanged()
     {
         if (EnemyHandler.GetChildCount() == 0) 
-            Events.Instance.EmitSignal(Events.SignalName.BattleOverScreenRequested, "胜利！", (int)BattleOverPanel.Type.Win);
+            Events.Instance.RaiseBattleOverScreenRequested("胜利！", BattleOverPanel.Type.Win);
     }
 
     /// <summary>

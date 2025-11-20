@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cju4hh7oca6mg" path="res://scripts/room/treasure/Treasure.cs" id="1_mhv6g"]
 
-[node name="Treasure" type="Control"]
+[node name="Treasure" type="Control" node_paths=PackedStringArray("GoBackButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,6 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_mhv6g")
+GoBackButton = NodePath("VBoxContainer/Button")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1

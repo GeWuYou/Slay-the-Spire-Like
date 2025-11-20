@@ -10,7 +10,6 @@ public partial class Shop : Control
 
     public override void _Ready()
     {
-        GoBackButton ??= GetNode<Button>("Button");
-        Events.Instance.EmitSignal(Events.SignalName.ShopExited);
+        GoBackButton.Pressed += () => Events.Instance.RaiseShopExited();
     }
 }

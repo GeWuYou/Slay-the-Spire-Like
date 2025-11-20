@@ -1,7 +1,7 @@
-using SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.global;
 
-namespace SlayTheSpireLike.scripts;
+namespace SlayTheSpireLike.scripts.enemies.battle;
 
 public partial class BattleReward : Control
 {
@@ -10,7 +10,6 @@ public partial class BattleReward : Control
 
     public override void _Ready()
     {
-        GoBackButton ??= GetNode<Button>("Button");
-        Events.Instance.EmitSignal(Events.SignalName.BattleRewardExited);
+        GoBackButton.Pressed += () => Events.Instance.RaiseBattleRewardExited();
     }
 }

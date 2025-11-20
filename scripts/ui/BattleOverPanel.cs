@@ -31,7 +31,7 @@ public partial class BattleOverPanel : Panel
     {
         // 绑定继续按钮点击事件，点击后退出游戏
         var sceneTree = GetTree();
-        ContinueButton.Pressed += () => Events.Instance.EmitSignal(Events.SignalName.BattleWon);
+        ContinueButton.Pressed += () => Events.Instance.RaiseBattleWon();
         // 绑定重启按钮点击事件，点击后重新加载当前场景
         RestartButton.Pressed += () =>
         {

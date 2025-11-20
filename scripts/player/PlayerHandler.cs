@@ -106,7 +106,7 @@ public partial class PlayerHandler : Node
             tween.TweenInterval(_handDiscardInterval);
         }
 
-        tween.Finished += () => { _events.EmitSignal(Events.SignalName.PlayerHandDiscarded); };
+        tween.Finished += () => { _events.RaisePlayerHandDiscarded(); };
     }
 
 
@@ -125,7 +125,7 @@ public partial class PlayerHandler : Node
         }
 
         // 所有卡牌绘制完成后的回调处理
-        tween.Finished += () => { _events.EmitSignal(Events.SignalName.PlayerHandDrawn); };
+        tween.Finished += () => { _events.RaisePlayerHandDrawn(); };
     }
 
     /// <summary>
