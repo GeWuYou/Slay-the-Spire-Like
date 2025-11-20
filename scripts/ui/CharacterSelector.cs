@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.resources;
@@ -10,7 +11,7 @@ public partial class CharacterSelector : Control
     [Export] public Button WarriorButton { get; set; }
     [Export] public Button WizardButton { get; set; }
     [Export] public Button AssassinButton { get; set; }
-
+    [Export] public RunStartup RunStartup { get; set; }
     [Export] [ExportGroup("标题")] public Label Title { get; set; }
     [Export] [ExportGroup("描述")] public Label Description { get; set; }
     [Export] [ExportGroup("角色图片")] public TextureRect CharacterPortrait { get; set; }
@@ -19,7 +20,7 @@ public partial class CharacterSelector : Control
     public override void _Ready()
     {
         _characterStats = ResourceFactories.WarriorStatsFactory();
-        StartButton.Pressed += OnStartButtonPressed;
+        StartButton.Pressed += async () => { await OnStartButtonPressed();};
         WarriorButton.Pressed += OnWarriorButtonPressed;
         WizardButton.Pressed += OnWizardButtonPressed;
         AssassinButton.Pressed += OnAssassinButtonPressed;
@@ -53,8 +54,11 @@ public partial class CharacterSelector : Control
     }
 
 
-    private void OnStartButtonPressed()
+    private async Task OnStartButtonPressed()
     {
-        
+        RunStartup.RunType = RunStartup.Type.NewRun;
+        RunStartup.PlayerStats = _characterStats;
+        var runScene = ResourceLoader.Load<PackedScene>(GameConstants.ResourcePaths.RunScene);
+        await SceneTransitionManager.Instance.TransitionToScene(runScene);
     }
 }

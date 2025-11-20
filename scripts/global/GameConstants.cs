@@ -67,6 +67,11 @@ public static class GameConstants
         ///     营火场景路径
         /// </summary>
         public const string CampfireScene = "res://scenes/campfire/campfire.tscn";
+        
+        /// <summary>
+        ///     运行场景路径
+        /// </summary>
+        public const string RunScene = "res://scenes/run/run.tscn";
 
         /// <summary>
         ///     地图场景路径
