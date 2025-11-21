@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.resources;
@@ -15,12 +16,21 @@ public partial class Run : Node
     [Export] public Button TreasureButton { get; set; }
     [Export] public Button MapButton { get; set; }
     [Export] public Button RewardsButton { get; set; }
+    [Export] public RunStartup RunStartup { get; set; }
     public CharacterStats PlayerStats { get; set; }
     private readonly List<Action> _disposables = new();
 
     public override void _Ready()
     {
-        StartRun();
+       
+        if (RunStartup.RunType == RunStartup.Type.NewRun)
+        {
+            PlayerStats = RunStartup.PlayerStats.CreateInstance();
+            StartRun();
+        }else
+        {
+            GD.Print("todo 还未实现");
+        }
     }
 
     private void StartRun()

@@ -76,6 +76,15 @@ public static class ResourceFactories
     public static readonly Func<Node> TreasureSceneFactory =
         ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<Node>(
             GameConstants.ResourcePaths.TreasureScene);
+    
+    /// <summary>
+    ///     卡牌菜单UI工厂函数，用于创建CardMenuUi场景实例
+    /// </summary>
+    /// <returns>返回一个新的CardMenuUi场景对象实例</returns>
+    public static readonly Func<CardMenuUi> CardMenuUiFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<CardMenuUi>(
+            GameConstants.ResourcePaths.CardMenuUiScene);
+    
 
     /// <summary>
     ///     白色精灵材质工厂函数
@@ -107,4 +116,21 @@ public static class ResourceFactories
     public static readonly Func<CharacterStats> WizardStatsFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<CharacterStats>(
             GameConstants.ResourcePaths.WizardStats);
+    
+    /// <summary>
+    ///     卡片基础样式盒子工厂函数，用于创建卡片控件的基础样式对象
+    /// </summary>
+    /// <returns>返回一个新的卡片基础样式盒子实例</returns>
+    public static readonly Func<StyleBox> CardBaseStyleBoxFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<StyleBox>(
+            GameConstants.ResourcePaths.CardBaseStyleBox);
+    
+    /// <summary>
+    ///     卡片悬停样式盒子工厂函数，用于创建卡片控件在鼠标悬停状态下的样式对象
+    /// </summary>
+    /// <returns>返回一个新的卡片悬停样式盒子实例</returns>
+    public static readonly Func<StyleBox> CardHoverStyleBoxFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<StyleBox>(
+            GameConstants.ResourcePaths.CardHoverStyleBox);
+
 }

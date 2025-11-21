@@ -87,6 +87,12 @@ public static class GameConstants
         ///     宝箱场景路径
         /// </summary>
         public const string TreasureScene = "res://scenes/room/treasure/treasure.tscn";
+        
+        /// <summary>
+        ///     卡牌菜单UI场景路径
+        /// </summary>
+        public const string CardMenuUiScene = "res://scenes/ui/card_menu_ui.tscn";
+
 
         /// <summary>
         ///     白色精灵材质路径
@@ -108,5 +114,15 @@ public static class GameConstants
         ///     法师角色属性配置文件路径
         /// </summary>
         public const string WizardStats = "res://resources/characters/wizard/wizard.tres";
+        
+        /// <summary>
+        ///     定义卡片控件的基础样式资源路径常量
+        /// </summary>
+        public const string CardBaseStyleBox = "res://scenes/ui/card_base_style_box_.tres";
+        
+        /// <summary>
+        ///     定义卡片控件的悬停样式资源路径常量
+        /// </summary>
+        public const string CardHoverStyleBox = "res://scenes/ui/card_hover_style_box_.tres";
     }
 }

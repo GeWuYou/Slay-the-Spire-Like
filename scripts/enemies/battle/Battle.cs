@@ -42,6 +42,7 @@ public partial class Battle : Node2D
     /// </summary>
     public override void _Ready()
     {
+        GetParent();
         _events = Events.Instance;
         // 注册玩家回合结束事件
         _events.PlayerTurnEnded += PlayerHandler.EndTurn;
