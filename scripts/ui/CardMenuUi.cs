@@ -15,7 +15,11 @@ public partial class CardMenuUi : Control
     public Card Card
     {
         get => _card;
-        set => CallDeferred(nameof(SetCard),value);
+        set
+        {
+            _card = value;
+            CallDeferred(nameof(SetCard), value);
+        }
     }
 
     [Export] public Panel Panel { get; set; }
@@ -32,7 +36,6 @@ public partial class CardMenuUi : Control
     }
     private void SetCard(Card card)
     {
-        _card = card;
         CostLabel.Text = card.Cost.ToString();
         Icon.Texture = card.Icon as Texture2D;
     }

@@ -1,15 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://boy040rcj4c5b"]
+[gd_scene load_steps=5 format=3 uid="uid://boy040rcj4c5b"]
 
 [ext_resource type="PackedScene" uid="uid://cs22w44g3yswu" path="res://scenes/ui/card_menu_ui.tscn" id="1_iolsb"]
+[ext_resource type="Script" uid="uid://dwq6dn2cxpwnd" path="res://scripts/ui/CardPileView.cs" id="1_vf8oq"]
 [ext_resource type="Resource" uid="uid://v5qn4n335o18" path="res://resources/characters/warrior/cards/warrior_attack.tres" id="2_bd0ix"]
+[ext_resource type="PackedScene" uid="uid://doqow870hjkl4" path="res://scenes/ui/card_tooltip_popup.tscn" id="4_pgvdt"]
 
-[node name="CardPileView" type="Control"]
+[node name="CardPileView" type="Control" node_paths=PackedStringArray("Title", "Cards", "CardTooltip", "BackButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_vf8oq")
+Title = NodePath("MarginContainer/VBoxContainer/Title")
+Cards = NodePath("MarginContainer/VBoxContainer/ScrollContainer/Cards")
+CardTooltip = NodePath("CardTooltipPopup")
+BackButton = NodePath("BackButton")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -127,3 +134,8 @@ offset_right = -6.0
 offset_bottom = 20.0
 grow_horizontal = 0
 text = "返回"
+
+[node name="CardTooltipPopup" parent="." instance=ExtResource("4_pgvdt")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1

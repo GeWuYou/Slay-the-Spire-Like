@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cxksgeo2osgek"]
+[gd_scene load_steps=23 format=3 uid="uid://cxksgeo2osgek"]
 
 [ext_resource type="Script" uid="uid://wmplux2455e6" path="res://scripts/enemies/battle/Battle.cs" id="1_6ni85"]
 [ext_resource type="Texture2D" uid="uid://cp4iq5fd6j8be" path="res://art/background.png" id="1_dn72j"]
@@ -18,6 +18,9 @@
 [ext_resource type="Theme" uid="uid://bda6jdmo18uon" path="res://main_theme.tres" id="13_22uqi"]
 [ext_resource type="Script" uid="uid://e5mxrhyp6bjw" path="res://scripts/ui/WindowMask.cs" id="15_vceff"]
 [ext_resource type="PackedScene" uid="uid://lmcbx3ckltlo" path="res://scenes/ui/battle_over_panel.tscn" id="17_djc8l"]
+[ext_resource type="PackedScene" uid="uid://dijo45kknllnm" path="res://scenes/ui/card_pile_opener.tscn" id="17_sgdsx"]
+[ext_resource type="Texture2D" uid="uid://b8w5uv5mod0j6" path="res://art/discard.png" id="18_5moxy"]
+[ext_resource type="PackedScene" uid="uid://boy040rcj4c5b" path="res://scenes/ui/card_pile_view.tscn" id="21_156m4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dn72j"]
 size = Vector2(256, 100)
@@ -65,11 +68,15 @@ position = Vector2(43, 69)
 script = ExtResource("8_03edq")
 Hand = NodePath("../BattleUI/Hand")
 
-[node name="BattleUI" type="CanvasLayer" parent="." node_paths=PackedStringArray("ManaUi", "Hand", "EndTurnButton") groups=["ui_layer"]]
+[node name="BattleUI" type="CanvasLayer" parent="." node_paths=PackedStringArray("ManaUi", "Hand", "EndTurnButton", "DrawPileButton", "DiscardPileButton", "DrawPileView", "DiscardPileView") groups=["ui_layer"]]
 script = ExtResource("8_vceff")
 ManaUi = NodePath("ManaUI")
 Hand = NodePath("Hand")
 EndTurnButton = NodePath("EndTurnButton")
+DrawPileButton = NodePath("DrawPileButton")
+DiscardPileButton = NodePath("DiscardPileButton")
+DrawPileView = NodePath("../CardPileViews/DrawPileView")
+DiscardPileView = NodePath("../CardPileViews/DiscardPileView")
 
 [node name="Hand" type="HBoxContainer" parent="BattleUI"]
 anchors_preset = 7
@@ -86,6 +93,8 @@ alignment = 1
 script = ExtResource("2_p1qf1")
 
 [node name="ManaUI" parent="BattleUI" instance=ExtResource("11_66ngm")]
+offset_top = -41.0
+offset_bottom = -23.0
 
 [node name="ToolTip" parent="BattleUI" instance=ExtResource("12_03edq")]
 offset_top = 3.0
@@ -99,14 +108,60 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -49.0
-offset_top = -20.0
+offset_top = -41.0
 offset_right = -4.0
-offset_bottom = -6.0
+offset_bottom = -27.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource("13_22uqi")
 disabled = true
 text = "结束回合"
+
+[node name="DrawPileButton" parent="BattleUI" node_paths=PackedStringArray("Counter") instance=ExtResource("17_sgdsx")]
+unique_name_in_owner = true
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -20.0
+offset_right = 19.0
+offset_bottom = -4.0
+grow_vertical = 0
+Counter = NodePath("DrawPileCounter")
+
+[node name="DrawPileCounter" type="Label" parent="BattleUI/DrawPileButton"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = 19.0
+offset_bottom = 21.0
+text = "99"
+horizontal_alignment = 1
+
+[node name="DiscardPileButton" parent="BattleUI" node_paths=PackedStringArray("Counter") instance=ExtResource("17_sgdsx")]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("18_5moxy")
+Counter = NodePath("DiscardPileCounter")
+
+[node name="DiscardPileCounter" type="Label" parent="BattleUI/DiscardPileButton"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = 9.0
+offset_right = 7.0
+offset_bottom = 21.0
+text = "99"
+horizontal_alignment = 1
 
 [node name="WindowMask" type="CanvasLayer" parent="." node_paths=PackedStringArray("ColorRect", "Timer")]
 layer = 2
@@ -128,4 +183,15 @@ wait_time = 0.1
 one_shot = true
 
 [node name="BattleOverPanel" parent="WindowMask" instance=ExtResource("17_djc8l")]
+visible = false
+
+[node name="CardPileViews" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="DrawPileView" parent="CardPileViews" instance=ExtResource("21_156m4")]
+unique_name_in_owner = true
+visible = false
+
+[node name="DiscardPileView" parent="CardPileViews" instance=ExtResource("21_156m4")]
+unique_name_in_owner = true
 visible = false

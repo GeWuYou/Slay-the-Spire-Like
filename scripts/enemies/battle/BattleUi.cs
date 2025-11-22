@@ -38,6 +38,15 @@ public partial class BattleUi : CanvasLayer
     /// </summary>
     [Export]
     public Button EndTurnButton { get; set; }
+    
+    [Export]
+    public CardPileOpener DrawPileButton { get; set; }
+    [Export]
+    public CardPileOpener DiscardPileButton { get; set; }
+    [Export]
+    public CardPileView DrawPileView { get; set; }
+    [Export]
+    public CardPileView DiscardPileView { get; set; }
 
     /// <summary>
     ///     节点准备就绪时的回调方法
@@ -50,6 +59,15 @@ public partial class BattleUi : CanvasLayer
         Hand.PlayerStats = PlayerStats;
         _events.PlayerHandDrawn += OnPlayerHandDrawn;
         EndTurnButton.Pressed += OnEndTurnButtonPressed;
+        DiscardPileButton.Pressed += () =>  DiscardPileView.ShowCurrentView("弃牌堆");
+        DrawPileButton.Pressed += () => DrawPileView.ShowCurrentView("抽牌堆", true);
+    }
+    public void InitCardPileUi()
+    {
+        DrawPileButton.CardPile = PlayerStats.DrawPile;
+        DrawPileView.CardPile = PlayerStats.DrawPile;
+        DiscardPileButton.CardPile = PlayerStats.Discard;
+        DiscardPileView.CardPile = PlayerStats.Discard;
     }
 
     public override void _ExitTree()

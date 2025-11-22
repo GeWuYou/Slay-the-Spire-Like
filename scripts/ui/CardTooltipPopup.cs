@@ -1,4 +1,4 @@
-using global::SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.resources;
 
@@ -17,9 +17,6 @@ public partial class CardTooltipPopup : Control
         {
             child.QueueFree();
         }
-        HideTooltip();
-        CallDeferred(nameof(CreateTimer), 3.0f);
-        GuiInput+=OnGuiInput;
     }
 
     private void OnGuiInput(InputEvent @event)
@@ -30,12 +27,7 @@ public partial class CardTooltipPopup : Control
         }
     }
 
-    private void CreateTimer(float delay)
-    {
-        GetTree().CreateTimer(delay).Timeout+=()=>ShowTooltip(Card);
-    }
-
-    private void ShowTooltip(Card card)
+    public void ShowTooltip(Card card)
     {
         var newCard =  ResourceFactories.CardMenuUiFactory();
         TooltipCard.AddChild(newCard);
@@ -45,7 +37,7 @@ public partial class CardTooltipPopup : Control
         Show();
     }
 
-    private void HideTooltip()
+    public void HideTooltip()
     {
         if (!Visible)
         {

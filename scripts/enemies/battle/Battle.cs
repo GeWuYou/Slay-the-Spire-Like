@@ -102,5 +102,6 @@ public partial class Battle : Node2D
         AudioPlayerManager.Instance.PlayMusic(BattleMusic,true);
         EnemyHandler.ResetEnemyAcitons();
         PlayerHandler.StartBattle(newStats);
+        _battleUi.InitCardPileUi();
     }
 }
