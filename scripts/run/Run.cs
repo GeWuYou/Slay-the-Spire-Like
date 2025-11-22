@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.ui;
 
 namespace SlayTheSpireLike.scripts.run;
 
@@ -17,6 +18,8 @@ public partial class Run : Node
     [Export] public Button MapButton { get; set; }
     [Export] public Button RewardsButton { get; set; }
     [Export] public RunStartup RunStartup { get; set; }
+    [Export] public CardPileView DeckPileView { get; set; }
+    [Export] public CardPileOpener DeckButton { get; set; }
     public CharacterStats PlayerStats { get; set; }
     private readonly List<Action> _disposables = new();
 
@@ -36,6 +39,14 @@ public partial class Run : Node
     private void StartRun()
     {
         SetupEventConnections();
+        SetupTopBar();
+    }
+
+    private void SetupTopBar()
+    {
+        DeckButton.CardPile = PlayerStats.Deck;
+        DeckPileView.CardPile = PlayerStats.Deck;
+        DeckButton.Pressed+=() => DeckPileView.ShowCurrentView("抽牌堆");
     }
 
     /// <summary>

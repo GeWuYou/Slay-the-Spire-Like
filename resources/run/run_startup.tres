@@ -1,7 +1,9 @@
-[gd_resource type="Resource" script_class="RunStartup" load_steps=2 format=3 uid="uid://cvmjxccvfo4hu"]
+[gd_resource type="Resource" script_class="RunStartup" load_steps=3 format=3 uid="uid://cvmjxccvfo4hu"]
 
+[ext_resource type="Resource" uid="uid://r7n55ig8gn7a" path="res://resources/characters/warrior/warrior.tres" id="1_anyy6"]
 [ext_resource type="Script" uid="uid://blxvex5ps6x72" path="res://scripts/resources/RunStartup.cs" id="1_ujbn8"]
 
 [resource]
 script = ExtResource("1_ujbn8")
+PlayerStats = ExtResource("1_anyy6")
 metadata/_custom_type_script = "uid://blxvex5ps6x72"

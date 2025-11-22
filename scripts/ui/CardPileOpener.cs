@@ -3,13 +3,26 @@ using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.ui;
 
+/// <summary>
+/// CardPileOpener 是一个用于展示并监听卡牌堆变化的 UI 控件。
+/// 它继承自 TextureButton，并通过绑定一个 CardPile 实例来实时显示其中卡片的数量。
+/// 当 CardPile 中的卡片数量发生变化时，会自动更新界面上的计数标签。
+/// </summary>
 public partial class CardPileOpener : TextureButton
 {
     private CardPile _cardPile;
     private Callable _callable;
+
+    /// <summary>
+    /// 获取或设置用于显示卡片数量的标签控件。
+    /// </summary>
     [Export] public Label Counter { get; set; }
 
-    [Export]
+    /// <summary>
+    /// 获取或设置当前绑定的 CardPile 实例。
+    /// 设置新值时会自动断开与旧实例的信号连接，并建立与新实例的连接。
+    /// 若新值为 null，则将计数器文本设为 "0"。
+    /// </summary>
     public CardPile CardPile
     {
         get => _cardPile;
@@ -51,6 +64,11 @@ public partial class CardPileOpener : TextureButton
         }
     }
 
+    /// <summary>
+    /// 处理 CardPile 的卡片数量变更事件。
+    /// 将传入的卡片数量更新到 Counter 标签上。
+    /// </summary>
+    /// <param name="count">当前 CardPile 中的卡片数量。</param>
     private void OnCardPileSizeChanged(int count)
     {
         if (Counter == null) return;

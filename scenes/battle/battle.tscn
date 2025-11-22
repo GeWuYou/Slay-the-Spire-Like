@@ -186,7 +186,7 @@ one_shot = true
 visible = false
 
 [node name="CardPileViews" type="CanvasLayer" parent="."]
-layer = 3
+layer = 4
 
 [node name="DrawPileView" parent="CardPileViews" instance=ExtResource("21_156m4")]
 unique_name_in_owner = true
