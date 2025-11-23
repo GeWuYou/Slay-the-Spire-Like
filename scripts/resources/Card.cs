@@ -105,6 +105,45 @@ public partial class Card : Resource
         Curse
     }
 
+    /// <summary>
+    /// 定义物品稀有度等级的枚举类型
+    /// </summary>
+    public enum Rarity
+    {
+        /// <summary>
+        /// 普通稀有度
+        /// </summary>
+        Common,
+
+        /// <summary>
+        /// 非普通稀有度
+        /// </summary>
+        Uncommon,
+
+        /// <summary>
+        /// 稀有稀有度
+        /// </summary>
+        Rare
+    }
+
+    /// <summary>
+    /// 稀有度颜色映射字典，用于根据物品稀有度获取对应的颜色表示
+    /// </summary>
+    /// <remarks>
+    /// 该字典包含了预定义的稀有度与颜色的对应关系：
+    /// - 普通(Common)：灰色
+    /// - 罕见(Uncommon)：矢车菊蓝色
+    /// - 稀有(Rare)：金色
+    /// </remarks>
+    public static Dictionary<Rarity, Color> RarityColors { get; } = new()
+    {
+        { Rarity.Common, Colors.Gray },
+        { Rarity.Uncommon, Colors.CornflowerBlue },
+        { Rarity.Rare, Colors.Gold }
+    };
+
+
+
     [ExportGroup("卡牌属性")]
     [Export(PropertyHint.None, "卡牌的唯一标识符")]
     public string Id { private set; get; }
@@ -133,10 +172,13 @@ public partial class Card : Resource
     [Export(PropertyHint.None, "卡牌的当前费用")]
     public int Cost { private set; get; }
     
+    [ExportGroup("卡牌属性")]
+    [Export] public Rarity CardRarity { get; set; }
+
     [ExportGroup("卡牌视觉效果")] [Export] public Texture Icon { get; private set; }
 
-    [Export]
-    public AudioStream Sound { get; set; }
+    [Export] public AudioStream Sound { get; set; }
+
     /// <summary>
     ///     重写ToString方法，返回卡牌的完整信息字符串
     /// </summary>

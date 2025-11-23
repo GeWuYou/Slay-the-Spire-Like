@@ -68,7 +68,7 @@ public partial class CardPileView : Control
             var newCard = ResourceFactories.CardMenuUiFactory();
             newCard.Card = card;
             Cards.AddChild(newCard);
-            newCard.TooltipRequested += CardTooltip.ShowTooltip;
+            newCard.CardVisuals.TooltipRequested += CardTooltip.ShowTooltip;
         }
         Show();
     }

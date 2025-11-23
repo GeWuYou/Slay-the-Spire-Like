@@ -44,25 +44,6 @@ public partial class CardUi : Control
     public StyleBoxFlat SelectedStyleBox { private set; get; }
 
     /// <summary>
-    ///     面板组件，作为卡片UI的主要容器。
-    /// </summary>
-    [ExportGroup("卡片UI属性")]
-    [Export]
-    public Panel Panel { get; private set; }
-
-    /// <summary>
-    ///     成本标签，用于展示卡片所需消耗的资源数值。
-    /// </summary>
-    [Export]
-    public Label Cost { get; private set; }
-
-    /// <summary>
-    ///     图标纹理矩形，用于展示卡片的图标图像。
-    /// </summary>
-    [Export]
-    public TextureRect Icon { get; private set; }
-
-    /// <summary>
     ///     获取或设置掉落点检测器区域。
     ///     该属性用于检测物品掉落的目标区域，通过Area2D节点实现碰撞检测功能。
     /// </summary>
@@ -81,6 +62,8 @@ public partial class CardUi : Control
     /// </summary>
     [Export]
     public Array<Node> Targets { private set; get; } = [];
+
+    [Export] public CardVisuals CardVisuals { get; set; }
 
     public int OriginalIndex { get; set; }
 
@@ -104,13 +87,13 @@ public partial class CardUi : Control
             _playable = value;
             if (!_playable)
             {
-                Cost.AddThemeColorOverride("font_color", Colors.Red);
-                Icon.Modulate = new Color(1, 1, 1, 0.5f);
+                CardVisuals.Cost.AddThemeColorOverride("font_color", Colors.Red);
+                CardVisuals.Icon.Modulate = new Color(1, 1, 1, 0.5f);
             }
             else
             {
-                Cost.RemoveThemeColorOverride("font_color");
-                Icon.Modulate = new Color(1, 1, 1);
+                CardVisuals.Cost.RemoveThemeColorOverride("font_color");
+                CardVisuals.Icon.Modulate = new Color(1, 1, 1);
             }
         }
     }
@@ -157,10 +140,8 @@ public partial class CardUi : Control
     /// </summary>
     private void OnCardChanged()
     {
-        if (_card == null) return;
-
-        Cost.Text = _card.Cost.ToString();
-        Icon.Texture = _card.Icon as Texture2D;
+        if (Card == null) return;
+        CardVisuals.Card = Card;
     }
 
 
@@ -277,6 +258,6 @@ public partial class CardUi : Control
         Card.Play(Targets, CharacterStats);
         QueueFree();
     }
-    
+
     public static readonly Func<CardUi> CardUiFactory = ResourceFactories.CardUiFactory;
 }

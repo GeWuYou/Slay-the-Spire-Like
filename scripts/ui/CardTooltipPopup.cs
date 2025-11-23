@@ -51,7 +51,7 @@ public partial class CardTooltipPopup : Control
         var newCard =  ResourceFactories.CardMenuUiFactory();
         TooltipCard.AddChild(newCard);
         newCard.Card = card;
-        newCard.TooltipRequested+= _ => HideTooltip();
+        newCard.CardVisuals.TooltipRequested+= _ => HideTooltip();
         CardDescription.Text = card.Description;
         Show();
     }

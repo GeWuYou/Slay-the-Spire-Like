@@ -32,7 +32,7 @@ public partial class CardBaseState : CardState
             if (CardUi.Tween != null && CardUi.Tween.IsRunning()) CardUi.Tween.Kill();
 
             // 请求重新设置父节点并更新UI状态显示
-            CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.BaseStyleBox);
+            CardUi.CardVisuals.Panel.AddThemeStyleboxOverride("panel", CardUi.BaseStyleBox);
             CardUi.EmitSignal(CardUi.SignalName.ReparentRequested, CardUi);
             CardUi.PivotOffset = Vector2.Zero;
             // 默认隐藏卡牌提示
@@ -74,8 +74,8 @@ public partial class CardBaseState : CardState
         }
 
         // 请求重新设置父节点并更新UI状态显示
-        CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.HoverStyleBox);
-        _events.RaiseCardToolTipShowRequest(CardUi.Icon.Texture, CardUi.Card.Description);
+        CardUi.CardVisuals.Panel.AddThemeStyleboxOverride("panel", CardUi.HoverStyleBox);
+        _events.RaiseCardToolTipShowRequest(CardUi.CardVisuals.Icon.Texture, CardUi.Card.Description);
     }
 
     public override void OnMouseExited()
@@ -83,7 +83,7 @@ public partial class CardBaseState : CardState
         // 检查卡片是否可执行且未被禁用，如果不满足条件则直接返回
         if (!CardUi.Playable || CardUi.Disabled) return;
         // 恢复原始父节点并更新UI状态显示
-        CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.BaseStyleBox);
+        CardUi.CardVisuals.Panel.AddThemeStyleboxOverride("panel", CardUi.BaseStyleBox);
         // 隐藏卡牌提示
         _events.RaiseCardToolTipHideRequest();
     }

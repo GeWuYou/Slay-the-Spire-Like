@@ -37,7 +37,7 @@ public partial class CardDraggingState : CardState
         var uiLayer = GetTree().GetFirstNodeInGroup("ui_layer");
         if (uiLayer != null) CardUi.Reparent(uiLayer);
         // 请求重新设置父节点并更新UI状态显示
-        CardUi.Panel.AddThemeStyleboxOverride("panel", CardUi.SelectedStyleBox);
+        CardUi.CardVisuals.Panel.AddThemeStyleboxOverride("panel", CardUi.SelectedStyleBox);
         // 发送卡牌开始拖拽的事件
         Events.Instance.RaiseCardDraggingStarted(CardUi);
         // 初始化最小拖拽时间标记为false，表示尚未达到最小拖拽时间要求
