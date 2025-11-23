@@ -18,6 +18,11 @@ public partial class CardPileOpener : TextureButton
     /// </summary>
     [Export] public Label Counter { get; set; }
 
+    public override void _Ready()
+    {
+        _callable = new Callable(this, nameof(OnCardPileSizeChanged));
+    }
+
     /// <summary>
     /// 获取或设置当前绑定的 CardPile 实例。
     /// 设置新值时会自动断开与旧实例的信号连接，并建立与新实例的连接。
@@ -29,7 +34,7 @@ public partial class CardPileOpener : TextureButton
         set
         {
             // 如果之前绑定了一个 CardPile，先断开旧连接，避免重复触发
-            if (_cardPile != null &&  _cardPile.HasSignal(CardPile.SignalName.CardPileSizeChanged) && _cardPile.IsConnected(CardPile.SignalName.CardPileSizeChanged, _callable))
+            if (_cardPile != null && _cardPile.IsConnected(CardPile.SignalName.CardPileSizeChanged, _callable))
             {
                 _cardPile.Disconnect(CardPile.SignalName.CardPileSizeChanged, _callable);
             }
@@ -41,22 +46,12 @@ public partial class CardPileOpener : TextureButton
                 if (Counter != null) Counter.Text = "0";
                 return;
             }
-
-            // 使用固定的 callable 指向当前对象的处理方法（正确签名：接受 int）
-            _callable = new Callable(this, nameof(OnCardPileSizeChanged));
-
             var signalName = CardPile.SignalName.CardPileSizeChanged;
 
-            // 先检查目标对象是否真的声明了这个信号，避免 C++ 层面的 Nonexistent signal 错误
-            if (_cardPile.HasSignal(signalName))
+            // 只有在还没有连接时才 Connect
+            if (!_cardPile.IsConnected(signalName, _callable))
             {
-                // 只有在还没有连接时才 Connect（注意：这里用 !IsConnected）
-                if (!_cardPile.IsConnected(signalName, _callable))
-                    _cardPile.Connect(signalName, _callable);
-            }
-            else
-            {
-                GD.PrintErr($"CardPile 对象没有信号 '{signalName}'，请确认 CardPile 类是否声明了该信号（名字区分大小写）。");
+                _cardPile.Connect(signalName, _callable);
             }
 
             // 立即更新一次显示（初始化）

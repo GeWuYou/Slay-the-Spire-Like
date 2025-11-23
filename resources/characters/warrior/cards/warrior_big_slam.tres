@@ -1,0 +1,20 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://is7uajhg7n3w"]
+
+[ext_resource type="Texture2D" uid="uid://44jbm5bqr4k" path="res://art/tile_0117.png" id="1_ah7du"]
+[ext_resource type="AudioStream" uid="uid://dixklg6g4jnsq" path="res://art/slash.ogg" id="2_wso8s"]
+[ext_resource type="Script" uid="uid://b3c12awkw3sfd" path="res://scripts/player/warrior/cards/WarriorBigSlam.cs" id="3_6q1yi"]
+
+[resource]
+script = ExtResource("3_6q1yi")
+OptionalSoundList = null
+Id = "warrior_big_slam"
+Name = "重击"
+Description = "[center]对敌人造成[color=red]14[/color]点伤害，力量对此有[color=purple]2[/color]倍加成[/center]
+"
+CardTarget = 1
+InitCost = 2
+Cost = 2
+CardRarity = 1
+Icon = ExtResource("1_ah7du")
+Sound = ExtResource("2_wso8s")
+metadata/_custom_type_script = "uid://ch7vp4mxba551"

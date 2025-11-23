@@ -20,7 +20,9 @@ public partial class Run : Node
     [Export] public RunStartup RunStartup { get; set; }
     [Export] public CardPileView DeckPileView { get; set; }
     [Export] public CardPileOpener DeckButton { get; set; }
+    [Export] public GoldUi GoldUi { get; set; }
     public CharacterStats PlayerStats { get; set; }
+    public RunStats RunStats { get; set; }
     private readonly List<Action> _disposables = new();
 
     public override void _Ready()
@@ -38,12 +40,15 @@ public partial class Run : Node
 
     private void StartRun()
     {
+        // todo 暂时测试用
+        RunStats = new RunStats();
         SetupEventConnections();
         SetupTopBar();
     }
 
     private void SetupTopBar()
     {
+        GoldUi.RunStats = RunStats;
         DeckButton.CardPile = PlayerStats.Deck;
         DeckPileView.CardPile = PlayerStats.Deck;
         DeckButton.Pressed+=() => DeckPileView.ShowCurrentView("抽牌堆");

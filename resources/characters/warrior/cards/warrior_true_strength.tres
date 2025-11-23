@@ -1,0 +1,20 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://cgi0fgwn4ysrc"]
+
+[ext_resource type="Texture2D" uid="uid://cn2c1psh561cc" path="res://art/tile_0127.png" id="1_nlnkx"]
+[ext_resource type="AudioStream" uid="uid://d18efgk4jsu16" path="res://art/true_strength.ogg" id="2_36jwq"]
+[ext_resource type="Script" uid="uid://xx6p0ju40omr" path="res://scripts/player/warrior/cards/WarriorTrueStrength.cs" id="3_agwqx"]
+
+[resource]
+script = ExtResource("3_agwqx")
+OptionalSoundList = null
+Id = "warrior_true_strength"
+Name = "力量形态"
+Description = "[center]回合开始时，获得[color=purple]3[/color]点力量[/center]
+"
+CardType = 1
+InitCost = 3
+Cost = 3
+CardRarity = 2
+Icon = ExtResource("1_nlnkx")
+Sound = ExtResource("2_36jwq")
+metadata/_custom_type_script = "uid://ch7vp4mxba551"
