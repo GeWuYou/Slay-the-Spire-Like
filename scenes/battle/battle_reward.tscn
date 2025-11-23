@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://0gxddfltoga7"]
+[gd_scene load_steps=6 format=3 uid="uid://0gxddfltoga7"]
 
 [ext_resource type="Script" uid="uid://cd1khljxfjeed" path="res://scripts/enemies/battle/BattleReward.cs" id="1_gdfb2"]
+[ext_resource type="Texture2D" uid="uid://cp4iq5fd6j8be" path="res://art/background.png" id="2_mk4cp"]
+[ext_resource type="PackedScene" uid="uid://s8y444fed518" path="res://scenes/ui/reward_button.tscn" id="3_ih2u5"]
+[ext_resource type="Texture2D" uid="uid://mhyrm4j1kvlu" path="res://art/rarity.png" id="4_35jn8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oq85i"]
+bg_color = Color(0, 0, 0, 0.5019608)
 
 [node name="BattleReward" type="Control" node_paths=PackedStringArray("GoBackButton")]
 layout_mode = 3
@@ -11,9 +17,20 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_gdfb2")
-GoBackButton = NodePath("VBoxContainer/Button")
+GoBackButton = NodePath("VBoxContainer/BackButton")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_mk4cp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BackgroundDimmer" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,7 +38,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0.6862745)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -43,6 +60,32 @@ text = "战利品"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="RewardContainer" type="PanelContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(110, 80)
 layout_mode = 2
-text = "返回"
+theme_override_styles/panel = SubResource("StyleBoxFlat_oq85i")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/RewardContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Rewards" type="VBoxContainer" parent="VBoxContainer/RewardContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GoldReward" parent="VBoxContainer/RewardContainer/MarginContainer/Rewards" instance=ExtResource("3_ih2u5")]
+layout_mode = 2
+
+[node name="CardReward" parent="VBoxContainer/RewardContainer/MarginContainer/Rewards" instance=ExtResource("3_ih2u5")]
+layout_mode = 2
+RewardIcon = ExtResource("4_35jn8")
+RewardText = "添加新卡"
+
+[node name="BackButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(50, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "继续"
