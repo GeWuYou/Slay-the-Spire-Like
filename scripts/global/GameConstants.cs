@@ -108,6 +108,11 @@ public static class GameConstants
         ///     卡牌菜单UI场景路径
         /// </summary>
         public const string CardMenuUiScene = "res://scenes/ui/card_menu_ui.tscn";
+        
+        /// <summary>
+        /// 战斗奖励场景资源路径常量
+        /// </summary>
+        public const string CardRewardsScene = "res://scenes/ui/card_rewards.tscn";
 
         /// <summary>
         /// 战斗奖励按钮场景资源路径常量

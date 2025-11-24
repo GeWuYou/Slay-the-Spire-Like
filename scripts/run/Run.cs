@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.enemies.battle;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
 
@@ -24,7 +25,7 @@ public partial class Run : Node
     public CharacterStats PlayerStats { get; set; }
     public RunStats RunStats { get; set; }
     private readonly List<Action> _disposables = new();
-
+    
     public override void _Ready()
     {
        
@@ -68,14 +69,11 @@ public partial class Run : Node
         var resourceLoaderManager = ResourceLoaderManager.Instance;
 
         // 战斗胜利事件处理：切换到战斗奖励场景
-        var battleRewardSceneFun = () =>
-            ChangeView(resourceLoaderManager
-                .GetSceneLoader(GameConstants.ResourcePaths.BattleRewardScene).Value);
-        events.BattleWon += battleRewardSceneFun;
-        _disposables.Add(() => events.BattleWon -= battleRewardSceneFun);
-
+       
+        events.BattleWon += OnBattleWon;
+        _disposables.Add(() => events.BattleWon -= OnBattleWon);
         // 多个界面退出事件的统一处理：返回地图场景
-        var mapSceneFun = () => ChangeView(resourceLoaderManager
+        var mapSceneFun = () => ChangeViewNotReturn(resourceLoaderManager
             .GetSceneLoader(GameConstants.ResourcePaths.MapScene).Value);
         events.BattleRewardExited += mapSceneFun;
         _disposables.Add(() => events.BattleRewardExited -= mapSceneFun);
@@ -93,7 +91,7 @@ public partial class Run : Node
         CampfireButton.Pressed += () => ChangeView(resourceLoaderManager
             .GetSceneLoader(GameConstants.ResourcePaths.CampfireScene).Value);
         MapButton.Pressed += mapSceneFun;
-        RewardsButton.Pressed += battleRewardSceneFun;
+        RewardsButton.Pressed += OnBattleWon;
         TreasureButton.Pressed += () =>
         {
             ChangeView(resourceLoaderManager
@@ -104,6 +102,17 @@ public partial class Run : Node
             .GetSceneLoader(GameConstants.ResourcePaths.ShopScene).Value);
     }
 
+    private void OnBattleWon()
+    {
+        var rewardScene =  ChangeView(ResourceLoaderManager.Instance
+            .GetSceneLoader(GameConstants.ResourcePaths.BattleRewardScene).Value) as BattleReward;
+        rewardScene!.RunStats = RunStats;
+        rewardScene!.PlayerStats = PlayerStats;
+        
+        // todo 暂时添加
+        rewardScene.AddGoldReward(77);
+        rewardScene.AddCardReward();
+    }
     private void OnMapExited()
     {
     }
@@ -123,7 +132,7 @@ public partial class Run : Node
         }
     }
 
-    private void ChangeView(PackedScene newScene)
+    private Node ChangeView(PackedScene newScene)
     {
         if (CurrentView.GetChildCount() > 0)
         {
@@ -133,6 +142,11 @@ public partial class Run : Node
         GetTree().Paused = false;
         var newView = newScene.Instantiate();
         CurrentView.AddChild(newView);
+        return newView;
+    }
+    private void ChangeViewNotReturn(PackedScene newScene)
+    {
+        ChangeView(newScene);
     }
 
     public override void _ExitTree()

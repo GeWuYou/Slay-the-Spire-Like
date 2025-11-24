@@ -133,6 +133,7 @@ public partial class CharacterStats : Stats
         instance.Discard = new CardPile();
         instance.DrawPile = new CardPile();
         instance.RemovedDeck = new CardPile();
+        instance.DraftablePile = DraftablePile;
         return instance;
     }
 }

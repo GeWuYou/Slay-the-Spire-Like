@@ -26,7 +26,7 @@ public partial class CardRewards : ColorRect
     [Export]
     public Array<Card> Rewards
     {
-        private set
+         set
         {
             _rewards = value;
             CallDeferred(nameof(SetRewards),value);

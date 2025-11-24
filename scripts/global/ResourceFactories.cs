@@ -86,12 +86,21 @@ public static class ResourceFactories
             GameConstants.ResourcePaths.CardMenuUiScene);
     
     /// <summary>
-    /// 奖励按钮工厂函数，用于创建奖励按钮实例
+    ///     奖励按钮工厂函数，用于创建奖励按钮实例
     /// </summary>
     /// <returns>返回一个新的RewardButton实例</returns>
     public static readonly Func<RewardButton> RewardButtonFactory =
         ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<RewardButton>(
             GameConstants.ResourcePaths.BattleRewardButtonScene);
+    
+    /// <summary>
+    ///     卡牌奖励UI工厂函数，用于创建CardRewards场景实例
+    /// </summary>
+    /// <returns>返回一个新的CardRewards场景对象实例</returns>
+    public static readonly Func<CardRewards> CardRewardsFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<CardRewards>(
+            GameConstants.ResourcePaths.CardRewardsScene);
+
     
     /// <summary>
     /// 金币纹理工厂函数，用于加载金币纹理资源
