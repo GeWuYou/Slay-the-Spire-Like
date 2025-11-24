@@ -26,6 +26,22 @@ public static class GameConstants
         /// </summary>
         public const string Allies = "allies";
     }
+    /// <summary>
+    /// 文本常量类，用于存储游戏中使用的固定文本字符串
+    /// </summary>
+    public static class Texts
+    {
+        /// <summary>
+        /// 金币数量格式化字符串，用于显示玩家当前金币数量
+        /// </summary>
+        public const string Gold = "{0} 金币";
+
+        /// <summary>
+        /// 添加新卡牌文本常量，用于界面按钮或操作提示
+        /// </summary>
+        public const string AddNewCard = "添加新卡牌";
+    }
+
 
     /// <summary>
     ///     信号相关常量
@@ -67,7 +83,7 @@ public static class GameConstants
         ///     营火场景路径
         /// </summary>
         public const string CampfireScene = "res://scenes/campfire/campfire.tscn";
-        
+
         /// <summary>
         ///     运行场景路径
         /// </summary>
@@ -87,11 +103,26 @@ public static class GameConstants
         ///     宝箱场景路径
         /// </summary>
         public const string TreasureScene = "res://scenes/room/treasure/treasure.tscn";
-        
+
         /// <summary>
         ///     卡牌菜单UI场景路径
         /// </summary>
         public const string CardMenuUiScene = "res://scenes/ui/card_menu_ui.tscn";
+
+        /// <summary>
+        /// 战斗奖励按钮场景资源路径常量
+        /// </summary>
+        public const string BattleRewardButtonScene = "res://scenes/ui/reward_button.tscn";
+
+        /// <summary>
+        /// 金币纹理资源路径常量
+        /// </summary>
+        public const string GoldTexture = "res://art/gold.png";
+
+        /// <summary>
+        /// 卡牌纹理资源路径常量
+        /// </summary>
+        public const string CardTexture = "res://art/rarity.png";
 
 
         /// <summary>
@@ -114,12 +145,12 @@ public static class GameConstants
         ///     法师角色属性配置文件路径
         /// </summary>
         public const string WizardStats = "res://resources/characters/wizard/wizard.tres";
-        
+
         /// <summary>
         ///     定义卡片控件的基础样式资源路径常量
         /// </summary>
         public const string CardBaseStyleBox = "res://scenes/ui/card_base_style_box_.tres";
-        
+
         /// <summary>
         ///     定义卡片控件的悬停样式资源路径常量
         /// </summary>

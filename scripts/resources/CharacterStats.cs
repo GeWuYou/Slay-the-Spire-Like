@@ -80,6 +80,16 @@ public partial class CharacterStats : Stats
     public CardPile RemovedDeck { get; set; }
 
     /// <summary>
+    ///     获取或设置可被选择的卡牌堆。
+    /// </summary>
+    /// <value>
+    ///     可被选择的卡牌堆对象。
+    /// </value>
+    [Export]
+    public CardPile DraftablePile { get; set; }
+
+
+    /// <summary>
     ///     重置法力值为最大值
     ///     通常在新回合开始时调用
     /// </summary>

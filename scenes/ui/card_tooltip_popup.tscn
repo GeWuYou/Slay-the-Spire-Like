@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://v5qn4n335o18" path="res://resources/characters/warrior/cards/warrior_attack.tres" id="2_sobtc"]
 [ext_resource type="PackedScene" uid="uid://cs22w44g3yswu" path="res://scenes/ui/card_menu_ui.tscn" id="3_yctnr"]
 
-[node name="CardTooltipPopup" type="Control" node_paths=PackedStringArray("TooltipCard", "CardDescription")]
+[node name="CardTooltipPopup" type="Control" node_paths=PackedStringArray("TooltipCard", "CardDescription", "Background")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +14,7 @@ grow_vertical = 2
 script = ExtResource("1_khfwb")
 TooltipCard = NodePath("VBoxContainer/TooltipCard")
 CardDescription = NodePath("VBoxContainer/CardDescription")
+Background = NodePath("Background")
 Card = ExtResource("2_sobtc")
 
 [node name="Background" type="ColorRect" parent="."]

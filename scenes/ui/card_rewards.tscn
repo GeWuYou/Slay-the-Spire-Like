@@ -1,0 +1,84 @@
+[gd_scene load_steps=8 format=3 uid="uid://d03sfuhd8gldl"]
+
+[ext_resource type="Script" uid="uid://ehwfgs50gg3d" path="res://scripts/ui/CardRewards.cs" id="1_chmpv"]
+[ext_resource type="PackedScene" uid="uid://cs22w44g3yswu" path="res://scenes/ui/card_menu_ui.tscn" id="1_mywnl"]
+[ext_resource type="PackedScene" uid="uid://doqow870hjkl4" path="res://scenes/ui/card_tooltip_popup.tscn" id="2_chmpv"]
+[ext_resource type="Script" uid="uid://ch7vp4mxba551" path="res://scripts/resources/Card.cs" id="2_rssxt"]
+[ext_resource type="Resource" uid="uid://cgi0fgwn4ysrc" path="res://resources/characters/warrior/cards/warrior_true_strength.tres" id="3_gx0x2"]
+[ext_resource type="Resource" uid="uid://dvhm0uhaevn44" path="res://resources/characters/warrior/cards/warrior_slash.tres" id="4_14wmn"]
+[ext_resource type="Resource" uid="uid://bumnciuaw5g2u" path="res://resources/characters/warrior/cards/warrior_sharp_blade_cutting.tres" id="5_27adq"]
+
+[node name="CardRewards" type="ColorRect" node_paths=PackedStringArray("Cards", "SkipCardRewardButton", "CardTooltip", "TakeButton")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.4862745)
+script = ExtResource("1_chmpv")
+Rewards = Array[ExtResource("2_rssxt")]([ExtResource("3_gx0x2"), ExtResource("4_14wmn"), ExtResource("5_27adq")])
+Cards = NodePath("VBoxContainer/MarginContainer/Cards")
+SkipCardRewardButton = NodePath("VBoxContainer/SkipButton")
+CardTooltip = NodePath("CardTooltipPopup")
+TakeButton = NodePath("CardTooltipPopup/TakeButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.5
+offset_top = -20.0
+offset_right = 43.5
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="Cards" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="CardMenuUI" parent="VBoxContainer/MarginContainer/Cards" instance=ExtResource("1_mywnl")]
+layout_mode = 2
+
+[node name="CardMenuUI2" parent="VBoxContainer/MarginContainer/Cards" instance=ExtResource("1_mywnl")]
+layout_mode = 2
+
+[node name="CardMenuUI3" parent="VBoxContainer/MarginContainer/Cards" instance=ExtResource("1_mywnl")]
+layout_mode = 2
+
+[node name="SkipButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(50, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "跳过"
+
+[node name="CardTooltipPopup" parent="." instance=ExtResource("2_chmpv")]
+layout_mode = 1
+BackgroundColor = Color(0.26105806, 0.04805913, 0.1158895, 0.64705884)
+
+[node name="TakeButton" type="Button" parent="CardTooltipPopup"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -25.0
+offset_top = -29.0
+offset_right = 25.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "获取"

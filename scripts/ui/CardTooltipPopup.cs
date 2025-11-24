@@ -12,7 +12,12 @@ public partial class CardTooltipPopup : Control
     [Export] public CenterContainer TooltipCard { get; set; }
     [Export] public RichTextLabel CardDescription { get; set; }
     
+    [Export]
+    public ColorRect Background { get; set; }
     [Export] public Card Card { get; set; }
+    
+    [Export]
+    public Color BackgroundColor { get; set; } = Colors.Black;
 
     /// <summary>
     /// 控件初始化完成时调用的方法
@@ -26,6 +31,7 @@ public partial class CardTooltipPopup : Control
             child.QueueFree();
         }
         GuiInput += OnGuiInput;
+        Background.Color = BackgroundColor;
     }
 
     /// <summary>

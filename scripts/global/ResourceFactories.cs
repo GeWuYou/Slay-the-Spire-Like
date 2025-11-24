@@ -85,13 +85,37 @@ public static class ResourceFactories
         ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<CardMenuUi>(
             GameConstants.ResourcePaths.CardMenuUiScene);
     
+    /// <summary>
+    /// 奖励按钮工厂函数，用于创建奖励按钮实例
+    /// </summary>
+    /// <returns>返回一个新的RewardButton实例</returns>
+    public static readonly Func<RewardButton> RewardButtonFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<RewardButton>(
+            GameConstants.ResourcePaths.BattleRewardButtonScene);
+    
+    /// <summary>
+    /// 金币纹理工厂函数，用于加载金币纹理资源
+    /// </summary>
+    /// <returns>返回金币纹理的Texture2D对象</returns>
+    public static readonly Func<Texture2D> GoldTextureFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Texture2D>(
+            GameConstants.ResourcePaths.GoldTexture);
+    
+    /// <summary>
+    /// 卡牌纹理工厂函数，用于加载卡牌纹理资源
+    /// </summary>
+    /// <returns>返回卡牌纹理的Texture2D对象</returns>
+    public static readonly Func<Texture2D> CardTextureFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Texture2D>(
+            GameConstants.ResourcePaths.CardTexture);
+
 
     /// <summary>
     ///     白色精灵材质工厂函数
     /// </summary>
     public static readonly Func<Material> WhiteSpriteMatFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Material>(
-            GameConstants.ResourcePaths.WhiteSpriteMaterial, false);
+            GameConstants.ResourcePaths.WhiteSpriteMaterial);
 
     /// <summary>
     ///     刺客角色属性工厂函数，用于创建刺客角色的基础属性对象
@@ -132,5 +156,6 @@ public static class ResourceFactories
     public static readonly Func<StyleBox> CardHoverStyleBoxFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<StyleBox>(
             GameConstants.ResourcePaths.CardHoverStyleBox);
+    
 
 }

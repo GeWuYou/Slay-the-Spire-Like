@@ -141,9 +141,9 @@ public partial class ResourceLoaderManager : SingletonNode<ResourceLoaderManager
     /// </summary>
     /// <typeparam name="T">资源类型，必须继承自 Resource。</typeparam>
     /// <param name="path">资源的路径。</param>
-    /// <param name="duplicate">是否需要复制资源，默认为 true。设为 false 则可能共享原始资源状态。</param>
+    /// <param name="duplicate">是否需要复制资源，默认为 false。设为 true 则可能不为共享原始资源状态。</param>
     /// <returns>返回一个 Func&lt;T&gt; 工厂函数，用于反复获取资源实例。</returns>
-    public Func<T> GetOrRegisterResourceFactory<T>(string path, bool duplicate = true) where T : Resource
+    public Func<T> GetOrRegisterResourceFactory<T>(string path, bool duplicate = false) where T : Resource
     {
         if (string.IsNullOrEmpty(path))
             throw new ArgumentNullException(nameof(path));

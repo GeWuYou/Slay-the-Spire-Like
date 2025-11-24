@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="CharacterStats" load_steps=4 format=3 uid="uid://r7n55ig8gn7a"]
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=5 format=3 uid="uid://r7n55ig8gn7a"]
 
 [ext_resource type="Texture2D" uid="uid://cpydvk8mq66o5" path="res://art/tile_0087.png" id="1_pr323"]
+[ext_resource type="Resource" uid="uid://dqlyf1fcxon5e" path="res://resources/characters/warrior/warrior_draftable_cards.tres" id="2_vmh7x"]
 [ext_resource type="Resource" uid="uid://bqfh7fw81rwnl" path="res://resources/characters/warrior/warrior_starting_deck.tres" id="2_y4it2"]
 [ext_resource type="Script" uid="uid://canfeskbo4xkh" path="res://scripts/resources/CharacterStats.cs" id="3_vmh7x"]
 
@@ -10,6 +11,7 @@ Description = "厉害の战士！
 我第二喜欢的角色！"
 Portrait = ExtResource("1_pr323")
 StartingDeck = ExtResource("2_y4it2")
+DraftablePile = ExtResource("2_vmh7x")
 Art = ExtResource("1_pr323")
 Name = "战士"
 metadata/_custom_type_script = "uid://canfeskbo4xkh"
