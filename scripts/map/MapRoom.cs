@@ -95,7 +95,7 @@ public partial class MapRoom : Area2D
     /// 静态字典，存储不同房间类型对应的图标配置数据
     /// Key: 房间类型枚举值；Value: 对应的图标纹理及缩放信息
     /// </summary>
-    public static readonly Dictionary<Room.Type, RoomIconData> Icons = new()
+    public static Dictionary<Room.Type, RoomIconData> Icons { get; } = new()
     {
         {Room.Type.Unknown, new RoomIconData(null, Vector2.One)},
         {Room.Type.Monster, new RoomIconData(ResourceFactories.MonsterFactory(), Vector2.One)},
@@ -158,15 +158,15 @@ public partial class MapRoom : Area2D
     }
 
     /// <summary>
-    /// 处理用户点击或按键操作，当房间处于可用状态且按下确认键(ui_accept)时，
+    /// 处理用户点击或按键操作，当房间处于可用状态且按下鼠标左键
     /// 将房间标记为已选中并播放选择动画。
     /// </summary>
     /// <param name="viewport">事件来源视口节点</param>
     /// <param name="event">输入事件对象</param>
-    /// <param name="shapeIdx">碰撞形状索引</param>
+    /// <param name="shapeIdx">碰撞形状索引</param>   
     private void OnInputEvent(Node viewport, InputEvent @event, long shapeIdx)
     {
-        if (!Available || !@event.IsActionPressed("ui_accept"))
+        if (!Available || !@event.IsActionPressed("left_mouse"))
         {
             return;
         }
