@@ -1,52 +1,45 @@
-[gd_scene load_steps=3 format=3 uid="uid://bw48ifds8uq3n"]
+[gd_scene load_steps=5 format=3 uid="uid://bw48ifds8uq3n"]
 
 [ext_resource type="Script" uid="uid://pdblh56i0k2n" path="res://scripts/map/Map.cs" id="1_sxf4j"]
 [ext_resource type="Script" uid="uid://d3vndm1ywox5q" path="res://scripts/map/MapGenerator.cs" id="2_tqkkf"]
 
-[node name="Map" type="Control" node_paths=PackedStringArray("GoBackButton")]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
+[sub_resource type="Gradient" id="Gradient_tqkkf"]
+offsets = PackedFloat32Array(0.006741573, 1)
+colors = PackedColorArray(0.14767182, 0.14767179, 0.14767179, 1, 0.43675524, 0.15808514, 0.1605387, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_a2pkv"]
+gradient = SubResource("Gradient_tqkkf")
+width = 64
+
+[node name="Map" type="Node2D" node_paths=PackedStringArray("MapGenerator", "Lines", "Rooms", "Visuals", "Camera2D")]
 script = ExtResource("1_sxf4j")
-GoBackButton = NodePath("VBoxContainer/Button")
+MapGenerator = NodePath("MapGenerator")
+Lines = NodePath("Visuals/Lines")
+Rooms = NodePath("Visuals/Rooms")
+Visuals = NodePath("Visuals")
+Camera2D = NodePath("Camera2D")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
+[node name="Visuals" type="Node2D" parent="."]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Lines" type="Node2D" parent="Visuals"]
+unique_name_in_owner = true
 
-[node name="Label" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-text = "地图"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="Rooms" type="Node2D" parent="Visuals"]
+unique_name_in_owner = true
 
-[node name="Button" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "返回"
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(128, 72)
 
 [node name="MapGenerator" type="Node" parent="."]
 script = ExtResource("2_tqkkf")
+
+[node name="MapBackground" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" type="TextureRect" parent="MapBackground"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_a2pkv")

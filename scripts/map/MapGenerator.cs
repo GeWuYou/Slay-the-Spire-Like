@@ -410,10 +410,16 @@ public partial class MapGenerator : Node
         // 如果未找到合适的房间，则默认连接到正下方的房间
         nextRoom ??= MapData[row + 1][Mathf.Clamp(col, 0, MapWidth - 1)];
 
-        // 避免重复添加相同的连接
+        // 双向连接：设置下一个房间的同时也设置上一个房间
         if (!currentRoom.NextRooms.Contains(nextRoom))
         {
             currentRoom.NextRooms.Add(nextRoom);
+        }
+    
+        // 设置上一个房间列表
+        if (!nextRoom.PreviousRooms.Contains(currentRoom))
+        {
+            nextRoom.PreviousRooms.Add(currentRoom);
         }
 
         return nextRoom.Column;
@@ -525,7 +531,8 @@ public partial class MapGenerator : Node
                 currentRoom.Column = j;
                 // 初始化下一个可到达的房间列表
                 currentRoom.NextRooms = [];
-
+                // 初始化上一个可到达的房间列表
+                currentRoom.PreviousRooms = [];
                 // 特殊处理最底层的房间位置
                 if (i == Floors - 1)
                 {

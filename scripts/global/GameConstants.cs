@@ -120,15 +120,50 @@ public static class GameConstants
         public const string BattleRewardButtonScene = "res://scenes/ui/reward_button.tscn";
 
         /// <summary>
+        /// 地图房间场景资源路径常量
+        /// </summary>
+        public const string MapRoomScene = "res://scenes/map/map_room.tscn";
+
+        /// <summary>
+        /// 地图连线场景资源路径常量
+        /// </summary>
+        public const string MapLineScene = "res://scenes/map/map_line.tscn";
+
+        /// <summary>
         /// 金币纹理资源路径常量
         /// </summary>
         public const string GoldTexture = "res://art/gold.png";
+
 
         /// <summary>
         /// 卡牌纹理资源路径常量
         /// </summary>
         public const string CardTexture = "res://art/rarity.png";
+        
+        /// <summary>
+        /// 怪物图标纹理资源路径常量
+        /// </summary>
+        public const string MonsterTexture = "res://art/tile_0103.png";
 
+        /// <summary>
+        /// 宝藏图标纹理资源路径常量
+        /// </summary>
+        public const string TreasureTexture = "res://art/tile_0089.png";
+
+        /// <summary>
+        /// 营火图标纹理资源路径常量
+        /// </summary>
+        public const string CampfireTexture = "res://art/player_heart.png";
+        
+        /// <summary>
+        /// 商店图标纹理资源路径常量
+        /// </summary>
+        public const string ShopTexture = "res://art/gold.png";
+        
+        /// <summary>
+        /// Boss图标纹理资源路径常量
+        /// </summary>
+        public const string BossTexture = "res://art/tile_0105.png";
 
         /// <summary>
         ///     白色精灵材质路径

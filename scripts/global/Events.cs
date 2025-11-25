@@ -129,7 +129,7 @@ public partial class Events : SingletonNode<Events>
     /// <summary>
     ///     地图退出事件
     /// </summary>
-    public event Action MapExited;
+    public event Action<Room> MapExited;
 
     /// <summary>
     ///     地图进入事件
@@ -284,9 +284,9 @@ public partial class Events : SingletonNode<Events>
     }
 
     /// <summary>触发地图退出事件</summary>
-    public void RaiseMapExited()
+    public void RaiseMapExited(Room room)
     {
-        MapExited?.Invoke();
+        MapExited?.Invoke(room);
     }
 
     /// <summary>触发地图进入事件</summary>

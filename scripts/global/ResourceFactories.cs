@@ -1,5 +1,6 @@
 using System;
 using Godot;
+using SlayTheSpireLike.scripts.map;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
 
@@ -76,7 +77,7 @@ public static class ResourceFactories
     public static readonly Func<Node> TreasureSceneFactory =
         ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<Node>(
             GameConstants.ResourcePaths.TreasureScene);
-    
+
     /// <summary>
     ///     卡牌菜单UI工厂函数，用于创建CardMenuUi场景实例
     /// </summary>
@@ -84,7 +85,7 @@ public static class ResourceFactories
     public static readonly Func<CardMenuUi> CardMenuUiFactory =
         ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<CardMenuUi>(
             GameConstants.ResourcePaths.CardMenuUiScene);
-    
+
     /// <summary>
     ///     奖励按钮工厂函数，用于创建奖励按钮实例
     /// </summary>
@@ -92,7 +93,7 @@ public static class ResourceFactories
     public static readonly Func<RewardButton> RewardButtonFactory =
         ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<RewardButton>(
             GameConstants.ResourcePaths.BattleRewardButtonScene);
-    
+
     /// <summary>
     ///     卡牌奖励UI工厂函数，用于创建CardRewards场景实例
     /// </summary>
@@ -101,7 +102,22 @@ public static class ResourceFactories
         ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<CardRewards>(
             GameConstants.ResourcePaths.CardRewardsScene);
 
-    
+    /// <summary>
+    ///     地图房间UI工厂函数，用于创建MapRoom场景实例
+    /// </summary>
+    /// <returns>返回一个新的MapRoom场景对象实例</returns>
+    public static readonly Func<MapRoom> MapRoomFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<MapRoom>(
+            GameConstants.ResourcePaths.MapRoomScene);
+
+    /// <summary>
+    ///     地图连线UI工厂函数，用于创建Line2D场景实例
+    /// </summary>
+    /// <returns>返回一个新的Line2D场景对象实例</returns>
+    public static readonly Func<Line2D> MapLineFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<Line2D>(
+            GameConstants.ResourcePaths.MapLineScene);
+
     /// <summary>
     /// 金币纹理工厂函数，用于加载金币纹理资源
     /// </summary>
@@ -109,7 +125,7 @@ public static class ResourceFactories
     public static readonly Func<Texture2D> GoldTextureFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Texture2D>(
             GameConstants.ResourcePaths.GoldTexture);
-    
+
     /// <summary>
     /// 卡牌纹理工厂函数，用于加载卡牌纹理资源
     /// </summary>
@@ -117,6 +133,46 @@ public static class ResourceFactories
     public static readonly Func<Texture2D> CardTextureFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Texture2D>(
             GameConstants.ResourcePaths.CardTexture);
+
+    /// <summary>
+    /// 怪物纹理资源工厂函数，用于加载和创建怪物纹理资源
+    /// </summary>
+    /// <returns>返回一个Texture2D类型的纹理资源</returns>
+    public static readonly Func<Texture2D> MonsterFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Texture2D>(
+            GameConstants.ResourcePaths.MonsterTexture);
+
+    /// <summary>
+    /// 宝藏纹理资源工厂函数，用于加载和创建宝藏纹理资源
+    /// </summary>
+    /// <returns>返回一个Texture2D类型的纹理资源</returns>
+    public static readonly Func<Texture2D> TreasureFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Texture2D>(
+            GameConstants.ResourcePaths.TreasureTexture);
+
+    /// <summary>
+    /// 营火纹理资源工厂函数，用于加载和创建营火纹理资源
+    /// </summary>
+    /// <returns>返回一个Texture2D类型的纹理资源</returns>
+    public static readonly Func<Texture2D> CampfireFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Texture2D>(
+            GameConstants.ResourcePaths.CampfireTexture);
+
+    /// <summary>
+    /// 商店纹理资源工厂函数，用于加载和创建商店纹理资源
+    /// </summary>
+    /// <returns>返回一个Texture2D类型的纹理资源</returns>
+    public static readonly Func<Texture2D> ShopFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Texture2D>(
+            GameConstants.ResourcePaths.ShopTexture);
+
+    /// <summary>
+    /// Boss纹理资源工厂函数，用于加载和创建Boss纹理资源
+    /// </summary>
+    /// <returns>返回一个Texture2D类型的纹理资源</returns>
+    public static readonly Func<Texture2D> BossFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Texture2D>(
+            GameConstants.ResourcePaths.BossTexture);
 
 
     /// <summary>
@@ -149,7 +205,7 @@ public static class ResourceFactories
     public static readonly Func<CharacterStats> WizardStatsFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<CharacterStats>(
             GameConstants.ResourcePaths.WizardStats);
-    
+
     /// <summary>
     ///     卡片基础样式盒子工厂函数，用于创建卡片控件的基础样式对象
     /// </summary>
@@ -157,7 +213,7 @@ public static class ResourceFactories
     public static readonly Func<StyleBox> CardBaseStyleBoxFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<StyleBox>(
             GameConstants.ResourcePaths.CardBaseStyleBox);
-    
+
     /// <summary>
     ///     卡片悬停样式盒子工厂函数，用于创建卡片控件在鼠标悬停状态下的样式对象
     /// </summary>
@@ -165,6 +221,4 @@ public static class ResourceFactories
     public static readonly Func<StyleBox> CardHoverStyleBoxFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<StyleBox>(
             GameConstants.ResourcePaths.CardHoverStyleBox);
-    
-
 }

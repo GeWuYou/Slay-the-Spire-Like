@@ -113,7 +113,7 @@ public partial class Run : Node
         rewardScene.AddGoldReward(77);
         rewardScene.AddCardReward();
     }
-    private void OnMapExited()
+    private void OnMapExited(Room room)
     {
     }
 
