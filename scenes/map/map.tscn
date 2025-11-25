@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bw48ifds8uq3n"]
+[gd_scene load_steps=3 format=3 uid="uid://bw48ifds8uq3n"]
 
 [ext_resource type="Script" uid="uid://pdblh56i0k2n" path="res://scripts/map/Map.cs" id="1_sxf4j"]
+[ext_resource type="Script" uid="uid://d3vndm1ywox5q" path="res://scripts/map/MapGenerator.cs" id="2_tqkkf"]
 
 [node name="Map" type="Control" node_paths=PackedStringArray("GoBackButton")]
 layout_mode = 3
@@ -46,3 +47,6 @@ vertical_alignment = 1
 [node name="Button" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "返回"
+
+[node name="MapGenerator" type="Node" parent="."]
+script = ExtResource("2_tqkkf")
