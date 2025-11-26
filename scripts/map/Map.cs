@@ -67,11 +67,9 @@ public partial class Map : Node2D
     public override void _Ready()
     {
         _cameraEdgeY = MapGenerator.YDist * (MapGenerator.Floors - 1);
-        GenerateNewMap();
-        UnlockFloor(0);
     }
 
-    private void UnlockFloor(int level)
+    public void UnlockFloor(int level)
     {
         foreach (var child in Rooms.GetChildren())
         {
@@ -115,7 +113,7 @@ public partial class Map : Node2D
         Camera2D.Enabled = false;
         
     }
-    private void GenerateNewMap()
+    public void GenerateNewMap()
     {
         _floorsClimbed = 0;
         _mapData = MapGenerator.GenerateMap();

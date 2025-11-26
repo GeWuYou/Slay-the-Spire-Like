@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://b51pibflmxoj" path="res://art/deck.png" id="4_5o40y"]
 [ext_resource type="PackedScene" uid="uid://boy040rcj4c5b" path="res://scenes/ui/card_pile_view.tscn" id="5_0tt4g"]
 
-[node name="Run" type="Node" node_paths=PackedStringArray("CurrentView", "BattleButton", "ShopButton", "CampfireButton", "TreasureButton", "MapButton", "RewardsButton", "DeckPileView", "DeckButton", "GoldUi")]
+[node name="Run" type="Node" node_paths=PackedStringArray("CurrentView", "BattleButton", "ShopButton", "CampfireButton", "TreasureButton", "MapButton", "RewardsButton", "DeckPileView", "DeckButton", "GoldUi", "Map")]
 script = ExtResource("1_l7o68")
 CurrentView = NodePath("CurrentView")
 BattleButton = NodePath("DebugButtons/BattleButton")
@@ -21,6 +21,7 @@ RunStartup = ExtResource("2_5o40y")
 DeckPileView = NodePath("TopBar/DeckPileView")
 DeckButton = NodePath("TopBar/BarItems/DeckButton")
 GoldUi = NodePath("TopBar/BarItems/GoldUi")
+Map = NodePath("Map")
 
 [node name="Map" parent="." instance=ExtResource("1_8rlou")]
 

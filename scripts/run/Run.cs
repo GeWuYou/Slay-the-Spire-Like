@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.enemies.battle;
+using SlayTheSpireLike.scripts.map;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
 
@@ -22,6 +23,7 @@ public partial class Run : Node
     [Export] public CardPileView DeckPileView { get; set; }
     [Export] public CardPileOpener DeckButton { get; set; }
     [Export] public GoldUi GoldUi { get; set; }
+    [Export] public Map Map { get; set; }
     public CharacterStats PlayerStats { get; set; }
     public RunStats RunStats { get; set; }
     private readonly List<Action> _disposables = new();
@@ -45,6 +47,8 @@ public partial class Run : Node
         RunStats = new RunStats();
         SetupEventConnections();
         SetupTopBar();
+        Map.GenerateNewMap();
+        Map.UnlockFloor(0);
     }
 
     private void SetupTopBar()
@@ -72,17 +76,14 @@ public partial class Run : Node
        
         events.BattleWon += OnBattleWon;
         _disposables.Add(() => events.BattleWon -= OnBattleWon);
-        // 多个界面退出事件的统一处理：返回地图场景
-        var mapSceneFun = () => ChangeViewNotReturn(resourceLoaderManager
-            .GetSceneLoader(GameConstants.ResourcePaths.MapScene).Value);
-        events.BattleRewardExited += mapSceneFun;
-        _disposables.Add(() => events.BattleRewardExited -= mapSceneFun);
-        events.CampfireExited += mapSceneFun;
-        _disposables.Add(() => events.CampfireExited -= mapSceneFun);
-        events.ShopExited += mapSceneFun;
-        _disposables.Add(() => events.ShopExited -= mapSceneFun);
-        events.TreasureRoomExited += mapSceneFun;
-        _disposables.Add(() => events.TreasureRoomExited -= mapSceneFun);
+        events.BattleRewardExited += ShowMap;
+        _disposables.Add(() => events.BattleRewardExited -= ShowMap);
+        events.CampfireExited += ShowMap;
+        _disposables.Add(() => events.CampfireExited -= ShowMap);
+        events.ShopExited += ShowMap;
+        _disposables.Add(() => events.ShopExited -= ShowMap);
+        events.TreasureRoomExited += ShowMap;
+        _disposables.Add(() => events.TreasureRoomExited -= ShowMap);
         events.MapExited += OnMapExited;
         _disposables.Add(() => events.MapExited -= OnMapExited);
 
@@ -90,7 +91,7 @@ public partial class Run : Node
             .GetSceneLoader(GameConstants.ResourcePaths.BattleScene).Value);
         CampfireButton.Pressed += () => ChangeView(resourceLoaderManager
             .GetSceneLoader(GameConstants.ResourcePaths.CampfireScene).Value);
-        MapButton.Pressed += mapSceneFun;
+        MapButton.Pressed += ShowMap;
         RewardsButton.Pressed += OnBattleWon;
         TreasureButton.Pressed += () =>
         {
@@ -115,6 +116,37 @@ public partial class Run : Node
     }
     private void OnMapExited(Room room)
     {
+        switch (room.RoomType)
+        {
+            case Room.Type.Unknown:
+                ChangeView(ResourceLoaderManager.Instance
+                    .GetSceneLoader(GameConstants.ResourcePaths.BattleRewardScene).Value);
+                break;
+            case Room.Type.Monster:
+                ChangeView(ResourceLoaderManager.Instance
+                    .GetSceneLoader(GameConstants.ResourcePaths.BattleScene).Value);
+                break;
+            case Room.Type.Treasure:
+                ChangeView(ResourceLoaderManager.Instance
+                    .GetSceneLoader(GameConstants.ResourcePaths.TreasureScene).Value);
+                break;
+            case Room.Type.Campfire:
+                ChangeView(ResourceLoaderManager.Instance
+                    .GetSceneLoader(GameConstants.ResourcePaths.CampfireScene).Value);
+                break;
+            case Room.Type.Shop:
+                ChangeView(ResourceLoaderManager.Instance
+                    .GetSceneLoader(GameConstants.ResourcePaths.ShopScene).Value);
+                break;
+            case Room.Type.Boss:
+                // ChangeView(ResourceLoaderManager.Instance
+                //     .GetSceneLoader(GameConstants.ResourcePaths.BossScene).Value);
+                ChangeView(ResourceLoaderManager.Instance
+                    .GetSceneLoader(GameConstants.ResourcePaths.BattleScene).Value);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     /// <summary>
@@ -132,6 +164,15 @@ public partial class Run : Node
         }
     }
 
+    private void ShowMap()
+    {
+        if (CurrentView.GetChildCount() > 0)
+        {
+            CurrentView.GetChild(0).QueueFree();
+        }
+        Map.ShowMap();
+        Map.UnlockNextRooms();
+    }
     private Node ChangeView(PackedScene newScene)
     {
         if (CurrentView.GetChildCount() > 0)
@@ -142,6 +183,7 @@ public partial class Run : Node
         GetTree().Paused = false;
         var newView = newScene.Instantiate();
         CurrentView.AddChild(newView);
+        Map.HideMap();
         return newView;
     }
     private void ChangeViewNotReturn(PackedScene newScene)
