@@ -140,6 +140,14 @@ public partial class BattleReward : Control
     private Card GetRandomAvailableCard(Array<Card> availableCards, Card.Rarity rarityKey)
     {
         var allPossibleCards =  availableCards.Where(card => card.CardRarity == rarityKey).ToArray();
+        
+        // 如果该稀有度没有可用卡牌，尝试从所有剩余卡牌中随机选择
+        if (allPossibleCards.Length == 0)
+        {
+            GD.PushWarning($"没有找到稀有度为 {rarityKey} 的卡牌，从所有剩余卡牌中随机选择");
+            return availableCards.Count > 0 ? availableCards.PickRandom() : null;
+        }
+        
         return allPossibleCards.PickRandom();
     }
 
