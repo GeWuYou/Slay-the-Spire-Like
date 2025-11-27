@@ -32,8 +32,6 @@ public partial class Battle : Node2D
     public override void _EnterTree()
     {
         _battleUi = GetNode<BattleUi>("BattleUI");
-        _battleUi.PlayerStats = PlayerStats;
-        Player.Stats = PlayerStats;
     }
 
     /// <summary>
@@ -96,6 +94,8 @@ public partial class Battle : Node2D
     public void StartBattle()
     {
         GetTree().Paused = false;
+        _battleUi.PlayerStats = PlayerStats;
+        Player.Stats = PlayerStats;
         AudioPlayerManager.Instance.PlayMusic(BattleMusic,true);
         EnemyHandler.SetupEnemies(BattleStats);
         EnemyHandler.ResetEnemyAcitons();

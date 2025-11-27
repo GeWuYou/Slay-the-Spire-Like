@@ -16,7 +16,7 @@ public partial class BattleStats : Resource
     [Export] public PackedScene Enemies { get; set; }
     public float AccumulatedWeight { get; set; }
 
-    public int RoolGoldReward()
+    public int RollGoldReward()
     {
         return GlobalBean.RandomNumberGenerator.RandiRange(GoldRewardMin, GoldRewardMax);
     }

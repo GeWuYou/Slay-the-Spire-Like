@@ -110,7 +110,7 @@ public partial class Run : Node
         rewardScene!.RunStats = RunStats;
         rewardScene!.PlayerStats = PlayerStats;
         
-        rewardScene.AddGoldReward(Map.LastRoom.BattleStats.RoolGoldReward());
+        rewardScene.AddGoldReward(Map.LastRoom.BattleStats.RollGoldReward());
         rewardScene.AddCardReward();
     }
     private void OnMapExited(Room room)

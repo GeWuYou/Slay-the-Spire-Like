@@ -55,8 +55,12 @@ public partial class BattleUi : CanvasLayer
     public override void _Ready()
     {
         _events = Events.Instance;
-        ManaUi.CharacterStats = PlayerStats;
-        Hand.PlayerStats = PlayerStats;
+        // 只有在PlayerStats不为空时才设置，否则等待后续设置
+        if (PlayerStats != null)
+        {
+            ManaUi.CharacterStats = PlayerStats;
+            Hand.PlayerStats = PlayerStats;
+        }
         _events.PlayerHandDrawn += OnPlayerHandDrawn;
         EndTurnButton.Pressed += OnEndTurnButtonPressed;
         DiscardPileButton.Pressed += () =>  DiscardPileView.ShowCurrentView("弃牌堆");
@@ -64,6 +68,16 @@ public partial class BattleUi : CanvasLayer
     }
     public void InitCardPileUi()
     {
+        // 在初始化卡牌堆UI时，同时初始化ManaUi和Hand
+        if (ManaUi is { CharacterStats: null })
+        {
+            ManaUi.CharacterStats = PlayerStats;
+        }
+        if (Hand is { PlayerStats: null })
+        {
+            Hand.PlayerStats = PlayerStats;
+        }
+        
         DrawPileButton.CardPile = PlayerStats.DrawPile;
         DrawPileView.CardPile = PlayerStats.DrawPile;
         DiscardPileButton.CardPile = PlayerStats.Discard;
