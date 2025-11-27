@@ -101,7 +101,12 @@ public partial class EnemyHandler : Node2D
             {
                 continue;
             }
-            AddChild(enemy);
+            // 在重新设置父节点前，先清除所有权关系
+            if (enemy.Owner != null)
+            {
+                enemy.Owner = null;
+            }
+            enemy.Reparent(this);
         }
         
         // 释放临时的敌人容器节点

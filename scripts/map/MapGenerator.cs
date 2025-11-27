@@ -173,7 +173,7 @@ public partial class MapGenerator : Node
             if (room.NextRooms.Count > 0)
             {
                 room.RoomType = Room.Type.Monster;
-                BattleStatsPool.SetupWeightForTier(0);
+                room.BattleStats = BattleStatsPool.GetRandomBattleStatsForTier(0);
             }
         }
 
