@@ -21,8 +21,18 @@ public partial class ManaUi : Panel
 
     [Export] public Label ManaLabel { get; private set; }
 
+    public override void _ExitTree()
+    {
+        if (_characterStats != null && _characterStats.IsConnected(Stats.SignalName.StatsChanged, Callable.From(OnStatsChanged)))
+        {
+            _characterStats.StatsChanged -= OnStatsChanged;
+        }
+    }
+
     private void OnStatsChanged()
     {
+        if (!IsInstanceValid(this) || !IsInstanceValid(ManaLabel)) return;
+        
         ManaLabel.Text = $"{CharacterStats.Mana}/{CharacterStats.MaxMana}";
     }
 }

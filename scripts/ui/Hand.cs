@@ -22,6 +22,18 @@ public partial class Hand : HBoxContainer
         _events = Events.Instance;
     }
 
+    public override void _ExitTree()
+    {
+        // 清理所有卡片的事件订阅
+        foreach (var card in GetChildren())
+        {
+            if (card is CardUi cardUi)
+            {
+                cardUi.ReparentRequested -= OnCardReparentRequested;
+            }
+        }
+    }
+
     /// <summary>
     ///     禁用手牌中的所有卡牌
     /// </summary>

@@ -63,7 +63,7 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent
 
     public void UpdateAction()
     {
-        if (EnemyActionPicker is null) return;
+        if (!IsInstanceValid(this) || EnemyActionPicker is null) return;
 
         if (CurrentAction is null)
         {
@@ -93,6 +93,18 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent
         AreaExited += OnAreaExited;
     }
 
+    public override void _ExitTree()
+    {
+        if (_stats != null)
+        {
+            _stats.StatsChanged -= UpdateStats;
+            _stats.StatsChanged -= UpdateAction;
+        }
+        
+        AreaEntered -= OnAreaEntered;
+        AreaExited -= OnAreaExited;
+    }
+
 
     /// <summary>
     ///     当有其他区域离开本敌人区域范围时调用，隐藏指示箭头。
@@ -117,6 +129,8 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent
     /// </summary>
     private void UpdateStats()
     {
+        if (!IsInstanceValid(this) || !IsInstanceValid(StatsUi)) return;
+        
         StatsUi.UpdateStats(Stats);
     }
 

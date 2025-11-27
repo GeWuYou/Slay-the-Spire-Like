@@ -132,6 +132,8 @@ public partial class CardUi : Control
 
     private void OnStatsChanged()
     {
+        if (!IsInstanceValid(this)) return;
+        
         Playable = _characterStats.CanPlayCard(Card);
     }
 
@@ -170,6 +172,23 @@ public partial class CardUi : Control
         events.CardDraggingStarted += OnCardDraggingOrAimingStarted;
         events.CardDraggingEnded += OnCardDraggingOrAimingEnded;
         StateMachine.Init(this);
+    }
+
+    public override void _ExitTree()
+    {
+        var events = Events.Instance;
+        if (events != null)
+        {
+            events.CardAimingStarted -= OnCardDraggingOrAimingStarted;
+            events.CardAimingEnded -= OnCardDraggingOrAimingEnded;
+            events.CardDraggingStarted -= OnCardDraggingOrAimingStarted;
+            events.CardDraggingEnded -= OnCardDraggingOrAimingEnded;
+        }
+
+        if (_characterStats != null)
+        {
+            _characterStats.StatsChanged -= OnStatsChanged;
+        }
     }
 
     private void OnCardDraggingOrAimingEnded(CardUi cardUi)

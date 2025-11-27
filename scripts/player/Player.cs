@@ -36,6 +36,14 @@ public partial class Player : Node2D, IDamageableComponent, IBlockableComponent
     [Export] public Sprite2D Sprite2D { get; set; }
     [Export] public StatsUi StatsUi { get; set; }
 
+    public override void _ExitTree()
+    {
+        if (_stats != null)
+        {
+            _stats.StatsChanged -= UpdateStats;
+        }
+    }
+
     /// <summary>
     ///     异步更新玩家显示信息，包括角色图像和属性UI。
     /// </summary>
@@ -65,6 +73,8 @@ public partial class Player : Node2D, IDamageableComponent, IBlockableComponent
     /// </summary>
     private void UpdateStats()
     {
+        if (!IsInstanceValid(this) || !IsInstanceValid(StatsUi)) return;
+        
         StatsUi.UpdateStats(Stats);
     }
 
