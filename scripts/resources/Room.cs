@@ -80,13 +80,15 @@ public partial class Room : Resource
     /// </summary>
     [Export]
     public Array<Room> PreviousRooms { get; set; }
-
+    
     /// <summary>
     /// 选中状态属性，标识房间是否被选中
     /// </summary>
     [Export]
     public bool IsSelected { get; set; }
 
+    [Export]
+    public BattleStats BattleStats { get; set; }
     public override string ToString()
     {
         return

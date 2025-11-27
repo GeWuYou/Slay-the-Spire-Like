@@ -15,11 +15,7 @@ public partial class ManaUi : Panel
             _characterStats = value;
             if (!CharacterStats.IsConnected(Stats.SignalName.StatsChanged, Callable.From(OnStatsChanged)))
                 CharacterStats.StatsChanged += OnStatsChanged;
-
-            if (!IsNodeReady())
-                Callable.From(OnStatsChanged);
-            else
-                OnStatsChanged();
+            CallDeferred(nameof(OnStatsChanged));
         }
     }
 

@@ -9,13 +9,15 @@
     <LangVersion>12</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="script_templates\**\*.cs"/>
+    <Compile Remove="script_templates\**\*.cs" />
     <Folder Include="scripts\enemies\bat\" />
     <Folder Include="scripts\enemies\carb\" />
     <Folder Include="scripts\player\warrior\" />
     <Compile Remove="scenes\**" />
+    <Compile Remove="resources\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="scenes\**" />
+    <EmbeddedResource Remove="resources\**" />
   </ItemGroup>
 </Project>

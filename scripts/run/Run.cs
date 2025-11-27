@@ -110,8 +110,7 @@ public partial class Run : Node
         rewardScene!.RunStats = RunStats;
         rewardScene!.PlayerStats = PlayerStats;
         
-        // todo 暂时添加
-        rewardScene.AddGoldReward(77);
+        rewardScene.AddGoldReward(Map.LastRoom.BattleStats.RoolGoldReward());
         rewardScene.AddCardReward();
     }
     private void OnMapExited(Room room)
@@ -123,8 +122,7 @@ public partial class Run : Node
                     .GetSceneLoader(GameConstants.ResourcePaths.BattleRewardScene).Value);
                 break;
             case Room.Type.Monster:
-                ChangeView(ResourceLoaderManager.Instance
-                    .GetSceneLoader(GameConstants.ResourcePaths.BattleScene).Value);
+                OnBattleRoomEntered(room);
                 break;
             case Room.Type.Treasure:
                 ChangeView(ResourceLoaderManager.Instance
@@ -141,8 +139,7 @@ public partial class Run : Node
             case Room.Type.Boss:
                 // ChangeView(ResourceLoaderManager.Instance
                 //     .GetSceneLoader(GameConstants.ResourcePaths.BossScene).Value);
-                ChangeView(ResourceLoaderManager.Instance
-                    .GetSceneLoader(GameConstants.ResourcePaths.BattleScene).Value);
+                OnBattleRoomEntered(room);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -172,6 +169,19 @@ public partial class Run : Node
         }
         Map.ShowMap();
         Map.UnlockNextRooms();
+    }
+
+    private void OnBattleRoomEntered(Room room)
+    {
+        if (ChangeView(ResourceLoaderManager.Instance
+                .GetSceneLoader(GameConstants.ResourcePaths.BattleScene).Value) is not Battle battleScene)
+       {
+           GD.PrintErr("BattleScene is null");
+           return;
+       }
+       battleScene.PlayerStats = PlayerStats;
+       battleScene.BattleStats = room.BattleStats;
+       battleScene.StartBattle();
     }
     private Node ChangeView(PackedScene newScene)
     {

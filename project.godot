@@ -40,6 +40,10 @@ window/stretch/mode="viewport"
 
 project/assembly_name="Slay the Spire Like"
 
+[editor]
+
+version_control/autoload_on_startup=true
+
 [file_customization]
 
 folder_colors={

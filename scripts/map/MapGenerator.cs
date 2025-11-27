@@ -74,6 +74,8 @@ public partial class MapGenerator : Node
 
     #endregion
 
+    [Export]
+    public BattleStatsPool BattleStatsPool { get; set; }
     /// <summary>
     /// 随机房间类型权重字典，用于控制不同类型房间在随机生成时的概率权重。
     /// </summary>
@@ -120,7 +122,7 @@ public partial class MapGenerator : Node
                 currentCol = SetupConnection(row, currentCol);
             }
         }
-
+        BattleStatsPool.Setup();
         SetupBossRoom();
         SetupRandomRoomWeights();
         SetupRoomTypes();
@@ -171,6 +173,7 @@ public partial class MapGenerator : Node
             if (room.NextRooms.Count > 0)
             {
                 room.RoomType = Room.Type.Monster;
+                BattleStatsPool.SetupWeightForTier(0);
             }
         }
 
@@ -251,6 +254,16 @@ public partial class MapGenerator : Node
 
             // 通过所有约束，赋值并退出
             nextRoom.RoomType = roomType;
+            if (roomType != Room.Type.Monster)
+            {
+                return;
+            }
+            var tierForMonsterRooms = 0;
+            if (nextRoom.Row > 2)
+            {
+                tierForMonsterRooms = 1;
+            }
+            nextRoom.BattleStats = BattleStatsPool.GetRandomBattleStatsForTier(tierForMonsterRooms);
             return;
         }
 
@@ -353,7 +366,7 @@ public partial class MapGenerator : Node
         var middle = Mathf.FloorToInt(MapWidth * 0.5f);
         var bossRoom = MapData[Floors - 1][middle];
         bossRoom.RoomType = Room.Type.Boss;
-
+        bossRoom.BattleStats = BattleStatsPool.GetRandomBattleStatsForTier(2);
         for (var j = 0; j < MapWidth; j++)
         {
             var currentRoom = MapData[Floors - 2][j];

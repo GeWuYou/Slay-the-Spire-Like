@@ -56,7 +56,7 @@ public partial class Map : Node2D
     /// <summary>
     /// 记录上一个访问的房间对象
     /// </summary>
-    private Room _lastRoom;
+    public Room LastRoom { get; set; }
 
     /// <summary>
     /// 摄像机在Y轴方向的边界值，用于控制摄像机的移动范围
@@ -94,7 +94,7 @@ public partial class Map : Node2D
                 continue;
             }
 
-            if (_lastRoom.NextRooms.Contains(mapRoom.Room))
+            if (LastRoom.NextRooms.Contains(mapRoom.Room))
             {
                 mapRoom.Available = true;
             }
@@ -170,7 +170,7 @@ public partial class Map : Node2D
                 mapRoom.Available = false;
             }
         }
-        _lastRoom = room;
+        LastRoom = room;
         _floorsClimbed++;
         Events.Instance.RaiseMapExited(room);
     }

@@ -1,7 +1,6 @@
-using SlayTheSpireLike.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.enemies;
-using SlayTheSpireLike.scripts.extensions;
 using SlayTheSpireLike.scripts.player;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
@@ -25,6 +24,7 @@ public partial class Battle : Node2D
     [Export] public Player Player { get; set; }
     
     [Export] public AudioStream BattleMusic { get; set; }
+    [Export] public BattleStats BattleStats { get; set; }
 
     /// <summary>
     ///     当节点进入场景树时调用，初始化战斗UI并设置玩家属性
@@ -32,9 +32,8 @@ public partial class Battle : Node2D
     public override void _EnterTree()
     {
         _battleUi = GetNode<BattleUi>("BattleUI");
-        var newStats = PlayerStats.CreateInstance();
-        Player.Stats = newStats;
-        _battleUi.PlayerStats = newStats;
+        _battleUi.PlayerStats = PlayerStats;
+        Player.Stats = PlayerStats;
     }
 
     /// <summary>
@@ -54,7 +53,6 @@ public partial class Battle : Node2D
         _events.PlayerDied += OnPlayerDied;
         // 注册敌人子节点顺序改变事件
         EnemyHandler.ChildOrderChanged += OnEnmiesChildOrderChanged;
-        StartBattle(_battleUi.PlayerStats);
     }
 
     public override void _ExitTree()
@@ -95,13 +93,13 @@ public partial class Battle : Node2D
     /// <summary>
     ///     初始化战斗，重置敌人行动状态并启动玩家战斗处理器
     /// </summary>
-    /// <param name="newStats">玩家角色的属性统计信息</param>
-    private void StartBattle(CharacterStats newStats)
+    public void StartBattle()
     {
         GetTree().Paused = false;
         AudioPlayerManager.Instance.PlayMusic(BattleMusic,true);
+        EnemyHandler.SetupEnemies(BattleStats);
         EnemyHandler.ResetEnemyAcitons();
-        PlayerHandler.StartBattle(newStats);
+        PlayerHandler.StartBattle(PlayerStats);
         _battleUi.InitCardPileUi();
     }
 }

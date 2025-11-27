@@ -1,5 +1,6 @@
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.enemies;
 
@@ -70,4 +71,41 @@ public partial class EnemyHandler : Node2D
         var nextEnemy = GetChild(enemy.GetIndex() + 1) as Enemy;
         nextEnemy?.DoTurn();
     }
+
+    /// <summary>
+    /// 设置战斗场景中的敌人对象
+    /// </summary>
+    /// <param name="battleStats">包含敌人信息的战斗统计数据对象</param>
+    public void SetupEnemies(BattleStats battleStats)
+    {
+        // 检查输入参数是否为空
+        if (battleStats is null)
+        {
+            return;
+        }
+
+        // 清除当前所有子节点
+        foreach (var child in GetChildren())
+        {
+            child.QueueFree();
+        }
+
+        // 实例化所有敌人对象
+        var allEnemies = battleStats.Enemies.Instantiate();
+
+        // 遍历并添加有效的敌人节点
+        foreach (var child in allEnemies.GetChildren())
+        {
+            // 只处理Enemy类型的节点
+            if (child is not Enemy enemy)
+            {
+                continue;
+            }
+            AddChild(enemy);
+        }
+        
+        // 释放临时的敌人容器节点
+        allEnemies.QueueFree();
+    }
+
 }
