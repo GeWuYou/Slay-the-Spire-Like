@@ -1,4 +1,4 @@
-using SlayTheSpireLike.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.resources;
@@ -7,6 +7,21 @@ namespace SlayTheSpireLike.scripts.map;
 
 public partial class Map : Node2D
 {
+    /// <summary>
+    /// 摄像机在Y轴方向的边界值，用于控制摄像机的移动范围
+    /// </summary>
+    private float _cameraEdgeY;
+
+    /// <summary>
+    /// 记录已爬升的楼层数量
+    /// </summary>
+    private int _floorsClimbed;
+
+    /// <summary>
+    /// 存储地图数据的二维数组，用于保存各个楼层和房间的信息
+    /// </summary>
+    private Array<Array<Room>> _mapData;
+
     /// <summary>
     ///   地图滚动速度
     /// </summary>
@@ -44,24 +59,9 @@ public partial class Map : Node2D
     public Camera2D Camera2D { get; set; }
 
     /// <summary>
-    /// 存储地图数据的二维数组，用于保存各个楼层和房间的信息
-    /// </summary>
-    private Array<Array<Room>> _mapData;
-
-    /// <summary>
-    /// 记录已爬升的楼层数量
-    /// </summary>
-    private int _floorsClimbed;
-
-    /// <summary>
     /// 记录上一个访问的房间对象
     /// </summary>
     public Room LastRoom { get; set; }
-
-    /// <summary>
-    /// 摄像机在Y轴方向的边界值，用于控制摄像机的移动范围
-    /// </summary>
-    private float _cameraEdgeY;
 
 
     public override void _Ready()
@@ -106,13 +106,13 @@ public partial class Map : Node2D
         Show();
         Camera2D.Enabled = true;
     }
-    
+
     public void HideMap()
     {
         Hide();
         Camera2D.Enabled = false;
-        
     }
+
     public void GenerateNewMap()
     {
         _floorsClimbed = 0;
@@ -165,11 +165,12 @@ public partial class Map : Node2D
                 continue;
             }
 
-            if (mapRoom.Room.Row==room.Row)
+            if (mapRoom.Room.Row == room.Row)
             {
                 mapRoom.Available = false;
             }
         }
+
         LastRoom = room;
         _floorsClimbed++;
         Events.Instance.RaiseMapExited(room);
@@ -193,6 +194,11 @@ public partial class Map : Node2D
 
     public override void _Input(InputEvent @event)
     {
+        if (!Visible)
+        {
+            return;
+        }
+
         var cameraPosition = Camera2D.Position;
         var y = cameraPosition.Y;
         if (@event.IsActionPressed("scroll_up"))

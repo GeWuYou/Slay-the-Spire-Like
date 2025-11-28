@@ -134,6 +134,11 @@ public partial class CharacterStats : Stats
         instance.DrawPile = new CardPile();
         instance.RemovedDeck = new CardPile();
         instance.DraftablePile = DraftablePile;
+        instance.Mana = Mana;
+        instance.MaxMana = MaxMana;
+        instance.CardsPerTurn = CardsPerTurn;
+        instance.MaxHeath = MaxHeath;
+        instance.MaxBlock = MaxBlock;
         return instance;
     }
 }

@@ -106,6 +106,7 @@ public partial class PlayerHandler : Node
             tween.TweenInterval(_handDiscardInterval);
         }
 
+        tween.TweenInterval(0f);
         tween.Finished += () => { _events.RaisePlayerHandDiscarded(); };
     }
 
