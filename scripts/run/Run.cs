@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.campfire;
 using SlayTheSpireLike.scripts.enemies.battle;
 using SlayTheSpireLike.scripts.map;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
+using SlayTheSpireLike.scripts.ui.components;
 
 namespace SlayTheSpireLike.scripts.run;
 
@@ -23,6 +25,7 @@ public partial class Run : Node
     [Export] public CardPileView DeckPileView { get; set; }
     [Export] public CardPileOpener DeckButton { get; set; }
     [Export] public GoldUi GoldUi { get; set; }
+    [Export] public StatItem HealthUi { get; set; }
     [Export] public Map Map { get; set; }
     public CharacterStats PlayerStats { get; set; }
     public RunStats RunStats { get; set; }
@@ -30,10 +33,12 @@ public partial class Run : Node
     
     public override void _Ready()
     {
-       
         if (RunStartup.RunType == RunStartup.Type.NewRun)
         {
             PlayerStats = RunStartup.PlayerStats.CreateInstance();
+            HealthUi.FormatString = $"{{0}}/{PlayerStats.MaxHeath}";
+            PlayerStats.StatsChanged += () => HealthUi.UpdateValue(PlayerStats.Health);
+            HealthUi.UpdateValue(PlayerStats.Health);
             StartRun();
         }else
         {
@@ -129,8 +134,7 @@ public partial class Run : Node
                     .GetSceneLoader(GameConstants.ResourcePaths.TreasureScene).Value);
                 break;
             case Room.Type.Campfire:
-                ChangeView(ResourceLoaderManager.Instance
-                    .GetSceneLoader(GameConstants.ResourcePaths.CampfireScene).Value);
+                OnCampfireRoomEntered();
                 break;
             case Room.Type.Shop:
                 ChangeView(ResourceLoaderManager.Instance
@@ -144,6 +148,17 @@ public partial class Run : Node
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+
+    private void OnCampfireRoomEntered()
+    {
+        var campfire = ChangeView(ResourceLoaderManager.Instance
+            .GetSceneLoader(GameConstants.ResourcePaths.CampfireScene).Value) as Campfire;
+        if (campfire is null)
+        {
+            return;
+        }
+        campfire.PlayerStats = PlayerStats;
     }
 
     /// <summary>

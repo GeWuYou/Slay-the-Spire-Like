@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://defhoeabnbiqx"]
+[gd_scene load_steps=10 format=3 uid="uid://defhoeabnbiqx"]
 
 [ext_resource type="PackedScene" uid="uid://bw48ifds8uq3n" path="res://scenes/map/map.tscn" id="1_8rlou"]
 [ext_resource type="Script" uid="uid://db6dspcnphbfu" path="res://scripts/run/Run.cs" id="1_l7o68"]
@@ -7,8 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://dbfxq4r0lf0bg" path="res://scenes/ui/gold_ui.tscn" id="4_0tt4g"]
 [ext_resource type="Texture2D" uid="uid://b51pibflmxoj" path="res://art/deck.png" id="4_5o40y"]
 [ext_resource type="PackedScene" uid="uid://boy040rcj4c5b" path="res://scenes/ui/card_pile_view.tscn" id="5_0tt4g"]
+[ext_resource type="PackedScene" uid="uid://bmfuy4paj0a5v" path="res://scenes/ui/components/stat_item.tscn" id="5_wo0nw"]
+[ext_resource type="Texture2D" uid="uid://d0edy7thj8ce6" path="res://art/heart.png" id="6_ux63y"]
 
-[node name="Run" type="Node" node_paths=PackedStringArray("CurrentView", "BattleButton", "ShopButton", "CampfireButton", "TreasureButton", "MapButton", "RewardsButton", "DeckPileView", "DeckButton", "GoldUi", "Map")]
+[node name="Run" type="Node" node_paths=PackedStringArray("CurrentView", "BattleButton", "ShopButton", "CampfireButton", "TreasureButton", "MapButton", "RewardsButton", "DeckPileView", "DeckButton", "GoldUi", "HealthUi", "Map")]
 script = ExtResource("1_l7o68")
 CurrentView = NodePath("CurrentView")
 BattleButton = NodePath("DebugButtons/BattleButton")
@@ -21,6 +23,7 @@ RunStartup = ExtResource("2_5o40y")
 DeckPileView = NodePath("TopBar/DeckPileView")
 DeckButton = NodePath("TopBar/BarItems/DeckButton")
 GoldUi = NodePath("TopBar/BarItems/GoldUi")
+HealthUi = NodePath("TopBar/BarItems/HealthUi")
 Map = NodePath("Map")
 
 [node name="Map" parent="." instance=ExtResource("1_8rlou")]
@@ -79,6 +82,10 @@ custom_minimum_size = Vector2(0, 18)
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
+
+[node name="HealthUi" parent="TopBar/BarItems" instance=ExtResource("5_wo0nw")]
+layout_mode = 2
+IconTexture = ExtResource("6_ux63y")
 
 [node name="GoldUi" parent="TopBar/BarItems" instance=ExtResource("4_0tt4g")]
 unique_name_in_owner = true

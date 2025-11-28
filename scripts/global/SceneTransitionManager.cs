@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Godot;
 
@@ -39,7 +40,38 @@ public partial class SceneTransitionManager : CanvasLayer
         m.A = 0f;
         FadeRect.Modulate = m;
     }
+    /// <summary>
+    ///     在同一场景内执行一次完整的淡入淡出效果，不切换场景。
+    ///     适用于篝火休息等需要过渡效果但不切换场景的情况。
+    ///     支持淡出完成后和淡入完成后的回调方法。
+    /// </summary>
+    /// <param name="onFadeOutComplete">淡出动画完成后的回调方法（可选）</param>
+    /// <param name="onFadeInComplete">淡入动画完成后的回调方法（可选）</param>
+    /// <returns>异步任务</returns>
+    public async Task PerformFadeEffect(Action onFadeOutComplete = null, Action onFadeInComplete = null)
+    {
+        if (FadeRect == null || Anim == null) return;
 
+        // 确保可见并在最上层
+        FadeRect.Visible = true;
+
+        // 播放淡出动画
+        Anim.Play(FadeOutAnim);
+        await ToSignal(Anim, AnimationMixer.SignalName.AnimationFinished);
+    
+        // 执行淡出完成回调
+        onFadeOutComplete?.Invoke();
+
+        // 播放淡入动画
+        Anim.Play(FadeInAnim);
+        await ToSignal(Anim, AnimationMixer.SignalName.AnimationFinished);
+
+        // 隐藏，恢复输入
+        FadeRect.Visible = false;
+    
+        // 执行淡入完成回调
+        onFadeInComplete?.Invoke();
+    }
     /// <summary>
     ///     执行一个完整的场景过渡流程：淡出当前画面 -> 切换场景 -> 淡入新场景。
     /// </summary>

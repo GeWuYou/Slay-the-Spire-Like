@@ -128,6 +128,11 @@ public static class GameConstants
         /// 地图连线场景资源路径常量
         /// </summary>
         public const string MapLineScene = "res://scenes/map/map_line.tscn";
+        
+        /// <summary>
+        /// 统计项控件资源路径常量
+        /// </summary>
+        public const string StatItem = "res://scenes/ui/components/stat_item.tscn";
 
         /// <summary>
         /// 金币纹理资源路径常量

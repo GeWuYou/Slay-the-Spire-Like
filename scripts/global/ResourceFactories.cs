@@ -3,6 +3,7 @@ using Godot;
 using SlayTheSpireLike.scripts.map;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
+using SlayTheSpireLike.scripts.ui.components;
 
 namespace SlayTheSpireLike.scripts.global;
 
@@ -28,6 +29,19 @@ public static class ResourceFactories
     public static readonly Func<CharacterSelector> CharacterSelectorFactory =
         ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<CharacterSelector>(
             GameConstants.ResourcePaths.CharacterSelectorScene);
+
+    /// <summary>
+    ///     属性项工厂函数，用于创建StatItem实例
+    /// </summary>
+    /// <returns>返回一个新的StatItem对象实例</returns>
+    /// <remarks>
+    ///     该工厂函数通过ResourceLoaderManager注册并获取StatItem场景的工厂方法，
+    ///     使用GameConstants中定义的属性项场景资源路径进行初始化
+    /// </remarks>
+    public static readonly Func<StatItem> StatItemFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<StatItem>(
+            GameConstants.ResourcePaths.StatItem);
+
 
 
     /// <summary>

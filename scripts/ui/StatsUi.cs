@@ -1,5 +1,7 @@
+using SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.ui.components;
 
 namespace SlayTheSpireLike.scripts.ui;
 
@@ -9,10 +11,25 @@ namespace SlayTheSpireLike.scripts.ui;
 /// </summary>
 public partial class StatsUi : HBoxContainer
 {
-    [Export] public HBoxContainer Block { get; set; }
-    [Export] public Label BlockLabel { get; set; }
-    [Export] public HBoxContainer Health { get; set; }
-    [Export] public Label HealthLabel { get; set; }
+    [Export] public Texture HealthIcon { get; set; }
+    [Export] public Texture BlockIcon { get; set; }
+    private StatItem _block;
+    private StatItem _health;
+    
+
+    /// <summary>
+    ///     初始化StatsUi控件
+    ///     创建Block和Health的StatItem实例，并设置对应的图标纹理
+    /// </summary>
+    public override void _Ready()
+    {
+        _block = ResourceFactories.StatItemFactory();
+        _health = ResourceFactories.StatItemFactory();
+        _block.IconTexture = BlockIcon;
+        _health.IconTexture = HealthIcon;
+        AddChild(_block);
+        AddChild(_health);
+    }
 
     /// <summary>
     ///     更新统计数据显示
@@ -22,13 +39,10 @@ public partial class StatsUi : HBoxContainer
     /// <param name="stats">包含Block和Health数值的Stats对象</param>
     public void UpdateStats(Stats stats)
     {
-        if (!(IsInstanceValid(BlockLabel) && IsInstanceValid(HealthLabel))) return;
+        // 检查Block和Health的StatItem实例是否有效
+        if (!(IsInstanceValid(_block) && IsInstanceValid(_health))) return;
         // 更新Block和Health的标签文本
-        BlockLabel.Text = stats.Block.ToString();
-        HealthLabel.Text = stats.Health.ToString();
-
-        // 根据数值决定UI元素的可见性
-        Block.Visible = stats.Block > 0;
-        Health.Visible = stats.Health > 0;
+        _block.UpdateValue(stats.Block);
+        _health.UpdateValue(stats.Health);
     }
 }

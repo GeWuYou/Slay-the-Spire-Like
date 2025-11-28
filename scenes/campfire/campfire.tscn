@@ -1,8 +1,53 @@
-[gd_scene load_steps=2 format=3 uid="uid://cmc3ptn6f7537"]
+[gd_scene load_steps=11 format=3 uid="uid://cmc3ptn6f7537"]
 
 [ext_resource type="Script" uid="uid://r4bwfh6xkphw" path="res://scripts/campfire/Campfire.cs" id="1_mfytg"]
+[ext_resource type="Resource" uid="uid://r7n55ig8gn7a" path="res://resources/characters/warrior/warrior.tres" id="2_5yci7"]
+[ext_resource type="Texture2D" uid="uid://3jaxowa8afvc" path="res://art/line.png" id="2_56ahn"]
 
-[node name="Campfire" type="Control" node_paths=PackedStringArray("GoBackButton")]
+[sub_resource type="Gradient" id="Gradient_5yci7"]
+offsets = PackedFloat32Array(0, 0.99538106)
+colors = PackedColorArray(0, 0, 0, 1, 0.14143866, 0.0027368169, 6.016344e-09, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vcaur"]
+gradient = SubResource("Gradient_5yci7")
+fill_from = Vector2(0.625, 0)
+fill_to = Vector2(0.625, 1)
+metadata/_snap_count = 8
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_civeq"]
+offsets = PackedFloat32Array(0.002570694, 0.24678664, 0.53984576, 0.8097686, 1)
+colors = PackedColorArray(0.93387973, 0.8777485, 1.92523e-06, 1, 1, 0.5882353, 0.12941177, 1, 0.9614628, 0.32704204, 0.18267411, 1, 0.46208215, 0.06733365, 0.03339273, 1, 0.79607844, 0.07450981, 0.05490196, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6jn8c"]
+gradient = SubResource("Gradient_civeq")
+
+[sub_resource type="Curve" id="Curve_auago"]
+_data = [Vector2(0, 0.49630994), 0.0, 0.0, 0, 0, Vector2(0.11325302, 1), 0.0, 0.0, 0, 0, Vector2(0.8795181, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.49630994), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_8pjve"]
+curve = SubResource("Curve_auago")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hk2pn"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 25.0
+angle_min = 60.00001
+angle_max = 120.000015
+direction = Vector3(0, -1, 0)
+spread = 10.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 14.999997
+linear_accel_max = 24.999998
+damping_min = 20.0
+damping_max = 50.000004
+scale_curve = SubResource("CurveTexture_8pjve")
+color_ramp = SubResource("GradientTexture1D_6jn8c")
+
+[node name="Campfire" type="Control" node_paths=PackedStringArray("RestButton", "UiLayer", "ParticlesLayer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,38 +56,63 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_mfytg")
-GoBackButton = NodePath("VBoxContainer/Button")
+RestButton = NodePath("UILayer/UI/RestButton")
+PlayerStats = ExtResource("2_5yci7")
+UiLayer = NodePath("UILayer")
+ParticlesLayer = NodePath("ParticlesLayer")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="TextureRect" type="TextureRect" parent="BackgroundLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
+texture = SubResource("GradientTexture2D_vcaur")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
+[node name="ParticlesLayer" type="CanvasLayer" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="ParticlesLayer"]
+position = Vector2(88, 94)
+amount = 128
+texture = ExtResource("2_56ahn")
+lifetime = 1.5
+process_material = SubResource("ParticleProcessMaterial_hk2pn")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="UI" type="VBoxContainer" parent="UILayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = 61.0
+offset_top = -18.0
+offset_right = 101.0
+offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 1
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Title" type="Label" parent="UILayer/UI"]
 layout_mode = 2
 text = "篝火"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="Control" type="Control" parent="UILayer/UI"]
+custom_minimum_size = Vector2(0, 1.705)
 layout_mode = 2
-text = "返回"
+
+[node name="RestButton" type="Button" parent="UILayer/UI"]
+layout_mode = 2
+text = "休息"
+
+[node name="Desc" type="Label" parent="UILayer/UI"]
+layout_mode = 2
+text = "+30% HP"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmfuy4paj0a5v"]
+
+[ext_resource type="Texture2D" uid="uid://d0edy7thj8ce6" path="res://art/heart.png" id="1_mvsy7"]
+[ext_resource type="Script" uid="uid://cqvyu1w154mk0" path="res://scripts/ui/components/StatItem.cs" id="1_n4ukq"]
+
+[sub_resource type="Theme" id="Theme_3ktwi"]
+
+[node name="StatItem" type="HBoxContainer" node_paths=PackedStringArray("Icon", "StatValue")]
+theme_override_constants/separation = 2
+script = ExtResource("1_n4ukq")
+Icon = NodePath("Icon")
+StatValue = NodePath("StatValue")
+
+[node name="Icon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("1_mvsy7")
+stretch_mode = 5
+
+[node name="StatValue" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme = SubResource("Theme_3ktwi")
+text = "4"
+horizontal_alignment = 1
+vertical_alignment = 1
