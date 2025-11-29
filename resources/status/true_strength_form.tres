@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Status" load_steps=3 format=3 uid="uid://3sikakq07qcc"]
+
+[ext_resource type="Texture2D" uid="uid://cn2c1psh561cc" path="res://art/tile_0127.png" id="1_tbf1j"]
+[ext_resource type="Script" uid="uid://c0uwmm46mlikp" path="res://scripts/resources/Status.cs" id="2_ethcy"]
+
+[resource]
+script = ExtResource("2_ethcy")
+Id = "true_strength_form"
+Icon = ExtResource("1_tbf1j")
+Tooltip = "todo"
+metadata/_custom_type_script = "uid://c0uwmm46mlikp"

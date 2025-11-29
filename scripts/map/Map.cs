@@ -56,7 +56,7 @@ public partial class Map : Node2D
     /// 2D摄像机节点引用，用于控制地图的视图和缩放
     /// </summary>
     [Export]
-    public Camera2D Camera2D { get; set; }
+    public Camera2D Camera2D { get; set; } 
 
     /// <summary>
     /// 记录上一个访问的房间对象

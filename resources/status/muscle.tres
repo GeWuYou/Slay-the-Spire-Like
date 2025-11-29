@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Status" load_steps=3 format=3 uid="uid://de2gygotjj3k2"]
+
+[ext_resource type="Script" uid="uid://c0uwmm46mlikp" path="res://scripts/resources/Status.cs" id="1_5olkl"]
+[ext_resource type="Texture2D" uid="uid://b6qcjralwtf54" path="res://art/muscle.png" id="1_122ls"]
+
+[resource]
+script = ExtResource("1_5olkl")
+Id = "muscle"
+StatueType = 2
+StatusStackType = 1
+Stacks = 2
+Icon = ExtResource("1_122ls")
+Tooltip = "todo"
+metadata/_custom_type_script = "uid://c0uwmm46mlikp"

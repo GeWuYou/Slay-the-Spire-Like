@@ -44,6 +44,10 @@ project/assembly_name="Slay the Spire Like"
 
 version_control/autoload_on_startup=true
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/tooltip_attribute/plugin.cfg")
+
 [file_customization]
 
 folder_colors={

@@ -13,7 +13,7 @@ namespace SlayTheSpireLike.scripts;
 public partial class Battle : Node2D
 {
     private BattleUi _battleUi;
-
+    
     private Events _events;
     [Export] public CharacterStats PlayerStats { get; set; }
 

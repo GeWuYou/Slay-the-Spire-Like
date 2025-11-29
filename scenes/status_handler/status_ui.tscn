@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://dx1ddck2oxcmp"]
+
+[ext_resource type="Texture2D" uid="uid://ceiftfwihmc3j" path="res://art/expose.png" id="1_7scyp"]
+[ext_resource type="Script" uid="uid://d18kkw0m0og51" path="res://scripts/status_handler/StatusUi.cs" id="1_vm08l"]
+[ext_resource type="Resource" uid="uid://de2gygotjj3k2" path="res://resources/status/muscle.tres" id="2_vm08l"]
+
+[node name="StatusUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_vm08l")
+Status = ExtResource("2_vm08l")
+
+[node name="Icon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("1_7scyp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Duration" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 19.0
+offset_bottom = 14.0
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Stacks" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 19.0
+offset_bottom = 14.0
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1

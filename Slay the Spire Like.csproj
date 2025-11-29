@@ -15,9 +15,11 @@
     <Folder Include="scripts\player\warrior\" />
     <Compile Remove="scenes\**" />
     <Compile Remove="resources\**" />
+    <Compile Remove="addons\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="scenes\**" />
     <EmbeddedResource Remove="resources\**" />
+    <EmbeddedResource Remove="addons\**" />
   </ItemGroup>
 </Project>
