@@ -24,6 +24,6 @@ public partial class ExposedStatus : Status
         var damageEffect = new DamageEffect();
         damageEffect.Amount = (int)(12 * Ratio);
         damageEffect.Execute([target]);
-        EmitSignal(Status.SignalName.StatusChanged, this);
+        EmitSignal(Status.SignalName.StatusApplied,this);
     }
 }

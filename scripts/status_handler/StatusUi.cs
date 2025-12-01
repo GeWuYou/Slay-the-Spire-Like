@@ -19,7 +19,7 @@ public partial class StatusUi : Control
 
             if (_status != null)
             {
-                _status.StatusChanged -= OnStatusChanged;
+                Status.StatusChanged -= OnStatusChanged;
             }
             _status = value;
             CallDeferred(nameof(SetStatus), value);

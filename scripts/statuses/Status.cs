@@ -115,7 +115,7 @@ public partial class Status : Resource
     /// <param name="target">要应用状态的目标节点</param>
     public virtual void ApplyStatus(Node target)
     {
-        EmitSignal(SignalName.StatusChanged,this);
+        EmitSignal(SignalName.StatusApplied,this);
     }
 
     /// <summary>
