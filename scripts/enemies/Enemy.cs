@@ -13,7 +13,7 @@ namespace SlayTheSpireLike.scripts.enemies;
 ///     敌人类，继承自Area2D，用于表示游戏中的敌人单位。
 ///     负责管理敌人的属性、UI显示以及受到伤害后的逻辑处理。
 /// </summary>
-public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent
+public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent,IStatusComponent
 {
     private EnemyAction _currentAction;
 
@@ -21,10 +21,11 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent
     [Export] public int ArrowOffset { get; set; } = 5;
 
     [Export] public IntentUi IntentUi { get; set; }
+    
     [Export] public StatusHandler StatusHandler { get; set; }
 
     public EnemyActionPicker EnemyActionPicker { get; set; }
-
+    
     public EnemyAction CurrentAction
     {
         get => _currentAction;
@@ -93,6 +94,7 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent
     {
         AreaEntered += OnAreaEntered;
         AreaExited += OnAreaExited;
+        StatusHandler.StatusOwner = this;
     }
 
     public override void _ExitTree()

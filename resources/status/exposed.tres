@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="Status" load_steps=3 format=3 uid="uid://bd6ip8qt6hhtj"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bd6ip8qt6hhtj"]
 
 [ext_resource type="Texture2D" uid="uid://ceiftfwihmc3j" path="res://art/expose.png" id="1_ge6ls"]
-[ext_resource type="Script" uid="uid://c0uwmm46mlikp" path="res://scripts/resources/Status.cs" id="1_wl8rh"]
+[ext_resource type="Script" uid="uid://qhi6ctr1m8bu" path="res://scripts/statuses/ExposedStatus.cs" id="2_ge6ls"]
 
 [resource]
-script = ExtResource("1_wl8rh")
+script = ExtResource("2_ge6ls")
 Id = "exposed"
 StatusStackType = 2
 CanExpire = true

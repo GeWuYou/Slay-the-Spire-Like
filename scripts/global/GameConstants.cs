@@ -26,6 +26,7 @@ public static class GameConstants
         /// </summary>
         public const string Allies = "allies";
     }
+
     /// <summary>
     /// 文本常量类，用于存储游戏中使用的固定文本字符串
     /// </summary>
@@ -108,7 +109,7 @@ public static class GameConstants
         ///     卡牌菜单UI场景路径
         /// </summary>
         public const string CardMenuUiScene = "res://scenes/ui/card_menu_ui.tscn";
-        
+
         /// <summary>
         /// 战斗奖励场景资源路径常量
         /// </summary>
@@ -128,12 +129,12 @@ public static class GameConstants
         /// 地图连线场景资源路径常量
         /// </summary>
         public const string MapLineScene = "res://scenes/map/map_line.tscn";
-        
+
         /// <summary>
         /// 统计项控件资源路径常量
         /// </summary>
         public const string StatItem = "res://scenes/ui/components/stat_item.tscn";
-        
+
         /// <summary>
         /// 状态处理器资源路径常量
         /// </summary>
@@ -149,7 +150,7 @@ public static class GameConstants
         /// 卡牌纹理资源路径常量
         /// </summary>
         public const string CardTexture = "res://art/rarity.png";
-        
+
         /// <summary>
         /// 怪物图标纹理资源路径常量
         /// </summary>
@@ -164,16 +165,21 @@ public static class GameConstants
         /// 营火图标纹理资源路径常量
         /// </summary>
         public const string CampfireTexture = "res://art/player_heart.png";
-        
+
         /// <summary>
         /// 商店图标纹理资源路径常量
         /// </summary>
         public const string ShopTexture = "res://art/gold.png";
-        
+
         /// <summary>
         /// Boss图标纹理资源路径常量
         /// </summary>
         public const string BossTexture = "res://art/tile_0105.png";
+
+        /// <summary>
+        ///   exposes 状态资源路径常量
+        /// </summary>
+        public const string ExposedStatus = "res://resources/status/exposed.tres";
 
         /// <summary>
         ///     白色精灵材质路径

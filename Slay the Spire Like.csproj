@@ -16,6 +16,7 @@
     <Compile Remove="scenes\**" />
     <Compile Remove="resources\**" />
     <Compile Remove="addons\**" />
+    <Folder Include="scripts\statuses\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="scenes\**" />

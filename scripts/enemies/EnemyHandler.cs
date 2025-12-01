@@ -3,6 +3,7 @@ using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.resources;
+using Status = SlayTheSpireLike.scripts.statuses.Status;
 
 namespace SlayTheSpireLike.scripts.enemies;
 

@@ -5,6 +5,7 @@ using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.status_handler;
 using SlayTheSpireLike.scripts.ui;
 using SlayTheSpireLike.scripts.ui.components;
+using Status = SlayTheSpireLike.scripts.statuses.Status;
 
 namespace SlayTheSpireLike.scripts.global;
 
@@ -149,6 +150,12 @@ public static class ResourceFactories
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Texture2D>(
             GameConstants.ResourcePaths.CardTexture);
 
+    /// <summary>
+    ///  exposes 状态资源工厂函数，用于加载和创建 exposes 状态资源
+    /// </summary>
+    public static readonly Func<Status> ExposedStatusFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Status>(
+            GameConstants.ResourcePaths.ExposedStatus);
     /// <summary>
     /// 怪物纹理资源工厂函数，用于加载和创建怪物纹理资源
     /// </summary>

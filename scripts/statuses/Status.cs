@@ -1,6 +1,6 @@
 using Godot;
 
-namespace SlayTheSpireLike.scripts.resources;
+namespace SlayTheSpireLike.scripts.statuses;
 
 /// <summary>
 /// 状态资源类，用于表示游戏中的各种状态效果
@@ -113,7 +113,7 @@ public partial class Status : Resource
     /// 将当前状态应用于指定的目标节点，并发出状态变更信号
     /// </summary>
     /// <param name="target">要应用状态的目标节点</param>
-    public void ApplyStatus(Node target)
+    public virtual void ApplyStatus(Node target)
     {
         EmitSignal(SignalName.StatusChanged,this);
     }
@@ -145,7 +145,7 @@ public partial class Status : Resource
         EmitSignal(SignalName.StatusChanged);
     }
 
-    public void InitializeStatus(Node target)
+    public virtual void InitializeStatus(Node target)
     {
         
     }

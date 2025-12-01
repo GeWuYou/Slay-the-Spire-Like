@@ -1,4 +1,5 @@
 using System;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.effects;
@@ -12,22 +13,32 @@ namespace SlayTheSpireLike.scripts.player.warrior.cards;
 /// </summary>
 public partial class WarriorBigSlam : Card
 {
-	/// <summary>
-	/// 可选的声音列表，用于存储卡牌播放时可能用到的音效资源
-	/// </summary>
-	[Export] public Array OptionalSoundList { get; set; }
+    /// <summary>
+    /// 可选的声音列表，用于存储卡牌播放时可能用到的音效资源
+    /// </summary>
+    [Export]
+    public Array OptionalSoundList { get; set; }
 
-	/// <summary>
-	/// 应用卡牌效果到指定目标
-	/// </summary>
-	/// <param name="targets">目标节点数组，包含卡牌效果作用的目标对象</param>
-	protected override void ApplyEffects(Array<Godot.Node> targets)
-	{
-		// 创建伤害效果实例
-		var effect = new DamageEffect();
-		effect.Amount = 14;
-		effect.Sound = Sound;
-		// 执行伤害效果
-		effect.Execute(targets);
-	}
+    [Export] public int BaseDamage { get; set; } = 14;
+    [Export] public int ExposedDuration { get; set; } = 2;
+
+    /// <summary>
+    /// 应用卡牌效果到指定目标
+    /// </summary>
+    /// <param name="targets">目标节点数组，包含卡牌效果作用的目标对象</param>
+    protected override void ApplyEffects(Array<Node> targets)
+    {
+        // 创建伤害效果实例
+        var effect = new DamageEffect();
+        effect.Amount = BaseDamage;
+        effect.Sound = Sound;
+        // 执行伤害效果
+        effect.Execute(targets);
+
+        var statusEffect = new StatusEffect();
+        var exposedStatus = ResourceFactories.ExposedStatusFactory();
+        exposedStatus.Duration = ExposedDuration;
+        statusEffect.Status = exposedStatus;
+        statusEffect.Execute(targets);
+    }
 }

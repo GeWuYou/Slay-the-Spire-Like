@@ -3,6 +3,7 @@ using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.resources;
+using Status = SlayTheSpireLike.scripts.statuses.Status;
 
 namespace SlayTheSpireLike.scripts.status_handler;
 
@@ -116,7 +117,9 @@ public partial class StatusHandler : GridContainer
     {
         if (status.CanExpire)
         {
+            GD.Print($"{status.Duration}");
             status.Duration -= 1;
+            GD.Print($"{status.Duration}");
         }
     }
 
