@@ -41,6 +41,10 @@ public partial class PlayerHandler : Node
     /// <param name="card">被使用的卡片对象</param>
     private void OnCardPlayed(Card card)
     {
+        if (card.CardType == Card.Type.Power)
+        {
+            return;
+        }
         // 将使用过的卡片添加到弃牌堆中
         _playerStats.Discard.AddCard(card);
     }
