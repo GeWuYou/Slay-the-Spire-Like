@@ -83,7 +83,6 @@ public partial class Battle : Node2D
     /// </summary>
     private void OnEnemyTurnEnded()
     {
-        GD.Print("敌人回合结束");
         PlayerHandler.StartTurn();
         EnemyHandler.ResetEnemyAcitons();
     }

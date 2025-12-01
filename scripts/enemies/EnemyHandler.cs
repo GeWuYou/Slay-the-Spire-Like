@@ -59,7 +59,6 @@ public partial class EnemyHandler : Node2D
 
     /// <summary>
     ///     开始敌人回合
-    ///     触发第一个敌人的行动
     /// </summary>
     public void StartTurn()
     {
@@ -79,6 +78,7 @@ public partial class EnemyHandler : Node2D
 
     private void StartNextEnemyTurn()
     {
+        GD.Print($"当前敌人数量{_activeEnemies.Count}");
         if (_activeEnemies.Count == 0)
         {
             Events.Instance.RaiseEnemyTurnEnded();
@@ -145,10 +145,12 @@ public partial class EnemyHandler : Node2D
         switch (type)
         {
             case Status.StatusType.StartOfTurn:
+                GD.Print("敌人开始回合！");
                 enemy.DoTurn();
                 break;
             case Status.StatusType.EndOfTurn:
                 _activeEnemies.Remove(enemy);
+                GD.Print("敌人回合结束！");
                 StartNextEnemyTurn();
                 break;
             case Status.StatusType.EventBased:
