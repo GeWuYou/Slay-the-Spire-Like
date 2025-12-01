@@ -1,10 +1,8 @@
 using System;
-using System.Linq;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.resources;
-using SlayTheSpireLike.scripts.status_handler;
 
 namespace SlayTheSpireLike.scripts.enemies;
 
@@ -86,7 +84,7 @@ public partial class EnemyHandler : Node2D
             Events.Instance.RaiseEnemyTurnEnded();
             return;
         }
-        _activeEnemies[0].StatusHandler.ApplyStatusByType(Status.StatusType.StartOfTurn);
+        _activeEnemies[0].StatusHandler.ApplyStatusesByType(Status.StatusType.StartOfTurn);
     }
 
     /// <summary>
@@ -97,7 +95,7 @@ public partial class EnemyHandler : Node2D
     /// <param name="enemy">完成行动的敌人实例</param>
     private void OnEnemyActionCompleted(Enemy enemy)
     {
-        enemy.StatusHandler.ApplyStatusByType(Status.StatusType.EndOfTurn);
+        enemy.StatusHandler.ApplyStatusesByType(Status.StatusType.EndOfTurn);
     }
 
     /// <summary>

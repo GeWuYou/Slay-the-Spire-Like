@@ -15,7 +15,7 @@ public partial class StatusHandler : GridContainer
     [Signal]
     public delegate void StatusesAppliedEventHandler(Status.StatusType type);
 
-    public void ApplyStatusByType(Status.StatusType type)
+    public void ApplyStatusesByType(Status.StatusType type)
     {
         if (type == Status.StatusType.EventBased)
         {
@@ -25,7 +25,7 @@ public partial class StatusHandler : GridContainer
         var statusQueue = GetAllStatuses().Where(status => status.Type == type).ToArray();
         if (!statusQueue.Any())
         {
-            EmitSignal(Status.SignalName.StatusApplied, (int)type);
+            EmitSignal(SignalName.StatusesApplied, (int)type);
         }
 
         var tween = CreateTween();
@@ -36,7 +36,7 @@ public partial class StatusHandler : GridContainer
         }
 
         tween.TweenInterval(0.0f);
-        tween.Finished += () => EmitSignal(Status.SignalName.StatusApplied, (int)type);
+        tween.Finished += () => EmitSignal(SignalName.StatusesApplied, (int)type);
     }
 
     public void AddStatus(Status status)
