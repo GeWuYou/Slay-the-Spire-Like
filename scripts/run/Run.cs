@@ -189,7 +189,7 @@ public partial class Run : Node
     private void OnBattleRoomEntered(Room room)
     {
         if (ChangeView(ResourceLoaderManager.Instance
-                .GetSceneLoader(GameConstants.ResourcePaths.BattleScene).Value) is not Battle battleScene)
+                .GetSceneLoader(GameConstants.ResourcePaths.BattleScene).Value) is not battle.Battle battleScene)
        {
            GD.PrintErr("BattleScene is null");
            return;

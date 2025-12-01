@@ -1,11 +1,11 @@
-using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.enemies;
+using SlayTheSpireLike.scripts.global;
 using SlayTheSpireLike.scripts.player;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
 
-namespace SlayTheSpireLike.scripts;
+namespace SlayTheSpireLike.scripts.battle;
 
 /// <summary>
 ///     战斗场景的主要控制类，负责管理玩家和敌人的回合流程、事件处理以及战斗初始化

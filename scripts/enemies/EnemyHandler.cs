@@ -1,6 +1,10 @@
+using System;
+using System.Linq;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using Godot.Collections;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.status_handler;
 
 namespace SlayTheSpireLike.scripts.enemies;
 
@@ -11,17 +15,32 @@ namespace SlayTheSpireLike.scripts.enemies;
 public partial class EnemyHandler : Node2D
 {
     /// <summary>
+    ///     活动敌人
+    /// </summary>
+    private Array<Enemy> _activeEnemies = [];
+    /// <summary>
     ///     节点准备就绪时调用的方法
     ///     注册敌人行动完成事件的监听器
     /// </summary>
     public override void _Ready()
     {
         Events.Instance.EnemyActionCompleted += OnEnemyActionCompleted;
+        Events.Instance.EnemyDied += OnEnemyDied;
+    }
+
+    private void OnEnemyDied(Enemy obj)
+    {
+        _activeEnemies.Remove(obj);
+        if (_activeEnemies.Count > 0)
+        {
+            StartNextEnemyTurn();   
+        }
     }
 
     public override void _ExitTree()
     {
         Events.Instance.EnemyActionCompleted -= OnEnemyActionCompleted;
+        Events.Instance.EnemyDied -= OnEnemyDied;
     }
 
     /// <summary>
@@ -48,8 +67,26 @@ public partial class EnemyHandler : Node2D
     {
         // 检查是否有子节点（敌人）
         if (GetChildCount() == 0) return;
-        var firstEnemy = GetChild(0) as Enemy;
-        firstEnemy?.DoTurn();
+        _activeEnemies.Clear();
+        foreach (var child in GetChildren())
+        {
+            if (child is Enemy enemy)
+            {
+                _activeEnemies.Add(enemy);
+            }
+        }
+
+        StartNextEnemyTurn();
+    }
+
+    private void StartNextEnemyTurn()
+    {
+        if (_activeEnemies.Count == 0)
+        {
+            Events.Instance.RaiseEnemyTurnEnded();
+            return;
+        }
+        _activeEnemies[0].StatusHandler.ApplyStatusByType(Status.StatusType.StartOfTurn);
     }
 
     /// <summary>
@@ -60,16 +97,7 @@ public partial class EnemyHandler : Node2D
     /// <param name="enemy">完成行动的敌人实例</param>
     private void OnEnemyActionCompleted(Enemy enemy)
     {
-        // 判断是否为最后一个敌人
-        if (enemy.GetIndex() == GetChildCount() - 1)
-        {
-            Events.Instance.RaiseEnemyTurnEnded();
-            return;
-        }
-
-        // 获取并触发下一个敌人的行动
-        var nextEnemy = GetChild(enemy.GetIndex() + 1) as Enemy;
-        nextEnemy?.DoTurn();
+        enemy.StatusHandler.ApplyStatusByType(Status.StatusType.EndOfTurn);
     }
 
     /// <summary>
@@ -107,10 +135,28 @@ public partial class EnemyHandler : Node2D
                 enemy.Owner = null;
             }
             enemy.Reparent(this);
+            enemy.StatusHandler.StatusesApplied += type => OnEnemyStatusesApplied(type, enemy);
         }
         
         // 释放临时的敌人容器节点
         allEnemies.QueueFree();
     }
 
+    private void OnEnemyStatusesApplied(Status.StatusType type,Enemy enemy)
+    {
+        switch (type)
+        {
+            case Status.StatusType.StartOfTurn:
+                enemy.DoTurn();
+                break;
+            case Status.StatusType.EndOfTurn:
+                _activeEnemies.Remove(enemy);
+                StartNextEnemyTurn();
+                break;
+            case Status.StatusType.EventBased:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(type), type, null);
+        }
+    }
 }

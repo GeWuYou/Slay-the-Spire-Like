@@ -102,6 +102,11 @@ public partial class Events : SingletonNode<Events>
     ///     当敌人的行动回合完成时，会调用此委托关联的所有事件处理方法。
     /// </remarks>
     public event Action EnemyTurnEnded;
+    
+    /// <summary>
+    ///     敌人死亡事件
+    /// </summary>
+    public event Action<Enemy> EnemyDied;
 
     #endregion
 
@@ -181,6 +186,14 @@ public partial class Events : SingletonNode<Events>
 
     #region 事件触发方法
 
+    /// <summary>
+    ///      敌人死亡事件
+    /// </summary>
+    /// <param name="enemy">敌人</param>
+    public void RaiseEnemyDied(Enemy enemy)
+    {
+        EnemyDied?.Invoke(enemy);
+    }
     /// <summary>触发卡牌瞄准开始事件</summary>
     public void RaiseCardAimingStarted(CardUi cardUi)
     {

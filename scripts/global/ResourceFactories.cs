@@ -2,6 +2,7 @@ using System;
 using Godot;
 using SlayTheSpireLike.scripts.map;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.status_handler;
 using SlayTheSpireLike.scripts.ui;
 using SlayTheSpireLike.scripts.ui.components;
 
@@ -187,7 +188,14 @@ public static class ResourceFactories
     public static readonly Func<Texture2D> BossFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Texture2D>(
             GameConstants.ResourcePaths.BossTexture);
-
+    
+    /// <summary>
+    /// 状态UI场景资源工厂函数，用于加载和创建状态UI场景资源
+    /// </summary>
+    /// <returns>返回一个StatusUi类型的场景资源</returns>
+    public static readonly Func<StatusUi> StatusUiFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<StatusUi>(
+            GameConstants.ResourcePaths.StatusUiScene);
 
     /// <summary>
     ///     白色精灵材质工厂函数

@@ -144,4 +144,9 @@ public partial class Status : Resource
     {
         EmitSignal(SignalName.StatusChanged);
     }
+
+    public void InitializeStatus(Node target)
+    {
+        
+    }
 }

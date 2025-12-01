@@ -4,6 +4,7 @@ using SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.component;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.status_handler;
 using SlayTheSpireLike.scripts.ui;
 
 namespace SlayTheSpireLike.scripts.enemies;
@@ -20,6 +21,7 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent
     [Export] public int ArrowOffset { get; set; } = 5;
 
     [Export] public IntentUi IntentUi { get; set; }
+    [Export] public StatusHandler StatusHandler { get; set; }
 
     public EnemyActionPicker EnemyActionPicker { get; set; }
 
@@ -186,7 +188,11 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent
         tween.Finished += () =>
         {
             Sprite2D.Material = null;
-            if (Stats.Health <= 0) QueueFree();
+            if (Stats.Health <= 0)
+            {
+                Events.Instance.RaiseEnemyDied(this);
+                QueueFree();
+            }
         };
     }
 
