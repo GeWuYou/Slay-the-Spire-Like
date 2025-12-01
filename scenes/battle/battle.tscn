@@ -59,14 +59,15 @@ Stats = ExtResource("5_22uqi")
 position = Vector2(220, 69)
 Stats = ExtResource("8_h4dll")
 
+[node name="CardTargetSelector" parent="." instance=ExtResource("3_4k1nj")]
+
 [node name="Player" parent="." instance=ExtResource("3_yahae")]
 position = Vector2(43, 69)
 
-[node name="CardTargetSelector" parent="." instance=ExtResource("3_4k1nj")]
-
-[node name="PlayerHandler" type="Node" parent="." node_paths=PackedStringArray("Hand")]
+[node name="PlayerHandler" type="Node" parent="." node_paths=PackedStringArray("Hand", "Player")]
 script = ExtResource("8_03edq")
 Hand = NodePath("../BattleUI/Hand")
+Player = NodePath("../Player")
 
 [node name="BattleUI" type="CanvasLayer" parent="." node_paths=PackedStringArray("ManaUi", "Hand", "EndTurnButton", "DrawPileButton", "DiscardPileButton", "DrawPileView", "DiscardPileView") groups=["ui_layer"]]
 script = ExtResource("8_vceff")

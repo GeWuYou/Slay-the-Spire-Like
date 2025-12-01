@@ -1,6 +1,8 @@
 using System;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
+using SlayTheSpireLike.scripts.effects;
 using SlayTheSpireLike.scripts.resources;
 using Array = Godot.Collections.Array;
 
@@ -22,6 +24,9 @@ public partial class WarriorTrueStrength : Card
 	/// <param name="targets">目标节点数组，包含卡牌效果作用的目标对象</param>
 	protected override void ApplyEffects(Array<Node> targets)
 	{
-		GD.Print("咔咔！");
+		var statusEffect = new StatusEffect();
+		var status = ResourceFactories.TrueStrengthFormStatusFactory();
+		statusEffect.Status = status;
+		statusEffect.Execute(targets);
 	}
 }

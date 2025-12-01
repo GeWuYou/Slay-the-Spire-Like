@@ -1,6 +1,7 @@
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.statuses;
 using SlayTheSpireLike.scripts.ui;
 
 namespace SlayTheSpireLike.scripts.player;
@@ -15,6 +16,7 @@ public partial class PlayerHandler : Node
     [Export] private float _handDrawInterval = 0.25f;
     private CharacterStats _playerStats;
     [Export] public Hand Hand { get; private set; }
+    [Export] public Player Player { get; private set; }
 
     /// <summary>
     ///     初始化方法，在节点准备就绪时调用。获取全局事件实例。
@@ -57,7 +59,19 @@ public partial class PlayerHandler : Node
         // 初始化弃牌堆和移除牌堆
         _playerStats.Discard = new CardPile();
         _playerStats.RemovedDeck = new CardPile();
+        Player.StatusHandler.StatusesApplied+=OnStatusApplied;
         StartTurn();
+    }
+
+    private void OnStatusApplied(Status.StatusType type)
+    {
+        if (type == Status.StatusType.StartOfTurn)
+        {
+            DrawCards(_playerStats.CardsPerTurn);
+        }else if (type == Status.StatusType.EndOfTurn)
+        {
+            DisableCards();
+        }
     }
 
     /// <summary>
@@ -68,7 +82,7 @@ public partial class PlayerHandler : Node
         GD.Print("开始新的玩家回合");
         _playerStats.Block = 0;
         _playerStats.ResetMana();
-        DrawCards(_playerStats.CardsPerTurn);
+        Player.StatusHandler.ApplyStatusesByType(Status.StatusType.StartOfTurn);
     }
 
     /// <summary>
@@ -80,7 +94,7 @@ public partial class PlayerHandler : Node
     public void EndTurn()
     {
         Hand.DisableHand();
-        DisableCards();
+        Player.StatusHandler.ApplyStatusesByType(Status.StatusType.EndOfTurn);
     }
 
     /// <summary>

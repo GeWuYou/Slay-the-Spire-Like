@@ -149,6 +149,19 @@ public static class ResourceFactories
     public static readonly Func<Texture2D> CardTextureFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Texture2D>(
             GameConstants.ResourcePaths.CardTexture);
+    
+    /// <summary>
+    ///  力量形态图标
+    /// </summary>
+    public static readonly Func<Status> TrueStrengthFormStatusFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Status>(
+            GameConstants.ResourcePaths.TrueStrengthFormStatus);
+    /// <summary>
+    ///  肌肉状态资源工厂函数，用于加载和创建肌肉状态资源
+    /// </summary>
+    public static readonly Func<Status> MuscleStatusFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Status>(
+            GameConstants.ResourcePaths.MuscleStatus);
 
     /// <summary>
     ///  exposes 状态资源工厂函数，用于加载和创建 exposes 状态资源

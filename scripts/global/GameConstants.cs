@@ -177,6 +177,14 @@ public static class GameConstants
         public const string BossTexture = "res://art/tile_0105.png";
 
         /// <summary>
+        ///   true_strength_from 状态资源路径常量
+        /// </summary>
+        public const string TrueStrengthFormStatus = "res://resources/status/true_strength_form.tres";
+        /// <summary>
+        ///   muscle 状态资源路径常量
+        /// </summary>
+        public const string MuscleStatus = "res://resources/status/muscle.tres";
+        /// <summary>
         ///   exposes 状态资源路径常量
         /// </summary>
         public const string ExposedStatus = "res://resources/status/exposed.tres";
