@@ -71,7 +71,15 @@ public partial class StatusUi : Control
         {
             QueueFree();
         }
-        _duration.Text = Status.Duration.ToString();
-        _stacks.Text = Status.Stacks.ToString();
+        // 在访问UI元素之前检查它们是否仍然有效
+        if (IsInstanceValid(_duration))
+        {
+            _duration.Text = Status.Duration.ToString();
+        }
+        
+        if (IsInstanceValid(_stacks))
+        {
+            _stacks.Text = Status.Stacks.ToString();
+        }
     }
 }

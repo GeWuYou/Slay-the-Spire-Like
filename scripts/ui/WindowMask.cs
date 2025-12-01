@@ -18,12 +18,18 @@ public partial class WindowMask : CanvasLayer
 
     private void OnTimerTimeout()
     {
-        ColorRect.Color = ColorRect.Color with { A = 0 };
+        if (IsInstanceValid(ColorRect))
+        {
+            ColorRect.Color = ColorRect.Color with { A = 0 };
+        }
     }
 
     private void OnPlayerHit()
     {
-        ColorRect.Color = ColorRect.Color with { A = 0.4f };
-        Timer.Start();
+        if (IsInstanceValid(ColorRect))
+        {
+            ColorRect.Color = ColorRect.Color with { A = 0.4f };
+            Timer.Start();
+        }
     }
 }
