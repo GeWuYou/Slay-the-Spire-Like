@@ -29,13 +29,21 @@ public partial class EnemyHandler : Node2D
 
     private void OnEnemyDied(Enemy obj)
     {
+        // 如果敌人在队列里，移除它
         _activeEnemies.Remove(obj);
+
+        // 如果当前没有正在执行的敌人（即队列为空），结束敌人回合，否则确保继续下一个
         if (_activeEnemies.Count > 0)
         {
-            StartNextEnemyTurn();   
+            // 继续处理队列头部（不要直接假设当前索引）
+            StartNextEnemyTurn();
+        }
+        else
+        {
+            // 如果队列空，确定性地发出回合结束
+            Events.Instance.RaiseEnemyTurnEnded();
         }
     }
-
     public override void _ExitTree()
     {
         Events.Instance.EnemyActionCompleted -= OnEnemyActionCompleted;
@@ -79,13 +87,26 @@ public partial class EnemyHandler : Node2D
 
     private void StartNextEnemyTurn()
     {
-        GD.Print($"当前敌人数量{_activeEnemies.Count}");
-        if (_activeEnemies.Count == 0)
+        while (true)
         {
-            Events.Instance.RaiseEnemyTurnEnded();
-            return;
+            if (_activeEnemies.Count == 0)
+            {
+                Events.Instance.RaiseEnemyTurnEnded();
+                return;
+            }
+
+            // 总是取队列头（0）
+            if (_activeEnemies[0] is not { } currentEnemy)
+            {
+                _activeEnemies.RemoveAt(0);
+                continue;
+            }
+
+            GD.Print($"当前敌人数量{_activeEnemies.Count}");
+            // 触发该敌人的“回合开始”类型状态
+            currentEnemy.StatusHandler.ApplyStatusesByType(Status.StatusType.StartOfTurn);
+            break;
         }
-        _activeEnemies[0].StatusHandler.ApplyStatusesByType(Status.StatusType.StartOfTurn);
     }
 
     /// <summary>

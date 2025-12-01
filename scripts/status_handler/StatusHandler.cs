@@ -117,9 +117,7 @@ public partial class StatusHandler : GridContainer
     {
         if (status.CanExpire)
         {
-            GD.Print($"{status.Duration}");
             status.Duration -= 1;
-            GD.Print($"{status.Duration}");
         }
     }
 
