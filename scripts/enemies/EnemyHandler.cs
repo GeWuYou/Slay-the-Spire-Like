@@ -17,6 +17,7 @@ public partial class EnemyHandler : Node2D
     ///     活动敌人
     /// </summary>
     private Array<Enemy> _activeEnemies = [];
+
     /// <summary>
     ///     节点准备就绪时调用的方法
     ///     注册敌人行动完成事件的监听器
@@ -44,6 +45,7 @@ public partial class EnemyHandler : Node2D
             Events.Instance.RaiseEnemyTurnEnded();
         }
     }
+
     public override void _ExitTree()
     {
         Events.Instance.EnemyActionCompleted -= OnEnemyActionCompleted;
@@ -87,7 +89,7 @@ public partial class EnemyHandler : Node2D
 
     private void StartNextEnemyTurn()
     {
-        while (true)
+        for (var i = 0; i < _activeEnemies.Count; i++)
         {
             if (_activeEnemies.Count == 0)
             {
@@ -95,17 +97,26 @@ public partial class EnemyHandler : Node2D
                 return;
             }
 
-            // 总是取队列头（0）
-            if (_activeEnemies[0] is not { } currentEnemy)
+            // 边界检查并获取当前敌人
+            if (_activeEnemies.Count > 0 && _activeEnemies[0] is { } currentEnemy)
             {
-                _activeEnemies.RemoveAt(0);
-                continue;
+                GD.Print($"当前敌人数量{_activeEnemies.Count}");
+                // 触发该敌人的"回合开始"类型状态
+                currentEnemy.StatusHandler.ApplyStatusesByType(Status.StatusType.StartOfTurn);
+                break;
             }
 
-            GD.Print($"当前敌人数量{_activeEnemies.Count}");
-            // 触发该敌人的“回合开始”类型状态
-            currentEnemy.StatusHandler.ApplyStatusesByType(Status.StatusType.StartOfTurn);
-            break;
+            // 如果当前敌人无效，则移除并继续检查下一个
+            if (_activeEnemies.Count > 0)
+            {
+                _activeEnemies.RemoveAt(0);
+            }
+        }
+
+        // 如果所有敌人都处理完毕仍未找到有效敌人，则结束敌人回合
+        if (_activeEnemies.Count == 0)
+        {
+            Events.Instance.RaiseEnemyTurnEnded();
         }
     }
 
@@ -149,20 +160,22 @@ public partial class EnemyHandler : Node2D
             {
                 continue;
             }
+
             // 在重新设置父节点前，先清除所有权关系
             if (enemy.Owner != null)
             {
                 enemy.Owner = null;
             }
+
             enemy.Reparent(this);
             enemy.StatusHandler.StatusesApplied += type => OnEnemyStatusesApplied(type, enemy);
         }
-        
+
         // 释放临时的敌人容器节点
         allEnemies.QueueFree();
     }
 
-    private void OnEnemyStatusesApplied(Status.StatusType type,Enemy enemy)
+    private void OnEnemyStatusesApplied(Status.StatusType type, Enemy enemy)
     {
         switch (type)
         {
