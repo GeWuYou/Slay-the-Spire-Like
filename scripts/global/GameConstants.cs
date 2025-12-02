@@ -188,6 +188,11 @@ public static class GameConstants
         ///   exposes 状态资源路径常量
         /// </summary>
         public const string ExposedStatus = "res://resources/status/exposed.tres";
+        
+        /// <summary>
+        ///   big slam 状态资源路径常量
+        /// </summary>
+        public const string BigSlamStatus = "res://resources/status/big_slam_status.tres";
 
         /// <summary>
         ///     白色精灵材质路径

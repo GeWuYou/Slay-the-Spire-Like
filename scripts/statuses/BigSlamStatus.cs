@@ -71,6 +71,8 @@ public partial class BigSlamStatus : Status
 	/// <param name="target">要应用状态的目标节点</param>
 	public override void ApplyStatus(Node target)
 	{
+		// 确保在应用状态时也触发一次更新
+		OnStatusChanged(target);
 		EmitSignal(Status.SignalName.StatusApplied, this);
 	}
 }

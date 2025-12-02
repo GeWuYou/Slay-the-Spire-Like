@@ -36,11 +36,5 @@ public partial class WarriorBigSlam : Card
         effect.Sound = Sound;
         // 执行伤害效果
         effect.Execute(targets);
-
-        var statusEffect = new StatusEffect();
-        var exposedStatus = ResourceFactories.ExposedStatusFactory();
-        exposedStatus.Duration = ExposedDuration;
-        statusEffect.Status = exposedStatus;
-        statusEffect.Execute(targets);
     }
 }

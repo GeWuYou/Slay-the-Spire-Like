@@ -169,6 +169,14 @@ public static class ResourceFactories
     public static readonly Func<Status> ExposedStatusFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Status>(
             GameConstants.ResourcePaths.ExposedStatus);
+            
+    /// <summary>
+    ///  Big Slam状态资源工厂函数，用于加载和创建Big Slam状态资源
+    /// </summary>
+    public static readonly Func<Status> BigSlamStatusFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Status>(
+            GameConstants.ResourcePaths.BigSlamStatus);
+            
     /// <summary>
     /// 怪物纹理资源工厂函数，用于加载和创建怪物纹理资源
     /// </summary>
