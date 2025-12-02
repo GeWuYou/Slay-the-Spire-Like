@@ -1,5 +1,6 @@
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.player;
 using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.ui;
@@ -13,6 +14,8 @@ public partial class Hand : HBoxContainer
     private Events _events;
     public CharacterStats PlayerStats { get; set; }
 
+    [Export]
+    public Player Player { get; set; }
     /// <summary>
     ///     当节点准备就绪时调用此方法
     ///     遍历所有子节点，为卡片UI组件建立事件连接并设置父节点引用
@@ -73,6 +76,7 @@ public partial class Hand : HBoxContainer
         cardUi.Card = card;
         cardUi.Parent = this;
         cardUi.CharacterStats = PlayerStats;
+        cardUi.PlayerModifierHandler = Player.ModifierHandler;
     }
 
 

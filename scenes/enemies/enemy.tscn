@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c600g5a3uta2v"]
+[gd_scene load_steps=10 format=3 uid="uid://c600g5a3uta2v"]
 
 [ext_resource type="Texture2D" uid="uid://1u3b3hwqd8yh" path="res://art/tile_0110.png" id="1_6xk8f"]
 [ext_resource type="Script" uid="uid://csxyb2cdrt21r" path="res://scripts/enemies/Enemy.cs" id="1_fcftc"]
@@ -6,14 +6,17 @@
 [ext_resource type="PackedScene" uid="uid://c1i5vft4k70p3" path="res://scenes/ui/stats_ui.tscn" id="3_fcftc"]
 [ext_resource type="PackedScene" uid="uid://j38fqwslvasr" path="res://scenes/ui/intent_ui.tscn" id="5_lu5c6"]
 [ext_resource type="PackedScene" uid="uid://cm36vly2883hm" path="res://scenes/status_handler/status_handler.tscn" id="6_nb6gf"]
+[ext_resource type="PackedScene" uid="uid://ccaxyfa2n1de2" path="res://scenes/modifier_handler/modifier_handler.tscn" id="7_n7575"]
+[ext_resource type="PackedScene" uid="uid://q8uak7maroph" path="res://scenes/modifier_handler/modifier.tscn" id="8_qch6t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yahae"]
 
-[node name="Enemy" type="Area2D" node_paths=PackedStringArray("IntentUi", "StatusHandler", "Sprite2D", "StatsUi", "Arrow") groups=["enemies"]]
+[node name="Enemy" type="Area2D" node_paths=PackedStringArray("IntentUi", "StatusHandler", "ModifierHandler", "Sprite2D", "StatsUi", "Arrow") groups=["enemies"]]
 collision_layer = 4
 script = ExtResource("1_fcftc")
 IntentUi = NodePath("IntentUI")
 StatusHandler = NodePath("StatusHandler")
+ModifierHandler = NodePath("ModifierHandler")
 Sprite2D = NodePath("Sprite2D")
 StatsUi = NodePath("StatsUI")
 Arrow = NodePath("Arrow")
@@ -46,3 +49,10 @@ offset_top = 22.0
 offset_right = -23.0
 offset_bottom = 22.0
 StatusOwner = NodePath("..")
+
+[node name="ModifierHandler" parent="." instance=ExtResource("7_n7575")]
+
+[node name="DamageDealtModifier" parent="ModifierHandler" instance=ExtResource("8_qch6t")]
+
+[node name="DamageTakenModifier" parent="ModifierHandler" instance=ExtResource("8_qch6t")]
+Type = 1

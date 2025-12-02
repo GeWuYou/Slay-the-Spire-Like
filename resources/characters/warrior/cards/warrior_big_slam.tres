@@ -9,7 +9,7 @@ script = ExtResource("3_6q1yi")
 OptionalSoundList = null
 Id = "warrior_big_slam"
 Name = "重击"
-Description = "[center]对敌人造成[color=red]10[/color]点伤害，对敌人施加[color=purple]2[/color]层流血[/center]
+Description = "[center]对敌人造成[color=red]14[/color]点伤害，力量对此有[color=purple]2[/color]倍加成[/center]
 "
 CardTarget = 1
 InitCost = 2

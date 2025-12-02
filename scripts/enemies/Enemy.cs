@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.component;
+using SlayTheSpireLike.scripts.modifier_handler;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.status_handler;
 using SlayTheSpireLike.scripts.ui;
@@ -13,7 +14,7 @@ namespace SlayTheSpireLike.scripts.enemies;
 ///     敌人类，继承自Area2D，用于表示游戏中的敌人单位。
 ///     负责管理敌人的属性、UI显示以及受到伤害后的逻辑处理。
 /// </summary>
-public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent,IStatusComponent
+public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent,IStatusComponent,IModifierComponent
 {
     private EnemyAction _currentAction;
 
@@ -24,7 +25,10 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent,I
     
     [Export] public StatusHandler StatusHandler { get; set; }
 
+    [Export]
+    public ModifierHandler ModifierHandler { get; set; }
     public EnemyActionPicker EnemyActionPicker { get; set; }
+    
     
     public EnemyAction CurrentAction
     {
@@ -180,10 +184,11 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent,I
         // 如果敌人已经死亡，则直接返回
         if (Stats.Health <= 0) return;
         Sprite2D.Material = ResourceFactories.WhiteSpriteMatFactory();
+        var modifier = ModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgTaken, damage);
         // 创建动画序列来处理伤害效果
         var tween = CreateTween();
         tween.TweenCallback(Callable.From(() => Shaker.Instance.Shake(this, 16, 0.15f)));
-        tween.TweenCallback(Callable.From(() => Stats.TakeDamage(damage)));
+        tween.TweenCallback(Callable.From(() => Stats.TakeDamage(modifier)));
         tween.TweenInterval(0.17f);
 
         // 动画完成后检查敌人是否死亡，如果死亡则从场景中移除

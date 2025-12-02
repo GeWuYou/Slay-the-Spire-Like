@@ -1,5 +1,8 @@
+using System;
 using Godot;
+using SlayTheSpireLike.scripts.component;
 using SlayTheSpireLike.scripts.effects;
+using SlayTheSpireLike.scripts.modifier_handler;
 
 namespace SlayTheSpireLike.scripts.statuses;
 
@@ -9,21 +12,44 @@ namespace SlayTheSpireLike.scripts.statuses;
 /// </summary>
 public partial class ExposedStatus : Status
 {
+    public const string Exposed = "Exposed";
+
     /// <summary>
     /// 伤害倍率
     /// </summary>
     [Export]
     public float Ratio { get; set; } = 0.5f;
+    private StatusChangedEventHandler _statusChangedHandler;
 
-    /// <summary>
-    /// 将当前状态应用于指定的目标节点，并发出状态变更信号
-    /// </summary>
-    /// <param name="target">要应用状态的目标节点</param>
-    public override void ApplyStatus(Node target)
+    public override void InitializeStatus(Node target)
     {
-        var damageEffect = new DamageEffect();
-        damageEffect.Amount = (int)(12 * Ratio);
-        damageEffect.Execute([target]);
-        EmitSignal(Status.SignalName.StatusApplied,this);
+        if (target is not IModifierComponent modifierComponent)
+        {
+            return;
+        }
+
+        var modifier = modifierComponent.ModifierHandler.GetModifier(Modifier.ModifierType.DmgTaken);
+        var value = modifier.GetValue(Exposed);
+        if (value is null)
+        {
+            value = ModifierValue.CreatePercentBased(Exposed, ModifierValue.ModifierValueType.PercentBased);
+            value.PercentValue = Ratio;
+            modifier.AddValue(value);
+        }
+
+        // 保存委托引用以便后续断开连接
+        _statusChangedHandler = () => OnStatusChanged(modifier);
+        StatusChanged += _statusChangedHandler;
     }
+
+    private void OnStatusChanged(Modifier modifier)
+    {
+        if (Duration > 0 || modifier is null)
+        {
+            return;
+        }
+        modifier.RemoveValue(Exposed);
+        StatusChanged -= _statusChangedHandler;
+    }
+    
 }

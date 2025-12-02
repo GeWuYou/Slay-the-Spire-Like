@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.component;
+using SlayTheSpireLike.scripts.modifier_handler;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.status_handler;
 using SlayTheSpireLike.scripts.ui;
@@ -12,7 +13,7 @@ namespace SlayTheSpireLike.scripts.player;
 /// <summary>
 ///     玩家角色类，继承自Node2D节点。负责管理玩家的角色属性、显示和伤害处理。
 /// </summary>
-public partial class Player : Node2D, IDamageableComponent, IBlockableComponent,IStatusComponent
+public partial class Player : Node2D, IDamageableComponent, IBlockableComponent,IStatusComponent,IModifierComponent
 {
     private CharacterStats _stats;
 
@@ -39,6 +40,8 @@ public partial class Player : Node2D, IDamageableComponent, IBlockableComponent,
 
     [Export]
     public StatusHandler StatusHandler { get; set; }
+    [Export]
+    public ModifierHandler ModifierHandler { get; set; }
 
     public override void _Ready()
     {
@@ -119,5 +122,5 @@ public partial class Player : Node2D, IDamageableComponent, IBlockableComponent,
     {
         Stats.Block = Math.Min(Stats.Block + block, Stats.MaxBlock);
     }
-
+    
 }

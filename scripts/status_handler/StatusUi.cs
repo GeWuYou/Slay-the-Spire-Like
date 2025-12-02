@@ -1,5 +1,5 @@
 using Godot;
-using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.extensions;
 using Status = SlayTheSpireLike.scripts.statuses.Status;
 
 namespace SlayTheSpireLike.scripts.status_handler;
@@ -64,12 +64,12 @@ public partial class StatusUi : Control
 
         if (Status.CanExpire && Status.Duration <= 0)
         {
-            QueueFree();
+            this.QueueFreeX();
         }
 
         if (Status.StatusStackType == Status.StackType.Intensity && Status.Stacks == 0)
         {
-            QueueFree();
+            this.QueueFreeX();
         }
         // 在访问UI元素之前检查它们是否仍然有效
         if (IsInstanceValid(_duration))

@@ -2,6 +2,7 @@ using System;
 using SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
+using SlayTheSpireLike.scripts.modifier_handler;
 
 namespace SlayTheSpireLike.scripts.resources;
 
@@ -258,18 +259,24 @@ public partial class Card : Resource
     /// </summary>
     /// <param name="targets">原始目标节点列表</param>
     /// <param name="stats">角色统计数据对象，用于扣除法力值</param>
-    public void Play(Array<Node> targets, CharacterStats stats)
+    /// <param name="modifierHandler">修饰符处理器，用于处理效果应用过程中的修饰符</param>
+    public void Play(Array<Node> targets, CharacterStats stats,ModifierHandler modifierHandler)
     {
+        // 触发卡牌播放事件
         Events.Instance.RaiseCardPlayed(this);
+        // 扣除卡牌费用
         stats.Mana -= Cost;
-        ApplyEffects(GetTargets(targets));
+        // 应用卡牌效果到目标
+        ApplyEffects(GetTargets(targets),modifierHandler);
     }
 
     /// <summary>
     ///     应用卡牌的效果到指定的目标上。子类应重写此方法以实现具体逻辑。
     /// </summary>
     /// <param name="targets">经过处理后的真实目标节点列表</param>
-    protected virtual void ApplyEffects(Array<Node> targets)
+    /// <param name="modifierHandler">修饰符处理器，用于处理效果应用过程中的修饰符</param>
+    protected virtual void ApplyEffects(Array<Node> targets,ModifierHandler modifierHandler)
     {
     }
+
 }

@@ -79,7 +79,7 @@ DiscardPileButton = NodePath("DiscardPileButton")
 DrawPileView = NodePath("../CardPileViews/DrawPileView")
 DiscardPileView = NodePath("../CardPileViews/DiscardPileView")
 
-[node name="Hand" type="HBoxContainer" parent="BattleUI"]
+[node name="Hand" type="HBoxContainer" parent="BattleUI" node_paths=PackedStringArray("Player")]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -92,6 +92,7 @@ grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
 script = ExtResource("2_p1qf1")
+Player = NodePath("../../Player")
 
 [node name="ManaUI" parent="BattleUI" instance=ExtResource("11_66ngm")]
 offset_top = -41.0

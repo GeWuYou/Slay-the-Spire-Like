@@ -2,6 +2,7 @@ using System;
 using SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
+using SlayTheSpireLike.scripts.modifier_handler;
 using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.ui;
@@ -23,7 +24,7 @@ public partial class CardUi : Control
     private Card _card;
     private CharacterStats _characterStats;
     private bool _playable = true;
-
+    public ModifierHandler PlayerModifierHandler { get; set; }
     /// <summary>
     ///     基础样式框，定义了卡片在默认状态下的外观。
     /// </summary>
@@ -274,7 +275,7 @@ public partial class CardUi : Control
             return;
         }
 
-        Card.Play(Targets, CharacterStats);
+        Card.Play(Targets, CharacterStats,PlayerModifierHandler);
         QueueFree();
     }
 

@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.effects;
+using SlayTheSpireLike.scripts.modifier_handler;
 using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.player.warrior.cards;
@@ -12,11 +13,11 @@ namespace SlayTheSpireLike.scripts.player.warrior.cards;
 public partial class WarriorDefend : Card
 {
     /// <summary>
-    ///     应用卡牌效果到指定目标
-    ///     创建并执行一个格挡效果，为目标增加6点格挡值
+    ///     应用卡牌的效果到指定的目标上。子类应重写此方法以实现具体逻辑。
     /// </summary>
-    /// <param name="targets">效果作用的目标节点数组</param>
-    protected override void ApplyEffects(Array<Node> targets)
+    /// <param name="targets">经过处理后的真实目标节点列表</param>
+    /// <param name="modifierHandler">修饰符处理器，用于处理效果应用过程中的修饰符</param>
+    protected override void ApplyEffects(Array<Node> targets, ModifierHandler modifierHandler)
     {
         // 创建格挡效果实例
         var effect = new BlockEffect();

@@ -5,6 +5,7 @@ using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.effects;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.modifier_handler;
 
 /// <summary>
 /// 卡牌逻辑模板类，用于定义卡牌的具体效果和行为
@@ -17,10 +18,11 @@ public partial class _CLASS_ : Card
     [Export] public Array OptionalSoundList { get; set; }
 
     /// <summary>
-    /// 应用卡牌效果到指定目标
+    ///     应用卡牌的效果到指定的目标上。子类应重写此方法以实现具体逻辑。
     /// </summary>
-    /// <param name="targets">目标节点数组，包含卡牌效果作用的目标对象</param>
-    protected override void ApplyEffects(Array<Node> targets)
+    /// <param name="targets">经过处理后的真实目标节点列表</param>
+    /// <param name="modifierHandler">修饰符处理器，用于处理效果应用过程中的修饰符</param>
+    protected virtual void ApplyEffects(Array<Node> targets,ModifierHandler modifierHandler)
     {
         // 创建伤害效果实例
         var effect = new DamageEffect();
