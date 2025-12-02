@@ -39,11 +39,6 @@ public partial class EnemyHandler : Node2D
             // 继续处理队列头部（不要直接假设当前索引）
             StartNextEnemyTurn();
         }
-        else
-        {
-            // 如果队列空，确定性地发出回合结束
-            Events.Instance.RaiseEnemyTurnEnded();
-        }
     }
 
     public override void _ExitTree()

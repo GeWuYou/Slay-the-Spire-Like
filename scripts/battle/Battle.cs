@@ -50,7 +50,7 @@ public partial class Battle : Node2D
         // 注册玩家死亡事件
         _events.PlayerDied += OnPlayerDied;
         // 注册敌人子节点顺序改变事件
-        EnemyHandler.ChildOrderChanged += OnEnmiesChildOrderChanged;
+        EnemyHandler.ChildOrderChanged += OnEnemiesChildOrderChanged;
     }
 
     public override void _ExitTree()
@@ -64,7 +64,7 @@ public partial class Battle : Node2D
         }
         
         // 移除 ChildOrderChanged 事件监听器
-        EnemyHandler.ChildOrderChanged -= OnEnmiesChildOrderChanged;
+        EnemyHandler.ChildOrderChanged -= OnEnemiesChildOrderChanged;
     }
 
     private static void OnPlayerDied()
@@ -72,7 +72,7 @@ public partial class Battle : Node2D
         Events.Instance.RaiseBattleOverScreenRequested("游戏结束！", BattleOverPanel.Type.Lose);
     }
 
-    private void OnEnmiesChildOrderChanged()
+    private void OnEnemiesChildOrderChanged()
     {
         if (EnemyHandler.GetChildCount() == 0) 
             Events.Instance.RaiseBattleOverScreenRequested("胜利！", BattleOverPanel.Type.Win);
