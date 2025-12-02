@@ -3,6 +3,7 @@ using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.component;
 using SlayTheSpireLike.scripts.enemies;
+using SlayTheSpireLike.scripts.modifier_handler;
 using SlayTheSpireLike.scripts.player;
 
 namespace SlayTheSpireLike.scripts.effects;
@@ -20,6 +21,10 @@ public partial class DamageEffect : Effect
     public int Amount { get; set; }
 
     /// <summary>
+    ///     默认情况下数值修改效果为受到的伤害
+    /// </summary>
+    public Modifier.ModifierType Type { get; set; } = Modifier.ModifierType.DmgTaken;
+    /// <summary>
     ///     执行伤害效果的核心方法
     ///     遍历所有目标节点，根据目标类型调用相应的受伤方法
     /// </summary>
@@ -33,8 +38,8 @@ public partial class DamageEffect : Effect
             {
                 continue;
             }
-
-            damageableComponent.TakeDamage(Amount);
+            
+            damageableComponent.TakeDamage(Amount,Type);
             AudioPlayerManager.Instance.PlaySfx(Sound);
         }
         

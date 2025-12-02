@@ -91,19 +91,20 @@ public partial class Player : Node2D, IDamageableComponent, IBlockableComponent,
     }
 
     /// <summary>
-    ///     对玩家造成伤害。如果生命值降至0或以下，则移除玩家节点。
+    /// 处理对象受到的伤害
     /// </summary>
-    /// <param name="damage">造成的伤害值</param>
-    public void TakeDamage(int damage)
+    /// <param name="damage">伤害值，必须为非负整数</param>
+    /// <param name="whichModifier">修饰符类型，用于确定伤害计算方式</param>
+    public void TakeDamage(int damage, Modifier.ModifierType whichModifier)
     {
         // 如果玩家已经死亡，直接返回
         if (Stats.Health <= 0) return;
-
+        var modifier = ModifierHandler.GetModifiedValue(whichModifier, damage);
         Sprite2D.Material = ResourceFactories.WhiteSpriteMatFactory();
         var tween = CreateTween();
         // 添加震动效果和伤害处理的回调函数
         tween.TweenCallback(Callable.From(() => Shaker.Instance.Shake(this, 16, 0.15f)));
-        tween.TweenCallback(Callable.From(() => Stats.TakeDamage(damage)));
+        tween.TweenCallback(Callable.From(() => Stats.TakeDamage(modifier)));
         tween.TweenInterval(0.17f);
 
         // 伤害处理完成后的回调函数

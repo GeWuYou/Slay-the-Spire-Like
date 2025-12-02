@@ -14,7 +14,7 @@ namespace SlayTheSpireLike.scripts.enemies;
 ///     敌人类，继承自Area2D，用于表示游戏中的敌人单位。
 ///     负责管理敌人的属性、UI显示以及受到伤害后的逻辑处理。
 /// </summary>
-public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent,IStatusComponent,IModifierComponent
+public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent, IStatusComponent, IModifierComponent
 {
     private EnemyAction _currentAction;
 
@@ -22,14 +22,13 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent,I
     [Export] public int ArrowOffset { get; set; } = 5;
 
     [Export] public IntentUi IntentUi { get; set; }
-    
+
     [Export] public StatusHandler StatusHandler { get; set; }
 
-    [Export]
-    public ModifierHandler ModifierHandler { get; set; }
+    [Export] public ModifierHandler ModifierHandler { get; set; }
     public EnemyActionPicker EnemyActionPicker { get; set; }
-    
-    
+
+
     public EnemyAction CurrentAction
     {
         get => _currentAction;
@@ -108,7 +107,7 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent,I
             _stats.StatsChanged -= UpdateStats;
             _stats.StatsChanged -= UpdateAction;
         }
-        
+
         AreaEntered -= OnAreaEntered;
         AreaExited -= OnAreaExited;
     }
@@ -138,7 +137,7 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent,I
     private void UpdateStats()
     {
         if (!IsInstanceValid(this) || !IsInstanceValid(StatsUi)) return;
-        
+
         StatsUi.UpdateStats(Stats);
     }
 
@@ -175,16 +174,16 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent,I
     }
 
     /// <summary>
-    ///     对当前敌人造成指定数量的伤害。
-    ///     若敌人生命值降至0或以下，则从场景中移除该敌人对象。
+    /// 处理对象受到的伤害
     /// </summary>
-    /// <param name="damage">要造成的伤害点数。</param>
-    public void TakeDamage(int damage)
+    /// <param name="damage">伤害值，必须为非负整数</param>
+    /// <param name="whichModifier">修饰符类型，用于确定伤害计算方式</param>
+    public void TakeDamage(int damage, Modifier.ModifierType whichModifier)
     {
         // 如果敌人已经死亡，则直接返回
         if (Stats.Health <= 0) return;
         Sprite2D.Material = ResourceFactories.WhiteSpriteMatFactory();
-        var modifier = ModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgTaken, damage);
+        var modifier = ModifierHandler.GetModifiedValue(whichModifier, damage);
         // 创建动画序列来处理伤害效果
         var tween = CreateTween();
         tween.TweenCallback(Callable.From(() => Shaker.Instance.Shake(this, 16, 0.15f)));
