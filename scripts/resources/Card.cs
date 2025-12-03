@@ -279,4 +279,23 @@ public partial class Card : Resource
     {
     }
 
+    /// <summary>
+    /// 获取默认描述文本
+    /// </summary>
+    /// <returns>返回卡牌的原始描述内容</returns>
+    public virtual string GetDefaultDescription()
+    {
+        return Description;
+    }
+
+    /// <summary>
+    /// 获取动态生成的描述文本，考虑修饰符的影响
+    /// </summary>
+    /// <param name="playerModifierHandler">玩家修饰符处理器</param>
+    /// <param name="enemyModifierHandler">敌人修饰符处理器</param>
+    /// <returns>返回可能被修饰符修改过的描述文本</returns>
+    public virtual string GetDescription(ModifierHandler playerModifierHandler, ModifierHandler enemyModifierHandler)
+    {
+        return GetDefaultDescription();
+    }
 }

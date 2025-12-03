@@ -1,4 +1,3 @@
-using System;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
@@ -18,6 +17,11 @@ public partial class WarriorTrueStrength : Card
 	/// 可选的声音列表，用于存储卡牌播放时可能用到的音效资源
 	/// </summary>
 	[Export] public Array OptionalSoundList { get; set; }
+	
+	/// <summary>
+	///	基础力量
+	/// </summary>
+	[Export] public int BaseStrength { get; set; } = 3;
 
 	/// <summary>
 	///     应用卡牌的效果到指定的目标上。子类应重写此方法以实现具体逻辑。
@@ -31,5 +35,9 @@ public partial class WarriorTrueStrength : Card
 		var status = ResourceFactories.TrueStrengthFormStatusFactory();
 		statusEffect.Status = status;
 		statusEffect.Execute(targets);
+	}
+	public override string GetDescription(ModifierHandler playerModifierHandler, ModifierHandler enemyModifierHandler)
+	{
+		return string.Format(GetDefaultDescription(),BaseStrength);
 	}
 }

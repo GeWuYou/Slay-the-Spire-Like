@@ -8,7 +8,7 @@
 script = ExtResource("3_tgeg2")
 Id = "warrior_slash"
 Name = "斩击"
-Description = "[center]对所有敌人造成[color=red]5[/color]点伤害[/center]"
+Description = "[center]对所有敌人造成[color=red]{0}[/color]点伤害[/center]"
 CardTarget = 6
 InitCost = 2
 Cost = 2

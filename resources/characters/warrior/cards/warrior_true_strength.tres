@@ -9,7 +9,7 @@ script = ExtResource("3_agwqx")
 OptionalSoundList = null
 Id = "warrior_true_strength"
 Name = "力量形态"
-Description = "[center]回合开始时，获得[color=purple]3[/color]点力量[/center]
+Description = "[center]回合开始时，获得[color=purple]{0}[/color]点力量[/center]
 "
 CardType = 1
 InitCost = 3

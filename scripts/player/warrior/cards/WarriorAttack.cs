@@ -27,4 +27,14 @@ public partial class WarriorAttack : Card
         // 执行伤害效果
         effect.Execute(targets);
     }
+
+    public override string GetDescription(ModifierHandler playerModifierHandler, ModifierHandler enemyModifierHandler)
+    {
+        var modifiedDamage = playerModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgDealt, BaseDamage);
+        if (enemyModifierHandler is not null)
+        {
+            modifiedDamage = enemyModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgTaken, modifiedDamage);
+        }
+        return string.Format(GetDefaultDescription(),modifiedDamage);
+    }
 }

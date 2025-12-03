@@ -74,7 +74,7 @@ public partial class CardBaseState : CardState
 
         // 请求重新设置父节点并更新UI状态显示
         CardUi.CardVisuals.Panel.AddThemeStyleboxOverride("panel", CardUi.HoverStyleBox);
-        _events.RaiseCardToolTipShowRequest(CardUi.CardVisuals.Icon.Texture, CardUi.Card.Description);
+        CardUi.RequestTooltip();
     }
 
     public override void OnMouseExited()

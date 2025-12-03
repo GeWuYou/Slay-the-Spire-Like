@@ -9,7 +9,7 @@ script = ExtResource("1_i84e5")
 OptionalSoundList = null
 Id = "warrior_sharp_blade_cutting"
 Name = "利刃切割"
-Description = "[center]对敌人造成[color=red]8[/color]点伤害，施加[color=orange]2[/color]回合暴露[/center]
+Description = "[center]对敌人造成[color=red]{0}[/color]点伤害，施加[color=orange]2[/color]回合暴露[/center]
 "
 CardTarget = 1
 InitCost = 2

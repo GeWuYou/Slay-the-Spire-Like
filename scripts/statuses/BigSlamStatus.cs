@@ -51,7 +51,7 @@ public partial class BigSlamStatus : Status
 		             ModifierValue.CreatePercentBased(BigSlam,ModifierValue.ModifierValueType.Flat);
         
 		// 获取肌肉状态的层数，并应用2倍比率
-		int muscleStacks = 0;
+		var muscleStacks = 0;
 		var muscleValue = modifier.GetValue(MuscleStatus.Muscle);
 		if (muscleValue != null)
 		{

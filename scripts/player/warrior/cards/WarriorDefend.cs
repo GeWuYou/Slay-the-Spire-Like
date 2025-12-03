@@ -12,6 +12,7 @@ namespace SlayTheSpireLike.scripts.player.warrior.cards;
 /// </summary>
 public partial class WarriorDefend : Card
 {
+    [Export] public int BaseBlock { get; set; } = 6;
     /// <summary>
     ///     应用卡牌的效果到指定的目标上。子类应重写此方法以实现具体逻辑。
     /// </summary>
@@ -21,9 +22,13 @@ public partial class WarriorDefend : Card
     {
         // 创建格挡效果实例
         var effect = new BlockEffect();
-        effect.Amount = 6;
+        effect.Amount = BaseBlock;
         effect.Sound = Sound;
         // 执行格挡效果
         effect.Execute(targets);
+    }
+    public override string GetDescription(ModifierHandler playerModifierHandler, ModifierHandler enemyModifierHandler)
+    {
+        return string.Format(GetDefaultDescription(),playerModifierHandler.GetModifiedValue(Modifier.ModifierType.Block,BaseBlock));
     }
 }

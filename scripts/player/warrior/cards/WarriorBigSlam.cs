@@ -21,7 +21,6 @@ public partial class WarriorBigSlam : Card
     public Array OptionalSoundList { get; set; }
 
     [Export] public int BaseDamage { get; set; } = 14;
-    [Export] public int ExposedDuration { get; set; } = 2;
 
     /// <summary>
     ///     应用卡牌的效果到指定的目标上。子类应重写此方法以实现具体逻辑。
@@ -36,5 +35,14 @@ public partial class WarriorBigSlam : Card
         effect.Sound = Sound;
         // 执行伤害效果
         effect.Execute(targets);
+    }
+    public override string GetDescription(ModifierHandler playerModifierHandler, ModifierHandler enemyModifierHandler)
+    {
+        var modifiedDamage = playerModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgDealt, BaseDamage);
+        if (enemyModifierHandler is not null)
+        {
+            modifiedDamage = enemyModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgTaken, modifiedDamage);
+        }
+        return string.Format(GetDefaultDescription(),modifiedDamage);
     }
 }

@@ -2,6 +2,7 @@ using System;
 using SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
+using SlayTheSpireLike.scripts.enemies;
 using SlayTheSpireLike.scripts.modifier_handler;
 using SlayTheSpireLike.scripts.resources;
 
@@ -191,7 +192,21 @@ public partial class CardUi : Control
             _characterStats.StatsChanged -= OnStatsChanged;
         }
     }
+    public ModifierHandler GetActiveEnemyModifierHandler()
+    {
+        if (Targets.Count == 0 || Targets.Count > 1 || Targets[0] is not Enemy enemy)
+        {
+            return null;
+        }
+        return enemy.ModifierHandler;
+    }
 
+    public void RequestTooltip()
+    {
+       var enemyModifierHandler =  GetActiveEnemyModifierHandler();
+       var tooltip = Card.GetDescription(PlayerModifierHandler, enemyModifierHandler);
+       Events.Instance.RaiseCardToolTipShowRequest(Card.Icon,tooltip);
+    }
     private void OnCardDraggingOrAimingEnded(CardUi cardUi)
     {
         // 确保当前节点未被释放
