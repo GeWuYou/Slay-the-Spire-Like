@@ -5,13 +5,22 @@ using SlayTheSpireLike.scripts.modifier_handler;
 namespace SlayTheSpireLike.scripts.statuses;
 
 /// <summary>
-/// 状态效果模板类，继承自Status基类。
-/// 用于创建自定义的状态效果，可以定义状态的初始化逻辑和应用逻辑。
+/// 肌肉状态类，用于增加角色造成的伤害
+/// 该状态通过修改伤害修饰器来提升目标的攻击力
 /// </summary>
 public partial class MuscleStatus : Status
 {
     public const string Muscle = "Muscle";
     
+    /// <summary>
+    /// 获取状态的工具提示文本
+    /// </summary>
+    /// <returns>格式化后的工具提示字符串，显示状态层数</returns>
+    public override string GetTooltip()
+    {
+        return string.Format(base.GetTooltip(),Stacks);
+    }
+
     /// <summary>
     /// 初始化状态效果，在状态被添加到目标时调用。
     /// 可以在此方法中设置初始值或注册事件监听器。

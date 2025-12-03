@@ -30,6 +30,19 @@ public partial class StatusHandler : GridContainer
     [Signal]
     public delegate void StatusesAppliedEventHandler(Status.StatusType type);
 
+    public override void _Ready()
+    {
+        GuiInput+=OnGuiInput;
+    }
+
+    private void OnGuiInput(InputEvent @event)
+    {
+        if (@event.IsActionPressed("left_mouse"))
+        {
+            Events.Instance.RaiseStatusTooltipRequested(GetAllStatuses());
+        }
+    }
+
     /// <summary>
     /// 根据指定的状态类型依次应用所有匹配的状态效果。
     /// 使用 Tween 控制执行顺序与间隔时间。

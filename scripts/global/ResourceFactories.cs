@@ -219,6 +219,12 @@ public static class ResourceFactories
             GameConstants.ResourcePaths.StatusUiScene);
 
     /// <summary>
+    /// 状态提示UI场景资源工厂函数，用于加载和创建状态提示UI场景资源
+    /// </summary>
+    public static readonly Func<StatusTooltip> StatusTooltipFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<StatusTooltip>(
+            GameConstants.ResourcePaths.StatusTooltip);
+    /// <summary>
     ///     白色精灵材质工厂函数
     /// </summary>
     public static readonly Func<Material> WhiteSpriteMatFactory =

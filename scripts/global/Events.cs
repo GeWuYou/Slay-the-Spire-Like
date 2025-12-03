@@ -1,7 +1,9 @@
 using System;
 using Godot;
+using Godot.Collections;
 using SlayTheSpireLike.scripts.enemies;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.statuses;
 using SlayTheSpireLike.scripts.ui;
 
 namespace SlayTheSpireLike.scripts.global;
@@ -127,6 +129,10 @@ public partial class Events : SingletonNode<Events>
     /// </summary>
     public event Action BattleRewardExited;
 
+    /// <summary>
+    ///     状态提示请求事件
+    /// </summary>
+    public event Action<Array<Status>> StatusTooltipRequested;
     #endregion
 
     #region 地图事件
@@ -184,7 +190,10 @@ public partial class Events : SingletonNode<Events>
     public event Action TreasureRoomEntered;
 
 
-    #region 事件触发方法
+   
+
+    #endregion
+     #region 事件触发方法
 
     /// <summary>
     ///      敌人死亡事件
@@ -344,7 +353,10 @@ public partial class Events : SingletonNode<Events>
         TreasureRoomEntered?.Invoke();
     }
 
-    #endregion
-
+    /// <summary>触发状态工具提示请求事件</summary>
+    public void RaiseStatusTooltipRequested(Array<Status> statuses)
+    {
+        StatusTooltipRequested?.Invoke(statuses);
+    }
     #endregion
 }

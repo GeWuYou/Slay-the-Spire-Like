@@ -122,7 +122,7 @@ public partial class Status : Resource
     /// 获取状态的工具提示文本
     /// </summary>
     /// <returns>返回状态的工具提示字符串</returns>
-    public string GetTooltip()
+    public virtual string GetTooltip()
     {
         return Tooltip;
     }

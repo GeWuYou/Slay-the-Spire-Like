@@ -11,6 +11,11 @@ namespace SlayTheSpireLike.scripts.statuses;
 public partial class TrueStrengthFormStatus : Status
 {
     [Export] public int StacksPerTurn { get; set; }= 3;
+    public override string GetTooltip()
+    {
+        return string.Format(base.GetTooltip(),StacksPerTurn);
+    }
+
     /// <summary>
     /// 将当前状态应用于指定的目标节点，并发出状态变更信号
     /// </summary>

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dgfinel8003kn" path="res://scripts/status_handler/StatusHandler.cs" id="1_7of5l"]
 
 [node name="StatusHandler" type="GridContainer"]
+mouse_filter = 0
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 6

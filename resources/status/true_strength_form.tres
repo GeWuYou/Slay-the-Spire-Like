@@ -6,4 +6,5 @@
 [resource]
 script = ExtResource("1_wiupr")
 Icon = ExtResource("1_tbf1j")
+Tooltip = "力量形态：回合开始时，增加 [color=gold]{0}[/color] 点力量"
 metadata/_custom_type_script = "uid://c0uwmm46mlikp"

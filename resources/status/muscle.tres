@@ -9,5 +9,5 @@ Id = "muscle"
 StatusStackType = 1
 Stacks = 2
 Icon = ExtResource("1_122ls")
-Tooltip = "todo"
+Tooltip = "力量：使你造成的伤害增加 [color=gold]{0}[/color]"
 metadata/_custom_type_script = "uid://c0uwmm46mlikp"

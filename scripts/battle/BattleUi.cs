@@ -1,9 +1,9 @@
-using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.global;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
 
-namespace SlayTheSpireLike.scripts;
+namespace SlayTheSpireLike.scripts.battle;
 
 /// <summary>
 ///     战斗界面类，负责管理战斗过程中的UI元素和玩家交互
@@ -114,6 +114,10 @@ public partial class BattleUi : CanvasLayer
     /// </summary>
     private void OnPlayerHandDrawn()
     {
+        if (!IsInstanceValid(EndTurnButton))
+        {
+            return;
+        }
         EndTurnButton.Disabled = false;
     }
 }

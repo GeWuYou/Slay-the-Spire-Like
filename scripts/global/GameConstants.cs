@@ -139,6 +139,11 @@ public static class GameConstants
         /// 状态处理器资源路径常量
         /// </summary>
         public const string StatusUiScene = "res://scenes/status_handler/status_ui.tscn";
+        
+        /// <summary>
+        /// 状态提示框资源路径常量
+        /// </summary>
+        public const string StatusTooltip = "res://scenes/status_handler/status_tooltip.tscn";
 
         /// <summary>
         /// 金币纹理资源路径常量

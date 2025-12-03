@@ -10,5 +10,6 @@ StatusStackType = 2
 CanExpire = true
 Duration = 2
 Icon = ExtResource("1_ge6ls")
-Tooltip = "todo"
+Tooltip = "暴露：使受到的伤害增加 [color=red]50%[/color]，还剩 [color=purple]{0}[/color] 回合
+"
 metadata/_custom_type_script = "uid://c0uwmm46mlikp"
