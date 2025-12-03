@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://de4vguopeojb"]
+
+[ext_resource type="Texture2D" uid="uid://ceiftfwihmc3j" path="res://art/expose.png" id="1_4vsdq"]
+[ext_resource type="Script" uid="uid://hrmb00ykp8sl" path="res://scripts/status_handler/StatusTooltip.cs" id="1_gmuop"]
+
+[node name="StatusTooltip" type="HBoxContainer"]
+custom_minimum_size = Vector2(150, 30)
+offset_right = 164.0
+offset_bottom = 10.0
+script = ExtResource("1_gmuop")
+
+[node name="Icon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("1_4vsdq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_constants/outline_size = 5
+bbcode_enabled = true
+text = "暴露：使受到的伤害增加 [color=red]50%[/color]，还剩 [color=purple]{0}[/color] 回合
+"
+fit_content = true
+vertical_alignment = 1
