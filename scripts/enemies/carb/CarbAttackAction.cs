@@ -2,6 +2,8 @@ using SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.effects;
+using SlayTheSpireLike.scripts.modifier_handler;
+using SlayTheSpireLike.scripts.player;
 
 namespace SlayTheSpireLike.scripts.enemies.carb;
 
@@ -42,5 +44,23 @@ public partial class CarbAttackAction : EnemyAction
         tween.TweenProperty(Enemy, "global_position", start, 0.4f);
         // 动画完成后发出信号表示敌人行动结束
         tween.Finished += () => Events.Instance.RaiseEnemyActionCompleted(Enemy);
+    }
+    /// <summary>
+    /// 更新意图文本内容
+    /// </summary>
+    /// <remarks>
+    /// 将当前意图的文本内容重置为基础文本内容
+    /// </remarks>
+    public override void UpdateIntentText()
+    {
+        // 获取目标玩家对象
+        if (Target is not Player player)
+        {
+            return;
+        }
+        
+        // 计算修改后的伤害值并更新意图文本
+        var modifiedDmg =  player.ModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgTaken,Damage);
+        Intent.CurrentText = string.Format(Intent.BaseText, modifiedDmg);
     }
 }

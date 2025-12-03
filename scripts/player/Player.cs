@@ -46,6 +46,10 @@ public partial class Player : Node2D, IDamageableComponent, IBlockableComponent,
     public override void _Ready()
     {
         StatusHandler.StatusOwner = this;
+        // todo 测试代码
+        var exposed = ResourceFactories.ExposedStatusFactory();
+        exposed.Duration = 3;
+        StatusHandler.AddStatus(exposed);
     }
 
     public override void _ExitTree()

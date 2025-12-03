@@ -2,6 +2,8 @@ using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.effects;
 using SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.modifier_handler;
+using SlayTheSpireLike.scripts.player;
 
 namespace SlayTheSpireLike.scripts.enemies.bat;
 
@@ -14,8 +16,8 @@ public partial class BatAttackAction : EnemyAction
 	/// <summary>
 	/// 获取或设置伤害值属性
 	/// </summary>
-	/// <value>表示伤害数值的整型属性，默认值为5</value>
-	[Export] public int Damage { get; set; } = 5;
+	/// <value>表示伤害数值的整型属性，默认值为4</value>
+	[Export] public int Damage { get; set; } = 4;
 
 
 	/// <summary>
@@ -59,5 +61,22 @@ public partial class BatAttackAction : EnemyAction
 		// 动画完成后发出信号表示敌人行动结束
 		tween.Finished += () => Events.Instance.RaiseEnemyActionCompleted(Enemy);
 	}
-
+	/// <summary>
+	/// 更新意图文本内容
+	/// </summary>
+	/// <remarks>
+	/// 将当前意图的文本内容重置为基础文本内容
+	/// </remarks>
+	public override void UpdateIntentText()
+	{
+		// 获取目标玩家对象
+		if (Target is not Player player)
+		{
+			return;
+		}
+        
+		// 计算修改后的伤害值并更新意图文本
+		var modifiedDmg =  player.ModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgTaken,Damage);
+		Intent.CurrentText = string.Format(Intent.BaseText, modifiedDmg);
+	}
 }

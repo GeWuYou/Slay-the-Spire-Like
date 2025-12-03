@@ -1,6 +1,7 @@
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.effects;
+using SlayTheSpireLike.scripts.modifier_handler;
 
 namespace SlayTheSpireLike.scripts.enemies.carb;
 
@@ -48,5 +49,23 @@ public partial class CarbMegaBlockAction : EnemyAction
         {
             Events.Instance.RaiseEnemyActionCompleted(Enemy);
         };
+    }
+    /// <summary>
+    /// 更新意图文本内容
+    /// </summary>
+    /// <remarks>
+    /// 将当前意图的文本内容重置为基础文本内容
+    /// </remarks>
+    public override void UpdateIntentText()
+    {
+        // 获取目标玩家对象
+        if (Target is not Enemy enemy)
+        {
+            return;
+        }
+        
+        // 计算修改后的伤害值并更新意图文本
+        var modifiedDmg =  enemy.ModifierHandler.GetModifiedValue(Modifier.ModifierType.Block,Block);
+        Intent.CurrentText = string.Format(Intent.BaseText, modifiedDmg);
     }
 }

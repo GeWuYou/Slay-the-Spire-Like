@@ -1,4 +1,6 @@
 using Godot;
+using SlayTheSpireLike.scripts.modifier_handler;
+using SlayTheSpireLike.scripts.player;
 using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.enemies;
@@ -95,5 +97,10 @@ public partial class EnemyAction : Node
     /// </summary>
     public virtual void PerformAction()
     {
+    }
+
+    public virtual void UpdateIntentText()
+    {
+        Intent.CurrentText = Intent.BaseText;
     }
 }

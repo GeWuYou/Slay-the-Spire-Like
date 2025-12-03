@@ -35,7 +35,11 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent, 
         set
         {
             _currentAction = value;
-            if (_currentAction != null) IntentUi.UpdateIntent(_currentAction.Intent);
+            if (CurrentAction != null)
+            {
+                CurrentAction.UpdateIntentText();
+                IntentUi.UpdateIntent(CurrentAction.Intent);
+            }
         }
     }
 

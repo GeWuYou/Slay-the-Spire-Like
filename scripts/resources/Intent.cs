@@ -14,7 +14,7 @@ public partial class Intent : Resource
     ///     该属性被导出，可以在编辑器中进行配置。
     /// </summary>
     [Export]
-    public string Number { get; set; }
+    public string BaseText { get; set; } = "{0}";
 
     /// <summary>
     ///     获取或设置意图的图标纹理。
@@ -22,4 +22,6 @@ public partial class Intent : Resource
     /// </summary>
     [Export]
     public Texture Icon { get; set; }
+    
+    public string CurrentText{ get; set; }
 }

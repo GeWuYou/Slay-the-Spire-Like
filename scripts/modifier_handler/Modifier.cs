@@ -16,18 +16,27 @@ public partial class Modifier : Node
         /// 造成的伤害
         /// </summary>
         DmgDealt,
+
         /// <summary>
         /// 承受的伤害
         /// </summary>
         DmgTaken,
+
         /// <summary>
         /// 卡牌费用
         /// </summary>
         CardCost,
+
+        /// <summary>
+        /// 格挡值，用于减少承受的伤害
+        /// </summary>
+        Block,
+
         /// <summary>
         /// 商店费用
         /// </summary>
         ShopCost,
+
         /// <summary>
         /// 无修改器
         /// </summary>
@@ -78,7 +87,7 @@ public partial class Modifier : Node
             modifierValue.PercentValue = value.PercentValue;
         }
     }
-    
+
     /// <summary>
     /// 移除指定来源的修改值
     /// </summary>
@@ -101,7 +110,7 @@ public partial class Modifier : Node
             break;
         }
     }
-    
+
     /// <summary>
     /// 清除所有修改值
     /// </summary>
@@ -129,14 +138,15 @@ public partial class Modifier : Node
         {
             if (child is ModifierValue { Type: ModifierValue.ModifierValueType.Flat } value)
             {
-                flatResult+=value.FlatValue;
+                flatResult += value.FlatValue;
             }
         }
+
         foreach (var child in GetChildren())
         {
             if (child is ModifierValue { Type: ModifierValue.ModifierValueType.PercentBased } value)
             {
-                percentResult+=value.PercentValue;
+                percentResult += value.PercentValue;
             }
         }
 

@@ -60,4 +60,22 @@ public partial class _CLASS_ : EnemyAction
         tween.Finished += () => Events.Instance.EmitSignal(Events.SignalName.EnemyActionCompleted, Enemy);
     }
 
+    /// <summary>
+    /// 更新意图文本内容
+    /// </summary>
+    /// <remarks>
+    /// 将当前意图的文本内容重置为基础文本内容
+    /// </remarks>
+    public override void UpdateIntentText()
+    {
+        // 获取目标玩家对象
+        if (Target is not Player player)
+        {
+            return;
+        }
+
+        // 计算修改后的伤害值并更新意图文本
+        var modifiedDmg =  player.ModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgTaken,Damage);
+        Intent.CurrentText = string.Format(Intent.BaseText, modifiedDmg);
+    }
 }

@@ -7,7 +7,7 @@ public partial class IntentUi : HBoxContainer
 {
     [Export] public TextureRect Icon { get; set; }
 
-    [Export] public Label Number { get; set; }
+    [Export] public Label Label { get; set; }
 
     public void UpdateIntent(Intent intent)
     {
@@ -19,8 +19,8 @@ public partial class IntentUi : HBoxContainer
 
         Icon.Texture = intent.Icon as Texture2D;
         Icon.Visible = intent.Icon != null;
-        Number.Text = intent.Number;
-        Number.Visible = intent.Number?.Length > 0;
+        Label.Text = intent.CurrentText;
+        Label.Visible = intent.CurrentText?.Length > 0;
         Show();
     }
 }
