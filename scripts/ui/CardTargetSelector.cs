@@ -166,7 +166,9 @@ public partial class CardTargetSelector : Node2D
     {
         if (_currentCard == null || !_targeting) return;
 
-        if (!_currentCard.Targets.Contains(area2D)) _currentCard.Targets.Add(area2D);
+        if (_currentCard.Targets.Contains(area2D)) return;
+        _currentCard.Targets.Add(area2D);
+        _currentCard.RequestTooltip();
     }
 
     /// <summary>
@@ -178,5 +180,6 @@ public partial class CardTargetSelector : Node2D
         if (_currentCard == null || !_targeting) return;
 
         _currentCard.Targets.Remove(area2D);
+        _currentCard.RequestTooltip();
     }
 }
