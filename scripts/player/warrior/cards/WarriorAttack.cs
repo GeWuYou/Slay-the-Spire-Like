@@ -40,6 +40,6 @@ public partial class WarriorAttack : Card
         {
             modifiedDamage = enemyModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgTaken, modifiedDamage);
         }
-        return string.Format(GetDefaultDescription(),modifiedDamage);
+        return string.Format(base.GetDefaultDescription(),modifiedDamage);
     }
 }

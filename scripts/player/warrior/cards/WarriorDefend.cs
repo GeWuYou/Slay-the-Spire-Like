@@ -34,6 +34,6 @@ public partial class WarriorDefend : Card
 
     public override string GetDescription(ModifierHandler playerModifierHandler, ModifierHandler enemyModifierHandler)
     {
-        return string.Format(GetDefaultDescription(),playerModifierHandler.GetModifiedValue(Modifier.ModifierType.Block,BaseBlock));
+        return string.Format(base.GetDefaultDescription(),playerModifierHandler.GetModifiedValue(Modifier.ModifierType.Block,BaseBlock));
     }
 }

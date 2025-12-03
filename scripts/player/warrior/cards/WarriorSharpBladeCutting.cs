@@ -53,6 +53,6 @@ public partial class WarriorSharpBladeCutting : Card
 		{
 			modifiedDamage = enemyModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgTaken, modifiedDamage);
 		}
-		return string.Format(GetDefaultDescription(),modifiedDamage, ExposedDuration);
+		return string.Format(base.GetDefaultDescription(),modifiedDamage, ExposedDuration);
 	}
 }

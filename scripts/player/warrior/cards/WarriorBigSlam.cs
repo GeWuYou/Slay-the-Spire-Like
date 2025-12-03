@@ -76,6 +76,6 @@ public partial class WarriorBigSlam : Card
             damage = enemyModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgTaken, damage);
         }
         
-        return string.Format(GetDefaultDescription(), damage);
+        return string.Format(base.GetDefaultDescription(), damage);
     }
 }

@@ -43,6 +43,6 @@ public partial class WarriorTrueStrength : Card
 
 	public override string GetDescription(ModifierHandler playerModifierHandler, ModifierHandler enemyModifierHandler)
 	{
-		return string.Format(GetDefaultDescription(),BaseStrength);
+		return string.Format(base.GetDefaultDescription(),BaseStrength);
 	}
 }
