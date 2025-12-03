@@ -27,6 +27,11 @@ public partial class WarriorSlash : Card
         // 执行伤害效果
         effect.Execute(targets);
     }
+    public override string GetDefaultDescription()
+    {
+        return string.Format(base.GetDefaultDescription(), BaseDamage);
+    }
+
     public override string GetDescription(ModifierHandler playerModifierHandler, ModifierHandler enemyModifierHandler)
     {
         var modifiedDamage = playerModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgDealt, BaseDamage);

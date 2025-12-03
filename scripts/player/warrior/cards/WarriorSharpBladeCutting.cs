@@ -41,6 +41,11 @@ public partial class WarriorSharpBladeCutting : Card
 		statusEffect.Status = exposedStatus;
 		statusEffect.Execute(targets);
 	}
+	public override string GetDefaultDescription()
+	{
+		return string.Format(base.GetDefaultDescription(), BaseDamage);
+	}
+
 	public override string GetDescription(ModifierHandler playerModifierHandler, ModifierHandler enemyModifierHandler)
 	{
 		var modifiedDamage = playerModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgDealt, BaseDamage);

@@ -28,6 +28,11 @@ public partial class WarriorAttack : Card
         effect.Execute(targets);
     }
 
+    public override string GetDefaultDescription()
+    {
+        return string.Format(base.GetDefaultDescription(), BaseDamage);
+    }
+
     public override string GetDescription(ModifierHandler playerModifierHandler, ModifierHandler enemyModifierHandler)
     {
         var modifiedDamage = playerModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgDealt, BaseDamage);

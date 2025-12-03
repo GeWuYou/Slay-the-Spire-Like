@@ -27,6 +27,11 @@ public partial class WarriorDefend : Card
         // 执行格挡效果
         effect.Execute(targets);
     }
+    public override string GetDefaultDescription()
+    {
+        return string.Format(base.GetDefaultDescription(),BaseBlock);
+    }
+
     public override string GetDescription(ModifierHandler playerModifierHandler, ModifierHandler enemyModifierHandler)
     {
         return string.Format(GetDefaultDescription(),playerModifierHandler.GetModifiedValue(Modifier.ModifierType.Block,BaseBlock));

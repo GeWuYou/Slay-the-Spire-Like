@@ -36,6 +36,11 @@ public partial class WarriorTrueStrength : Card
 		statusEffect.Status = status;
 		statusEffect.Execute(targets);
 	}
+	public override string GetDefaultDescription()
+	{
+		return string.Format(base.GetDefaultDescription(), BaseStrength);
+	}
+
 	public override string GetDescription(ModifierHandler playerModifierHandler, ModifierHandler enemyModifierHandler)
 	{
 		return string.Format(GetDefaultDescription(),BaseStrength);

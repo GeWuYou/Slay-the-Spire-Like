@@ -1,6 +1,5 @@
-using SlayTheSpireLike.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
-using SlayTheSpireLike.scripts.player;
 using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.ui;
@@ -59,7 +58,7 @@ public partial class CardTooltipPopup : Control
         TooltipCard.AddChild(newCard);
         newCard.Card = card;
         newCard.CardVisuals.TooltipRequested+= _ => HideTooltip();
-        CardDescription.Text = card.Description;
+        CardDescription.Text = card.GetDefaultDescription();
         Show();
     }
 

@@ -39,7 +39,11 @@ public partial class WarriorBigSlam : Card
         // 执行伤害效果
         effect.Execute(targets);
     }
-    
+    public override string GetDefaultDescription()
+    {
+        return string.Format(base.GetDefaultDescription(), BaseDamage);
+    }
+
     /// <summary>
     /// 计算卡牌的伤害值，包括基础伤害和双倍肌肉状态加成
     /// </summary>
