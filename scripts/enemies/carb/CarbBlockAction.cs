@@ -43,14 +43,8 @@ public partial class CarbBlockAction : EnemyAction
     /// </remarks>
     public override void UpdateIntentText()
     {
-        // 获取目标玩家对象
-        if (Target is not Enemy enemy)
-        {
-            return;
-        }
-        
         // 计算修改后的伤害值并更新意图文本
-        var modifiedDmg =  enemy.ModifierHandler.GetModifiedValue(Modifier.ModifierType.Block,Block);
+        var modifiedDmg =  Enemy.ModifierHandler.GetModifiedValue(Modifier.ModifierType.Block,Block);
         Intent.CurrentText = string.Format(Intent.BaseText, modifiedDmg);
     }
 }
