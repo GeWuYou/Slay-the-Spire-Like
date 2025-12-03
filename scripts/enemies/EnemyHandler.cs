@@ -26,6 +26,19 @@ public partial class EnemyHandler : Node2D
     {
         Events.Instance.EnemyActionCompleted += OnEnemyActionCompleted;
         Events.Instance.EnemyDied += OnEnemyDied;
+        Events.Instance.PlayerHandDrawn+=OnPlayerHandDrawn;
+    }
+
+    private void OnPlayerHandDrawn()
+    {
+        foreach (var child in GetChildren())
+        {
+            if (child is not Enemy enemy)
+            {
+                continue;
+            }
+            enemy.UpdateIntent();
+        }
     }
 
     private void OnEnemyDied(Enemy obj)

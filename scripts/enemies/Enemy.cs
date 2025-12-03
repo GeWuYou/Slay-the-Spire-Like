@@ -35,14 +35,20 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent, 
         set
         {
             _currentAction = value;
-            if (CurrentAction != null)
-            {
-                CurrentAction.UpdateIntentText();
-                IntentUi.UpdateIntent(CurrentAction.Intent);
-            }
+            UpdateIntent();
         }
     }
 
+    public void UpdateIntent()
+    {
+        if (CurrentAction == null)
+        {
+            return;
+        }
+        CurrentAction.UpdateIntentText();
+        IntentUi.UpdateIntent(CurrentAction.Intent);
+    }
+    
     /// <summary>
     ///     获取或设置敌人的统计数据。当设置新值时会自动克隆一份实例以防止引用共享，
     ///     并确保只连接一次StatsChanged事件来更新UI。
