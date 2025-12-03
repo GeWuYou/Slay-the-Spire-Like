@@ -97,12 +97,12 @@ public partial class MapRoom : Area2D
     /// </summary>
     public static Dictionary<Room.Type, RoomIconData> Icons { get; } = new()
     {
-        {Room.Type.Unknown, new RoomIconData(null, Vector2.One)},
-        {Room.Type.Monster, new RoomIconData(ResourceFactories.MonsterFactory(), Vector2.One)},
-        {Room.Type.Treasure, new RoomIconData(ResourceFactories.TreasureFactory(), Vector2.One)},
-        {Room.Type.Campfire, new RoomIconData(ResourceFactories.CampfireFactory(), new Vector2(0.6f, 0.6f))},
-        {Room.Type.Shop, new RoomIconData(ResourceFactories.ShopFactory(), new Vector2(0.6f, 0.6f))},
-        {Room.Type.Boss, new RoomIconData(ResourceFactories.BossFactory(),  new Vector2(1.25f, 1.25f))}
+        { Room.Type.Unknown, new RoomIconData(null, Vector2.One) },
+        { Room.Type.Monster, new RoomIconData(ResourceFactories.MonsterFactory(), Vector2.One) },
+        { Room.Type.Treasure, new RoomIconData(ResourceFactories.TreasureFactory(), Vector2.One) },
+        { Room.Type.Campfire, new RoomIconData(ResourceFactories.CampfireFactory(), new Vector2(0.6f, 0.6f)) },
+        { Room.Type.Shop, new RoomIconData(ResourceFactories.ShopFactory(), new Vector2(0.6f, 0.6f)) },
+        { Room.Type.Boss, new RoomIconData(ResourceFactories.BossFactory(), new Vector2(1.25f, 1.25f)) }
     };
 
     // 私有字段：标记房间是否可用
@@ -122,17 +122,17 @@ public partial class MapRoom : Area2D
         {
             AnimationPlayer.Play("highlight");
         }
-        else if(!Room.IsSelected)
+        else if (!Room.IsSelected)
         {
             AnimationPlayer.Play("RESET");
         }
     }
 
     /// <summary>
-/// 同步房间的位置和图标信息至UI组件。
-/// 更新节点坐标、旋转连线角度以及根据房间类型设定图标纹理和缩放。
-/// 此方法同样使用CallDeferred机制进行异步调用。
-/// </summary>
+    /// 同步房间的位置和图标信息至UI组件。
+    /// 更新节点坐标、旋转连线角度以及根据房间类型设定图标纹理和缩放。
+    /// 此方法同样使用CallDeferred机制进行异步调用。
+    /// </summary>
     public void SetRoom()
     {
         Position = Room.Position;
