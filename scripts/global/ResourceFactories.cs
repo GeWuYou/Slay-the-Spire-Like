@@ -155,27 +155,20 @@ public static class ResourceFactories
     /// </summary>
     public static readonly Func<Status> TrueStrengthFormStatusFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Status>(
-            GameConstants.ResourcePaths.TrueStrengthFormStatus);
+            GameConstants.ResourcePaths.TrueStrengthFormStatus,true);
     /// <summary>
     ///  肌肉状态资源工厂函数，用于加载和创建肌肉状态资源
     /// </summary>
     public static readonly Func<Status> MuscleStatusFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Status>(
-            GameConstants.ResourcePaths.MuscleStatus);
+            GameConstants.ResourcePaths.MuscleStatus,true);
 
     /// <summary>
     ///  exposes 状态资源工厂函数，用于加载和创建 exposes 状态资源
     /// </summary>
     public static readonly Func<Status> ExposedStatusFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Status>(
-            GameConstants.ResourcePaths.ExposedStatus);
-            
-    /// <summary>
-    ///  Big Slam状态资源工厂函数，用于加载和创建Big Slam状态资源
-    /// </summary>
-    public static readonly Func<Status> BigSlamStatusFactory =
-        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Status>(
-            GameConstants.ResourcePaths.BigSlamStatus);
+            GameConstants.ResourcePaths.ExposedStatus,true);
             
     /// <summary>
     /// 怪物纹理资源工厂函数，用于加载和创建怪物纹理资源
