@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.battle;
 using SlayTheSpireLike.scripts.campfire;
-using SlayTheSpireLike.scripts.enemies.battle;
 using SlayTheSpireLike.scripts.map;
+using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
 using SlayTheSpireLike.scripts.ui.components;
+using BattleReward = SlayTheSpireLike.scripts.battle.BattleReward;
 
 namespace SlayTheSpireLike.scripts.run;
 
@@ -27,6 +28,7 @@ public partial class Run : Node
     [Export] public GoldUi GoldUi { get; set; }
     [Export] public StatItem HealthUi { get; set; }
     [Export] public Map Map { get; set; }
+    [Export] public RelicHandler RelicHandler { get; set; }
     public CharacterStats PlayerStats { get; set; }
     public RunStats RunStats { get; set; }
     private readonly List<Action> _disposables = new();
@@ -58,6 +60,7 @@ public partial class Run : Node
 
     private void SetupTopBar()
     {
+        RelicHandler.AddRelic(PlayerStats.StartingRelic);
         GoldUi.RunStats = RunStats;
         DeckButton.CardPile = PlayerStats.Deck;
         DeckPileView.CardPile = PlayerStats.Deck;
@@ -189,13 +192,14 @@ public partial class Run : Node
     private void OnBattleRoomEntered(Room room)
     {
         if (ChangeView(ResourceLoaderManager.Instance
-                .GetSceneLoader(GameConstants.ResourcePaths.BattleScene).Value) is not battle.Battle battleScene)
+                .GetSceneLoader(GameConstants.ResourcePaths.BattleScene).Value) is not Battle battleScene)
        {
            GD.PrintErr("BattleScene is null");
            return;
        }
        battleScene.PlayerStats = PlayerStats;
        battleScene.BattleStats = room.BattleStats;
+       battleScene.RelicHandler = RelicHandler;
        battleScene.StartBattle();
     }
     private Node ChangeView(PackedScene newScene)

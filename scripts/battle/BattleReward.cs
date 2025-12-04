@@ -5,7 +5,7 @@ using SlayTheSpireLike.scripts.extensions;
 using SlayTheSpireLike.scripts.global;
 using SlayTheSpireLike.scripts.resources;
 
-namespace SlayTheSpireLike.scripts.enemies.battle;
+namespace SlayTheSpireLike.scripts.battle;
 
 /// <summary>
 /// 战斗奖励界面控制类。用于展示战斗胜利后可获得的奖励（如金币、卡牌等），

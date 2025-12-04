@@ -10,6 +10,7 @@ Description = "无敌の巫师！
 他将用他的魔力，摧毁一切！"
 Portrait = ExtResource("1_fik8h")
 StartingDeck = ExtResource("2_2fqke")
+Type = 3
 CardsPerTurn = 4
 MaxMana = 4
 MaxHeath = 45

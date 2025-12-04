@@ -1,7 +1,10 @@
+using System;
 using Godot;
 using SlayTheSpireLike.scripts.enemies;
+using SlayTheSpireLike.scripts.enums;
 using SlayTheSpireLike.scripts.global;
 using SlayTheSpireLike.scripts.player;
+using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
 
@@ -13,7 +16,7 @@ namespace SlayTheSpireLike.scripts.battle;
 public partial class Battle : Node2D
 {
     private BattleUi _battleUi;
-    
+
     private Events _events;
     [Export] public CharacterStats PlayerStats { get; set; }
 
@@ -22,9 +25,10 @@ public partial class Battle : Node2D
     [Export] public EnemyHandler EnemyHandler { get; set; }
 
     [Export] public Player Player { get; set; }
-    
+
     [Export] public AudioStream BattleMusic { get; set; }
     [Export] public BattleStats BattleStats { get; set; }
+    public RelicHandler RelicHandler { get; set; }
 
     /// <summary>
     ///     当节点进入场景树时调用，初始化战斗UI并设置玩家属性
@@ -62,7 +66,7 @@ public partial class Battle : Node2D
             _events.PlayerHandDiscarded -= EnemyHandler.StartTurn;
             _events.PlayerDied -= OnPlayerDied;
         }
-        
+
         // 移除 ChildOrderChanged 事件监听器
         EnemyHandler.ChildOrderChanged -= OnEnemiesChildOrderChanged;
     }
@@ -74,8 +78,8 @@ public partial class Battle : Node2D
 
     private void OnEnemiesChildOrderChanged()
     {
-        if (EnemyHandler.GetChildCount() == 0) 
-            Events.Instance.RaiseBattleOverScreenRequested("胜利！", BattleOverPanel.Type.Win);
+        if (EnemyHandler.GetChildCount() == 0 && IsInstanceValid(RelicHandler))
+            RelicHandler.ActivateRelicsByType(RelicType.EndOfCombat);
     }
 
     /// <summary>
@@ -95,10 +99,33 @@ public partial class Battle : Node2D
         GetTree().Paused = false;
         _battleUi.PlayerStats = PlayerStats;
         Player.Stats = PlayerStats;
-        AudioPlayerManager.Instance.PlayMusic(BattleMusic,true);
+        AudioPlayerManager.Instance.PlayMusic(BattleMusic, true);
         EnemyHandler.SetupEnemies(BattleStats);
         EnemyHandler.ResetEnemyAcitons();
-        PlayerHandler.StartBattle(PlayerStats);
-        _battleUi.InitCardPileUi();
+
+        RelicHandler.RelicsActivated += OnRelicActivated;
+        RelicHandler.ActivateRelicsByType(RelicType.StartOfCombat);
+    }
+
+    private void OnRelicActivated(RelicType type)
+    {
+        switch (type)
+        {
+            case RelicType.StartOfTurn:
+                break;
+            case RelicType.StartOfCombat:
+                PlayerHandler.StartBattle(PlayerStats);
+                _battleUi.InitCardPileUi();
+                break;
+            case RelicType.EndOfTurn:
+                break;
+            case RelicType.EndOfCombat:
+                Events.Instance.RaiseBattleOverScreenRequested("胜利！", BattleOverPanel.Type.Win);
+                break;
+            case RelicType.EventBased:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(type), type, null);
+        }
     }
 }

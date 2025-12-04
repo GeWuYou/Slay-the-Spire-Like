@@ -1,5 +1,6 @@
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.enums;
 
 namespace SlayTheSpireLike.scripts.resources;
 
@@ -32,6 +33,9 @@ public partial class CharacterStats : Stats
     [Export]
     [ExportGroup("游戏数据")]
     public CardPile StartingDeck { private set; get; }
+    
+    [Export]
+    public CharacterType Type { get; set; }
 
     /// <summary>
     ///     每回合抽卡数量，默认为5张
@@ -88,6 +92,11 @@ public partial class CharacterStats : Stats
     [Export]
     public CardPile DraftablePile { get; set; }
 
+    /// <summary>
+    ///     获取或设置起始遗物
+    /// </summary>
+    [Export]
+    public Relic StartingRelic { get; set; }
 
     /// <summary>
     ///     重置法力值为最大值
@@ -139,6 +148,8 @@ public partial class CharacterStats : Stats
         instance.CardsPerTurn = CardsPerTurn;
         instance.MaxHeath = MaxHeath;
         instance.MaxBlock = MaxBlock;
+        instance.StartingRelic = StartingRelic;
+        instance.Type = Type;
         return instance;
     }
 }

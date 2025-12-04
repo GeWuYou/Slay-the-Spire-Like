@@ -1,6 +1,7 @@
 using System;
 using Godot;
 using SlayTheSpireLike.scripts.map;
+using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.status_handler;
 using SlayTheSpireLike.scripts.ui;
@@ -224,6 +225,13 @@ public static class ResourceFactories
     public static readonly Func<StatusTooltip> StatusTooltipFactory =
         ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<StatusTooltip>(
             GameConstants.ResourcePaths.StatusTooltip);
+    
+    /// <summary>
+    ///     遗物UI场景资源工厂函数，用于加载和创建遗物UI场景资源
+    /// </summary>
+    public static readonly Func<RelicUi> RelicUiFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<RelicUi>(
+            GameConstants.ResourcePaths.RelicUiScene);
     /// <summary>
     ///     白色精灵材质工厂函数
     /// </summary>

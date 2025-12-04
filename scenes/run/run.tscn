@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://defhoeabnbiqx"]
+[gd_scene load_steps=11 format=3 uid="uid://defhoeabnbiqx"]
 
 [ext_resource type="PackedScene" uid="uid://bw48ifds8uq3n" path="res://scenes/map/map.tscn" id="1_8rlou"]
 [ext_resource type="Script" uid="uid://db6dspcnphbfu" path="res://scripts/run/Run.cs" id="1_l7o68"]
@@ -9,8 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://boy040rcj4c5b" path="res://scenes/ui/card_pile_view.tscn" id="5_0tt4g"]
 [ext_resource type="PackedScene" uid="uid://bmfuy4paj0a5v" path="res://scenes/ui/components/stat_item.tscn" id="5_wo0nw"]
 [ext_resource type="Texture2D" uid="uid://d0edy7thj8ce6" path="res://art/heart.png" id="6_ux63y"]
+[ext_resource type="PackedScene" uid="uid://doivqyn64o1xy" path="res://scenes/relic_handler/relic_handler.tscn" id="7_yeia0"]
 
-[node name="Run" type="Node" node_paths=PackedStringArray("CurrentView", "BattleButton", "ShopButton", "CampfireButton", "TreasureButton", "MapButton", "RewardsButton", "DeckPileView", "DeckButton", "GoldUi", "HealthUi", "Map")]
+[node name="Run" type="Node" node_paths=PackedStringArray("CurrentView", "BattleButton", "ShopButton", "CampfireButton", "TreasureButton", "MapButton", "RewardsButton", "DeckPileView", "DeckButton", "GoldUi", "HealthUi", "Map", "RelicHandler")]
 script = ExtResource("1_l7o68")
 CurrentView = NodePath("CurrentView")
 BattleButton = NodePath("DebugButtons/BattleButton")
@@ -25,6 +26,7 @@ DeckButton = NodePath("TopBar/BarItems/DeckButton")
 GoldUi = NodePath("TopBar/BarItems/GoldUi")
 HealthUi = NodePath("TopBar/BarItems/HealthUi")
 Map = NodePath("Map")
+RelicHandler = NodePath("TopBar/BarItems/RelicHandlerContainer/RelicHandler")
 
 [node name="Map" parent="." instance=ExtResource("1_8rlou")]
 
@@ -92,9 +94,14 @@ IconTexture = ExtResource("6_ux63y")
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Placeholder" type="Control" parent="TopBar/BarItems"]
+[node name="RelicHandlerContainer" type="CenterContainer" parent="TopBar/BarItems"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="RelicHandler" parent="TopBar/BarItems/RelicHandlerContainer" instance=ExtResource("7_yeia0")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
 
 [node name="DeckButton" parent="TopBar/BarItems" node_paths=PackedStringArray("Counter") instance=ExtResource("3_gqbdr")]
 unique_name_in_owner = true

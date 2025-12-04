@@ -10,6 +10,7 @@ Description = "一位隐居多年的刺客大师！
 今天他将踏上前往地牢的旅程！"
 Portrait = ExtResource("1_jxrxb")
 StartingDeck = ExtResource("2_ul2dq")
+Type = 1
 CardsPerTurn = 4
 MaxHeath = 50
 Art = ExtResource("1_jxrxb")

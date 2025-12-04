@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Relic" load_steps=3 format=3 uid="uid://7hjnoy3wg2i2"]
+
+[ext_resource type="Script" uid="uid://bxfedn2p5m8eu" path="res://scripts/resources/Relic.cs" id="1_mrvbr"]
+[ext_resource type="Texture2D" uid="uid://boklhiqs1414d" path="res://art/tile_0115.png" id="1_vcqy4"]
+
+[resource]
+script = ExtResource("1_mrvbr")
+RelicName = "无尽生命药水"
+Id = "healing_potion"
+Type = 3
+SupportCharacterType = 2
+StarterRelic = true
+Icon = ExtResource("1_vcqy4")
+Tooltip = "无尽生命药水：战斗结束时，回复[color=green]6[/color]生命"
+metadata/_custom_type_script = "uid://bxfedn2p5m8eu"

@@ -19,7 +19,7 @@ public partial class Stats : Resource
     private int _block;
 
     private int _health;
-
+    
     /// <summary>
     ///     最大生命值上限，默认为 70。
     /// </summary>

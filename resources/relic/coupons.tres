@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Relic" load_steps=2 format=3 uid="uid://bd4cmvgewxbja"]
+
+[ext_resource type="Script" uid="uid://bxfedn2p5m8eu" path="res://scripts/resources/Relic.cs" id="1_iuoog"]
+
+[resource]
+script = ExtResource("1_iuoog")
+RelicName = "优惠券"
+Id = "coupons"
+Type = 4
+Tooltip = "优惠券：商店所有物品有[color=gold]50%[/color]折扣"
+metadata/_custom_type_script = "uid://bxfedn2p5m8eu"
