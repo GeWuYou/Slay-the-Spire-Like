@@ -29,6 +29,12 @@ public partial class EnemyHandler : Node2D
         Events.Instance.PlayerHandDrawn+=OnPlayerHandDrawn;
     }
 
+    public override void _ExitTree()
+    {
+        Events.Instance.EnemyActionCompleted -= OnEnemyActionCompleted;
+        Events.Instance.EnemyDied -= OnEnemyDied;
+        Events.Instance.PlayerHandDrawn-=OnPlayerHandDrawn;
+    }
     private void OnPlayerHandDrawn()
     {
         foreach (var child in GetChildren())
@@ -54,11 +60,7 @@ public partial class EnemyHandler : Node2D
         }
     }
 
-    public override void _ExitTree()
-    {
-        Events.Instance.EnemyActionCompleted -= OnEnemyActionCompleted;
-        Events.Instance.EnemyDied -= OnEnemyDied;
-    }
+
 
     /// <summary>
     ///     重置所有敌人的行动状态

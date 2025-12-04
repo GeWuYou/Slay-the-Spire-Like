@@ -202,6 +202,7 @@ public partial class Run : Node
        battleScene.RelicHandler = RelicHandler;
        battleScene.StartBattle();
     }
+
     private Node ChangeView(PackedScene newScene)
     {
         if (CurrentView.GetChildCount() > 0)
