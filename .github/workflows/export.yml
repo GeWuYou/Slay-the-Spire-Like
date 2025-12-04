@@ -14,7 +14,7 @@ on:
 
 # 环境变量
 env:
-  GODOT_VERSION: 4.5
+  GODOT_VERSION: 4.5.1
   EXPORT_NAME: Slay the Spire Like
 
 # 任务定义
