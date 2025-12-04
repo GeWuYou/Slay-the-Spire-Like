@@ -1,13 +1,13 @@
-[gd_resource type="Resource" script_class="Relic" load_steps=3 format=3 uid="uid://cgf7ovyyx3i1v"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://cgf7ovyyx3i1v"]
 
-[ext_resource type="Script" uid="uid://bxfedn2p5m8eu" path="res://scripts/resources/Relic.cs" id="1_8k1gf"]
 [ext_resource type="Texture2D" uid="uid://c2xhttrclo1r7" path="res://art/tile_0116.png" id="1_76vx3"]
+[ext_resource type="Script" uid="uid://cuji6udrlxbo1" path="res://scripts/relic/ManaPotion.cs" id="2_76vx3"]
 
 [resource]
-script = ExtResource("1_8k1gf")
+script = ExtResource("2_76vx3")
 RelicName = "魔法药水"
 Id = "mana_potion"
-Type = 4
+Type = 1
 Icon = ExtResource("1_76vx3")
 Tooltip = "魔法药水：提升你的[color=blue]1[/color]点法力上限"
 metadata/_custom_type_script = "uid://bxfedn2p5m8eu"

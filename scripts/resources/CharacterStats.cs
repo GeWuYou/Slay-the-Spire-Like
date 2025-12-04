@@ -47,7 +47,7 @@ public partial class CharacterStats : Stats
     ///     最大法力值，默认为3点
     /// </summary>
     [Export]
-    public int MaxMana { private set; get; } = 3;
+    public int MaxMana { set; get; } = 3;
 
     /// <summary>
     ///     当前法力值属性

@@ -5,7 +5,7 @@ using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.relic;
 
-public partial class _CLASS_ : Reilc
+public partial class _CLASS_ : Relic
 {
     public int MemberVariable { get; set; }
 	

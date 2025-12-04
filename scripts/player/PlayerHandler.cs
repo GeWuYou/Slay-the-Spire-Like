@@ -1,6 +1,9 @@
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.enums;
+using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.status_handler;
 using SlayTheSpireLike.scripts.statuses;
 using SlayTheSpireLike.scripts.ui;
 
@@ -8,6 +11,12 @@ namespace SlayTheSpireLike.scripts.player;
 
 /// <summary>
 ///     玩家处理器类，负责管理玩家的手牌、回合开始逻辑以及抽卡机制。
+/// 1. 回合开始：遗物生效
+/// 2. 回合开始：状态生效
+/// 3. 抽牌
+/// 4. 回合结束：遗物生效
+/// 5. 回合结束：状态生效
+/// 6. 弃牌
 /// </summary>
 public partial class PlayerHandler : Node
 {
@@ -17,6 +26,8 @@ public partial class PlayerHandler : Node
     private CharacterStats _playerStats;
     [Export] public Hand Hand { get; private set; }
     [Export] public Player Player { get; private set; }
+
+    public RelicHandler RelicHandler { get; set; }
 
     /// <summary>
     ///     初始化方法，在节点准备就绪时调用。获取全局事件实例。
@@ -29,10 +40,7 @@ public partial class PlayerHandler : Node
 
     public override void _ExitTree()
     {
-        if (_events != null)
-        {
-            _events.CardPlayed -= OnCardPlayed;
-        }
+        _events.CardPlayed -= OnCardPlayed;
     }
 
     /// <summary>
@@ -45,6 +53,7 @@ public partial class PlayerHandler : Node
         {
             return;
         }
+
         // 将使用过的卡片添加到弃牌堆中
         _playerStats.Discard.AddCard(card);
     }
@@ -63,18 +72,34 @@ public partial class PlayerHandler : Node
         // 初始化弃牌堆和移除牌堆
         _playerStats.Discard = new CardPile();
         _playerStats.RemovedDeck = new CardPile();
-        Player.StatusHandler.StatusesApplied+=OnStatusApplied;
+        RelicHandler.Connect(RelicHandler.SignalName.RelicsActivated, new Callable(this, nameof(OnRelicActivated)));
+        Player.StatusHandler.Connect(StatusHandler.SignalName.StatusesApplied,
+            new Callable(this, nameof(OnStatusApplied)));
         StartTurn();
     }
-
+    private void OnRelicActivated(RelicType type)
+    {
+        switch (type)
+        {
+            case RelicType.StartOfTurn:
+                Player.StatusHandler.ApplyStatusesByType(Status.StatusType.StartOfTurn);
+                break;
+            case RelicType.EndOfTurn:
+                Player.StatusHandler.ApplyStatusesByType(Status.StatusType.EndOfTurn);
+                break;
+        }
+    }
+    
     private void OnStatusApplied(Status.StatusType type)
     {
-        if (type == Status.StatusType.StartOfTurn)
+        switch (type)
         {
-            DrawCards(_playerStats.CardsPerTurn);
-        }else if (type == Status.StatusType.EndOfTurn)
-        {
-            DisableCards();
+            case Status.StatusType.StartOfTurn:
+                DrawCards(_playerStats.CardsPerTurn);
+                break;
+            case Status.StatusType.EndOfTurn:
+                DisableCards();
+                break;
         }
     }
 
@@ -86,7 +111,8 @@ public partial class PlayerHandler : Node
         GD.Print("开始新的玩家回合");
         _playerStats.Block = 0;
         _playerStats.ResetMana();
-        Player.StatusHandler.ApplyStatusesByType(Status.StatusType.StartOfTurn);
+        RelicHandler.ActivateRelicsByType(RelicType.StartOfTurn);
+       
     }
 
     /// <summary>
@@ -98,7 +124,7 @@ public partial class PlayerHandler : Node
     public void EndTurn()
     {
         Hand.DisableHand();
-        Player.StatusHandler.ApplyStatusesByType(Status.StatusType.EndOfTurn);
+        RelicHandler.ActivateRelicsByType(RelicType.EndOfTurn);
     }
 
     /// <summary>

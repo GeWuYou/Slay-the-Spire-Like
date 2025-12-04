@@ -99,7 +99,10 @@ public partial class Battle : Node2D
         GetTree().Paused = false;
         _battleUi.PlayerStats = PlayerStats;
         Player.Stats = PlayerStats;
+        EnemyHandler.SetupEnemies(BattleStats);
+        EnemyHandler.ResetEnemyAcitons();
         AudioPlayerManager.Instance.PlayMusic(BattleMusic, true);
+        PlayerHandler.RelicHandler = RelicHandler;
         RelicHandler.Connect(RelicHandler.SignalName.RelicsActivated, new Callable(this,nameof(OnRelicActivated)));
         RelicHandler.ActivateRelicsByType(RelicType.StartOfCombat);
     }
@@ -113,8 +116,6 @@ public partial class Battle : Node2D
             case RelicType.StartOfCombat:
                 PlayerHandler.StartBattle(PlayerStats);
                 _battleUi.InitCardPileUi();
-                EnemyHandler.SetupEnemies(BattleStats);
-                EnemyHandler.ResetEnemyAcitons();
                 break;
             case RelicType.EndOfTurn:
                 break;

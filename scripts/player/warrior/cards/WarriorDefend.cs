@@ -22,7 +22,7 @@ public partial class WarriorDefend : Card
     {
         // 创建格挡效果实例
         var effect = new BlockEffect();
-        effect.Amount = BaseBlock;
+        effect.Amount = modifierHandler.GetModifiedValue(Modifier.ModifierType.Block, BaseBlock);
         effect.Sound = Sound;
         // 执行格挡效果
         effect.Execute(targets);
