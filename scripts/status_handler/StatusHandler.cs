@@ -2,7 +2,6 @@ using System.Linq;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
-using SlayTheSpireLike.scripts.resources;
 using Status = SlayTheSpireLike.scripts.statuses.Status;
 
 namespace SlayTheSpireLike.scripts.status_handler;
@@ -97,7 +96,7 @@ public partial class StatusHandler : GridContainer
         {
             var newStatusUi = ResourceFactories.StatusUiFactory();
             newStatusUi.Status = status;
-            newStatusUi.Status.StatusApplied += OnStatusApplied;
+            newStatusUi.Status.Connect(Status.SignalName.StatusApplied, new Callable(this, nameof(OnStatusApplied)));
             newStatusUi.Status.InitializeStatus(StatusOwner);
             AddChild(newStatusUi);
             return;
