@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://defhoeabnbiqx"]
+[gd_scene load_steps=12 format=3 uid="uid://defhoeabnbiqx"]
 
 [ext_resource type="PackedScene" uid="uid://bw48ifds8uq3n" path="res://scenes/map/map.tscn" id="1_8rlou"]
 [ext_resource type="Script" uid="uid://db6dspcnphbfu" path="res://scripts/run/Run.cs" id="1_l7o68"]
@@ -10,8 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://bmfuy4paj0a5v" path="res://scenes/ui/components/stat_item.tscn" id="5_wo0nw"]
 [ext_resource type="Texture2D" uid="uid://d0edy7thj8ce6" path="res://art/heart.png" id="6_ux63y"]
 [ext_resource type="PackedScene" uid="uid://doivqyn64o1xy" path="res://scenes/relic_handler/relic_handler.tscn" id="7_yeia0"]
+[ext_resource type="PackedScene" uid="uid://bvgisif8nw2eq" path="res://scenes/relic_handler/relic_tooltip.tscn" id="11_g42ja"]
 
-[node name="Run" type="Node" node_paths=PackedStringArray("CurrentView", "BattleButton", "ShopButton", "CampfireButton", "TreasureButton", "MapButton", "RewardsButton", "DeckPileView", "DeckButton", "GoldUi", "HealthUi", "Map", "RelicHandler")]
+[node name="Run" type="Node" node_paths=PackedStringArray("CurrentView", "BattleButton", "ShopButton", "CampfireButton", "TreasureButton", "MapButton", "RewardsButton", "DeckPileView", "DeckButton", "GoldUi", "HealthUi", "Map", "RelicHandler", "RelicTooltip")]
 script = ExtResource("1_l7o68")
 CurrentView = NodePath("CurrentView")
 BattleButton = NodePath("DebugButtons/BattleButton")
@@ -27,6 +28,7 @@ GoldUi = NodePath("TopBar/BarItems/GoldUi")
 HealthUi = NodePath("TopBar/BarItems/HealthUi")
 Map = NodePath("Map")
 RelicHandler = NodePath("TopBar/BarItems/RelicHandlerContainer/RelicHandler")
+RelicTooltip = NodePath("TopBar/RelicTooltip")
 
 [node name="Map" parent="." instance=ExtResource("1_8rlou")]
 
@@ -121,5 +123,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DeckPileView" parent="TopBar" instance=ExtResource("5_0tt4g")]
+unique_name_in_owner = true
+visible = false
+
+[node name="RelicTooltip" parent="TopBar" instance=ExtResource("11_g42ja")]
 unique_name_in_owner = true
 visible = false

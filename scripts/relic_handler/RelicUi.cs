@@ -1,3 +1,4 @@
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.resources;
 
@@ -22,9 +23,9 @@ public partial class RelicUi : Control
 
     public override void _Ready()
     {
-        GuiInput+=OnGuiInput;
         _icon = GetNode<TextureRect>("Icon");
         _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        GuiInput+=OnGuiInput;
     }
     public void Flash()
     {
@@ -37,7 +38,10 @@ public partial class RelicUi : Control
 
     private void OnGuiInput(InputEvent @event)
     {
-        
+        if (@event.IsActionPressed("left_mouse"))
+        {
+            Events.Instance.RaiseRelicTooltipRequested(Relic);
+        }
     }
     
 }

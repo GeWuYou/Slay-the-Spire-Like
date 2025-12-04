@@ -29,6 +29,7 @@ public partial class Run : Node
     [Export] public StatItem HealthUi { get; set; }
     [Export] public Map Map { get; set; }
     [Export] public RelicHandler RelicHandler { get; set; }
+    [Export] public RelicTooltip RelicTooltip { get; set; }
     public CharacterStats PlayerStats { get; set; }
     public RunStats RunStats { get; set; }
     private readonly List<Action> _disposables = new();
@@ -60,8 +61,12 @@ public partial class Run : Node
 
     private void SetupTopBar()
     {
-        RelicHandler.AddRelic(PlayerStats.StartingRelic);
         GoldUi.RunStats = RunStats;
+        
+        RelicHandler.AddRelic(PlayerStats.StartingRelic);
+        Events.Instance.RelicTooltipRequested += RelicTooltip.ShowTooltip;
+        
+        _disposables.Add(() => Events.Instance.RelicTooltipRequested -= RelicTooltip.ShowTooltip);
         DeckButton.CardPile = PlayerStats.Deck;
         DeckPileView.CardPile = PlayerStats.Deck;
         DeckButton.Pressed+=() => DeckPileView.ShowCurrentView("抽牌堆");

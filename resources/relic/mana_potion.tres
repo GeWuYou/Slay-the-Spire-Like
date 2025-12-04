@@ -8,5 +8,5 @@ script = ExtResource("2_76vx3")
 RelicName = "魔法药水"
 Id = "mana_potion"
 Icon = ExtResource("1_76vx3")
-Tooltip = "魔法药水：提升你的[color=blue]1[/color]点法力上限"
+Tooltip = "提升你的[color=blue]1[/color]点法力上限"
 metadata/_custom_type_script = "uid://bxfedn2p5m8eu"

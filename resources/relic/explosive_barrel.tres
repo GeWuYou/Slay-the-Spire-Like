@@ -8,5 +8,5 @@ script = ExtResource("2_jx3jw")
 RelicName = "炸药桶"
 Id = "explosive_barrel"
 Icon = ExtResource("1_jx3jw")
-Tooltip = "炸药桶：回合开始时，对所有敌人造成[color=red]{0}[/color]伤害"
+Tooltip = "回合开始时，对所有敌人造成[color=red]{0}[/color]伤害"
 metadata/_custom_type_script = "uid://bxfedn2p5m8eu"

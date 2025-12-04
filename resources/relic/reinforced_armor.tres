@@ -12,6 +12,6 @@ Id = "reinforced_armor"
 Type = 2
 SupportCharacterType = 2
 Icon = ExtResource("1_ajsix")
-Tooltip = "神圣铁砧：在你的回合结束后，如果没有格挡则增加[color=blue]{0}[/color]点格挡
+Tooltip = "在你的回合结束后，如果没有格挡则增加[color=blue]{0}[/color]点格挡
 "
 metadata/_custom_type_script = "uid://bxfedn2p5m8eu"

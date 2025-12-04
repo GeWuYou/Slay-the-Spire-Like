@@ -193,6 +193,11 @@ public partial class Events : SingletonNode<Events>
    
 
     #endregion
+    
+    /// <summary>
+    ///     遗物提示请求
+    /// </summary>
+    public event Action<Relic> RelicTooltipRequested;
      #region 事件触发方法
 
     /// <summary>
@@ -357,6 +362,11 @@ public partial class Events : SingletonNode<Events>
     public void RaiseStatusTooltipRequested(Array<Status> statuses)
     {
         StatusTooltipRequested?.Invoke(statuses);
+    }
+    /// <summary>触发遗物工具提示请求事件</summary>
+    public void RaiseRelicTooltipRequested(Relic relic)
+    {
+        RelicTooltipRequested?.Invoke(relic);
     }
     #endregion
 }

@@ -11,5 +11,5 @@ Type = 3
 SupportCharacterType = 2
 StarterRelic = true
 Icon = ExtResource("1_vcqy4")
-Tooltip = "无尽生命药水：战斗结束时，回复[color=green]6[/color]生命"
+Tooltip = "战斗结束时，回复[color=green]6[/color]生命"
 metadata/_custom_type_script = "uid://bxfedn2p5m8eu"

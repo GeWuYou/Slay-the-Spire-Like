@@ -53,7 +53,7 @@ public partial class StatusView : Control
     /// <param name="event">输入事件对象</param>
     private void OnGuiInput(InputEvent @event)
     {
-        if (@event.IsActionPressed("ui_cancel") && Visible)
+        if (@event.IsActionPressed("left_mouse") && Visible)
         {
             HideView();
         }
