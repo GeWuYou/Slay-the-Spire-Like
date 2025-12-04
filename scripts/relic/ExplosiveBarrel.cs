@@ -1,8 +1,7 @@
-using SlayTheSpireLike.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.effects;
 using SlayTheSpireLike.scripts.modifier_handler;
-using SlayTheSpireLike.scripts.player;
 using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
 
@@ -30,15 +29,9 @@ public partial class ExplosiveBarrel : Relic
             .GetTree();
         var enemies = tree
             .GetNodesInGroup(GameConstants.Groups.Enemies);
-        // 获取场景中的玩家节点
-        if (tree.GetFirstNodeInGroup(GameConstants.Groups.Player) is not Player player)
-        {
-            return;
-        }
-
-        var modifierHandler = player.ModifierHandler;
         var effect = new DamageEffect();
-        effect.Amount = modifierHandler.GetModifiedValue(Modifier.ModifierType.DmgDealt, 伤害值);
+        effect.Type = Modifier.ModifierType.NoModifier;
+        effect.Amount = 伤害值;
         effect.Execute(enemies);
     }
 

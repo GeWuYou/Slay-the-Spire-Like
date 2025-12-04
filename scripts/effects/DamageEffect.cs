@@ -2,9 +2,7 @@ using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.component;
-using SlayTheSpireLike.scripts.enemies;
 using SlayTheSpireLike.scripts.modifier_handler;
-using SlayTheSpireLike.scripts.player;
 
 namespace SlayTheSpireLike.scripts.effects;
 
