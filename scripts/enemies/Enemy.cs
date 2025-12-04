@@ -45,10 +45,11 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent, 
         {
             return;
         }
+
         CurrentAction.UpdateIntentText();
         IntentUi.UpdateIntent(CurrentAction.Intent);
     }
-    
+
     /// <summary>
     ///     获取或设置敌人的统计数据。当设置新值时会自动克隆一份实例以防止引用共享，
     ///     并确保只连接一次StatsChanged事件来更新UI。
@@ -64,8 +65,8 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent, 
             if (!_stats.IsConnected(resources.Stats.SignalName.StatsChanged,
                     Callable.From(UpdateStats)))
             {
-                _stats.StatsChanged += UpdateStats;
-                _stats.StatsChanged += UpdateAction;
+                _stats.Connect(resources.Stats.SignalName.StatsChanged, Callable.From(UpdateStats));
+                _stats.Connect(resources.Stats.SignalName.StatsChanged, Callable.From(UpdateAction));
             }
 
             _ = UpdateEnemy();
@@ -112,12 +113,6 @@ public partial class Enemy : Area2D, IDamageableComponent, IBlockableComponent, 
 
     public override void _ExitTree()
     {
-        if (_stats != null)
-        {
-            _stats.StatsChanged -= UpdateStats;
-            _stats.StatsChanged -= UpdateAction;
-        }
-
         AreaEntered -= OnAreaEntered;
         AreaExited -= OnAreaExited;
     }

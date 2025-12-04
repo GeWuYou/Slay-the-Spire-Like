@@ -29,8 +29,7 @@ public partial class Player : Node2D, IDamageableComponent, IBlockableComponent,
             // 检查是否已连接属性变化事件，避免重复连接
             if (!_stats.IsConnected(resources.Stats.SignalName.StatsChanged,
                     Callable.From(UpdateStats)))
-                _stats.StatsChanged += UpdateStats;
-
+                _stats.Connect(resources.Stats.SignalName.StatsChanged,Callable.From(UpdateStats));
             _ = UpdatePlayer();
         }
     }
@@ -47,15 +46,7 @@ public partial class Player : Node2D, IDamageableComponent, IBlockableComponent,
     {
         StatusHandler.StatusOwner = this;
     }
-
-    public override void _ExitTree()
-    {
-        if (_stats != null)
-        {
-            _stats.StatsChanged -= UpdateStats;
-        }
-    }
-
+    
     /// <summary>
     ///     异步更新玩家显示信息，包括角色图像和属性UI。
     /// </summary>

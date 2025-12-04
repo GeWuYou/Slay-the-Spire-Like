@@ -6,6 +6,7 @@ namespace SlayTheSpireLike.scripts.ui;
 public partial class ManaUi : Panel
 {
     private CharacterStats _characterStats;
+    private Callable _onStatsChangedCallable;
 
     public CharacterStats CharacterStats
     {
@@ -13,21 +14,21 @@ public partial class ManaUi : Panel
         set
         {
             _characterStats = value;
-            if (!CharacterStats.IsConnected(Stats.SignalName.StatsChanged, Callable.From(OnStatsChanged)))
-                CharacterStats.StatsChanged += OnStatsChanged;
+            if (!_characterStats.IsConnected(Stats.SignalName.StatsChanged, _onStatsChangedCallable))
+            {
+                _characterStats.Connect(Stats.SignalName.StatsChanged, _onStatsChangedCallable);
+            }
             CallDeferred(nameof(OnStatsChanged));
         }
     }
 
     [Export] public Label ManaLabel { get; private set; }
 
-    public override void _ExitTree()
+    public override void _Ready()
     {
-        if (_characterStats != null && _characterStats.IsConnected(Stats.SignalName.StatsChanged, Callable.From(OnStatsChanged)))
-        {
-            _characterStats.StatsChanged -= OnStatsChanged;
-        }
+        _onStatsChangedCallable = Callable.From(OnStatsChanged);
     }
+    
 
     private void OnStatsChanged()
     {
