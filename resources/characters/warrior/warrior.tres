@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://dqlyf1fcxon5e" path="res://resources/characters/warrior/warrior_draftable_cards.tres" id="2_vmh7x"]
 [ext_resource type="Resource" uid="uid://bqfh7fw81rwnl" path="res://resources/characters/warrior/warrior_starting_deck.tres" id="2_y4it2"]
 [ext_resource type="Script" uid="uid://canfeskbo4xkh" path="res://scripts/resources/CharacterStats.cs" id="3_vmh7x"]
-[ext_resource type="Resource" uid="uid://7hjnoy3wg2i2" path="res://resources/relic/healing_potion.tres" id="4_vmh7x"]
+[ext_resource type="Resource" uid="uid://cgf7ovyyx3i1v" path="res://resources/relic/mana_potion.tres" id="4_vmh7x"]
 
 [resource]
 script = ExtResource("3_vmh7x")

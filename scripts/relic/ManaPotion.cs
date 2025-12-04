@@ -1,4 +1,4 @@
-using global::SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.global;
 using SlayTheSpireLike.scripts.player;
 using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
@@ -18,7 +18,6 @@ public partial class ManaPotion : Relic
 	/// <param name="relicUi">遗物UI组件实例</param>
 	public override void ActivateRelic(RelicUi relicUi)
 	{
-		relicUi.Flash();
 		// 获取场景中的玩家节点
 		if (relicUi.GetTree().GetFirstNodeInGroup(GameConstants.Groups.Player) is not Player player)
 		{
@@ -29,6 +28,7 @@ public partial class ManaPotion : Relic
 		{
 			return;
 		}
+		relicUi.Flash();
 		player.Stats.MaxMana += 1;
 		_hasBeenActivated = true;
 
