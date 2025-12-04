@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="Relic" load_steps=3 format=3 uid="uid://7hjnoy3wg2i2"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://7hjnoy3wg2i2"]
 
-[ext_resource type="Script" uid="uid://bxfedn2p5m8eu" path="res://scripts/resources/Relic.cs" id="1_mrvbr"]
 [ext_resource type="Texture2D" uid="uid://boklhiqs1414d" path="res://art/tile_0115.png" id="1_vcqy4"]
+[ext_resource type="Script" uid="uid://b5ucih3t427b0" path="res://scripts/relic/HealingPotion.cs" id="2_vcqy4"]
 
 [resource]
-script = ExtResource("1_mrvbr")
+script = ExtResource("2_vcqy4")
 RelicName = "无尽生命药水"
 Id = "healing_potion"
 Type = 3

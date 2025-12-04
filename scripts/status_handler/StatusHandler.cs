@@ -16,13 +16,15 @@ public partial class StatusHandler : GridContainer
     /// <summary>
     /// 拥有该状态的角色节点引用。
     /// </summary>
-    [Export] public Node2D StatusOwner { get; set; }
+    [Export]
+    public Node2D StatusOwner { get; set; }
 
     /// <summary>
     /// 应用状态之间的间隔时间（秒），默认为 0.25 秒。
     /// </summary>
-    [Export] public float StatusApplyInterval { get; set; } = 0.25f;
-    
+    [Export]
+    public float StatusApplyInterval { get; set; } = 0.25f;
+
     /// <summary>
     /// 当某一类型的状态全部被应用后触发的信号。
     /// 参数：type - 被应用的状态类型。
@@ -32,7 +34,7 @@ public partial class StatusHandler : GridContainer
 
     public override void _Ready()
     {
-        GuiInput+=OnGuiInput;
+        GuiInput += OnGuiInput;
     }
 
     private void OnGuiInput(InputEvent @event)
@@ -59,7 +61,7 @@ public partial class StatusHandler : GridContainer
 
         // 获取当前容器中所有符合类型的 Status 实例
         var statusQueue = GetAllStatuses().Where(status => status.Type == type).ToArray();
-        
+
         // 如果没有对应类型的状态则直接发出完成信号
         if (statusQueue.Length == 0)
         {
@@ -141,16 +143,10 @@ public partial class StatusHandler : GridContainer
     /// <returns>包含所有状态对象的数组。</returns>
     private Array<Status> GetAllStatuses()
     {
-        var statuses = new Array<Status>();
-        foreach (var child in GetChildren())
-        {
-            if (child is StatusUi statusUi)
-            {
-                statuses.Add(statusUi.Status);
-            }
-        }
-
-        return statuses;
+        return new Array<Status>(GetChildren()
+            .OfType<StatusUi>()
+            .Select(statusUi => statusUi.Status)
+            .ToArray());
     }
 
     /// <summary>

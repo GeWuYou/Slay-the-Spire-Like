@@ -43,6 +43,11 @@ public partial class RelicHandler : HBoxContainer
         _relics.ChildExitingTree += OnRelicExitingTree;
     }
 
+    public override void _ExitTree()
+    {
+        _relics.ChildExitingTree -= OnRelicExitingTree;
+    }
+
     /// <summary>
     /// 在遗物UI节点从场景树中移除前调用此方法，用于反初始化该遗物。
     /// </summary>

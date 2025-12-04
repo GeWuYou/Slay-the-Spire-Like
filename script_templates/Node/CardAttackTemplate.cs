@@ -7,9 +7,7 @@ using SlayTheSpireLike.scripts.effects;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.modifier_handler;
 
-/// <summary>
-/// 卡牌逻辑模板类，用于定义卡牌的具体效果和行为
-/// </summary>
+
 public partial class _CLASS_ : Card
 {
     /// <summary>
