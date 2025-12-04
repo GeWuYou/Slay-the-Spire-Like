@@ -1,0 +1,96 @@
+# 工作流名称
+name: Export Game
+
+# 触发条件
+on:
+  # 当向 main 或 master 分支推送时触发
+  push:
+    branches: [ main, master ]
+  # 当向 main 或 master 分支发起 PR 时触发
+  pull_request:
+    branches: [ main, master ]
+  # 允许手动触发工作流
+  workflow_dispatch:
+
+# 环境变量
+env:
+  GODOT_VERSION: 4.5
+  EXPORT_NAME: Slay the Spire Like
+
+# 任务定义
+jobs:
+  export-game:
+    # 运行环境
+    runs-on: ubuntu-latest
+    name: Export Game
+
+    # 执行步骤
+    steps:
+      # 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      # 安装 Godot 环境
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: ${{ env.GODOT_VERSION }}
+          include-importer: true
+          include-templates: true  # 必须安装导出模板（非常重要！）
+
+      # 安装 .NET 环境
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      # 还原 NuGet 包
+      - name: Restore NuGet packages
+        run: dotnet restore "${{ env.EXPORT_NAME }}.sln"
+
+      # 构建 C# 项目
+      - name: Build C# project
+        run: |
+          godot --headless --build-solutions --quit || echo "Ignore non-zero exit"
+
+      # 创建导出目录
+      - name: Create export directory
+        run: mkdir -p build/
+
+      # 导出 Windows 桌面版本
+      - name: Export Windows Desktop
+        run: |
+          mkdir -p build/windows
+          godot --headless --export-release "Windows Desktop" build/windows/${{ env.EXPORT_NAME }}.exe --quit
+
+      # 导出 Linux/X11 版本
+      - name: Export Linux/X11
+        run: |
+          mkdir -p build/linux
+          godot --headless --export-release "Linux/X11" build/linux/${{ env.EXPORT_NAME }}.x86_64 --quit
+
+      # 导出 macOS 应用程序
+      - name: Export macOS
+        run: |
+          mkdir -p build/macos
+          godot --headless --export-release "macOS" build/macos/${{ env.EXPORT_NAME }}.app --quit
+
+      # 压缩 macOS 应用程序为 ZIP 文件
+      - name: Zip macOS app
+        run: |
+          cd build/macos
+          zip -r ../${{ env.EXPORT_NAME }}-macOS.zip ./*
+
+      # 列出构建输出内容
+      - name: List build outputs
+        run: ls -R build/
+
+      # 上传构建产物
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-builds
+          path: build/
+          if-no-files-found: error
