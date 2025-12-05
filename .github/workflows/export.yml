@@ -66,10 +66,10 @@ jobs:
           godot --headless --export-release "Windows Desktop" build/windows/${{ env.EXPORT_NAME }}.exe --quit
 
       # 导出 Linux/X11 版本
-      - name: Export Linux/X11
+      - name: Export Linux
         run: |
           mkdir -p build/linux
-          godot --headless --export-release "Linux/X11" build/linux/${{ env.EXPORT_NAME }}.x86_64 --quit
+          godot --headless --export-release "Linux" build/linux/${{ env.EXPORT_NAME }}.x86_64 --quit
 
       # 导出 macOS 应用程序
       - name: Export macOS
