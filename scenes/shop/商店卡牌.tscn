@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnkdfbmjb3qix"]
+
+[ext_resource type="PackedScene" uid="uid://cs22w44g3yswu" path="res://scenes/ui/card_menu_ui.tscn" id="1_lmwo2"]
+[ext_resource type="Script" uid="uid://bh0gg4ey02tdn" path="res://scripts/shop/ShopCard.cs" id="1_tjiyi"]
+[ext_resource type="Texture2D" uid="uid://civ8f2oo0d8k7" path="res://art/gold.png" id="2_tjiyi"]
+[ext_resource type="Resource" uid="uid://v5qn4n335o18" path="res://resources/characters/warrior/cards/warrior_attack.tres" id="2_ty18o"]
+
+[node name="商店卡牌" type="VBoxContainer"]
+custom_minimum_size = Vector2(40, 60)
+offset_right = 40.0
+offset_bottom = 60.0
+theme_override_constants/separation = 2
+script = ExtResource("1_tjiyi")
+Card = ExtResource("2_ty18o")
+
+[node name="卡牌容器" type="CenterContainer" parent="."]
+layout_mode = 2
+
+[node name="CardMenuUI" parent="卡牌容器" instance=ExtResource("1_lmwo2")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="价格容器" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="价格标签" type="Label" parent="价格容器"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "114514"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="黄金图标" type="TextureRect" parent="价格容器"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("2_tjiyi")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="购买" type="Button" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(25, 14)
+layout_mode = 2
+text = "购买"

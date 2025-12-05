@@ -1,8 +1,66 @@
-[gd_scene load_steps=2 format=3 uid="uid://ctthoag7tm1sf"]
+[gd_scene load_steps=15 format=3 uid="uid://ctthoag7tm1sf"]
 
 [ext_resource type="Script" uid="uid://tb5y4nk1u3fb" path="res://scripts/shop/Shop.cs" id="1_100s2"]
+[ext_resource type="Texture2D" uid="uid://bj3im6egs4wxx" path="res://art/tile_0086.png" id="2_7lxhl"]
+[ext_resource type="Texture2D" uid="uid://bkxrrqlvrdvvy" path="res://art/shopkeeper_blink.png" id="3_jp048"]
+[ext_resource type="Texture2D" uid="uid://lrpnhu3gvhb7" path="res://art/arrow_small.png" id="4_ctpgp"]
+[ext_resource type="Texture2D" uid="uid://bmv76jy6iyxf" path="res://art/arrow_small_disabled.png" id="5_ptf86"]
+[ext_resource type="PackedScene" uid="uid://cnkdfbmjb3qix" path="res://scenes/shop/商店卡牌.tscn" id="6_ptf86"]
+[ext_resource type="PackedScene" uid="uid://doqow870hjkl4" path="res://scenes/ui/card_tooltip_popup.tscn" id="7_ge4d2"]
+[ext_resource type="PackedScene" uid="uid://dhjmjeg0ki0dq" path="res://scenes/shop/商店遗物.tscn" id="7_xcdpw"]
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("GoBackButton")]
+[sub_resource type="Gradient" id="Gradient_5yci7"]
+offsets = PackedFloat32Array(0, 0.99538106)
+colors = PackedColorArray(0, 0, 0, 1, 0.14143866, 0.0027368169, 6.016344e-09, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_100s2"]
+gradient = SubResource("Gradient_5yci7")
+fill_from = Vector2(0.625, 0)
+fill_to = Vector2(0.625, 1)
+metadata/_snap_count = 8
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_ctpgp"]
+resource_name = "眨眼"
+length = 0.15
+step = 0.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("店主:texture")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(-2, -0.5),
+"update": 1,
+"values": [ExtResource("3_jp048"), ExtResource("2_7lxhl")]
+}
+
+[sub_resource type="Animation" id="Animation_ptf86"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("店主:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_7lxhl")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ge4d2"]
+_data = {
+&"RESET": SubResource("Animation_ptf86"),
+&"眨眼": SubResource("Animation_ctpgp")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_ge4d2"]
+
+[node name="Shop" type="Control" node_paths=PackedStringArray("GoBackButton", "CardsContainer", "CardTooltipPopup")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,38 +69,117 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_100s2")
-GoBackButton = NodePath("VBoxContainer/Button")
+GoBackButton = NodePath("UI层/返回")
+CardsContainer = NodePath("UI层/商店内容/卡牌列表")
+CardTooltipPopup = NodePath("UI层/CardTooltipPopup")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
+[node name="背景层" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="背景" type="TextureRect" parent="背景层"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
+texture = SubResource("GradientTexture2D_100s2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
+[node name="装饰层" type="CanvasLayer" parent="."]
+
+[node name="店主" type="TextureRect" parent="装饰层"]
+custom_minimum_size = Vector2(70, 70)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = -83.0
+offset_right = 83.0
+offset_bottom = -13.0
+grow_vertical = 0
+texture = ExtResource("2_7lxhl")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="店主动画播放器" type="AnimationPlayer" parent="装饰层"]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_ge4d2")
+}
+
+[node name="计时器" type="Timer" parent="装饰层"]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="UI层" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="标题" type="Label" parent="UI层"]
+offset_left = 39.0
+offset_top = 27.0
+offset_right = 79.0
+offset_bottom = 51.0
+text = "商店"
+label_settings = SubResource("LabelSettings_ge4d2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="返回" type="TextureButton" parent="UI层"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+offset_left = 4.0
+offset_top = 5.0
+offset_right = 28.0
+offset_bottom = 29.0
+texture_normal = ExtResource("4_ctpgp")
+texture_pressed = ExtResource("4_ctpgp")
+texture_hover = ExtResource("4_ctpgp")
+texture_disabled = ExtResource("5_ptf86")
+texture_focused = ExtResource("4_ctpgp")
+ignore_texture_size = true
+stretch_mode = 5
+flip_h = true
+
+[node name="商店内容" type="VBoxContainer" parent="UI层"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -31.0
+offset_top = -47.0
+offset_right = 119.0
+offset_bottom = 69.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="卡牌列表" type="HBoxContainer" parent="UI层/商店内容"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "商店"
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_constants/separation = 15
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="商店卡牌" parent="UI层/商店内容/卡牌列表" instance=ExtResource("6_ptf86")]
 layout_mode = 2
-text = "返回"
+
+[node name="商店卡牌2" parent="UI层/商店内容/卡牌列表" instance=ExtResource("6_ptf86")]
+layout_mode = 2
+
+[node name="商店卡牌3" parent="UI层/商店内容/卡牌列表" instance=ExtResource("6_ptf86")]
+layout_mode = 2
+
+[node name="遗物列表" type="HBoxContainer" parent="UI层/商店内容"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="商店遗物" parent="UI层/商店内容/遗物列表" instance=ExtResource("7_xcdpw")]
+layout_mode = 2
+
+[node name="商店遗物2" parent="UI层/商店内容/遗物列表" instance=ExtResource("7_xcdpw")]
+layout_mode = 2
+
+[node name="商店遗物3" parent="UI层/商店内容/遗物列表" instance=ExtResource("7_xcdpw")]
+layout_mode = 2
+
+[node name="CardTooltipPopup" parent="UI层" instance=ExtResource("7_ge4d2")]
+unique_name_in_owner = true
+visible = false

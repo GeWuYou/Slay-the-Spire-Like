@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhjmjeg0ki0dq"]
+
+[ext_resource type="Script" uid="uid://cknncmix31wtp" path="res://scripts/shop/ShopRelic.cs" id="1_0j80p"]
+[ext_resource type="PackedScene" uid="uid://c3s3ydwvoohoq" path="res://scenes/relic_handler/relic_ui.tscn" id="2_og2np"]
+[ext_resource type="Texture2D" uid="uid://civ8f2oo0d8k7" path="res://art/gold.png" id="4_fbsli"]
+
+[node name="商店遗物" type="VBoxContainer"]
+custom_minimum_size = Vector2(40, 46)
+offset_right = 40.0
+offset_bottom = 46.0
+theme_override_constants/separation = 2
+script = ExtResource("1_0j80p")
+
+[node name="遗物容器" type="CenterContainer" parent="."]
+layout_mode = 2
+
+[node name="RelicUI" parent="遗物容器" instance=ExtResource("2_og2np")]
+layout_mode = 2
+
+[node name="价格容器" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="价格标签" type="Label" parent="价格容器"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "114514"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="黄金图标" type="TextureRect" parent="价格容器"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("4_fbsli")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="购买" type="Button" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(25, 14)
+layout_mode = 2
+text = "购买"

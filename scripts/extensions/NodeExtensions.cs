@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System.Threading.Tasks;
+using Godot;
 
 namespace SlayTheSpireLike.scripts.extensions;
 
@@ -61,5 +62,16 @@ public static class NodeExtensions
 
         // 立即释放节点资源
         node.Free();
+    }
+    /// <summary>
+    /// 如果节点尚未进入场景树，则等待 ready 信号。
+    /// 如果已经在场景树中，则立刻返回。
+    /// </summary>
+    public static async Task WaitUntilReady(this Node node)
+    {
+        if (!node.IsInsideTree())
+        {
+            await node.ToSignal(node, Node.SignalName.Ready);
+        }
     }
 }

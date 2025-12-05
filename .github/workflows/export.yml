@@ -55,6 +55,7 @@ jobs:
           else
             echo "Solution file not found, skipping dotnet restore"
           fi
+
       # 步骤说明：设置 Godot 环境，包括导入器与导出模板，以便后续进行项目构建和导出操作。
       - name: Setup Godot (includes export templates)
         uses: chickensoft-games/setup-godot@v2
@@ -68,12 +69,14 @@ jobs:
         run: |
           # Build solutions using Godot's headless build if present; ignore non-zero exit
           godot --headless --build-solutions --quit || echo "Godot build-solutions returned non-zero (ignored)"
+
       # 步骤说明：创建用于存放各平台构建结果的目录结构。
       - name: Create export dirs
         run: |
           rm -rf build || true
           mkdir -p build/windows
           mkdir -p build/linux
+
       # 步骤说明：使用 Godot 命令行工具将项目导出为 Windows 桌面可执行文件。
       # 注意：preset 名称需匹配 export_presets.cfg 中配置的内容。
       - name: Export Windows Desktop (x86_64)
@@ -81,11 +84,13 @@ jobs:
           set -e
           # The preset name must match export_presets.cfg (your preset is "Windows Desktop")
           godot --headless --export-release "Windows Desktop" build/windows/${{ env.EXPORT_NAME }}.exe --quit
+
       # 步骤说明：使用 Godot 将项目导出为 Linux x86_64 可执行文件。
       - name: Export Linux (x86_64)
         run: |
           set -e
           godot --headless --export-release "Linux" build/linux/${{ env.EXPORT_NAME }}.x86_64 --quit
+
       # 上传 Windows 文件夹（GitHub 会自动压成 zip）
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
@@ -101,11 +106,13 @@ jobs:
           name: ${{ env.EXPORT_NAME }}-linux
           path: build/linux/
           if-no-files-found: error       
-          # 步骤说明：列出所有构建输出路径下的文件，便于调试查看构建成果。
+
+      # 步骤说明：列出所有构建输出路径下的文件，便于调试查看构建成果。
       - name: List build outputs (debug)
         run: |
           echo "=== build/ ==="
           ls -R build || true
+
   # 作业名称：export-macos
   # 功能描述：使用 macOS 最新环境构建 macOS 应用包，并打包成 ZIP 文件上传为 Artifact。
   export-macos:
@@ -133,6 +140,7 @@ jobs:
           else
             echo "Solution file not found, skipping dotnet restore"
           fi
+
       # 步骤说明：设置 Godot 环境，包括导入器与导出模板，以便后续进行项目构建和导出操作。
       - name: Setup Godot on macOS (includes export templates)
         uses: chickensoft-games/setup-godot@v2
@@ -145,6 +153,7 @@ jobs:
       - name: Build C# project (if applicable)
         run: |
           godot --headless --build-solutions --quit || echo "Godot build-solutions returned non-zero (ignored)"
+
       # 步骤说明：创建用于存放 macOS 构建结果的目录。
       - name: Create macOS export dir
         run: mkdir -p build/macos
@@ -156,6 +165,7 @@ jobs:
           set -e
           # 使用 export_presets.cfg 中的 preset 名称 "macOS"
           godot --headless --export-release "macOS" build/macos/${{ env.EXPORT_NAME }}.app --quit
+
       # 步骤说明：无论是否成功都将 .app 目录压缩为 ZIP 文件。
       - name: Zip macOS app
         if: always()
@@ -166,6 +176,7 @@ jobs:
           else
             echo ".app not found, skipping zip"
           fi
+
       # 步骤说明：列出所有构建输出路径下的文件，便于调试查看构建成果。
       - name: List macOS build outputs
         run: ls -R build/ || true

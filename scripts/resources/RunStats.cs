@@ -5,6 +5,7 @@ namespace SlayTheSpireLike.scripts.resources;
 /// <summary>
 /// 运行状态资源类，用于跟踪游戏运行期间的统计信息
 /// </summary>
+[GlobalClass]
 public partial class RunStats : Resource
 {
     private int _gold = 70;

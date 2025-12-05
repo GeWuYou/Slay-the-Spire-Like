@@ -161,6 +161,17 @@ public partial class Events : SingletonNode<Events>
     /// </summary>
     public event Action ShopEntered;
 
+    /// <summary>
+    /// 当玩家在商店购买遗物时触发的事件
+    /// </summary>
+    public event Action<Relic, int> ShopRelicBought;
+    
+    /// <summary>
+    /// 当玩家在商店购买卡牌时触发的事件
+    /// </summary>
+    public event Action<Card,int> ShopCardBought;
+
+
     #endregion
 
     #region 营火事件
@@ -368,5 +379,25 @@ public partial class Events : SingletonNode<Events>
     {
         RelicTooltipRequested?.Invoke(relic);
     }
+    /// <summary>
+    /// 触发商店遗物购买事件
+    /// </summary>
+    /// <param name="relic">被购买的遗物对象</param>
+    /// <param name="cost">购买花费的金币数量</param>
+    public void RaiseShopRelicBought(Relic relic, int cost)
+    {
+        ShopRelicBought?.Invoke(relic, cost);
+    }
+
+    /// <summary>
+    /// 触发商店卡牌购买事件
+    /// </summary>
+    /// <param name="card">被购买的卡牌对象</param>
+    /// <param name="cost">购买花费的金币数量</param>
+    public void RaiseShopCardBought(Card card, int cost)
+    {
+        ShopCardBought?.Invoke(card, cost);
+    }
+
     #endregion
 }

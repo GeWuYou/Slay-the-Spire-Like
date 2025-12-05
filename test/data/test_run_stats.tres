@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="RunStats" load_steps=2 format=3 uid="uid://bifwl1ddtm2gs"]
+
+[ext_resource type="Script" uid="uid://b08rq6lytshn0" path="res://scripts/resources/RunStats.cs" id="1_iltuq"]
+
+[resource]
+script = ExtResource("1_iltuq")
+Gold = 300
+metadata/_custom_type_script = "uid://b08rq6lytshn0"
