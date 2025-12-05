@@ -149,6 +149,10 @@ public static class GameConstants
         /// 遗物处理器资源路径常量
         /// </summary>
         public const string RelicUiScene = "res://scenes/relic_handler/relic_ui.tscn";
+
+        public const string ShopCardScene = "res://scenes/shop/商店卡牌.tscn";
+
+        public const string ShopRelicScene = "res://scenes/shop/商店遗物.tscn";
         /// <summary>
         /// 金币纹理资源路径常量
         /// </summary>
@@ -198,7 +202,6 @@ public static class GameConstants
         /// </summary>
         public const string ExposedStatus = "res://resources/status/exposed.tres";
         
-
         /// <summary>
         ///     白色精灵材质路径
         /// </summary>
@@ -229,5 +232,7 @@ public static class GameConstants
         ///     定义卡片控件的悬停样式资源路径常量
         /// </summary>
         public const string CardHoverStyleBox = "res://scenes/ui/card_hover_style_box_.tres";
+        
+       
     }
 }

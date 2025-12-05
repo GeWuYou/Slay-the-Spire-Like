@@ -89,11 +89,13 @@ anchor_right = 1.0
 grow_horizontal = 2
 
 [node name="HealthUi" parent="TopBar/BarItems" instance=ExtResource("5_wo0nw")]
+custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
 IconTexture = ExtResource("6_ux63y")
 
 [node name="GoldUi" parent="TopBar/BarItems" instance=ExtResource("4_0tt4g")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
 
 [node name="RelicHandlerContainer" type="CenterContainer" parent="TopBar/BarItems"]

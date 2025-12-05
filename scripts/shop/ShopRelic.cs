@@ -25,6 +25,22 @@ public partial class ShopRelic : VBoxContainer
             _ = SetRelic();
         }
     }
+
+    public override void _Ready()
+    {
+        BuyButton.Pressed += OnBuyButtonPressed;
+    }
+
+    private void OnBuyButtonPressed()
+    {
+        Events.Instance.RaiseShopRelicBought(Relic, _goldCost);
+
+        // 释放所有子控件资源
+        RelicContainer.QueueFreeX();
+        Price.QueueFreeX();
+        BuyButton.QueueFreeX();
+    }
+
     /// <summary>
     /// 根据玩家当前金币数量更新UI状态（如价格颜色、按钮是否可用）。
     /// </summary>
@@ -39,7 +55,7 @@ public partial class ShopRelic : VBoxContainer
 
         PriceLabel.Text = _goldCost.ToString();
 
-        // 判断玩家是否有足够金币购买该卡牌
+        // 判断玩家是否有足够金币购买该遗物
         if (runStats.Gold > _goldCost)
         {
             PriceLabel.RemoveThemeColorOverride("font_color");

@@ -145,7 +145,7 @@ public partial class RelicHandler : HBoxContainer
     /// </summary>
     /// <param name="relicId">要检查的遗物唯一标识符。</param>
     /// <returns>如果存在返回true，否则false。</returns>
-    private bool HasRelic(string relicId)
+    public bool HasRelic(string relicId)
     {
         foreach (var child in _relics.GetChildren())
         {

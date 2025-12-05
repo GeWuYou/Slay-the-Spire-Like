@@ -4,12 +4,16 @@
 [ext_resource type="PackedScene" uid="uid://c3s3ydwvoohoq" path="res://scenes/relic_handler/relic_ui.tscn" id="2_og2np"]
 [ext_resource type="Texture2D" uid="uid://civ8f2oo0d8k7" path="res://art/gold.png" id="4_fbsli"]
 
-[node name="商店遗物" type="VBoxContainer"]
+[node name="商店遗物" type="VBoxContainer" node_paths=PackedStringArray("BuyButton", "RelicContainer", "Price", "PriceLabel")]
 custom_minimum_size = Vector2(40, 46)
 offset_right = 40.0
 offset_bottom = 46.0
 theme_override_constants/separation = 2
 script = ExtResource("1_0j80p")
+BuyButton = NodePath("购买")
+RelicContainer = NodePath("遗物容器")
+Price = NodePath("价格容器")
+PriceLabel = NodePath("价格容器/价格标签")
 
 [node name="遗物容器" type="CenterContainer" parent="."]
 layout_mode = 2

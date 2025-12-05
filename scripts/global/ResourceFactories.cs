@@ -3,6 +3,7 @@ using Godot;
 using SlayTheSpireLike.scripts.map;
 using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.shop;
 using SlayTheSpireLike.scripts.status_handler;
 using SlayTheSpireLike.scripts.ui;
 using SlayTheSpireLike.scripts.ui.components;
@@ -232,6 +233,14 @@ public static class ResourceFactories
     public static readonly Func<RelicUi> RelicUiFactory =
         ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<RelicUi>(
             GameConstants.ResourcePaths.RelicUiScene);
+    
+    public static readonly Func<ShopCard> ShopCardFactory = 
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<ShopCard>(
+            GameConstants.ResourcePaths.ShopCardScene);
+        
+    public static readonly Func<ShopRelic> ShopRelicFactory = 
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<ShopRelic>(
+            GameConstants.ResourcePaths.ShopRelicScene);
     /// <summary>
     ///     白色精灵材质工厂函数
     /// </summary>

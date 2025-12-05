@@ -7,6 +7,7 @@ using SlayTheSpireLike.scripts.campfire;
 using SlayTheSpireLike.scripts.map;
 using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.shop;
 using SlayTheSpireLike.scripts.ui;
 using SlayTheSpireLike.scripts.ui.components;
 using BattleReward = SlayTheSpireLike.scripts.battle.BattleReward;
@@ -145,8 +146,7 @@ public partial class Run : Node
                 OnCampfireRoomEntered();
                 break;
             case Room.Type.Shop:
-                ChangeView(ResourceLoaderManager.Instance
-                    .GetSceneLoader(GameConstants.ResourcePaths.ShopScene).Value);
+                OnShopRoomEntered();
                 break;
             case Room.Type.Boss:
                 // ChangeView(ResourceLoaderManager.Instance
@@ -158,11 +158,36 @@ public partial class Run : Node
         }
     }
 
+    /// <summary>
+    /// 当玩家进入商店房间时触发的回调函数
+    /// </summary>
+    /// <remarks>
+    /// 该函数负责加载商店场景并初始化商店的相关数据
+    /// </remarks>
+    private void OnShopRoomEntered()
+    {
+        // 尝试切换到商店场景，如果场景不存在则打印错误信息并返回
+        if (ChangeView(ResourceLoaderManager.Instance
+                .GetSceneLoader(GameConstants.ResourcePaths.ShopScene).Value) is not Shop shop)
+        {
+            GD.Print("ShopScene not found");
+            return;
+        }
+        
+        // 初始化商店的数据绑定
+        shop.PlayerStats = PlayerStats;
+        shop.RunStats = RunStats;
+        shop.RelicHandler = RelicHandler;
+        
+        // 填充商店商品数据
+        shop.PopulateShop();
+    }
+
+
     private void OnCampfireRoomEntered()
     {
-        var campfire = ChangeView(ResourceLoaderManager.Instance
-            .GetSceneLoader(GameConstants.ResourcePaths.CampfireScene).Value) as Campfire;
-        if (campfire is null)
+        if (ChangeView(ResourceLoaderManager.Instance
+                .GetSceneLoader(GameConstants.ResourcePaths.CampfireScene).Value) is not Campfire campfire)
         {
             return;
         }
