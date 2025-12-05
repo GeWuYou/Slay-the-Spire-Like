@@ -178,7 +178,7 @@ public partial class Run : Node
         shop.PlayerStats = PlayerStats;
         shop.RunStats = RunStats;
         shop.RelicHandler = RelicHandler;
-        
+        Events.Instance.RaiseShopEntered(shop);
         // 填充商店商品数据
         shop.PopulateShop();
     }

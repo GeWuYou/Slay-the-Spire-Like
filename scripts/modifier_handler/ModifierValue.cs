@@ -52,7 +52,7 @@ public partial class ModifierValue : Node
     /// <param name="modifierSource">修改器的来源标识</param>
     /// <param name="whatValueType">修改器的类型</param>
     /// <returns>配置好的ModifiedValue实例</returns>
-    public static ModifierValue CreatePercentBased(string modifierSource,ModifierValueType whatValueType)
+    public static ModifierValue CreateNewModifier(string modifierSource,ModifierValueType whatValueType)
     {
         var modifiedValue = new ModifierValue();
         modifiedValue.Source = modifierSource;

@@ -8,7 +8,7 @@ namespace SlayTheSpireLike.scripts.resources;
 [GlobalClass]
 public partial class RunStats : Resource
 {
-    private int _gold = 70;
+    private int _gold = 700;
 
     /// <summary>
     /// 基础卡牌奖励数值常量

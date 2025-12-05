@@ -63,6 +63,7 @@ public static class NodeExtensions
         // 立即释放节点资源
         node.Free();
     }
+
     /// <summary>
     /// 如果节点尚未进入场景树，则等待 ready 信号。
     /// 如果已经在场景树中，则立刻返回。
@@ -73,5 +74,33 @@ public static class NodeExtensions
         {
             await node.ToSignal(node, Node.SignalName.Ready);
         }
+    }
+
+    /// <summary>
+    /// 检查节点是否有效：
+    /// 1. 非 null
+    /// 2. Godot 实例仍然存在（未被释放）
+    /// 3. 已经加入 SceneTree
+    /// </summary>
+    public static bool IsValidNode(this Node node)
+    {
+        return node is not null &&
+               GodotObject.IsInstanceValid(node) &&
+               node.IsInsideTree();
+    }
+
+    /// <summary>
+    /// 检查节点是否无效：
+    /// 1. 为 null，或者
+    /// 2. Godot 实例已被释放，或者
+    /// 3. 尚未加入 SceneTree
+    /// 
+    /// 返回 true 表示该节点不可用。
+    /// </summary>
+    public static bool IsInvalidNode(this Node node)
+    {
+        return node is null ||
+               !GodotObject.IsInstanceValid(node) ||
+               !node.IsInsideTree();
     }
 }

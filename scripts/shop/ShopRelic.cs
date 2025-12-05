@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.extensions;
-using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.shop;
@@ -13,7 +12,7 @@ public partial class ShopRelic : VBoxContainer
     [Export] public CenterContainer RelicContainer { get; set; }
     [Export] public HBoxContainer Price { get; set; }
     [Export] public Label PriceLabel { get; set; }
-    private int _goldCost = GlobalBean.RandomNumberGenerator.RandiRange(100, 300);
+    public int GoldCost { get; set; } = GlobalBean.RandomNumberGenerator.RandiRange(100, 300);
     private Relic _relic;
     [Export]
     public Relic Relic
@@ -33,7 +32,7 @@ public partial class ShopRelic : VBoxContainer
 
     private void OnBuyButtonPressed()
     {
-        Events.Instance.RaiseShopRelicBought(Relic, _goldCost);
+        Events.Instance.RaiseShopRelicBought(Relic, GoldCost);
 
         // 释放所有子控件资源
         RelicContainer.QueueFreeX();
@@ -48,15 +47,15 @@ public partial class ShopRelic : VBoxContainer
     public void Update(RunStats runStats)
     {
         // 检查必要组件是否存在
-        if (RelicContainer is null || Price is null || BuyButton is null)
+        if (RelicContainer.IsInvalidNode() || Price.IsInvalidNode() || BuyButton.IsInvalidNode())
         {
             return;
         }
 
-        PriceLabel.Text = _goldCost.ToString();
+        PriceLabel.Text = GoldCost.ToString();
 
         // 判断玩家是否有足够金币购买该遗物
-        if (runStats.Gold > _goldCost)
+        if (runStats.Gold > GoldCost)
         {
             PriceLabel.RemoveThemeColorOverride("font_color");
             BuyButton.Disabled = false;

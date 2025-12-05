@@ -4,7 +4,9 @@ using SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.extensions;
+using SlayTheSpireLike.scripts.modifier_handler;
 using SlayTheSpireLike.scripts.relic_handler;
+using SlayTheSpireLike.scripts.relic;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
 
@@ -64,6 +66,8 @@ public partial class Shop : Control
     [Export]
     public AnimationPlayer AnimationPlayer { get; set; }
 
+    [Export]
+    public ModifierHandler ModifierHandler { get; set; }
     [Export]
     public Timer Timer { get; set; }
     /// <summary>
@@ -133,6 +137,11 @@ public partial class Shop : Control
     {
         RelicHandler.AddRelic(relic);         // 添加遗物至玩家持有列表
         RunStats.Gold -= goldCost;            // 扣除对应金币数量
+        if (relic is Coupons coupons)
+        {
+            coupons.AddShopModifier(this);
+            UpdateItemCosts();
+        }
         UpdateItem();                         // 刷新商店物品价格显示
     }
 
@@ -192,6 +201,7 @@ public partial class Shop : Control
             newShopCard.CurrentCardMenuUi.CardVisuals.Connect(
                 CardVisuals.SignalName.TooltipRequested,
                 new Callable(CardTooltipPopup, CardTooltipPopup.MethodName.ShowTooltip));
+            newShopCard.GoldCost = GetUpdatedShopCost(newShopCard.GoldCost);
 
             newShopCard.Update(RunStats);                             // 更新其显示信息（例如价格）
         }
@@ -218,8 +228,36 @@ public partial class Shop : Control
             var newShopRelic = ResourceFactories.ShopRelicFactory();  // 创建新的商店遗物实例
             RelicsContainer.AddChild(newShopRelic);                   // 加入UI容器
             newShopRelic.Relic = relic;                               // 设置对应的遗物数据
+            newShopRelic.GoldCost = GetUpdatedShopCost(newShopRelic.GoldCost);
             newShopRelic.Update(RunStats);                            // 更新其显示信息（例如价格）
         }
+    }
+
+    private void UpdateItemCosts()
+    {
+        foreach (var child in CardsContainer.GetChildren())
+        {
+            if (child is not ShopCard shopCard)
+            {
+                continue;
+            }
+
+            shopCard.GoldCost = GetUpdatedShopCost(shopCard.GoldCost);
+        }
+
+        foreach (var child in RelicsContainer.GetChildren())
+        {
+            if (child is not ShopRelic shopRelic)
+            {
+                continue;
+            }
+
+            shopRelic.GoldCost = GetUpdatedShopCost(shopRelic.GoldCost);
+        }
+    }
+    private int GetUpdatedShopCost(int goldCost)
+    {
+        return ModifierHandler.GetModifiedValue(Modifier.ModifierType.ShopCost, goldCost);
     }
 
     /// <summary>

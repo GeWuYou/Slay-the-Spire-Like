@@ -3,6 +3,7 @@ using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.enemies;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.shop;
 using SlayTheSpireLike.scripts.statuses;
 using SlayTheSpireLike.scripts.ui;
 
@@ -159,7 +160,7 @@ public partial class Events : SingletonNode<Events>
     /// <summary>
     ///     商店进入事件
     /// </summary>
-    public event Action ShopEntered;
+    public event Action<Shop> ShopEntered;
 
     /// <summary>
     /// 当玩家在商店购买遗物时触发的事件
@@ -340,9 +341,9 @@ public partial class Events : SingletonNode<Events>
     }
 
     /// <summary>触发商店进入事件</summary>
-    public void RaiseShopEntered()
+    public void RaiseShopEntered(Shop shop)
     {
-        ShopEntered?.Invoke();
+        ShopEntered?.Invoke(shop);
     }
 
     /// <summary>触发营火退出事件</summary>

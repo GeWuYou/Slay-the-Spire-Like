@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="Relic" load_steps=3 format=3 uid="uid://bd4cmvgewxbja"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bd4cmvgewxbja"]
 
-[ext_resource type="Script" uid="uid://bxfedn2p5m8eu" path="res://scripts/resources/Relic.cs" id="1_iuoog"]
 [ext_resource type="Texture2D" uid="uid://bbai62j4x1y36" path="res://art/coupons.png" id="1_yyj20"]
+[ext_resource type="Script" uid="uid://cu8tf1inyvam3" path="res://scripts/relic/Coupons.cs" id="2_yyj20"]
 
 [resource]
-script = ExtResource("1_iuoog")
+script = ExtResource("2_yyj20")
 RelicName = "优惠券"
 Id = "coupons"
 Type = 4

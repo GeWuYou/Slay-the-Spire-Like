@@ -45,7 +45,7 @@ public partial class ExposedStatus : Status
         var value = modifier.GetValue(Exposed);
         if (value is null)
         {
-            value = ModifierValue.CreatePercentBased(Exposed, ModifierValue.ModifierValueType.PercentBased);
+            value = ModifierValue.CreateNewModifier(Exposed, ModifierValue.ModifierValueType.PercentBased);
             value.PercentValue = Ratio;
             modifier.AddValue(value);
         }

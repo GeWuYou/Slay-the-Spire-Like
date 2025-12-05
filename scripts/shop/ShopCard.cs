@@ -17,7 +17,7 @@ public partial class ShopCard : VBoxContainer
     private CenterContainer _cardContainer;
     private HBoxContainer _price;
     private Label _priceLabel;
-    private int _goldCost = GlobalBean.RandomNumberGenerator.RandiRange(100, 300);
+    public int GoldCost{get; set;} = GlobalBean.RandomNumberGenerator.RandiRange(100, 300);
     private Card _card;
     [Export] public CardMenuUi CurrentCardMenuUi { get; set; }
 
@@ -56,15 +56,15 @@ public partial class ShopCard : VBoxContainer
     public void Update(RunStats runStats)
     {
         // 检查必要组件是否存在
-        if (_cardContainer is null || _price is null || _buyButton is null)
+        if (_cardContainer.IsInvalidNode() || _price.IsInvalidNode()|| _buyButton.IsInvalidNode())
         {
             return;
         }
-
-        _priceLabel.Text = _goldCost.ToString();
+        
+        _priceLabel.Text = GoldCost.ToString();
 
         // 判断玩家是否有足够金币购买该卡牌
-        if (runStats.Gold > _goldCost)
+        if (runStats.Gold > GoldCost)
         {
             _priceLabel.RemoveThemeColorOverride("font_color");
             _buyButton.Disabled = false;
@@ -82,7 +82,7 @@ public partial class ShopCard : VBoxContainer
     /// </summary>
     private void OnBuyButtonPressed()
     {
-        Events.Instance.RaiseShopCardBought(Card, _goldCost);
+        Events.Instance.RaiseShopCardBought(Card, GoldCost);
 
         // 释放所有子控件资源
         _cardContainer.QueueFreeX();

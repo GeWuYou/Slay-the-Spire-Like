@@ -50,7 +50,7 @@ public partial class MuscleStatus : Status
         // 获取或创建肌肉属性的修饰器值
         // 如果不存在则创建一个基于百分比的平面修饰器值
         var value =  modifier.GetValue(Muscle) ?? 
-                     ModifierValue.CreatePercentBased(Muscle,ModifierValue.ModifierValueType.Flat);
+                     ModifierValue.CreateNewModifier(Muscle,ModifierValue.ModifierValueType.Flat);
         
         // 设置修饰器的平面值为当前堆叠数
         value.FlatValue = Stacks;

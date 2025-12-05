@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ctthoag7tm1sf"]
+[gd_scene load_steps=21 format=3 uid="uid://ctthoag7tm1sf"]
 
 [ext_resource type="Script" uid="uid://tb5y4nk1u3fb" path="res://scripts/shop/Shop.cs" id="1_100s2"]
 [ext_resource type="Texture2D" uid="uid://bj3im6egs4wxx" path="res://art/tile_0086.png" id="2_7lxhl"]
@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://cnkdfbmjb3qix" path="res://scenes/shop/商店卡牌.tscn" id="6_ptf86"]
 [ext_resource type="PackedScene" uid="uid://doqow870hjkl4" path="res://scenes/ui/card_tooltip_popup.tscn" id="7_ge4d2"]
 [ext_resource type="PackedScene" uid="uid://dhjmjeg0ki0dq" path="res://scenes/shop/商店遗物.tscn" id="7_xcdpw"]
+[ext_resource type="PackedScene" uid="uid://ccaxyfa2n1de2" path="res://scenes/modifier_handler/modifier_handler.tscn" id="13_131kw"]
+[ext_resource type="PackedScene" uid="uid://q8uak7maroph" path="res://scenes/modifier_handler/modifier.tscn" id="14_xoc10"]
 
 [sub_resource type="Gradient" id="Gradient_5yci7"]
 offsets = PackedFloat32Array(0, 0.99538106)
@@ -64,7 +66,7 @@ _data = {
 
 [sub_resource type="LabelSettings" id="LabelSettings_ge4d2"]
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("GoBackButton", "CardsContainer", "RelicsContainer", "CardTooltipPopup", "AnimationPlayer", "Timer")]
+[node name="Shop" type="Control" node_paths=PackedStringArray("GoBackButton", "CardsContainer", "RelicsContainer", "CardTooltipPopup", "AnimationPlayer", "ModifierHandler", "Timer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -79,6 +81,7 @@ CardsContainer = NodePath("UI层/商店内容/卡牌列表")
 RelicsContainer = NodePath("UI层/商店内容/遗物列表")
 CardTooltipPopup = NodePath("UI层/CardTooltipPopup")
 AnimationPlayer = NodePath("装饰层/店主动画播放器")
+ModifierHandler = NodePath("ModifierHandler")
 Timer = NodePath("装饰层/计时器")
 
 [node name="背景层" type="CanvasLayer" parent="."]
@@ -191,3 +194,8 @@ layout_mode = 2
 [node name="CardTooltipPopup" parent="UI层" instance=ExtResource("7_ge4d2")]
 unique_name_in_owner = true
 visible = false
+
+[node name="ModifierHandler" parent="." instance=ExtResource("13_131kw")]
+
+[node name="ShopCostModifier" parent="ModifierHandler" instance=ExtResource("14_xoc10")]
+Type = 4
