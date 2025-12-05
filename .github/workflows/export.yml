@@ -90,34 +90,52 @@ jobs:
         if: always()
         run: |
           cd build/windows || exit 0
-          if compgen -G "${{ env.EXPORT_NAME }}.exe" > /dev/null; then
-            zip -j ../${{ env.EXPORT_NAME }}-windows.zip ${{ env.EXPORT_NAME }}.exe
+          EXE="${{ env.EXPORT_NAME }}.exe"
+          PCK="${{ env.EXPORT_NAME }}.pck"
+          # 如果有 exe，且同名的 pck 存在，则一并压缩；否则尝试包含所有 pck
+          if [ -f "$EXE" ]; then
+            if [ -f "$PCK" ]; then
+              zip -j ../${{ env.EXPORT_NAME }}-windows.zip "$EXE" "$PCK"
+            else
+              # 如果没有同名 pck，打包 exe 与目录下任何 pck（避免漏掉资源）
+              zip -j ../${{ env.EXPORT_NAME }}-windows.zip "$EXE" *.pck || zip -j ../${{ env.EXPORT_NAME }}-windows.zip "$EXE"
+            fi
           else
             echo "Windows exe not found, skipping zip"
           fi
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-windows
+          path: build/${{ env.EXPORT_NAME }}-windows.zip
+          if-no-files-found: error
       # 步骤说明：无论是否成功都尝试压缩 Linux 输出文件为 ZIP 格式。
       - name: Zip Linux output
         if: always()
         run: |
           cd build/linux || exit 0
-          if compgen -G "${{ env.EXPORT_NAME }}.x86_64" > /dev/null; then
-            zip -j ../${{ env.EXPORT_NAME }}-linux.zip ${{ env.EXPORT_NAME }}.x86_64
+          BIN="${{ env.EXPORT_NAME }}.x86_64"
+          PCK="${{ env.EXPORT_NAME }}.pck"
+          if [ -f "$BIN" ]; then
+            # 确保 linux 二进制有执行权限
+            chmod +x "$BIN" || true
+            if [ -f "$PCK" ]; then
+              zip -j ../${{ env.EXPORT_NAME }}-linux.zip "$BIN" "$PCK"
+            else
+              zip -j ../${{ env.EXPORT_NAME }}-linux.zip "$BIN" *.pck || zip -j ../${{ env.EXPORT_NAME }}-linux.zip "$BIN"
+            fi
           else
             echo "Linux binary not found, skipping zip"
           fi
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-linux
+          path: build/${{ env.EXPORT_NAME }}-linux.zip
+          if-no-files-found: error
       # 步骤说明：列出所有构建输出路径下的文件，便于调试查看构建成果。
       - name: List build outputs
         run: ls -R build/ || true
-
-      # 步骤说明：将 Windows 和 Linux 的 ZIP 构建产物上传为 GitHub Actions Artifact。
-      - name: Upload Windows & Linux artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.EXPORT_NAME }}-windows-linux
-          path: |
-            build/${{ env.EXPORT_NAME }}-windows.zip
-            build/${{ env.EXPORT_NAME }}-linux.zip
-          if-no-files-found: error
 
   # 作业名称：export-macos
   # 功能描述：使用 macOS 最新环境构建 macOS 应用包，并打包成 ZIP 文件上传为 Artifact。
