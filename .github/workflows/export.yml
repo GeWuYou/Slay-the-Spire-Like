@@ -1,14 +1,5 @@
-# 工作流名称：Export Game
-# 功能描述：该工作流用于在代码推送到主分支或发起 PR 时，
-# 自动导出 Godot 游戏项目到多个平台（Windows、Linux 和 macOS）。
-# 支持手动触发（workflow_dispatch），并上传构建产物作为 GitHub Artifacts。
-
 name: Export Game
 
-# 触发条件定义：
-# - 当向 main 或 master 分支推送代码时自动运行；
-# - 当针对 main 或 master 分支创建 Pull Request 时运行；
-# - 允许通过 GitHub UI 手动触发。
 on:
   push:
     branches: [ main, master ]
@@ -16,38 +7,32 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
-# 环境变量定义：
-# - GODOT_VERSION：指定使用的 Godot 版本号；
-# - EXPORT_NAME：游戏项目的输出文件名前缀。
 env:
   GODOT_VERSION: 4.5.1
   EXPORT_NAME: Slay the Spire Like
 
-# 定义两个作业任务：
-# 1. export-windows-linux：负责构建 Windows 和 Linux 平台版本；
-# 2. export-macos：负责构建 macOS 平台版本。
 jobs:
-
-  # 作业名称：export-windows-linux
-  # 功能描述：使用 Ubuntu 最新环境构建 Windows 和 Linux 可执行程序，并打包成 ZIP 文件上传为 Artifact。
   export-windows-linux:
     name: Export Windows & Linux
     runs-on: ubuntu-latest
     steps:
-
-      # 步骤说明：检出源码仓库，启用 Git LFS 支持以处理大文件。
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           lfs: true
 
-      # 步骤说明：安装 .NET SDK 9.0.x，用于还原和编译 C# 项目依赖。
+      - name: Prepare names (create EXPORT_SLUG)
+        run: |
+          echo "EXPORT_NAME=${EXPORT_NAME}" >> $GITHUB_ENV
+          # replace spaces with underscore to avoid path issues
+          EXPORT_SLUG="${EXPORT_NAME// /_}"
+          echo "EXPORT_SLUG=${EXPORT_SLUG}" >> $GITHUB_ENV
+          echo "Prepared EXPORT_SLUG=${EXPORT_SLUG}"
       - name: Setup .NET (for restore/build)
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
 
-      # 步骤说明：如果存在解决方案文件，则尝试还原 NuGet 包；否则跳过此步骤。
       - name: Restore NuGet packages
         run: |
           if [ -f "${{ env.EXPORT_NAME }}.sln" ]; then
@@ -56,7 +41,6 @@ jobs:
             echo "Solution file not found, skipping dotnet restore"
           fi
 
-      # 步骤说明：设置 Godot 环境，包括导入器与导出模板，以便后续进行项目构建和导出操作。
       - name: Setup Godot (includes export templates)
         uses: chickensoft-games/setup-godot@v2
         with:
@@ -64,88 +48,88 @@ jobs:
           include-importer: true
           include-templates: true
 
-      # 步骤说明：尝试使用 Godot 构建 C# 解决方案。忽略非零退出状态以防中断流程。
       - name: Build C# project (if applicable)
         run: |
-          # Build solutions using Godot's headless build if present; ignore non-zero exit
-          godot --headless --build-solutions --quit || echo "Godot build-solutions returned non-zero (ignored)"
+          set -eux
+          godot --headless --build-solutions --quit
 
-      # 步骤说明：创建用于存放各平台构建结果的目录结构。
       - name: Create export dirs
         run: |
           mkdir -p build/windows
           mkdir -p build/linux
 
-      # 步骤说明：使用 Godot 命令行工具将项目导出为 Windows 桌面可执行文件。
-      # 注意：preset 名称需匹配 export_presets.cfg 中配置的内容。
       - name: Export Windows Desktop (x86_64)
         run: |
-          set -e
-          # The preset name must match export_presets.cfg (your preset is "Windows Desktop")
-          godot --headless --export-release "Windows Desktop" build/windows/${{ env.EXPORT_NAME }}.exe --quit
+          set -eux
+          # export to a slugged filename (no spaces)
+          godot --headless --export-release "Windows Desktop" build/windows/${EXPORT_SLUG}.exe --quit
 
-      # 步骤说明：使用 Godot 将项目导出为 Linux x86_64 可执行文件。
+      - name: Verify Windows export
+        run: |
+          ls -la build/windows || true
+          if [ ! -f "build/windows/${EXPORT_SLUG}.exe" ]; then
+            echo "Windows export missing: build/windows/${EXPORT_SLUG}.exe"
+            exit 2
+          fi
+
       - name: Export Linux (x86_64)
         run: |
-          set -e
-          godot --headless --export-release "Linux" build/linux/${{ env.EXPORT_NAME }}.x86_64 --quit
+          set -eux
+          godot --headless --export-release "Linux" build/linux/${EXPORT_SLUG}.x86_64 --quit
 
-      # 步骤说明：无论是否成功都尝试压缩 Windows 输出文件为 ZIP 格式。
-      - name: Zip Windows output
-        if: always()
+      - name: Verify Linux export
         run: |
-          cd build/windows || exit 0
-          if compgen -G "${{ env.EXPORT_NAME }}.exe" > /dev/null; then
-            zip -j ../${{ env.EXPORT_NAME }}-windows.zip ${{ env.EXPORT_NAME }}.exe
-          else
-            echo "Windows exe not found, skipping zip"
+          ls -la build/linux || true
+          if [ ! -f "build/linux/${EXPORT_SLUG}.x86_64" ]; then
+            echo "Linux export missing: build/linux/${EXPORT_SLUG}.x86_64"
+            exit 2
           fi
 
-      # 步骤说明：无论是否成功都尝试压缩 Linux 输出文件为 ZIP 格式。
-      - name: Zip Linux output
-        if: always()
+      - name: Zip Windows & Linux outputs
         run: |
-          cd build/linux || exit 0
-          if compgen -G "${{ env.EXPORT_NAME }}.x86_64" > /dev/null; then
-            zip -j ../${{ env.EXPORT_NAME }}-linux.zip ${{ env.EXPORT_NAME }}.x86_64
+          set -eux
+          cd build
+          if [ -f "windows/${EXPORT_SLUG}.exe" ]; then
+            zip -j "${EXPORT_SLUG}-windows.zip" "windows/${EXPORT_SLUG}.exe"
           else
-            echo "Linux binary not found, skipping zip"
+            echo "No windows exe, skipping windows zip"
           fi
+          if [ -f "linux/${EXPORT_SLUG}.x86_64" ]; then
+            zip -j "${EXPORT_SLUG}-linux.zip" "linux/${EXPORT_SLUG}.x86_64"
+          else
+            echo "No linux binary, skipping linux zip"
+          fi
+          ls -la .
 
-      # 步骤说明：列出所有构建输出路径下的文件，便于调试查看构建成果。
-      - name: List build outputs
-        run: ls -R build/ || true
-
-      # 步骤说明：将 Windows 和 Linux 的 ZIP 构建产物上传为 GitHub Actions Artifact。
       - name: Upload Windows & Linux artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.EXPORT_NAME }}-windows-linux
           path: |
-            build/${{ env.EXPORT_NAME }}-windows.zip
-            build/${{ env.EXPORT_NAME }}-linux.zip
-          if-no-files-found: error
+            build/*.zip
+          if-no-files-found: warn
 
-  # 作业名称：export-macos
-  # 功能描述：使用 macOS 最新环境构建 macOS 应用包，并打包成 ZIP 文件上传为 Artifact。
   export-macos:
     name: Export macOS
     runs-on: macos-latest
     steps:
-
-      # 步骤说明：检出源码仓库，启用 Git LFS 支持以处理大文件。
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           lfs: true
 
-      # 步骤说明：安装 .NET SDK 9.0.x，用于还原和编译 C# 项目依赖。
+      - name: Prepare names (create EXPORT_SLUG)
+        run: |
+          echo "EXPORT_NAME=${EXPORT_NAME}" >> $GITHUB_ENV
+          EXPORT_SLUG="${EXPORT_NAME// /_}"
+          echo "EXPORT_SLUG=${EXPORT_SLUG}" >> $GITHUB_ENV
+          echo "Prepared EXPORT_SLUG=${EXPORT_SLUG}"
+
       - name: Setup .NET (for restore/build)
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
 
-      # 步骤说明：如果存在解决方案文件，则尝试还原 NuGet 包；否则跳过此步骤。
       - name: Restore NuGet packages
         run: |
           if [ -f "${{ env.EXPORT_NAME }}.sln" ]; then
@@ -154,7 +138,6 @@ jobs:
             echo "Solution file not found, skipping dotnet restore"
           fi
 
-      # 步骤说明：设置 Godot 环境，包括导入器与导出模板，以便后续进行项目构建和导出操作。
       - name: Setup Godot on macOS (includes export templates)
         uses: chickensoft-games/setup-godot@v2
         with:
@@ -162,42 +145,52 @@ jobs:
           include-importer: true
           include-templates: true
 
-      # 步骤说明：尝试使用 Godot 构建 C# 解决方案。忽略非零退出状态以防中断流程。
       - name: Build C# project (if applicable)
         run: |
-          godot --headless --build-solutions --quit || echo "Godot build-solutions returned non-zero (ignored)"
+          set -eux
+          godot --headless --build-solutions --quit
 
-      # 步骤说明：创建用于存放 macOS 构建结果的目录。
+      - name: Debug: show templates & export_presets.cfg
+        run: |
+          echo "Templates (possible locations):"
+          ls -la "$HOME/Library/Application Support/Godot/templates" || true
+          ls -la "$HOME/Library/Application Support/Godot/templates/"* || true
+          echo "export_presets.cfg preview:"
+          sed -n '1,200p' export_presets.cfg || true
+
+      - name: Adjust macOS preset for CI (arch -> x86_64, disable codesign)
+        run: |
+          # Backup
+          cp export_presets.cfg export_presets.cfg.ci.bak || true
+          # Change universal -> x86_64 (safer for CI); change codesign=1 -> 0 to avoid signing errors in CI
+          sed -i '' 's/binary_format\/architecture="universal"/binary_format\/architecture="x86_64"/g' export_presets.cfg || true
+          sed -i '' 's/codesign\/codesign=1/codesign\/codesign=0/g' export_presets.cfg || true
+          echo "Adjusted export_presets.cfg for CI (arch->x86_64, codesign->0)."
+          sed -n '1,120p' export_presets.cfg || true
+
       - name: Create macOS export dir
         run: mkdir -p build/macos
 
-      # 步骤说明：使用 Godot 导出 macOS 应用程序包（.app）。
-      # 注意：preset 名称需匹配 export_presets.cfg 中配置的内容。
       - name: Export macOS (.app)
         run: |
-          set -e
-          # 使用 export_presets.cfg 中的 preset 名称 "macOS"
-          godot --headless --export-release "macOS" build/macos/${{ env.EXPORT_NAME }}.app --quit
+          set -eux
+          godot --headless --export-release "macOS" build/macos/${EXPORT_SLUG}.app --quit
 
-      # 步骤说明：无论是否成功都将 .app 目录压缩为 ZIP 文件。
-      - name: Zip macOS app
-        if: always()
+      - name: Verify macOS export and zip
         run: |
-          cd build/macos || exit 0
-          if [ -d "${{ env.EXPORT_NAME }}.app" ]; then
-            zip -r ../${{ env.EXPORT_NAME }}-macOS.zip "${{ env.EXPORT_NAME }}.app"
-          else
-            echo ".app not found, skipping zip"
+          ls -la build/macos || true
+          if [ ! -d "build/macos/${EXPORT_SLUG}.app" ]; then
+            echo ".app not found: build/macos/${EXPORT_SLUG}.app"
+            exit 2
           fi
+          cd build/macos
+          zip -r ../${EXPORT_SLUG}-macOS.zip "${EXPORT_SLUG}.app"
+          cd ../..
+          ls -la build
 
-      # 步骤说明：列出所有构建输出路径下的文件，便于调试查看构建成果。
-      - name: List macOS build outputs
-        run: ls -R build/ || true
-
-      # 步骤说明：将 macOS 的 ZIP 构建产物上传为 GitHub Actions Artifact。
       - name: Upload macOS artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.EXPORT_NAME }}-macOS
-          path: build/${{ env.EXPORT_NAME }}-macOS.zip
-          if-no-files-found: error
+          path: build/*.zip
+          if-no-files-found: warn
