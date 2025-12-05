@@ -88,20 +88,13 @@ jobs:
       # 步骤说明：无论是否成功都尝试压缩 Windows 输出文件为 ZIP 格式。
       - name: Zip Windows output
         if: always()
-        run: |
-          cd build/windows || exit 0
-          EXE="${{ env.EXPORT_NAME }}.exe"
-          PCK="${{ env.EXPORT_NAME }}.pck"
-          # 如果有 exe，且同名的 pck 存在，则一并压缩；否则尝试包含所有 pck
-          if [ -f "$EXE" ]; then
-            if [ -f "$PCK" ]; then
-              zip -j ../${{ env.EXPORT_NAME }}-windows.zip "$EXE" "$PCK"
-            else
-              # 如果没有同名 pck，打包 exe 与目录下任何 pck（避免漏掉资源）
-              zip -j ../${{ env.EXPORT_NAME }}-windows.zip "$EXE" *.pck || zip -j ../${{ env.EXPORT_NAME }}-windows.zip "$EXE"
-            fi
+        run: |    cd build/windows || exit 0
+          # 检查是否有文件存在
+          if ls ./* 1> /dev/null 2>&1; then
+            # 打包整个windows目录的所有内容
+            zip -r ../${{ env.EXPORT_NAME }}-windows.zip .
           else
-            echo "Windows exe not found, skipping zip"
+            echo "No Windows files found, skipping zip"
           fi
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
@@ -112,20 +105,15 @@ jobs:
       # 步骤说明：无论是否成功都尝试压缩 Linux 输出文件为 ZIP 格式。
       - name: Zip Linux output
         if: always()
-        run: |
-          cd build/linux || exit 0
-          BIN="${{ env.EXPORT_NAME }}.x86_64"
-          PCK="${{ env.EXPORT_NAME }}.pck"
-          if [ -f "$BIN" ]; then
-            # 确保 linux 二进制有执行权限
-            chmod +x "$BIN" || true
-            if [ -f "$PCK" ]; then
-              zip -j ../${{ env.EXPORT_NAME }}-linux.zip "$BIN" "$PCK"
-            else
-              zip -j ../${{ env.EXPORT_NAME }}-linux.zip "$BIN" *.pck || zip -j ../${{ env.EXPORT_NAME }}-linux.zip "$BIN"
-            fi
+        run: |    cd build/linux || exit 0
+          # 确保二进制文件有执行权限
+          chmod +x *.x86_64 2>/dev/null || true
+          # 检查是否有文件存在
+          if ls ./* 1> /dev/null 2>&1; then
+            # 打包整个linux目录的所有内容
+            zip -r ../${{ env.EXPORT_NAME }}-linux.zip .
           else
-            echo "Linux binary not found, skipping zip"
+            echo "No Linux files found, skipping zip"
           fi
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
