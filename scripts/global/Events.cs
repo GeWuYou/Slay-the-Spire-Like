@@ -194,7 +194,7 @@ public partial class Events : SingletonNode<Events>
     /// <summary>
     ///     宝箱房退出事件
     /// </summary>
-    public event Action TreasureRoomExited;
+    public event Action<Relic> TreasureRoomExited;
 
     /// <summary>
     ///     宝箱房进入事件
@@ -359,9 +359,9 @@ public partial class Events : SingletonNode<Events>
     }
 
     /// <summary>触发宝箱房退出事件</summary>
-    public void RaiseTreasureRoomExited()
+    public void RaiseTreasureRoomExited(Relic foundRelic)
     {
-        TreasureRoomExited?.Invoke();
+        TreasureRoomExited?.Invoke(foundRelic);
     }
 
     /// <summary>触发宝箱房进入事件</summary>

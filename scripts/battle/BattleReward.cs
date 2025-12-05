@@ -3,6 +3,7 @@ using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.extensions;
 using SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.battle;
@@ -24,6 +25,9 @@ public partial class BattleReward : Control
     
     [Export]
     public VBoxContainer RewardContainer { get; set; }
+    
+    [Export]
+    public RelicHandler RelicHandler { get; set; }
 
     /// <summary>
     /// 所有卡牌稀有度对应的权重总和。
@@ -78,6 +82,24 @@ public partial class BattleReward : Control
         cardReward.RewardText = GameConstants.Texts.AddNewCard;
         cardReward.Pressed +=ShowCardRewards;
         RewardContainer.CallDeferred(Node.MethodName.AddChild, cardReward);
+    }
+    
+    public void AddRelicReward(Relic relic)
+    {
+        var relicReward = ResourceFactories.RewardButtonFactory();
+        relicReward.RewardIcon = relic.Icon;
+        relicReward.RewardText = relic.RelicName;
+        relicReward.Pressed += () => { OnRelicRewardTaken(relic);};
+        RewardContainer.CallDeferred(Node.MethodName.AddChild, relicReward);
+    }
+
+    private void OnRelicRewardTaken(Relic relic)
+    {
+        if (PlayerStats is null || RelicHandler is null)
+        {
+            return;
+        }
+        RelicHandler.AddRelic(relic);
     }
 
     /// <summary>

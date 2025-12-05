@@ -1,8 +1,147 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpkjev36bycfm"]
+[gd_scene load_steps=20 format=3 uid="uid://bpkjev36bycfm"]
 
 [ext_resource type="Script" uid="uid://cju4hh7oca6mg" path="res://scripts/room/treasure/Treasure.cs" id="1_mhv6g"]
+[ext_resource type="Resource" uid="uid://bd4cmvgewxbja" path="res://resources/relic/coupons.tres" id="2_im37a"]
+[ext_resource type="Texture2D" uid="uid://cp4iq5fd6j8be" path="res://art/background.png" id="2_wok3d"]
+[ext_resource type="Texture2D" uid="uid://hva3iy5hon7a" path="res://art/tile_0089.png" id="3_kl2uj"]
+[ext_resource type="Resource" uid="uid://h6wfucq55umy" path="res://resources/relic/explosive_barrel.tres" id="3_pt6f6"]
+[ext_resource type="Texture2D" uid="uid://d007n5sscvumv" path="res://art/tile_0090.png" id="4_aykmf"]
+[ext_resource type="Resource" uid="uid://cgf7ovyyx3i1v" path="res://resources/relic/mana_potion.tres" id="4_fdh7a"]
+[ext_resource type="Texture2D" uid="uid://civ8f2oo0d8k7" path="res://art/gold.png" id="4_kl2uj"]
+[ext_resource type="Texture2D" uid="uid://isan6btj7dwy" path="res://art/tile_0091.png" id="5_b3ndx"]
+[ext_resource type="Resource" uid="uid://bntkxu8bpdcpd" path="res://resources/relic/reinforced_armor.tres" id="5_olp78"]
 
-[node name="Treasure" type="Control" node_paths=PackedStringArray("GoBackButton")]
+[sub_resource type="Animation" id="Animation_c8gtt"]
+resource_name = "高亮"
+length = 1.75
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_k15c3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_kl2uj")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("GPUParticles2D:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_im37a"]
+resource_name = "打开"
+length = 2.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("3_kl2uj"), ExtResource("4_aykmf"), ExtResource("5_b3ndx")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles2D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnTreasureOpen"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pt6f6"]
+_data = {
+&"RESET": SubResource("Animation_k15c3"),
+&"打开": SubResource("Animation_im37a"),
+&"高亮": SubResource("Animation_c8gtt")
+}
+
+[sub_resource type="Curve" id="Curve_vobgg"]
+_data = [Vector2(0, 0.18450183), 0.0, 0.0, 0, 0, Vector2(0.13975903, 1), 0.0, 0.0, 0, 0, Vector2(0.8192771, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_aykmf"]
+curve = SubResource("Curve_vobgg")
+
+[sub_resource type="Curve" id="Curve_b3ndx"]
+_data = [Vector2(0, 0.20249075), 0.0, 0.0, 0, 0, Vector2(0.25301206, 1), 0.0, 0.0, 0, 0, Vector2(0.7879518, 1), 0.0, 0.0, 0, 0, Vector2(0.9951807, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_c8gtt"]
+curve = SubResource("Curve_b3ndx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k15c3"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 60.0
+initial_velocity_max = 80.0
+gravity = Vector3(0, 98, 0)
+scale_curve = SubResource("CurveTexture_c8gtt")
+alpha_curve = SubResource("CurveTexture_aykmf")
+
+[node name="Treasure" type="Control" node_paths=PackedStringArray("AnimationPlayer", "宝箱纹理")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,9 +150,22 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_mhv6g")
-GoBackButton = NodePath("VBoxContainer/Button")
+TreasureRelicPool = Array[Object]([ExtResource("2_im37a"), ExtResource("3_pt6f6"), ExtResource("4_fdh7a"), ExtResource("5_olp78")])
+AnimationPlayer = NodePath("宝箱纹理/AnimationPlayer")
+"宝箱纹理" = NodePath("宝箱纹理")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_wok3d")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BackgroundDimmer" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,9 +173,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0.6862745)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -55.0
+offset_top = -41.0
+offset_right = 55.0
+offset_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "宝箱奖励"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="宝箱纹理" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -31,18 +200,30 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -20.0
-offset_top = -20.0
+offset_top = -24.0
 offset_right = 20.0
-offset_bottom = 20.0
+offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(20, 20)
+mouse_filter = 0
+texture = ExtResource("3_kl2uj")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="Label" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-text = "宝箱"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="AnimationPlayer" type="AnimationPlayer" parent="宝箱纹理"]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_pt6f6")
+}
+autoplay = "高亮"
 
-[node name="Button" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "返回"
+[node name="GPUParticles2D" type="GPUParticles2D" parent="宝箱纹理"]
+position = Vector2(20, 30)
+emitting = false
+amount = 40
+texture = ExtResource("4_kl2uj")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.9
+process_material = SubResource("ParticleProcessMaterial_k15c3")

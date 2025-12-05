@@ -7,6 +7,7 @@ using SlayTheSpireLike.scripts.campfire;
 using SlayTheSpireLike.scripts.map;
 using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.room.treasure;
 using SlayTheSpireLike.scripts.shop;
 using SlayTheSpireLike.scripts.ui;
 using SlayTheSpireLike.scripts.ui.components;
@@ -96,8 +97,8 @@ public partial class Run : Node
         _disposables.Add(() => events.CampfireExited -= ShowMap);
         events.ShopExited += ShowMap;
         _disposables.Add(() => events.ShopExited -= ShowMap);
-        events.TreasureRoomExited += ShowMap;
-        _disposables.Add(() => events.TreasureRoomExited -= ShowMap);
+        events.TreasureRoomExited += OnTreasureRoomExited;
+        _disposables.Add(() => events.TreasureRoomExited -= OnTreasureRoomExited);
         events.MapExited += OnMapExited;
         _disposables.Add(() => events.MapExited -= OnMapExited);
 
@@ -107,14 +108,19 @@ public partial class Run : Node
             .GetSceneLoader(GameConstants.ResourcePaths.CampfireScene).Value);
         MapButton.Pressed += ShowMap;
         RewardsButton.Pressed += OnBattleWon;
-        TreasureButton.Pressed += () =>
-        {
-            ChangeView(resourceLoaderManager
-                .GetSceneLoader(GameConstants.ResourcePaths.TreasureScene).Value);
-            GD.Print("TreasureButton pressed");
-        };
+        TreasureButton.Pressed += OnTreasureRoomEntered;
         ShopButton.Pressed += () => ChangeView(resourceLoaderManager
             .GetSceneLoader(GameConstants.ResourcePaths.ShopScene).Value);
+    }
+
+    private void OnTreasureRoomExited(Relic relic)
+    {
+        var rewardScene =  ChangeView(ResourceLoaderManager.Instance
+            .GetSceneLoader(GameConstants.ResourcePaths.BattleRewardScene).Value) as BattleReward;
+        rewardScene!.RunStats = RunStats;
+        rewardScene!.PlayerStats = PlayerStats;
+        rewardScene.RelicHandler = RelicHandler;
+        rewardScene.AddRelicReward(relic);
     }
 
     private void OnBattleWon()
@@ -139,8 +145,7 @@ public partial class Run : Node
                 OnBattleRoomEntered(room);
                 break;
             case Room.Type.Treasure:
-                ChangeView(ResourceLoaderManager.Instance
-                    .GetSceneLoader(GameConstants.ResourcePaths.TreasureScene).Value);
+                OnTreasureRoomEntered();
                 break;
             case Room.Type.Campfire:
                 OnCampfireRoomEntered();
@@ -156,6 +161,18 @@ public partial class Run : Node
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+
+    private void OnTreasureRoomEntered()
+    {
+        if (ChangeView(ResourceLoaderManager.Instance
+                .GetSceneLoader(GameConstants.ResourcePaths.TreasureScene).Value) is not Treasure treasure)
+        {
+            return;
+        }
+        treasure.RelicHandler = RelicHandler;
+        treasure.PlayerStats = PlayerStats;
+        treasure.GenerateRelic();
     }
 
     /// <summary>
@@ -208,6 +225,7 @@ public partial class Run : Node
             disposable?.Invoke();
         }
     }
+
 
     private void ShowMap()
     {

@@ -98,6 +98,7 @@ jobs:
           name: ${{ env.EXPORT_NAME }}-windows
           path: build/windows/
           if-no-files-found: error
+          retention-days: 30
       
       # 上传 Linux 文件夹（GitHub 会自动压成 zip）
       - name: Upload Linux artifact
@@ -105,7 +106,8 @@ jobs:
         with:
           name: ${{ env.EXPORT_NAME }}-linux
           path: build/linux/
-          if-no-files-found: error       
+          if-no-files-found: error
+          retention-days: 30
 
       # 步骤说明：列出所有构建输出路径下的文件，便于调试查看构建成果。
       - name: List build outputs (debug)
@@ -188,3 +190,62 @@ jobs:
           name: ${{ env.EXPORT_NAME }}-macOS
           path: build/${{ env.EXPORT_NAME }}-macOS.zip
           if-no-files-found: error
+          retention-days: 30
+  # 添加一个新的 job 来处理 Release 创建
+  release-if-tagged:
+    name: Create Release if Tagged
+    needs: [ export-windows-linux, export-macos ]  # 等待构建完成
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')  # 仅当是标签时运行
+    steps:
+      # 下载所有构建产物
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: downloaded-artifacts
+
+      # 检查是否已存在 Release
+      - name: Check if release exists
+        id: check_release
+        run: |        TAG_NAME=${GITHUB_REF#refs/tags/}
+          if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+            echo "release_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "release_exists=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 如果 Release 不存在则创建
+      - name: Create Release
+        if: steps.check_release.outputs.release_exists == 'false'
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 上传构建产物到 Release
+      - name: Upload Release Assets
+        if: steps.check_release.outputs.release_exists == 'false'
+        run: |        TAG_NAME=${GITHUB_REF#refs/tags/}
+          # 上传 Windows 构建
+          if [ -f "downloaded-artifacts/${{ env.EXPORT_NAME }}-windows/${{ env.EXPORT_NAME }}.exe" ]; then
+            gh release upload "$TAG_NAME" "downloaded-artifacts/${{ env.EXPORT_NAME }}-windows/${{ env.EXPORT_NAME }}.exe" --clobber
+          fi
+
+          # 上传 Linux 构建
+          if [ -f "downloaded-artifacts/${{ env.EXPORT_NAME }}-linux/${{ env.EXPORT_NAME }}.x86_64" ]; then
+            gh release upload "$TAG_NAME" "downloaded-artifacts/${{ env.EXPORT_NAME }}-linux/${{ env.EXPORT_NAME }}.x86_64" --clobber
+          fi
+
+          # 上传 macOS 构建
+          if [ -f "downloaded-artifacts/${{ env.EXPORT_NAME }}-macOS/${{ env.EXPORT_NAME }}-macOS.zip" ]; then
+            gh release upload "$TAG_NAME" "downloaded-artifacts/${{ env.EXPORT_NAME }}-macOS/${{ env.EXPORT_NAME }}-macOS.zip" --clobber
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

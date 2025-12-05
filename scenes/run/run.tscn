@@ -35,7 +35,6 @@ RelicTooltip = NodePath("TopBar/RelicTooltip")
 [node name="CurrentView" type="Node" parent="."]
 
 [node name="DebugButtons" type="VBoxContainer" parent="."]
-visible = false
 anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 30.0
