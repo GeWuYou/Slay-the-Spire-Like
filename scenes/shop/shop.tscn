@@ -64,7 +64,7 @@ _data = {
 
 [sub_resource type="LabelSettings" id="LabelSettings_ge4d2"]
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("GoBackButton", "CardsContainer", "RelicsContainer", "CardTooltipPopup")]
+[node name="Shop" type="Control" node_paths=PackedStringArray("GoBackButton", "CardsContainer", "RelicsContainer", "CardTooltipPopup", "AnimationPlayer", "Timer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -78,6 +78,8 @@ GoBackButton = NodePath("UI层/返回")
 CardsContainer = NodePath("UI层/商店内容/卡牌列表")
 RelicsContainer = NodePath("UI层/商店内容/遗物列表")
 CardTooltipPopup = NodePath("UI层/CardTooltipPopup")
+AnimationPlayer = NodePath("装饰层/店主动画播放器")
+Timer = NodePath("装饰层/计时器")
 
 [node name="背景层" type="CanvasLayer" parent="."]
 layer = 0

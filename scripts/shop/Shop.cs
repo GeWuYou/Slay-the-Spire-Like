@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using SlayTheSpireLike.scripts.global;
 using Godot;
@@ -60,7 +61,11 @@ public partial class Shop : Control
     /// </summary>
     [Export]
     public CardTooltipPopup CardTooltipPopup { get; set; }
+    [Export]
+    public AnimationPlayer AnimationPlayer { get; set; }
 
+    [Export]
+    public Timer Timer { get; set; }
     /// <summary>
     /// 初始化商店界面，在_ready时绑定事件、清理旧子项并注册输入监听。
     /// </summary>
@@ -85,6 +90,26 @@ public partial class Shop : Control
         // 订阅卡牌/遗物被购买的事件
         Events.Instance.ShopCardBought += OnShopCardBought;
         Events.Instance.ShopRelicBought += OnShopRelicBought;
+        BlinkTimerSetup();
+        Timer.Timeout+=OnTimeout;
+    }
+
+    private void OnTimeout()
+    {
+        AnimationPlayer.Play("眨眼");
+        BlinkTimerSetup();
+    }
+
+    private void BlinkTimerSetup()
+    {
+        Timer.WaitTime = GlobalBean.RandomNumberGenerator.RandfRange(1.0f, 5.0f);
+        Timer.Start();
+    }
+
+    public override void _ExitTree()
+    {
+        Events.Instance.ShopCardBought -= OnShopCardBought;
+        Events.Instance.ShopRelicBought -= OnShopRelicBought;
     }
 
     /// <summary>
