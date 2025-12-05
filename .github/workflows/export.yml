@@ -88,7 +88,8 @@ jobs:
       # 步骤说明：无论是否成功都尝试压缩 Windows 输出文件为 ZIP 格式。
       - name: Zip Windows output
         if: always()
-        run: |    cd build/windows || exit 0
+        run: |
+          cd build/windows || exit 0
           # 检查是否有文件存在
           if ls ./* 1> /dev/null 2>&1; then
             # 打包整个windows目录的所有内容
@@ -105,7 +106,8 @@ jobs:
       # 步骤说明：无论是否成功都尝试压缩 Linux 输出文件为 ZIP 格式。
       - name: Zip Linux output
         if: always()
-        run: |    cd build/linux || exit 0
+        run: |
+          cd build/linux || exit 0
           # 确保二进制文件有执行权限
           chmod +x *.x86_64 2>/dev/null || true
           # 检查是否有文件存在
