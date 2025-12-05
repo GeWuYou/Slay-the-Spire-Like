@@ -207,7 +207,8 @@ jobs:
       # 检查是否已存在 Release
       - name: Check if release exists
         id: check_release
-        run: |        TAG_NAME=${GITHUB_REF#refs/tags/}
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
           if gh release view "$TAG_NAME" >/dev/null 2>&1; then
             echo "release_exists=true" >> $GITHUB_OUTPUT
           else
@@ -232,7 +233,8 @@ jobs:
       # 上传构建产物到 Release
       - name: Upload Release Assets
         if: steps.check_release.outputs.release_exists == 'false'
-        run: |        TAG_NAME=${GITHUB_REF#refs/tags/}
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
           # 上传 Windows 构建
           if [ -f "downloaded-artifacts/${{ env.EXPORT_NAME }}-windows/${{ env.EXPORT_NAME }}.exe" ]; then
             gh release upload "$TAG_NAME" "downloaded-artifacts/${{ env.EXPORT_NAME }}-windows/${{ env.EXPORT_NAME }}.exe" --clobber
