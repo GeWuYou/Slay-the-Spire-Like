@@ -71,8 +71,11 @@ jobs:
       # 步骤说明：创建用于存放各平台构建结果的目录结构。
       - name: Create export dirs
         run: |
+          rm -rf build || true
           mkdir -p build/windows
           mkdir -p build/linux
+          mkdir -p build/artifacts/windows
+          mkdir -p build/artifacts/linux
       # 步骤说明：使用 Godot 命令行工具将项目导出为 Windows 桌面可执行文件。
       # 注意：preset 名称需匹配 export_presets.cfg 中配置的内容。
       - name: Export Windows Desktop (x86_64)
@@ -90,10 +93,9 @@ jobs:
         if: always()
         run: |
           cd build/windows || exit 0
-          # 检查是否有文件存在
           if ls ./* 1> /dev/null 2>&1; then
-            # 打包整个windows目录的所有内容
-            zip -r ../${{ env.EXPORT_NAME }}-windows.zip .
+            # Put zip into build/artifacts/windows (outside the current dir) to avoid nesting
+            zip -r -q ../artifacts/windows/${{ env.EXPORT_NAME }}-windows.zip .
           else
             echo "No Windows files found, skipping zip"
           fi
@@ -101,19 +103,16 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.EXPORT_NAME }}-windows
-          path: build/${{ env.EXPORT_NAME }}-windows.zip
+          path: build/artifacts/windows/${{ env.EXPORT_NAME }}-windows.zip
           if-no-files-found: error
       # 步骤说明：无论是否成功都尝试压缩 Linux 输出文件为 ZIP 格式。
       - name: Zip Linux output
         if: always()
         run: |
           cd build/linux || exit 0
-          # 确保二进制文件有执行权限
           chmod +x *.x86_64 2>/dev/null || true
-          # 检查是否有文件存在
           if ls ./* 1> /dev/null 2>&1; then
-            # 打包整个linux目录的所有内容
-            zip -r ../${{ env.EXPORT_NAME }}-linux.zip .
+            zip -r -q ../artifacts/linux/${{ env.EXPORT_NAME }}-linux.zip .
           else
             echo "No Linux files found, skipping zip"
           fi
@@ -121,12 +120,17 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.EXPORT_NAME }}-linux
-          path: build/${{ env.EXPORT_NAME }}-linux.zip
+          path: build/artifacts/linux/${{ env.EXPORT_NAME }}-linux.zip
           if-no-files-found: error
       # 步骤说明：列出所有构建输出路径下的文件，便于调试查看构建成果。
-      - name: List build outputs
-        run: ls -R build/ || true
-
+      - name: List build outputs (debug)
+        run: |
+          echo "=== build/ ==="
+          ls -R build || true
+          echo "=== print windows contents==="
+          ls -R build/artifacts/windows || true
+          echo "=== print linux contents (bottom 10 lines) ==="
+          ls -R build/artifacts/linux || true
   # 作业名称：export-macos
   # 功能描述：使用 macOS 最新环境构建 macOS 应用包，并打包成 ZIP 文件上传为 Artifact。
   export-macos:
