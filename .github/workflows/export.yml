@@ -28,6 +28,7 @@ jobs:
           EXPORT_SLUG="${EXPORT_NAME// /_}"
           echo "EXPORT_SLUG=${EXPORT_SLUG}" >> $GITHUB_ENV
           echo "Prepared EXPORT_SLUG=${EXPORT_SLUG}"
+
       - name: Setup .NET (for restore/build)
         uses: actions/setup-dotnet@v4
         with:
@@ -61,7 +62,6 @@ jobs:
       - name: Export Windows Desktop (x86_64)
         run: |
           set -eux
-          # export to a slugged filename (no spaces)
           godot --headless --export-release "Windows Desktop" build/windows/${EXPORT_SLUG}.exe --quit
 
       - name: Verify Windows export
@@ -105,8 +105,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.EXPORT_NAME }}-windows-linux
-          path: |
-            build/*.zip
+          path: build/*.zip
           if-no-files-found: warn
 
   export-macos:
@@ -162,35 +161,42 @@ jobs:
         run: |
           # Backup
           cp export_presets.cfg export_presets.cfg.ci.bak || true
-          # Change universal -> x86_64 (safer for CI); change codesign=1 -> 0 to avoid signing errors in CI
-          sed -i '' 's/binary_format\/architecture="universal"/binary_format\/architecture="x86_64"/g' export_presets.cfg || true
-          sed -i '' 's/codesign\/codesign=1/codesign\/codesign=0/g' export_presets.cfg || true
-          echo "Adjusted export_presets.cfg for CI (arch->x86_64, codesign->0)."
-          sed -n '1,120p' export_presets.cfg || true
+          # Use Python replace to avoid sed quoting portability issues
+          python3 - <<'PY'
+  import io,sys
+  p='export_presets.cfg'
+  s=io.open(p,'r',encoding='utf-8').read()
+  s=s.replace('binary_format/architecture="universal"','binary_format/architecture="x86_64"')
+  s=s.replace('codesign/codesign=1','codesign/codesign=0')
+  io.open(p,'w',encoding='utf-8').write(s)
+  print('Adjusted export_presets.cfg for CI (arch->x86_64, codesign->0).')
+  PY
+  sed -n '1,120p' export_presets.cfg || true
 
-      - name: Create macOS export dir
-        run: mkdir -p build/macos
+- name: Create macOS export dir
+  run: |
+    mkdir -p build/macos
 
-      - name: Export macOS (.app)
-        run: |
-          set -eux
-          godot --headless --export-release "macOS" build/macos/${EXPORT_SLUG}.app --quit
+- name: Export macOS (.app)
+  run: |
+    set -eux
+    godot --headless --export-release "macOS" build/macos/${EXPORT_SLUG}.app --quit
 
-      - name: Verify macOS export and zip
-        run: |
-          ls -la build/macos || true
-          if [ ! -d "build/macos/${EXPORT_SLUG}.app" ]; then
-            echo ".app not found: build/macos/${EXPORT_SLUG}.app"
-            exit 2
-          fi
-          cd build/macos
-          zip -r ../${EXPORT_SLUG}-macOS.zip "${EXPORT_SLUG}.app"
-          cd ../..
-          ls -la build
+- name: Verify macOS export and zip
+  run: |
+    ls -la build/macos || true
+    if [ ! -d "build/macos/${EXPORT_SLUG}.app" ]; then
+      echo ".app not found: build/macos/${EXPORT_SLUG}.app"
+      exit 2
+    fi
+    cd build/macos
+    zip -r ../${EXPORT_SLUG}-macOS.zip "${EXPORT_SLUG}.app"
+    cd ../..
+    ls -la build
 
-      - name: Upload macOS artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.EXPORT_NAME }}-macOS
-          path: build/*.zip
-          if-no-files-found: warn
+- name: Upload macOS artifact
+  uses: actions/upload-artifact@v4
+  with:
+    name: ${{ env.EXPORT_NAME }}-macOS
+    path: build/*.zip
+    if-no-files-found: warn
