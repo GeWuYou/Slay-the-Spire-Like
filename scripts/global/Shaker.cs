@@ -1,4 +1,5 @@
 using Godot;
+using SlayTheSpireLike.scripts.extensions;
 
 namespace SlayTheSpireLike.scripts.global;
 
@@ -17,7 +18,7 @@ public partial class Shaker : SingletonNode<Shaker>
     public void Shake(Node2D thing, float strength, float duration = 0.2f, float shakeCount = 10)
     {
         // 参数校验，如果节点为空则直接返回
-        if (thing is null) return;
+        if (thing.IsInvalidNode()) return;
 
         // 记录节点的原始位置，用于震动结束后恢复位置
         var originalPosition = thing.Position;

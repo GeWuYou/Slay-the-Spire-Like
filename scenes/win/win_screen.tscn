@@ -1,0 +1,88 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsdr80amswe47"]
+
+[ext_resource type="Script" uid="uid://bsmiippha4u4u" path="res://scripts/win/WinScreen.cs" id="1_bkqru"]
+[ext_resource type="Texture2D" uid="uid://cpydvk8mq66o5" path="res://art/tile_0087.png" id="3_70rm2"]
+
+[sub_resource type="Gradient" id="Gradient_otr3d"]
+offsets = PackedFloat32Array(0, 0.88314605)
+colors = PackedColorArray(0.39001125, 0.26823837, 0.19540715, 1, 0.15127596, 0.15127608, 0.15127626, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8ekit"]
+gradient = SubResource("Gradient_otr3d")
+width = 50
+
+[sub_resource type="LabelSettings" id="LabelSettings_txrk6"]
+font_size = 12
+shadow_size = 4
+shadow_color = Color(0.636551, 0.24370313, 0.07002159, 0.35686275)
+
+[node name="WinScreen" type="Control" node_paths=PackedStringArray("MainMenuButton", "MessageLabel", "CharacterPortrait")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bkqru")
+MainMenuButton = NodePath("VBoxContainer/MainMenuButton")
+MessageLabel = NodePath("VBoxContainer/Message")
+CharacterPortrait = NodePath("CharacterPortrait")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_8ekit")
+
+[node name="CharacterPortrait" type="TextureRect" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.0
+offset_top = -14.0
+offset_right = -47.0
+offset_bottom = 46.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_70rm2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -48.5
+offset_right = 96.0
+offset_bottom = 48.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Message" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "恭喜你作为战士
+拥抱战斗的的荣耀！
+获得了胜利。"
+label_settings = SubResource("LabelSettings_txrk6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainMenuButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(60, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "主菜单"

@@ -138,6 +138,7 @@ public partial class Stats : Resource
         instance.Art = Art;
         instance.Health = MaxHeath;
         instance.Block = 0;
+        instance.Name = Name;
         return instance;
     }
 }

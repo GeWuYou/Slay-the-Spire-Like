@@ -1,5 +1,7 @@
+using System.Threading.Tasks;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.extensions;
 using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.relic_handler;
@@ -13,7 +15,7 @@ public partial class RelicUi : Control
         set
         {
             _relic = value;
-            CallDeferred(nameof(SetRelic));
+            _ = SetRelic();
         }
     }
 
@@ -25,14 +27,17 @@ public partial class RelicUi : Control
     {
         _icon = GetNode<TextureRect>("Icon");
         _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        GuiInput+=OnGuiInput;
+        GuiInput += OnGuiInput;
     }
+
     public void Flash()
     {
         _animationPlayer.Play("flash");
     }
-    private void SetRelic()
+
+    private async Task SetRelic()
     {
+        await this.WaitUntilReady();
         _icon.Texture = (Texture2D)Relic.Icon;
     }
 
@@ -43,5 +48,4 @@ public partial class RelicUi : Control
             Events.Instance.RaiseRelicTooltipRequested(Relic);
         }
     }
-    
 }

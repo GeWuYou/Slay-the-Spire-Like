@@ -1,23 +1,24 @@
-// meta-name: 敌人攻击动作模板
-// meta-description: 该模板默认实现一个基础的攻击动作
-
-using SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.effects;
-using SlayTheSpireLike.scripts.enemies;
+using SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.modifier_handler;
+using SlayTheSpireLike.scripts.player;
+
+namespace SlayTheSpireLike.scripts.enemies.toxic_ghost;
 
 /// <summary>
 /// 敌人动作模板类，用于定义敌人的具体行为动作
 /// 继承自EnemyAction基类，需要实现具体的动作执行逻辑
 /// </summary>
-public partial class _CLASS_ : EnemyAction
+public partial class ToxicGhostAttackAction : EnemyAction
 {
-      /// <summary>
+    /// <summary>
     /// 获取或设置伤害值属性
     /// </summary>
     /// <value>表示伤害数值的整型属性，默认值为5</value>
-    [Export] public int Damage { get; set; } = 5;
+    [Export]
+    public int Damage { get; set; } = 8;
 
 
     /// <summary>
@@ -36,6 +37,10 @@ public partial class _CLASS_ : EnemyAction
     {
         // 检查敌人和目标是否存在
         if (Enemy == null || Target == null) return;
+        if (Target is not Player player)
+        {
+            return;
+        }
 
         // 创建补间动画并设置缓动类型
         var tween = CreateTween().SetTrans(Tween.TransitionType.Quint);
@@ -47,15 +52,16 @@ public partial class _CLASS_ : EnemyAction
         // 创建伤害效果并设置伤害数值
         var damageEffect = new DamageEffect();
         Array<Node> targetArray = [Target];
-        damageEffect.Amount = Damage;
+        damageEffect.Amount = Enemy.ModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgDealt, Damage);
         damageEffect.Sound = Sound;
 
         // 执行攻击动画序列：移动到目标位置 -> 造成伤害 -> 等待 -> 返回起始位置
         tween.TweenProperty(Enemy, "global_position", end, 0.4f);
         tween.TweenCallback(Callable.From(() => damageEffect.Execute(targetArray)));
+        tween.TweenCallback(Callable.From(() => player.Stats.DrawPile.AddCard(ResourceFactories.ToxinCardFactory())));
         tween.TweenInterval(0.25f);
         tween.TweenProperty(Enemy, "global_position", start, 0.4f);
-        
+
         // 动画完成后发出信号表示敌人行动结束
         tween.Finished += () => Events.Instance.RaiseEnemyActionCompleted(Enemy);
     }
@@ -75,7 +81,9 @@ public partial class _CLASS_ : EnemyAction
         }
 
         // 计算修改后的伤害值并更新意图文本
-        var modifiedDmg =  player.ModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgTaken,Damage);
-        Intent.CurrentText = string.Format(Intent.BaseText, modifiedDmg);
+        var playerModifiedDmg = player.ModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgTaken, Damage);
+        var enemyModifiedDmg =
+            Enemy.ModifierHandler.GetModifiedValue(Modifier.ModifierType.DmgDealt, playerModifiedDmg);
+        Intent.CurrentText = string.Format(Intent.BaseText, enemyModifiedDmg);
     }
 }

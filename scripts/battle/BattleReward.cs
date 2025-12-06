@@ -64,6 +64,10 @@ public partial class BattleReward : Control
     /// <param name="amount">要添加的金币数量。</param>
     public void AddGoldReward(int amount)
     {
+        if (amount == 0)
+        {
+            return;
+        }
         var goldReward = ResourceFactories.RewardButtonFactory();
         goldReward.RewardIcon = ResourceFactories.GoldTextureFactory();
         goldReward.RewardText = string.Format(GameConstants.Texts.Gold,amount);

@@ -1,0 +1,52 @@
+[gd_scene load_steps=15 format=3 uid="uid://cwmqhqwfyho0s"]
+
+[ext_resource type="Script" uid="uid://dql82x8uvowj0" path="res://scripts/enemies/EnemyActionPicker.cs" id="1_gg3dg"]
+[ext_resource type="Script" uid="uid://dlxtk4ox1y0di" path="res://scripts/enemies/toxic_ghost/ToxicGhostMuscleBuffAction.cs" id="2_o5540"]
+[ext_resource type="Texture2D" uid="uid://cn2c1psh561cc" path="res://art/tile_0127.png" id="3_08gd8"]
+[ext_resource type="Script" uid="uid://da43ihixka6hk" path="res://scripts/resources/Intent.cs" id="4_pwatf"]
+[ext_resource type="AudioStream" uid="uid://d18efgk4jsu16" path="res://art/true_strength.ogg" id="5_73npf"]
+[ext_resource type="AudioStream" uid="uid://df64e7qat73gs" path="res://art/block.ogg" id="5_uov26"]
+[ext_resource type="Script" uid="uid://beoayu0xcyl1" path="res://scripts/enemies/toxic_ghost/ToxicGhostAttackAction.cs" id="6_o5540"]
+[ext_resource type="Texture2D" uid="uid://ditwdvswhtkv5" path="res://art/attack_negative.png" id="7_pwatf"]
+[ext_resource type="AudioStream" uid="uid://de2ryat1pxq6" path="res://art/enemy_attack.ogg" id="8_uov26"]
+[ext_resource type="Script" uid="uid://bguecj2bmldo3" path="res://scripts/enemies/toxic_ghost/ToxicGhostBlockAction.cs" id="9_ncgl7"]
+[ext_resource type="Texture2D" uid="uid://oe7v35ii8vrs" path="res://art/tile_0102.png" id="10_2ms0x"]
+
+[sub_resource type="Resource" id="Resource_xy1tn"]
+script = ExtResource("4_pwatf")
+BaseText = ""
+Icon = ExtResource("3_08gd8")
+metadata/_custom_type_script = "uid://da43ihixka6hk"
+
+[sub_resource type="Resource" id="Resource_o5540"]
+script = ExtResource("4_pwatf")
+Icon = ExtResource("7_pwatf")
+metadata/_custom_type_script = "uid://da43ihixka6hk"
+
+[sub_resource type="Resource" id="Resource_3b1yo"]
+script = ExtResource("4_pwatf")
+Icon = ExtResource("10_2ms0x")
+metadata/_custom_type_script = "uid://da43ihixka6hk"
+
+[node name="ToxicGhostAi" type="Node"]
+script = ExtResource("1_gg3dg")
+
+[node name="MuscleBuffAction" type="Node" parent="."]
+script = ExtResource("2_o5540")
+"血量触发阈值" = 30
+Intent = SubResource("Resource_xy1tn")
+Sound = ExtResource("5_73npf")
+
+[node name="AttackAction" type="Node" parent="."]
+script = ExtResource("6_o5540")
+Intent = SubResource("Resource_o5540")
+Sound = ExtResource("8_uov26")
+ActionType = 1
+ChanceWeight = 6.5
+
+[node name="BlockAction" type="Node" parent="."]
+script = ExtResource("9_ncgl7")
+Intent = SubResource("Resource_3b1yo")
+Sound = ExtResource("5_uov26")
+ActionType = 1
+ChanceWeight = 3.5

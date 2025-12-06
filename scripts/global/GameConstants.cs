@@ -60,6 +60,7 @@ public static class GameConstants
     /// </summary>
     public static class ResourcePaths
     {
+        public const string WinScreenScene = "res://scenes/win/win_screen.tscn";
         /// <summary>
         ///     卡牌UI场景路径
         /// </summary>
@@ -153,6 +154,8 @@ public static class GameConstants
         public const string ShopCardScene = "res://scenes/shop/商店卡牌.tscn";
 
         public const string ShopRelicScene = "res://scenes/shop/商店遗物.tscn";
+        
+        public const string MainMenuScene = "res://scenes/ui/main_menu.tscn";
         /// <summary>
         /// 金币纹理资源路径常量
         /// </summary>
@@ -233,6 +236,6 @@ public static class GameConstants
         /// </summary>
         public const string CardHoverStyleBox = "res://scenes/ui/card_hover_style_box_.tres";
         
-       
+        public const string ToxinCard = "res://resources/cards/status/toxin.tres";
     }
 }

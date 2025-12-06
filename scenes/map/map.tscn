@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://pdblh56i0k2n" path="res://scripts/map/Map.cs" id="1_sxf4j"]
 [ext_resource type="Script" uid="uid://d3vndm1ywox5q" path="res://scripts/map/MapGenerator.cs" id="2_tqkkf"]
-[ext_resource type="Resource" uid="uid://xmylgeix6bt7" path="res://scenes/battle/battle_stats_pool.tres" id="3_a2pkv"]
+[ext_resource type="Resource" uid="uid://xmylgeix6bt7" path="res://resources/battle/battle_stats_pool.tres" id="3_a2pkv"]
 
 [sub_resource type="Gradient" id="Gradient_tqkkf"]
 offsets = PackedFloat32Array(0.006741573, 1)

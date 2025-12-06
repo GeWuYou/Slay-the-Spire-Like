@@ -7,6 +7,7 @@ using SlayTheSpireLike.scripts.shop;
 using SlayTheSpireLike.scripts.status_handler;
 using SlayTheSpireLike.scripts.ui;
 using SlayTheSpireLike.scripts.ui.components;
+using SlayTheSpireLike.scripts.win;
 using Status = SlayTheSpireLike.scripts.statuses.Status;
 
 namespace SlayTheSpireLike.scripts.global;
@@ -127,6 +128,10 @@ public static class ResourceFactories
     public static readonly Func<MapRoom> MapRoomFactory =
         ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<MapRoom>(
             GameConstants.ResourcePaths.MapRoomScene);
+    
+    public static readonly Func<WinScreen> WinScreenFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterSceneFactory<WinScreen>(
+            GameConstants.ResourcePaths.WinScreenScene);
 
     /// <summary>
     ///     地图连线UI工厂函数，用于创建Line2D场景实例
@@ -287,4 +292,8 @@ public static class ResourceFactories
     public static readonly Func<StyleBox> CardHoverStyleBoxFactory =
         ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<StyleBox>(
             GameConstants.ResourcePaths.CardHoverStyleBox);
+    
+    public static readonly Func<Card> ToxinCardFactory =
+        ResourceLoaderManager.Instance.GetOrRegisterResourceFactory<Card>(
+            GameConstants.ResourcePaths.ToxinCard,true);
 }

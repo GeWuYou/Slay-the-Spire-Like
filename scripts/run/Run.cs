@@ -11,6 +11,7 @@ using SlayTheSpireLike.scripts.room.treasure;
 using SlayTheSpireLike.scripts.shop;
 using SlayTheSpireLike.scripts.ui;
 using SlayTheSpireLike.scripts.ui.components;
+using SlayTheSpireLike.scripts.win;
 using BattleReward = SlayTheSpireLike.scripts.battle.BattleReward;
 
 namespace SlayTheSpireLike.scripts.run;
@@ -35,7 +36,7 @@ public partial class Run : Node
     public CharacterStats PlayerStats { get; set; }
     public RunStats RunStats { get; set; }
     private readonly List<Action> _disposables = new();
-    
+
     public override void _Ready()
     {
         if (RunStartup.RunType == RunStartup.Type.NewRun)
@@ -45,7 +46,8 @@ public partial class Run : Node
             PlayerStats.StatsChanged += () => HealthUi.UpdateValue(PlayerStats.Health);
             HealthUi.UpdateValue(PlayerStats.Health);
             StartRun();
-        }else
+        }
+        else
         {
             GD.Print("todo 还未实现");
         }
@@ -64,14 +66,14 @@ public partial class Run : Node
     private void SetupTopBar()
     {
         GoldUi.RunStats = RunStats;
-        
+
         RelicHandler.AddRelic(PlayerStats.StartingRelic);
         Events.Instance.RelicTooltipRequested += RelicTooltip.ShowTooltip;
-        
+
         _disposables.Add(() => Events.Instance.RelicTooltipRequested -= RelicTooltip.ShowTooltip);
         DeckButton.CardPile = PlayerStats.Deck;
         DeckPileView.CardPile = PlayerStats.Deck;
-        DeckButton.Pressed+=() => DeckPileView.ShowCurrentView("抽牌堆");
+        DeckButton.Pressed += () => DeckPileView.ShowCurrentView("抽牌堆");
     }
 
     /// <summary>
@@ -86,11 +88,10 @@ public partial class Run : Node
     {
         var events = Events.Instance;
         var resourceLoaderManager = ResourceLoaderManager.Instance;
-
-        // 战斗胜利事件处理：切换到战斗奖励场景
        
-        events.BattleWon += OnBattleWon;
+        events.BattleWon +=OnBattleWon;
         _disposables.Add(() => events.BattleWon -= OnBattleWon);
+
         events.BattleRewardExited += ShowMap;
         _disposables.Add(() => events.BattleRewardExited -= ShowMap);
         events.CampfireExited += ShowMap;
@@ -115,7 +116,7 @@ public partial class Run : Node
 
     private void OnTreasureRoomExited(Relic relic)
     {
-        var rewardScene =  ChangeView(ResourceLoaderManager.Instance
+        var rewardScene = ChangeView(ResourceLoaderManager.Instance
             .GetSceneLoader(GameConstants.ResourcePaths.BattleRewardScene).Value) as BattleReward;
         rewardScene!.RunStats = RunStats;
         rewardScene!.PlayerStats = PlayerStats;
@@ -123,16 +124,34 @@ public partial class Run : Node
         rewardScene.AddRelicReward(relic);
     }
 
-    private void OnBattleWon()
+    private void ShowRegularBattleRewards()
     {
-        var rewardScene =  ChangeView(ResourceLoaderManager.Instance
+        var rewardScene = ChangeView(ResourceLoaderManager.Instance
             .GetSceneLoader(GameConstants.ResourcePaths.BattleRewardScene).Value) as BattleReward;
         rewardScene!.RunStats = RunStats;
         rewardScene!.PlayerStats = PlayerStats;
-        
+
         rewardScene.AddGoldReward(Map.LastRoom.BattleStats.RollGoldReward());
         rewardScene.AddCardReward();
     }
+
+    private void OnBattleWon()
+    {
+        GD.Print($"{Map.FloorsClimbed}:{Map.MapGenerator.Floors}");
+        if (Map.FloorsClimbed == Map.MapGenerator.Floors)
+        {
+            if (ChangeView(ResourceLoaderManager.Instance.GetSceneLoader(GameConstants.ResourcePaths.WinScreenScene)
+                    .Value) is WinScreen winScene)
+            {
+                winScene.PlayerStats = PlayerStats;
+            }
+        }
+        else
+        {
+            ShowRegularBattleRewards();
+        }
+    }
+
     private void OnMapExited(Room room)
     {
         switch (room.RoomType)
@@ -170,6 +189,7 @@ public partial class Run : Node
         {
             return;
         }
+
         treasure.RelicHandler = RelicHandler;
         treasure.PlayerStats = PlayerStats;
         treasure.GenerateRelic();
@@ -190,7 +210,7 @@ public partial class Run : Node
             GD.Print("ShopScene not found");
             return;
         }
-        
+
         // 初始化商店的数据绑定
         shop.PlayerStats = PlayerStats;
         shop.RunStats = RunStats;
@@ -208,6 +228,7 @@ public partial class Run : Node
         {
             return;
         }
+
         campfire.PlayerStats = PlayerStats;
     }
 
@@ -233,6 +254,7 @@ public partial class Run : Node
         {
             CurrentView.GetChild(0).QueueFree();
         }
+
         Map.ShowMap();
         Map.UnlockNextRooms();
     }
@@ -241,14 +263,15 @@ public partial class Run : Node
     {
         if (ChangeView(ResourceLoaderManager.Instance
                 .GetSceneLoader(GameConstants.ResourcePaths.BattleScene).Value) is not Battle battleScene)
-       {
-           GD.PrintErr("BattleScene is null");
-           return;
-       }
-       battleScene.PlayerStats = PlayerStats;
-       battleScene.BattleStats = room.BattleStats;
-       battleScene.RelicHandler = RelicHandler;
-       battleScene.StartBattle();
+        {
+            GD.PrintErr("BattleScene is null");
+            return;
+        }
+
+        battleScene.PlayerStats = PlayerStats;
+        battleScene.BattleStats = room.BattleStats;
+        battleScene.RelicHandler = RelicHandler;
+        battleScene.StartBattle();
     }
 
     private Node ChangeView(PackedScene newScene)
@@ -264,6 +287,7 @@ public partial class Run : Node
         Map.HideMap();
         return newView;
     }
+
     private void ChangeViewNotReturn(PackedScene newScene)
     {
         ChangeView(newScene);

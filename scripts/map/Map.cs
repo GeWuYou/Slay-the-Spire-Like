@@ -19,7 +19,7 @@ public partial class Map : Node2D
     /// <summary>
     /// 记录已爬升的楼层数量
     /// </summary>
-    private int _floorsClimbed;
+    public int FloorsClimbed { get; set; }
 
     /// <summary>
     /// 存储地图数据的二维数组，用于保存各个楼层和房间的信息
@@ -138,7 +138,7 @@ public partial class Map : Node2D
     /// </summary>
     public void GenerateNewMap()
     {
-        _floorsClimbed = 0;
+        FloorsClimbed = 0;
         _mapData = MapGenerator.GenerateMap();
         CreateMap();
     }
@@ -183,7 +183,7 @@ public partial class Map : Node2D
         mapRoom.Selected += OnMapRoomSelected;
         Rooms.AddChild(mapRoom);
         ConnectLines(room);
-        if (room.IsSelected && room.Row < _floorsClimbed)
+        if (room.IsSelected && room.Row < FloorsClimbed)
         {
             mapRoom.ShowSelected();
         }
@@ -211,7 +211,7 @@ public partial class Map : Node2D
         }
 
         LastRoom = room;
-        _floorsClimbed++;
+        FloorsClimbed++;
         Events.Instance.RaiseMapExited(room);
     }
 

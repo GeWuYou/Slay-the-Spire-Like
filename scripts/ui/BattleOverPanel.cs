@@ -1,6 +1,5 @@
-using SlayTheSpireLike.scripts.global;
+using global::SlayTheSpireLike.scripts.global;
 using Godot;
-using SlayTheSpireLike.scripts.extensions;
 
 namespace SlayTheSpireLike.scripts.ui;
 

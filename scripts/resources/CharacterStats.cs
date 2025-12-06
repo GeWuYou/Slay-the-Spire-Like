@@ -125,6 +125,7 @@ public partial class CharacterStats : Stats
     /// <returns>如果当前法力值足够支付卡牌消耗则返回true，否则返回false</returns>
     public bool CanPlayCard(Card card)
     {
+        if (card is null) return false;
         return Mana >= card.Cost;
     }
 
@@ -150,6 +151,7 @@ public partial class CharacterStats : Stats
         instance.MaxBlock = MaxBlock;
         instance.StartingRelic = StartingRelic;
         instance.Type = Type;
+        instance.Portrait = Portrait;
         return instance;
     }
 }
