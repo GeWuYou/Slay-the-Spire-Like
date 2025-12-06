@@ -166,8 +166,25 @@ offset_bottom = 21.0
 text = "99"
 horizontal_alignment = 1
 
-[node name="WindowMask" type="CanvasLayer" parent="." node_paths=PackedStringArray("ColorRect", "Timer")]
+[node name="CardPileViews" type="CanvasLayer" parent="."]
 layer = 2
+
+[node name="DrawPileView" parent="CardPileViews" instance=ExtResource("21_156m4")]
+unique_name_in_owner = true
+visible = false
+
+[node name="DiscardPileView" parent="CardPileViews" instance=ExtResource("21_156m4")]
+unique_name_in_owner = true
+visible = false
+
+[node name="StatusViewLayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="StatusView" parent="StatusViewLayer" instance=ExtResource("22_5moxy")]
+visible = false
+
+[node name="WindowMask" type="CanvasLayer" parent="." node_paths=PackedStringArray("ColorRect", "Timer")]
+layer = 6
 script = ExtResource("15_vceff")
 ColorRect = NodePath("ColorRect")
 Timer = NodePath("Timer")
@@ -186,21 +203,4 @@ wait_time = 0.1
 one_shot = true
 
 [node name="BattleOverPanel" parent="WindowMask" instance=ExtResource("17_djc8l")]
-visible = false
-
-[node name="CardPileViews" type="CanvasLayer" parent="."]
-layer = 4
-
-[node name="DrawPileView" parent="CardPileViews" instance=ExtResource("21_156m4")]
-unique_name_in_owner = true
-visible = false
-
-[node name="DiscardPileView" parent="CardPileViews" instance=ExtResource("21_156m4")]
-unique_name_in_owner = true
-visible = false
-
-[node name="StatusViewLayer" type="CanvasLayer" parent="."]
-layer = 4
-
-[node name="StatusView" parent="StatusViewLayer" instance=ExtResource("22_5moxy")]
 visible = false

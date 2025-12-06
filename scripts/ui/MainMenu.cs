@@ -1,7 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using global::SlayTheSpireLike.global;
 using SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.resources;
+using SlayTheSpireLike.scripts.save;
 
 namespace SlayTheSpireLike.scripts.ui;
 
@@ -14,6 +17,7 @@ public partial class MainMenu : Control
     [Export] public Button NewGameButton { get; set; }
     [Export] public Button QuitButton { get; set; }
 
+    [Export] public RunStartup RunStartup { get; set; }
     /// <summary>
     /// 当节点准备就绪时调用，初始化按钮事件绑定和游戏状态
     /// </summary>
@@ -21,9 +25,10 @@ public partial class MainMenu : Control
     {
         // 取消游戏暂停状态
         GetTree().Paused = false;
-        
+
+        ContinueButton.Disabled = !GameManager.SaveManager.Exists();
         // 绑定继续游戏按钮事件
-        ContinueButton.Pressed += OnContinueButtonPressed;
+        ContinueButton.Pressed +=async () => await  OnContinueButtonPressed();
         
         // 绑定新游戏按钮事件，使用异步处理
         NewGameButton.Pressed += async () => await OnNewGameButtonPressed();
@@ -49,8 +54,13 @@ public partial class MainMenu : Control
     /// <summary>
     /// 处理继续游戏按钮按下事件
     /// </summary>
-    private static void OnContinueButtonPressed()
+    private async Task OnContinueButtonPressed()
     {
-        throw new NotImplementedException();
+       RunStartup.RunType =RunStartup.Type.ContinueRun;
+       // 从资源管理器获取角色选择场景
+       var packed = ResourceLoaderManager.Instance
+           .GetSceneLoader(GameConstants.ResourcePaths.RunScene).Value;
+       // 执行场景切换过渡动画
+       await SceneTransitionManager.Instance.TransitionToScene(packed);
     }
 }

@@ -11,6 +11,7 @@ namespace SlayTheSpireLike.scripts.resources;
 [GlobalClass]
 public partial class CharacterStats : Stats
 {
+    [Export]
     private int _mana;
 
     /// <summary>
@@ -36,7 +37,7 @@ public partial class CharacterStats : Stats
     
     [Export]
     public CharacterType Type { get; set; }
-
+    
     /// <summary>
     ///     每回合抽卡数量，默认为5张
     /// </summary>
@@ -53,6 +54,7 @@ public partial class CharacterStats : Stats
     ///     当前法力值属性
     ///     设置时会触发StatsChanged信号通知UI更新
     /// </summary>
+    [Export]
     public int Mana
     {
         get => _mana;
@@ -66,21 +68,25 @@ public partial class CharacterStats : Stats
     /// <summary>
     ///     当前游戏中的完整卡组
     /// </summary>
+    [Export]
     public CardPile Deck { get; set; }
 
     /// <summary>
     ///     弃牌堆
     /// </summary>
+    [Export]
     public CardPile Discard { get; set; }
 
     /// <summary>
     ///     抽牌堆
     /// </summary>
+    [Export]
     public CardPile DrawPile { get; set; }
 
     /// <summary>
     ///     移除牌堆（被移出游戏的卡牌）
     /// </summary>
+    [Export]
     public CardPile RemovedDeck { get; set; }
 
     /// <summary>

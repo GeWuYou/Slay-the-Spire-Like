@@ -8,6 +8,7 @@ namespace SlayTheSpireLike.scripts.resources;
 [GlobalClass]
 public partial class RunStats : Resource
 {
+    [Export]
     private int _gold = 700;
 
     /// <summary>

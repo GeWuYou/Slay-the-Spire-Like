@@ -56,7 +56,6 @@ public partial class CardState : Node
 
     public override void _Ready()
     {
-        TransitionRequested += (from, to) => { GD.Print($"{from.StateValue} 转换为 {to}"); };
         Events = Events.Instance;
     }
 

@@ -79,7 +79,7 @@ public partial class Room : Resource
     /// 上一个房间数组属性，存储与当前房间相连的上一个房间列表
     /// </summary>
     [Export]
-    public Array<Room> PreviousRooms { get; set; }
+    public Array<string> PreviousRoomKeys { get; set; }
     
     /// <summary>
     /// 选中状态属性，标识房间是否被选中

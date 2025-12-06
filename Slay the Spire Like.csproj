@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="script_templates\**\*.cs" />
-    <Folder Include="scripts\core\" />
     <Folder Include="scripts\enemies\bat\" />
     <Folder Include="scripts\enemies\carb\" />
     <Folder Include="scripts\player\warrior\" />

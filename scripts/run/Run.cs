@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
+using global::SlayTheSpireLike.global;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.battle;
 using SlayTheSpireLike.scripts.campfire;
+using SlayTheSpireLike.scripts.core.save;
 using SlayTheSpireLike.scripts.map;
 using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.room.treasure;
+using SlayTheSpireLike.scripts.save;
 using SlayTheSpireLike.scripts.shop;
 using SlayTheSpireLike.scripts.ui;
 using SlayTheSpireLike.scripts.ui.components;
@@ -36,7 +39,9 @@ public partial class Run : Node
     [Export] public PauseMeun PauseMeun { get; set; }
     public CharacterStats PlayerStats { get; set; }
     public RunStats RunStats { get; set; }
+    private SaveData _saveData;
     private readonly List<Action> _disposables = new();
+
     private static async void OnSaveAndQuit()
     {
         try
@@ -49,32 +54,66 @@ public partial class Run : Node
             GD.PrintErr(e);
         }
     }
+
+    private void SaveRun(bool wasOnMap)
+    {
+        _saveData ??= new SaveData();
+
+        _saveData.RunStats = RunStats;
+        _saveData.PlayerStats = PlayerStats;
+        _saveData.Relics = RelicHandler.GetAllRelics();
+        _saveData.LastRoom = Map.LastRoom;
+        _saveData.MapData = Map.MapData.Duplicate();
+        _saveData.FloorsClimbed = Map.FloorsClimbed;
+        _saveData.WasOnMap = wasOnMap;
+        var saveManager = GameManager.SaveManager;
+        saveManager.Save(_saveData);
+    }
+
+
     public override void _Ready()
+
     {
         PauseMeun.Connect(PauseMeun.SignalName.SaveAndQuite,
             Callable.From(OnSaveAndQuit));
         if (RunStartup.RunType == RunStartup.Type.NewRun)
         {
             PlayerStats = RunStartup.PlayerStats.CreateInstance();
-            HealthUi.FormatString = $"{{0}}/{PlayerStats.MaxHeath}";
-            PlayerStats.StatsChanged += () => HealthUi.UpdateValue(PlayerStats.Health);
-            HealthUi.UpdateValue(PlayerStats.Health);
             StartRun();
         }
         else
         {
-            GD.Print("todo 还未实现");
+            LoadRun();
+        }
+        HealthUi.FormatString = $"{{0}}/{PlayerStats.MaxHeath}";
+        PlayerStats.Connect(Stats.SignalName.StatsChanged,
+            Callable.From(() => HealthUi.UpdateValue(PlayerStats.Health)));
+        HealthUi.UpdateValue(PlayerStats.Health);
+    }
+    private void LoadRun()
+    {
+        _saveData = GameManager.SaveManager.Load<SaveData>();
+        RunStats = _saveData.RunStats;
+        PlayerStats = _saveData.PlayerStats;
+        PlayerStats.Deck = _saveData.PlayerStats.Deck;
+        PlayerStats.Health = _saveData.PlayerStats.Health;
+        RelicHandler.AddRelics(_saveData.Relics);
+        SetupTopBar();
+        SetupEventConnections();
+        Map.LoadMap(_saveData.MapData, _saveData.FloorsClimbed, _saveData.LastRoom);
+        if (_saveData.LastRoom is not null && !_saveData.WasOnMap)
+        {
+            OnMapExited(_saveData.LastRoom);
         }
     }
-
     private void StartRun()
     {
-        // todo 暂时测试用
         RunStats = new RunStats();
         SetupEventConnections();
         SetupTopBar();
         Map.GenerateNewMap();
         Map.UnlockFloor(0);
+        SaveRun(true);
     }
 
     private void SetupTopBar()
@@ -159,6 +198,7 @@ public partial class Run : Node
             {
                 winScene.PlayerStats = PlayerStats;
             }
+            GameManager.SaveManager.Delete();
         }
         else
         {
@@ -168,6 +208,7 @@ public partial class Run : Node
 
     private void OnMapExited(Room room)
     {
+        SaveRun(false);
         switch (room.RoomType)
         {
             case Room.Type.Unknown:
@@ -271,6 +312,7 @@ public partial class Run : Node
 
         Map.ShowMap();
         Map.UnlockNextRooms();
+        SaveRun(true);
     }
 
     private void OnBattleRoomEntered(Room room)

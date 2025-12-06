@@ -19,7 +19,6 @@ public partial class Stats : Resource
     private int _block;
 
     private int _health;
-    
     /// <summary>
     ///     最大生命值上限，默认为 70。
     /// </summary>
@@ -57,6 +56,7 @@ public partial class Stats : Resource
     ///     设置时将自动限制在 [0, MaxHeath] 范围内。
     ///     若值发生更改，则会触发 StatsChanged 信号。
     /// </summary>
+    [Export]
     public int Health
     {
         get => _health;

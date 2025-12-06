@@ -428,11 +428,12 @@ public partial class MapGenerator : Node
         {
             currentRoom.NextRooms.Add(nextRoom);
         }
-    
+
+       var key =  string.Concat(currentRoom.Row, currentRoom.Column);
         // 设置上一个房间列表
-        if (!nextRoom.PreviousRooms.Contains(currentRoom))
+        if (!nextRoom.PreviousRoomKeys.Contains(key))
         {
-            nextRoom.PreviousRooms.Add(currentRoom);
+            nextRoom.PreviousRoomKeys.Add(key);
         }
 
         return nextRoom.Column;
@@ -545,7 +546,7 @@ public partial class MapGenerator : Node
                 // 初始化下一个可到达的房间列表
                 currentRoom.NextRooms = [];
                 // 初始化上一个可到达的房间列表
-                currentRoom.PreviousRooms = [];
+                currentRoom.PreviousRoomKeys = [];
                 // 特殊处理最底层的房间位置
                 if (i == Floors - 1)
                 {

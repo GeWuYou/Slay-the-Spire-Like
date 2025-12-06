@@ -1,4 +1,5 @@
 using System;
+using global::SlayTheSpireLike.global;
 using Godot;
 using SlayTheSpireLike.scripts.enemies;
 using SlayTheSpireLike.scripts.enums;
@@ -74,6 +75,7 @@ public partial class Battle : Node2D
     private static void OnPlayerDied()
     {
         Events.Instance.RaiseBattleOverScreenRequested("游戏结束！", BattleOverPanel.Type.Lose);
+        GameManager.SaveManager.Delete();
     }
 
     private void OnEnemiesChildOrderChanged()

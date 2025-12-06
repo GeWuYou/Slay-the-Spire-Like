@@ -24,7 +24,7 @@ public partial class Map : Node2D
     /// <summary>
     /// 存储地图数据的二维数组，用于保存各个楼层和房间的信息
     /// </summary>
-    private Array<Array<Room>> _mapData;
+    public Array<Array<Room>> MapData { get; set; }
 
     /// <summary>
     ///   地图滚动速度
@@ -139,22 +139,29 @@ public partial class Map : Node2D
     public void GenerateNewMap()
     {
         FloorsClimbed = 0;
-        _mapData = MapGenerator.GenerateMap();
+        MapData = MapGenerator.GenerateMap();
         CreateMap();
     }
-
+    public void LoadMap(Array<Array<Room>> mapData,int floorsCompleted,Room lastRoom)
+    {
+        FloorsClimbed = floorsCompleted;
+        MapData = mapData;
+        LastRoom = lastRoom;
+        CreateMap();
+        UnlockFloor(floorsCompleted > 0 ? floorsCompleted : 0);
+    }
     /// <summary>
     /// 创建地图可视化内容，包括房间及其连接线。
     /// 同时居中整个地图布局。
     /// </summary>
     private void CreateMap()
     {
-        foreach (var currentFloor in _mapData)
+        foreach (var currentFloor in MapData)
         {
             foreach (var room in currentFloor)
             {
                 // 跳过没有前后连接关系的孤立房间
-                if (room.NextRooms.Count <= 0 && room.PreviousRooms.Count <= 0)
+                if (room.NextRooms.Count <= 0 && room.PreviousRoomKeys.Count <= 0)
                 {
                     continue;
                 }
