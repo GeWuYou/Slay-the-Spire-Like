@@ -59,15 +59,18 @@ public partial class Run : Node
     {
         _saveData ??= new SaveData();
 
-        _saveData.RunStats = RunStats;
-        _saveData.PlayerStats = PlayerStats;
+        // 使用 Duplicate() 创建独立副本（快照），避免保存的是可变引用
+        _saveData.RunStats = RunStats.Duplicate() as RunStats;
+        _saveData.PlayerStats = PlayerStats.Duplicate() as CharacterStats;
+
+        // 如果 Relic、MapData 也是 Resource，继续用 Duplicate 或深拷贝
         _saveData.Relics = RelicHandler.GetAllRelics();
         _saveData.LastRoom = Map.LastRoom;
         _saveData.MapData = Map.MapData.Duplicate();
         _saveData.FloorsClimbed = Map.FloorsClimbed;
         _saveData.WasOnMap = wasOnMap;
-        var saveManager = GameManager.SaveManager;
-        saveManager.Save(_saveData);
+
+        GameManager.SaveManager.Save(_saveData);
     }
 
 
