@@ -1,5 +1,4 @@
 ﻿using Godot;
-using SlayTheSpireLike.scripts.extensions;
 
 namespace SlayTheSpireLike.scripts.ui.state;
 

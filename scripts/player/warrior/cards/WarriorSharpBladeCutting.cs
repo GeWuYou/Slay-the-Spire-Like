@@ -4,7 +4,6 @@ using Godot.Collections;
 using SlayTheSpireLike.scripts.effects;
 using SlayTheSpireLike.scripts.modifier_handler;
 using SlayTheSpireLike.scripts.resources;
-using SlayTheSpireLike.scripts.statuses;
 using Array = Godot.Collections.Array;
 
 namespace SlayTheSpireLike.scripts.player.warrior.cards;

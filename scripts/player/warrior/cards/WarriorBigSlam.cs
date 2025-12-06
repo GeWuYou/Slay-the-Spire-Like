@@ -1,5 +1,3 @@
-using System;
-using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.effects;

@@ -33,12 +33,26 @@ public partial class Run : Node
     [Export] public Map Map { get; set; }
     [Export] public RelicHandler RelicHandler { get; set; }
     [Export] public RelicTooltip RelicTooltip { get; set; }
+    [Export] public PauseMeun PauseMeun { get; set; }
     public CharacterStats PlayerStats { get; set; }
     public RunStats RunStats { get; set; }
     private readonly List<Action> _disposables = new();
-
+    private static async void OnSaveAndQuit()
+    {
+        try
+        {
+            await SceneTransitionManager.Instance.TransitionToScene(ResourceLoaderManager
+                .Instance.GetSceneLoader(GameConstants.ResourcePaths.MainMenuScene).Value);
+        }
+        catch (Exception e)
+        {
+            GD.PrintErr(e);
+        }
+    }
     public override void _Ready()
     {
+        PauseMeun.Connect(PauseMeun.SignalName.SaveAndQuite,
+            Callable.From(OnSaveAndQuit));
         if (RunStartup.RunType == RunStartup.Type.NewRun)
         {
             PlayerStats = RunStartup.PlayerStats.CreateInstance();
@@ -88,8 +102,8 @@ public partial class Run : Node
     {
         var events = Events.Instance;
         var resourceLoaderManager = ResourceLoaderManager.Instance;
-       
-        events.BattleWon +=OnBattleWon;
+
+        events.BattleWon += OnBattleWon;
         _disposables.Add(() => events.BattleWon -= OnBattleWon);
 
         events.BattleRewardExited += ShowMap;

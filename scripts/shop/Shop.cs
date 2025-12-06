@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using SlayTheSpireLike.scripts.global;
 using Godot;

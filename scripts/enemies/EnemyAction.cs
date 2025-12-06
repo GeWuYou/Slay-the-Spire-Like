@@ -1,6 +1,4 @@
 using Godot;
-using SlayTheSpireLike.scripts.modifier_handler;
-using SlayTheSpireLike.scripts.player;
 using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.enemies;

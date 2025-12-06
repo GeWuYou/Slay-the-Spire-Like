@@ -1,7 +1,5 @@
-using System;
 using Godot;
 using SlayTheSpireLike.scripts.component;
-using SlayTheSpireLike.scripts.effects;
 using SlayTheSpireLike.scripts.modifier_handler;
 
 namespace SlayTheSpireLike.scripts.statuses;

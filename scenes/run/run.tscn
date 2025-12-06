@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://defhoeabnbiqx"]
+[gd_scene load_steps=14 format=3 uid="uid://defhoeabnbiqx"]
 
 [ext_resource type="PackedScene" uid="uid://bw48ifds8uq3n" path="res://scenes/map/map.tscn" id="1_8rlou"]
 [ext_resource type="Script" uid="uid://db6dspcnphbfu" path="res://scripts/run/Run.cs" id="1_l7o68"]
@@ -11,8 +11,12 @@
 [ext_resource type="Texture2D" uid="uid://d0edy7thj8ce6" path="res://art/heart.png" id="6_ux63y"]
 [ext_resource type="PackedScene" uid="uid://doivqyn64o1xy" path="res://scenes/relic_handler/relic_handler.tscn" id="7_yeia0"]
 [ext_resource type="PackedScene" uid="uid://bvgisif8nw2eq" path="res://scenes/relic_handler/relic_tooltip.tscn" id="11_g42ja"]
+[ext_resource type="Script" uid="uid://dy5bw87qbd6ro" path="res://scripts/run/PauseMeun.cs" id="12_cnkn7"]
 
-[node name="Run" type="Node" node_paths=PackedStringArray("CurrentView", "BattleButton", "ShopButton", "CampfireButton", "TreasureButton", "MapButton", "RewardsButton", "DeckPileView", "DeckButton", "GoldUi", "HealthUi", "Map", "RelicHandler", "RelicTooltip")]
+[sub_resource type="LabelSettings" id="LabelSettings_7yo0l"]
+shadow_color = Color(0.61273354, 0.37137222, 0.49154884, 1)
+
+[node name="Run" type="Node" node_paths=PackedStringArray("CurrentView", "BattleButton", "ShopButton", "CampfireButton", "TreasureButton", "MapButton", "RewardsButton", "DeckPileView", "DeckButton", "GoldUi", "HealthUi", "Map", "RelicHandler", "RelicTooltip", "PauseMeun")]
 script = ExtResource("1_l7o68")
 CurrentView = NodePath("CurrentView")
 BattleButton = NodePath("DebugButtons/BattleButton")
@@ -29,6 +33,7 @@ HealthUi = NodePath("TopBar/BarItems/HealthUi")
 Map = NodePath("Map")
 RelicHandler = NodePath("TopBar/BarItems/RelicHandlerContainer/RelicHandler")
 RelicTooltip = NodePath("TopBar/RelicTooltip")
+PauseMeun = NodePath("PauseMeun")
 
 [node name="Map" parent="." instance=ExtResource("1_8rlou")]
 
@@ -130,3 +135,53 @@ visible = false
 [node name="RelicTooltip" parent="TopBar" instance=ExtResource("11_g42ja")]
 unique_name_in_owner = true
 visible = false
+
+[node name="PauseMeun" type="CanvasLayer" parent="." node_paths=PackedStringArray("BackToGameButton", "SaveAndQuiteButton")]
+process_mode = 3
+layer = 5
+visible = false
+script = ExtResource("12_cnkn7")
+BackToGameButton = NodePath("VBoxContainer/GoBackButton")
+SaveAndQuiteButton = NodePath("VBoxContainer/SaveAndQuiteButton")
+
+[node name="ColorRect" type="ColorRect" parent="PauseMeun"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.5372549)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMeun"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -33.0
+offset_right = 16.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="PauseMeun/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "暂停"
+label_settings = SubResource("LabelSettings_7yo0l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SaveAndQuiteButton" type="Button" parent="PauseMeun/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+text = "保存并退出"
+
+[node name="GoBackButton" type="Button" parent="PauseMeun/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+text = "返回"

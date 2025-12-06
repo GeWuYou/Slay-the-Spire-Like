@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Godot;
-using SlayTheSpireLike.scripts.extensions;
 using SlayTheSpireLike.scripts.ui.state;
 
 namespace SlayTheSpireLike.scripts.ui;
