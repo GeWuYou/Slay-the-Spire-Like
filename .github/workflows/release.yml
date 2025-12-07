@@ -164,14 +164,18 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Upload assets to Release (via GitHub Uploads API)
-        run: |    # 只上传指定的压缩包文件
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RELEASE_ID: ${{ steps.create_release.outputs.id }}
+        run: |
+          echo "REPO=$REPO RELEASE_ID=$RELEASE_ID"
           for f in build-artifacts/*/*.zip build-artifacts/*/*.exe build-artifacts/*/*.x86_64; do
             if [ -f "$f" ]; then
               BASENAME=$(basename "$f")
               echo "Uploading file: $f as $BASENAME"
-              curl --fail -sSL -X POST \
+              curl --fail -v -X POST \
                 -H "Authorization: token ${GITHUB_TOKEN}" \
                 -H "Content-Type: application/octet-stream" \
                 --data-binary @"$f" \
