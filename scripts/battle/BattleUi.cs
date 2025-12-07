@@ -38,15 +38,11 @@ public partial class BattleUi : CanvasLayer
     /// </summary>
     [Export]
     public Button EndTurnButton { get; set; }
-    
-    [Export]
-    public CardPileOpener DrawPileButton { get; set; }
-    [Export]
-    public CardPileOpener DiscardPileButton { get; set; }
-    [Export]
-    public CardPileView DrawPileView { get; set; }
-    [Export]
-    public CardPileView DiscardPileView { get; set; }
+
+    [Export] public CardPileOpener DrawPileButton { get; set; }
+    [Export] public CardPileOpener DiscardPileButton { get; set; }
+    [Export] public CardPileView DrawPileView { get; set; }
+    [Export] public CardPileView DiscardPileView { get; set; }
 
     /// <summary>
     ///     节点准备就绪时的回调方法
@@ -61,11 +57,21 @@ public partial class BattleUi : CanvasLayer
             ManaUi.CharacterStats = PlayerStats;
             Hand.PlayerStats = PlayerStats;
         }
+
         _events.PlayerHandDrawn += OnPlayerHandDrawn;
         EndTurnButton.Pressed += OnEndTurnButtonPressed;
-        DiscardPileButton.Pressed += () =>  DiscardPileView.ShowCurrentView("弃牌堆");
+        DiscardPileButton.Pressed += () => DiscardPileView.ShowCurrentView("弃牌堆");
         DrawPileButton.Pressed += () => DrawPileView.ShowCurrentView("抽牌堆", true);
     }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event.IsActionPressed("ui_accept"))
+        {
+            EndTurnButton.EmitSignal(BaseButton.SignalName.Pressed);
+        }
+    }
+
     public void InitCardPileUi()
     {
         // 在初始化卡牌堆UI时，同时初始化ManaUi和Hand
@@ -73,11 +79,12 @@ public partial class BattleUi : CanvasLayer
         {
             ManaUi.CharacterStats = PlayerStats;
         }
+
         if (Hand is { PlayerStats: null })
         {
             Hand.PlayerStats = PlayerStats;
         }
-        
+
         DrawPileButton.CardPile = PlayerStats.DrawPile;
         DrawPileView.CardPile = PlayerStats.DrawPile;
         DiscardPileButton.CardPile = PlayerStats.Discard;
@@ -90,7 +97,7 @@ public partial class BattleUi : CanvasLayer
         {
             _events.PlayerHandDrawn -= OnPlayerHandDrawn;
         }
-        
+
         // 移除按钮事件监听器
         if (EndTurnButton != null)
         {
@@ -118,6 +125,7 @@ public partial class BattleUi : CanvasLayer
         {
             return;
         }
+
         EndTurnButton.Disabled = false;
     }
 }

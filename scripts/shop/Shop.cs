@@ -184,7 +184,7 @@ public partial class Shop : Control
     private void GenerateShopCards()
     {
         // 获取玩家当前可以抽取的卡牌副本并打乱顺序
-        var availableCards = PlayerStats.DraftablePile.Cards.Duplicate(true);
+        var availableCards = PlayerStats.DraftablePile.DuplicateCards();
         availableCards.Shuffle();
 
         // 截取前三张作为商店卡牌

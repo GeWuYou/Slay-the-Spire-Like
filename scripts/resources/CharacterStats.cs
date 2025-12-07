@@ -145,7 +145,7 @@ public partial class CharacterStats : Stats
         var instance = base.CreateInstance<CharacterStats>();
         // 初始化游戏状态相关属性
         instance.ResetMana();
-        instance.Deck = StartingDeck.Duplicate() as CardPile;
+        instance.Deck = StartingDeck.Duplicate();
         instance.Discard = new CardPile();
         instance.DrawPile = new CardPile();
         instance.RemovedDeck = new CardPile();

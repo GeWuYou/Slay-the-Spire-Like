@@ -67,7 +67,7 @@ public partial class PlayerHandler : Node
     {
         _playerStats = newStats;
         // 初始化抽牌堆并洗牌
-        _playerStats.DrawPile = newStats.Deck.Duplicate(true) as CardPile;
+        _playerStats.DrawPile = newStats.Deck.Duplicate();
         _playerStats.DrawPile?.Shuffle();
         // 初始化弃牌堆和移除牌堆
         _playerStats.Discard = new CardPile();

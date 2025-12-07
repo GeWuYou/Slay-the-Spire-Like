@@ -171,7 +171,7 @@ public partial class Card : Resource
 
     [ExportGroup("卡牌属性")]
     [Export(PropertyHint.None, "卡牌的当前费用")]
-    public int Cost { private set; get; }
+    public int Cost {  set; get; }
     
     [ExportGroup("卡牌属性")]
     [Export] public Rarity CardRarity { get; set; }

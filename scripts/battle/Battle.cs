@@ -105,7 +105,7 @@ public partial class Battle : Node2D
         EnemyHandler.ResetEnemyAcitons();
         AudioPlayerManager.Instance.PlayMusic(BattleMusic, true);
         PlayerHandler.RelicHandler = RelicHandler;
-        RelicHandler.Connect(RelicHandler.SignalName.RelicsActivated, new Callable(this,nameof(OnRelicActivated)));
+        RelicHandler.Connect(RelicHandler.SignalName.RelicsActivated, new Callable(this, nameof(OnRelicActivated)));
         RelicHandler.ActivateRelicsByType(RelicType.StartOfCombat);
     }
 

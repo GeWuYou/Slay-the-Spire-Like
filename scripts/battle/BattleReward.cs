@@ -126,7 +126,7 @@ public partial class BattleReward : Control
         var cardRewardArray = new Array<Card>();
         
         // 复制一份可用卡牌副本以避免修改原始数据
-        var availableCards =  PlayerStats.DraftablePile.Cards.Duplicate(true);
+        var availableCards = PlayerStats.DraftablePile.DuplicateCards();
         // 抽取若干张卡牌作为本次奖励
         for (var i = 0; i < RunStats.BaseCardRewards; i++)
         {

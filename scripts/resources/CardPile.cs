@@ -67,6 +67,17 @@ public partial class CardPile : Resource
         RandomNumberProvider.Instance.ArrayShuffle(Cards);
     }
 
+    public Array<Card> DuplicateCards()
+    {
+        return new Array<Card>(Cards.Select(card => card.Duplicate() as Card).ToArray());
+    }
+    public CardPile Duplicate()
+    {
+        return new CardPile
+        {
+            Cards = DuplicateCards()
+        };
+    }
     /// <summary>
     ///     清空卡牌堆中的所有卡牌
     /// </summary>
