@@ -11,7 +11,7 @@ namespace SlayTheSpireLike.scripts.ui.state;
 public partial class CardBaseState : CardState
 {
     private Events _events;
-
+    private bool _mouseOverCard;
     public override void _Ready()
     {
         _events = Events.Instance;
@@ -54,7 +54,7 @@ public partial class CardBaseState : CardState
         if (!CardUi.Playable || CardUi.Disabled) return;
 
         // 只处理鼠标左键按下事件
-        if (!@event.IsActionPressed("left_mouse")) return;
+        if (!_mouseOverCard||!@event.IsActionPressed("left_mouse")) return;
 
         // 设置卡牌的旋转中心点为鼠标点击位置
         CardUi.PivotOffset = CardUi.GetGlobalMousePosition() - CardUi.GlobalPosition;
@@ -65,6 +65,8 @@ public partial class CardBaseState : CardState
 
     public override void OnMouseEntered()
     {
+        _mouseOverCard = false;
+        
         // 检查卡片是否可执行且未被禁用，如果不满足条件则直接返回
         if (!CardUi.Playable || CardUi.Disabled)
         {
@@ -79,6 +81,8 @@ public partial class CardBaseState : CardState
 
     public override void OnMouseExited()
     {
+        _mouseOverCard = false;
+        
         // 检查卡片是否可执行且未被禁用，如果不满足条件则直接返回
         if (!CardUi.Playable || CardUi.Disabled) return;
         // 恢复原始父节点并更新UI状态显示
