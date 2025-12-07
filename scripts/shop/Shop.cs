@@ -4,6 +4,7 @@ using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.extensions;
 using SlayTheSpireLike.scripts.modifier_handler;
+using SlayTheSpireLike.scripts.random;
 using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.relic;
 using SlayTheSpireLike.scripts.resources;
@@ -105,7 +106,7 @@ public partial class Shop : Control
 
     private void BlinkTimerSetup()
     {
-        Timer.WaitTime = GlobalBean.RandomNumberGenerator.RandfRange(1.0f, 5.0f);
+        Timer.WaitTime = RandomNumberProvider.Instance.RandomNumberGenerator.RandfRange(1.0f, 5.0f);
         Timer.Start();
     }
 
@@ -216,9 +217,8 @@ public partial class Shop : Control
             ShopRelics.Where(relic =>
                 relic.CanAppearAsReward(PlayerStats) &&
                 !RelicHandler.HasRelic(relic.Id)).ToArray());
-
-        availableCards.Shuffle();                                     // 打乱顺序
-
+        // 打乱顺序         
+        RandomNumberProvider.Instance.ArrayShuffle(availableCards);               
         var shopRelicArray = availableCards[..3];                     // 取前三个作为商店遗物
 
         // 实例化并配置每一个商店遗物UI元素

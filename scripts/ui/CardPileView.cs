@@ -1,5 +1,6 @@
 using SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.random;
 using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.ui;
@@ -61,7 +62,7 @@ public partial class CardPileView : Control
         var allCards = CardPile.Cards.Duplicate();
         if (randomize)
         {
-            allCards.Shuffle();
+            RandomNumberProvider.Instance.ArrayShuffle(allCards);
         }
         foreach (var card in allCards)
         {

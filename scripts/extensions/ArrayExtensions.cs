@@ -1,7 +1,8 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.random;
 
 namespace SlayTheSpireLike.scripts.extensions;
 
@@ -26,6 +27,6 @@ public static class ArrayExtensions
             throw new InvalidOperationException("Cannot pick a random element from an empty list.");
 
         // 使用全局随机数生成器在列表索引范围内生成随机索引，并返回对应元素
-        return list[GlobalBean.RandomNumberGenerator.RandiRange(0, list.Count - 1)];
+        return list[RandomNumberProvider.Instance.RandomNumberGenerator.RandiRange(0, list.Count - 1)];
     }
 }

@@ -13,6 +13,18 @@ namespace SlayTheSpireLike.scripts.save;
 public partial class SaveData : Resource, IGodotResourceSaveAble
 {
     /// <summary>
+    /// 获取或设置随机数生成器的种子值
+    /// </summary>
+    [Export]
+    public ulong RngSeed { get; set; }
+    
+    /// <summary>
+    /// 获取或设置随机数生成器的状态值
+    /// </summary>
+    [Export] 
+    public ulong RngState { get; set; }
+
+    /// <summary>
     /// 游戏运行统计信息
     /// </summary>
     [Export]
@@ -58,10 +70,7 @@ public partial class SaveData : Resource, IGodotResourceSaveAble
     /// 获取存档键名
     /// </summary>
     /// <returns>返回存档数据的键名字符串"saveData"</returns>
-    public string GetSaveKey()
-    {
-        return "saveData";
-    }
+    public string GetSaveKey() => "saveData";
 
     public Resource CaptureState()
     {

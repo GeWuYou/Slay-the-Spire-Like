@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.extensions;
+using SlayTheSpireLike.scripts.random;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
 
@@ -17,7 +18,7 @@ public partial class ShopCard : VBoxContainer
     private CenterContainer _cardContainer;
     private HBoxContainer _price;
     private Label _priceLabel;
-    public int GoldCost{get; set;} = GlobalBean.RandomNumberGenerator.RandiRange(100, 300);
+    public int GoldCost{get; set;} = RandomNumberProvider.Instance.RandomNumberGenerator.RandiRange(100, 300);
     private Card _card;
     [Export] public CardMenuUi CurrentCardMenuUi { get; set; }
 

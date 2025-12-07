@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.random;
 using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.map;
@@ -136,7 +137,7 @@ public partial class MapRoom : Area2D
     public void SetRoom()
     {
         Position = Room.Position;
-        Line.RotationDegrees = GlobalBean.RandomNumberGenerator.RandiRange(0, 360);
+        Line.RotationDegrees = RandomNumberProvider.Instance.RandomNumberGenerator.RandiRange(0, 360);
         Icon.Texture = Icons[Room.RoomType].Texture;
         Icon.Scale = Icons[Room.RoomType].Scale;
     }

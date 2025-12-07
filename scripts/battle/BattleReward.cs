@@ -3,6 +3,7 @@ using Godot;
 using Godot.Collections;
 using SlayTheSpireLike.scripts.extensions;
 using SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.random;
 using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
 
@@ -131,13 +132,14 @@ public partial class BattleReward : Control
         {
             SetUpCardChances();
 
-            // 随机生成一个浮点数来决定抽取哪种稀有度的卡牌
-            var roll = GlobalBean.RandomNumberGenerator.RandfRange(0.0f, _cardRewardTotalWeight);
+            // 生成一个0到总权重之间的随机浮点数
+            var roll = RandomNumberProvider.Instance.RandomNumberGenerator.RandfRange(0.0f, _cardRewardTotalWeight);
 
-            foreach (var rarity in _cardRewardWeights.Keys)
+            // 根据随机数落在的权重区间确定稀有度
+            foreach (var (rarity, weight) in _cardRewardWeights)
             {
                 // 当前roll未落在该稀有度区间内则跳过
-                if (_cardRewardWeights[rarity] <= roll)
+                if (weight <= roll)
                 {
                     continue;
                 }

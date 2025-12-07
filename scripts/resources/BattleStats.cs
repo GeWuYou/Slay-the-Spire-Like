@@ -1,5 +1,6 @@
 using Godot;
 using SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.random;
 
 namespace SlayTheSpireLike.scripts.resources;
 
@@ -18,6 +19,6 @@ public partial class BattleStats : Resource
 
     public int RollGoldReward()
     {
-        return GlobalBean.RandomNumberGenerator.RandiRange(GoldRewardMin, GoldRewardMax);
+        return RandomNumberProvider.Instance.RandomNumberGenerator.RandiRange(GoldRewardMin, GoldRewardMax);
     }
 }

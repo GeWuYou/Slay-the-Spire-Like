@@ -3,6 +3,7 @@ using System.Linq;
 using SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
+using SlayTheSpireLike.scripts.random;
 using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.map;
@@ -319,7 +320,7 @@ public partial class MapGenerator : Node
     /// <returns>返回根据权重随机选择的房间类型。</returns>
     private Room.Type GetRandomRoomTypeByWeight()
     {
-        var roll = GlobalBean.RandomNumberGenerator.RandfRange(0.0f, RandomRoomTypeTotalWeight);
+        var roll = RandomNumberProvider.Instance.RandomNumberGenerator.RandfRange(0.0f, RandomRoomTypeTotalWeight);
 
         // 明确顺序：Monster, Campfire, Shop
         if (roll < RandomRoomTypeWeights[Room.Type.Monster])
@@ -416,7 +417,7 @@ public partial class MapGenerator : Node
         // 尝试找到一个合适的下一房间进行连接，避免路径交叉
         while ((nextRoom is null || WouldCrossExistingPath(row, col, nextRoom)) && attempts++ < maxAttempts)
         {
-            var randomJ = Mathf.Clamp(GlobalBean.RandomNumberGenerator.RandiRange(col - 1, col + 1), 0, MapWidth - 1);
+            var randomJ = Mathf.Clamp(RandomNumberProvider.Instance.RandomNumberGenerator.RandiRange(col - 1, col + 1), 0, MapWidth - 1);
             nextRoom = MapData[row + 1][randomJ];
         }
 
@@ -504,7 +505,7 @@ public partial class MapGenerator : Node
             // 为每条路径生成一个随机的起始点
             for (var i = 0; i < Paths; i++)
             {
-                var startingPoint = GlobalBean.RandomNumberGenerator.RandiRange(0, MapWidth - 1);
+                var startingPoint = RandomNumberProvider.Instance.RandomNumberGenerator.RandiRange(0, MapWidth - 1);
                 if (!yCoordinates.Contains(startingPoint))
                 {
                     uniquePoints++;

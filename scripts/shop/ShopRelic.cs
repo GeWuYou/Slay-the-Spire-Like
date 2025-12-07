@@ -2,28 +2,19 @@ using System.Threading.Tasks;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.extensions;
+using SlayTheSpireLike.scripts.random;
 using SlayTheSpireLike.scripts.resources;
 
 namespace SlayTheSpireLike.scripts.shop;
 
-public partial class ShopRelic : VBoxContainer
+public partial class ShopRelic : HBoxContainer
 {
-    [Export] public Button BuyButton { get; set; }
-    [Export] public CenterContainer RelicContainer { get; set; }
-    [Export] public HBoxContainer Price { get; set; }
+    [Export] public TextureRect Icon { get; set; }
+    [Export] public Label NameLabel { get; set; }
     [Export] public Label PriceLabel { get; set; }
-    public int GoldCost { get; set; } = GlobalBean.RandomNumberGenerator.RandiRange(100, 300);
-    private Relic _relic;
-    [Export]
-    public Relic Relic
-    {
-        get => _relic;
-        set
-        {
-            _relic = value;
-            _ = SetRelic();
-        }
-    }
+    [Export] public Button BuyButton { get; set; }
+    public int GoldCost { get; set; } = RandomNumberProvider.Instance.RandomNumberGenerator.RandiRange(100, 300);
+    public Relic Relic { get; set; }
 
     public override void _Ready()
     {
@@ -35,8 +26,9 @@ public partial class ShopRelic : VBoxContainer
         Events.Instance.RaiseShopRelicBought(Relic, GoldCost);
 
         // 释放所有子控件资源
-        RelicContainer.QueueFreeX();
-        Price.QueueFreeX();
+        Icon.QueueFreeX();
+        NameLabel.QueueFreeX();
+        PriceLabel.QueueFreeX();
         BuyButton.QueueFreeX();
     }
 
@@ -47,7 +39,7 @@ public partial class ShopRelic : VBoxContainer
     public void Update(RunStats runStats)
     {
         // 检查必要组件是否存在
-        if (RelicContainer.IsInvalidNode() || Price.IsInvalidNode() || BuyButton.IsInvalidNode())
+        if (Icon.IsInvalidNode() || NameLabel.IsInvalidNode() || PriceLabel.IsInvalidNode() || BuyButton.IsInvalidNode())
         {
             return;
         }
@@ -71,7 +63,7 @@ public partial class ShopRelic : VBoxContainer
     {
         await this.WaitUntilReady();
         // 清理已有子元素
-        foreach (var child in RelicContainer.GetChildren())
+        foreach (var child in GetChildren())
         {
             child.QueueFreeX();
         }
@@ -79,6 +71,6 @@ public partial class ShopRelic : VBoxContainer
         // 创建新卡牌UI并添加到容器中
         var relicUi = ResourceFactories.RelicUiFactory();
         relicUi.Relic = Relic;
-        RelicContainer.AddChild(relicUi);
+        AddChild(relicUi);
     }
 }

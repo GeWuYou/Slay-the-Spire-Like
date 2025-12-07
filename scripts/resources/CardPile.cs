@@ -1,6 +1,7 @@
 using System.Linq;
 using Godot;
 using Godot.Collections;
+using SlayTheSpireLike.scripts.random;
 
 namespace SlayTheSpireLike.scripts.resources;
 
@@ -63,7 +64,7 @@ public partial class CardPile : Resource
     /// </summary>
     public void Shuffle()
     {
-        Cards.Shuffle();
+        RandomNumberProvider.Instance.ArrayShuffle(Cards);
     }
 
     /// <summary>

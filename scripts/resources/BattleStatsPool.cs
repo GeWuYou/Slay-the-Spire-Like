@@ -2,6 +2,7 @@ using System.Linq;
 using SlayTheSpireLike.scripts.global;
 using Godot;
 using Godot.Collections;
+using SlayTheSpireLike.scripts.random;
 
 namespace SlayTheSpireLike.scripts.resources;
 
@@ -47,15 +48,24 @@ public partial class BattleStatsPool : Resource
     }
 
     /// <summary>
-    /// 根据权重随机获取指定等级的一个战斗统计信息
+    /// 根据权重随机获取指定等级的战斗统计信息
     /// </summary>
-    /// <param name="tier">目标战斗等级</param>
-    /// <returns>随机选中的战斗统计信息；如果未找到则返回默认值</returns>
+    /// <param name="tier">战斗等级</param>
+    /// <returns>随机选择的战斗统计信息</returns>
     public BattleStats GetRandomBattleStatsForTier(int tier)
     {
-        var roll = GlobalBean.RandomNumberGenerator.RandfRange(0.0f, _totalWeightsByTier[tier]);
         var battles = GetAllBattleStatsForTier(tier);
-        return battles.FirstOrDefault(battleStats => battleStats.AccumulatedWeight > roll);
+        var roll = RandomNumberProvider.Instance.RandomNumberGenerator.RandfRange(0.0f, _totalWeightsByTier[tier]);
+
+        foreach (var battle in battles)
+        {
+            if (roll <= battle.AccumulatedWeight)
+            {
+                return battle;
+            }
+        }
+
+        return battles[^1];
     }
 
     /// <summary>

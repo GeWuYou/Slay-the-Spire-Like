@@ -7,6 +7,7 @@ using SlayTheSpireLike.scripts.battle;
 using SlayTheSpireLike.scripts.campfire;
 using SlayTheSpireLike.scripts.core.save;
 using SlayTheSpireLike.scripts.map;
+using SlayTheSpireLike.scripts.random;
 using SlayTheSpireLike.scripts.relic_handler;
 using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.room.treasure;
@@ -68,6 +69,8 @@ public partial class Run : Node
         _saveData.LastRoom = Map.LastRoom;
         _saveData.MapData = Map.MapData.Duplicate();
         _saveData.FloorsClimbed = Map.FloorsClimbed;
+        _saveData.RngSeed = RandomNumberProvider.Instance.RandomNumberGenerator.Seed;
+        _saveData.RngState = RandomNumberProvider.Instance.RandomNumberGenerator.State;
         _saveData.WasOnMap = wasOnMap;
 
         GameManager.SaveManager.Save(_saveData);
@@ -100,6 +103,7 @@ public partial class Run : Node
         PlayerStats = _saveData.PlayerStats;
         PlayerStats.Deck = _saveData.PlayerStats.Deck;
         PlayerStats.Health = _saveData.PlayerStats.Health;
+        RandomNumberProvider.Instance.SetRandomNumberGeneratorBySeedAndState(_saveData.RngSeed, _saveData.RngState);
         RelicHandler.AddRelics(_saveData.Relics);
         SetupTopBar();
         SetupEventConnections();
