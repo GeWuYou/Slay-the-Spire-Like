@@ -64,6 +64,7 @@ public partial class CardAimingState : CardState
 
         if (mouseAtBottom || @event.IsActionPressed("right_mouse"))
         {
+            CardUi.Targets.Clear();
             EmitSignal(CardState.SignalName.TransitionRequested, this, (int)State.Base);
         }
         else if (@event.IsActionReleased("left_mouse") || @event.IsActionPressed("left_mouse"))
