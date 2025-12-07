@@ -253,7 +253,7 @@ public partial class Map : Node2D
     /// 只有当地图可见时才响应操作。
     /// </summary>
     /// <param name="event">Godot 输入事件对象</param>
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput (InputEvent @event)
     {
         if (!Visible)
         {
