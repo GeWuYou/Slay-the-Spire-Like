@@ -51,13 +51,9 @@ public partial class AudioPlayerManager : Node
     public override void _Ready()
     {
         Instance = this;
-
-        // 如果场景中已经预置了一些 AudioStreamPlayer，优先使用它们（按名字或者顺序）
-        CollectExistingPlayers();
-
         // 创建不足的播放器节点
-        EnsurePlayerCount(_musicPlayers, MusicPlayerCount, MusicPrefix);
-        EnsurePlayerCount(_sfxPlayers, SfxPlayerCount, SfxPrefix);
+        EnsurePlayerCount(_musicPlayers, MusicPlayerCount, MusicPrefix, MusicBus);
+        EnsurePlayerCount(_sfxPlayers, SfxPlayerCount, SfxPrefix, SfxBus);
     }
 
     /// <summary>
@@ -164,69 +160,28 @@ public partial class AudioPlayerManager : Node
     /// <param name="pool">目标播放器池。</param>
     /// <param name="desiredCount">期望的播放器数量。</param>
     /// <param name="prefix">新创建播放器名称的前缀。</param>
-    private void EnsurePlayerCount(List<AudioStreamPlayer> pool, int desiredCount, string prefix)
+    private void EnsurePlayerCount(
+        List<AudioStreamPlayer> pool,
+        int desiredCount,
+        string prefix,
+        string bus)
     {
-        // 如果已有足够数量就返回
+        // 创建缺少的播放器
         while (pool.Count < desiredCount)
         {
             var idx = pool.Count;
-            var p = new AudioStreamPlayer();
-            p.Name = $"{prefix}{idx}";
-            p.Bus = idx < MusicPlayerCount ? MusicBus : SfxBus;
+            var p = new AudioStreamPlayer
+            {
+                Name = $"{prefix}{idx}",
+                Bus = bus
+            };
+
             AddChild(p);
             pool.Add(p);
         }
 
-        // 如果编辑器里设置了比现有更少的数量，不自动删除节点，但从池中移除多余引用（避免破坏场景）
+        // 数量减少时，仅缩池，避免破坏场景树
         if (pool.Count > desiredCount)
-            // 只在内存池中截断，不删除节点
             pool.RemoveRange(desiredCount, pool.Count - desiredCount);
-    }
-
-    /// <summary>
-    ///     尝试收集场景中已存在的 AudioStreamPlayer 节点：
-    ///     - 以名字前缀匹配优先（MusicPrefix / SfxPrefix）
-    ///     - 否则按遍历顺序分配（先分配给 Music，后分配给 SFX）
-    /// </summary>
-    private void CollectExistingPlayers()
-    {
-        var children = GetChildren();
-        // 第一遍：按前缀匹配
-        foreach (var child in children)
-        {
-            if (child is not AudioStreamPlayer asp) continue;
-
-            var name = asp.Name.ToString();
-            if (name.StartsWith(MusicPrefix))
-            {
-                asp.Bus = MusicBus;
-                _musicPlayers.Add(asp);
-            }
-            else if (name.StartsWith(SfxPrefix))
-            {
-                asp.Bus = SfxBus;
-                _sfxPlayers.Add(asp);
-            }
-        }
-
-        // 第二遍：未按前缀匹配的，按顺序分配（先 Music 再 SFX），仅当池未满时分配
-        foreach (var child in children)
-        {
-            if (child is not AudioStreamPlayer asp) continue;
-
-            if (_musicPlayers.Contains(asp) || _sfxPlayers.Contains(asp)) continue;
-
-            if (_musicPlayers.Count < MusicPlayerCount)
-            {
-                asp.Bus = MusicBus;
-                _musicPlayers.Add(asp);
-            }
-            else if (_sfxPlayers.Count < SfxPlayerCount)
-            {
-                asp.Bus = SfxBus;
-                _sfxPlayers.Add(asp);
-            }
-            // 若两个池都已满，剩余节点不加入池（但仍在场景中）
-        }
     }
 }
