@@ -164,44 +164,6 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # ---------- 将下载的产物目录打包为 zip（以确保上传文件是 zip） ----------
-      - name: Zip Linux artifact
-        run: |
-          ART_DIR="build-artifacts/Slay-the-Spire-Like-linux"
-          ZIP_PATH="${ART_DIR}.zip"
-          if [ -d "$ART_DIR" ]; then
-            echo "Zipping $ART_DIR -> $ZIP_PATH"
-            rm -f "$ZIP_PATH"
-            (cd "$(dirname "$ART_DIR")" && zip -r "$(basename "$ZIP_PATH")" "$(basename "$ART_DIR")")
-          else
-            echo "Warning: $ART_DIR not found, skipping"
-          fi
-
-      - name: Zip macOS artifact
-        run: |
-          ART_DIR="build-artifacts/Slay-the-Spire-Like-macOS"
-          ZIP_PATH="${ART_DIR}.zip"
-          if [ -d "$ART_DIR" ]; then
-            echo "Zipping $ART_DIR -> $ZIP_PATH"
-            rm -f "$ZIP_PATH"
-            (cd "$(dirname "$ART_DIR")" && zip -r "$(basename "$ZIP_PATH")" "$(basename "$ART_DIR")")
-          else
-            echo "Warning: $ART_DIR not found, skipping"
-          fi
-
-      - name: Zip Windows artifact
-        run: |
-          ART_DIR="build-artifacts/Slay-the-Spire-Like-windows"
-          ZIP_PATH="${ART_DIR}.zip"
-          if [ -d "$ART_DIR" ]; then
-            echo "Zipping $ART_DIR -> $ZIP_PATH"
-            rm -f "$ZIP_PATH"
-            (cd "$(dirname "$ART_DIR")" && zip -r "$(basename "$ZIP_PATH")" "$(basename "$ART_DIR")")
-          else
-            echo "Warning: $ART_DIR not found, skipping"
-          fi
-
       # ---------- 使用官方 action 上传每个 zip 到 Release ----------
       - name: Upload Linux asset to Release
         uses: actions/upload-release-asset@v1
