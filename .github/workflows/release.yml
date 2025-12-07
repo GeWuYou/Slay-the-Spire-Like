@@ -5,6 +5,10 @@ on:
     tags:
       - '*'   # any tag like 1.0.0 or v1.0.0 will trigger
 
+# 关键：授予写入 contents 的权限，这样 GITHUB_TOKEN 能调用 releases API
+permissions:
+  contents: write
+
 env:
   GODOT_VERSION: 4.5.1
   EXPORT_NAME: Slay-the-Spire-Like
@@ -14,9 +18,6 @@ jobs:
   export-windows-linux:
     name: Build Windows & Linux (for Release)
     runs-on: ubuntu-latest
-    outputs:
-      windows-artifact: ${{ steps.upload_windows.outputs.artifact-path || '' }}
-      linux-artifact: ${{ steps.upload_linux.outputs.artifact-path || '' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -64,7 +65,6 @@ jobs:
           godot --headless --export-release "Linux" build/linux/${{ env.EXPORT_NAME }}.x86_64 --quit
 
       - name: Upload Windows artifact
-        id: upload_windows
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.EXPORT_NAME }}-windows
@@ -73,7 +73,6 @@ jobs:
           retention-days: 30
 
       - name: Upload Linux artifact
-        id: upload_linux
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.EXPORT_NAME }}-linux
@@ -154,22 +153,75 @@ jobs:
         with:
           path: build-artifacts
 
-      - name: Create Release
+      - name: Create Release (via actions/create-release)
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: Automated release for tag ${{ github.ref_name }}
+          draft: false
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG="${GITHUB_REF#refs/tags/}"
-          gh release create "$TAG" \
-            --title "Release $TAG" \
-            --notes "Automated release for tag $TAG"
 
-      - name: Upload assets
+      - name: Upload assets to Release (via GitHub Uploads API)
+        if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
         run: |
-          TAG="${GITHUB_REF#refs/tags/}"
-          for file in build-artifacts/**/*; do
-            echo "Uploading $file"
-            gh release upload "$TAG" "$file" --clobber
+          set -e
+          # get release id from the created release (fallback: try to query)
+          RELEASE_ID=$(jq -r '.id' <<<"${{ steps.create_release.outputs.release }}" 2>/dev/null || true)
+
+          # If actions/create-release didn't return JSON in outputs.release, fetch the release by tag
+          if [ -z "$RELEASE_ID" ] || [ "$RELEASE_ID" = "null" ]; then
+            echo "create-release action did not return id in outputs.release — querying Releases API"
+            RELEASE_ID=$(curl -sSL -H "Authorization: token ${GITHUB_TOKEN}" \
+              "https://api.github.com/repos/${REPO}/releases/tags/${TAG}" | jq -r '.id')
+          fi
+
+          if [ -z "$RELEASE_ID" ] || [ "$RELEASE_ID" = "null" ]; then
+            echo "ERROR: Could not determine release id for tag ${TAG}"
+            exit 1
+          fi
+
+          echo "Uploading assets to release id: $RELEASE_ID"
+
+          # enable recursive globbing
+          shopt -s globstar nullglob
+
+          UPLOAD_COUNT=0
+
+          # iterate over all files under build-artifacts (downloaded artifacts)
+          for f in build-artifacts/**/*; do
+            if [ -f "$f" ]; then
+              BASENAME=$(basename "$f")
+              echo "Uploading file: $f as $BASENAME"
+              # upload via uploads API
+              curl --fail -sSL -X POST \
+                -H "Authorization: token ${GITHUB_TOKEN}" \
+                -H "Content-Type: application/octet-stream" \
+                --data-binary @"$f" \
+                "https://uploads.github.com/repos/${REPO}/releases/${RELEASE_ID}/assets?name=${BASENAME}" \
+                || echo "Warning: upload failed for $f"
+              UPLOAD_COUNT=$((UPLOAD_COUNT+1))
+            fi
           done
-  
+
+          if [ "$UPLOAD_COUNT" -eq 0 ]; then
+            echo "No files were found to upload in build-artifacts/ — nothing to upload."
+          else
+            echo "Uploaded $UPLOAD_COUNT asset(s)."
+          fi
+
+      - name: List uploaded release assets (debug)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          RELEASE_INFO=$(curl -sSL -H "Authorization: token ${GITHUB_TOKEN}" "https://api.github.com/repos/${REPO}/releases/tags/${TAG}")
+          echo "$RELEASE_INFO" | jq '.assets | map({name: .name, size: .size, url: .browser_download_url})'
