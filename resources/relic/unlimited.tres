@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Relic" load_steps=3 format=3 uid="uid://bfwx5a0admxa2"]
+
+[ext_resource type="Texture2D" uid="uid://c4e7ovx16yfl1" path="res://art/tile_0113.png" id="1_jnvgu"]
+[ext_resource type="Script" uid="uid://bxfedn2p5m8eu" path="res://scripts/resources/Relic.cs" id="1_thu78"]
+
+[resource]
+script = ExtResource("1_thu78")
+RelicName = "无限"
+Id = "unlimited"
+Type = 4
+Icon = ExtResource("1_jnvgu")
+Tooltip = "你已经收集了全部的遗物了，感谢你的游玩！"
+metadata/_custom_type_script = "uid://bxfedn2p5m8eu"

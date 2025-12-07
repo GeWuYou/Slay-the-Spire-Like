@@ -153,6 +153,11 @@ public partial class RelicHandler : HBoxContainer
             {
                 continue;
             }
+
+            if (relicUi.Relic.Id == "unlimited")
+            {
+                return false;
+            }
             if (relicUi.Relic.Id == relicId && IsInstanceValid(relicUi))
             {
                 return true;

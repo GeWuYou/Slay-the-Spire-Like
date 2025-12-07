@@ -11,6 +11,7 @@ using SlayTheSpireLike.scripts.resources;
 using SlayTheSpireLike.scripts.ui;
 
 namespace SlayTheSpireLike.scripts.shop;
+
 /// <summary>
 /// 商店界面控制类，用于展示可购买的卡牌与遗物，并处理玩家在商店中的交互逻辑。
 /// </summary>
@@ -20,7 +21,7 @@ public partial class Shop : Control
     /// 可供出售的遗物列表（由编辑器导出）
     /// </summary>
     [Export]
-    public Array<Relic> ShopRelics{get; set;}
+    public Array<Relic> ShopRelics { get; set; }
 
     /// <summary>
     /// 玩家角色状态数据（由编辑器导出）
@@ -63,13 +64,12 @@ public partial class Shop : Control
     /// </summary>
     [Export]
     public CardTooltipPopup CardTooltipPopup { get; set; }
-    [Export]
-    public AnimationPlayer AnimationPlayer { get; set; }
 
-    [Export]
-    public ModifierHandler ModifierHandler { get; set; }
-    [Export]
-    public Timer Timer { get; set; }
+    [Export] public AnimationPlayer AnimationPlayer { get; set; }
+
+    [Export] public ModifierHandler ModifierHandler { get; set; }
+    [Export] public Timer Timer { get; set; }
+
     /// <summary>
     /// 初始化商店界面，在_ready时绑定事件、清理旧子项并注册输入监听。
     /// </summary>
@@ -83,6 +83,7 @@ public partial class Shop : Control
         {
             child.QueueFreeX();
         }
+
         foreach (var child in RelicsContainer.GetChildren())
         {
             child.QueueFreeX();
@@ -95,7 +96,7 @@ public partial class Shop : Control
         Events.Instance.ShopCardBought += OnShopCardBought;
         Events.Instance.ShopRelicBought += OnShopRelicBought;
         BlinkTimerSetup();
-        Timer.Timeout+=OnTimeout;
+        Timer.Timeout += OnTimeout;
     }
 
     private void OnTimeout()
@@ -123,11 +124,11 @@ public partial class Shop : Control
     /// <param name="goldCost">该卡牌的价格</param>
     private void OnShopCardBought(Card card, int goldCost)
     {
-        PlayerStats.Deck.AddCard(card);       // 将卡牌加入玩家卡组
-        RunStats.Gold -= goldCost;            // 扣除对应金币数量
-        UpdateItem();                         // 刷新商店物品价格显示
+        PlayerStats.Deck.AddCard(card); // 将卡牌加入玩家卡组
+        RunStats.Gold -= goldCost; // 扣除对应金币数量
+        UpdateItem(); // 刷新商店物品价格显示
     }
-    
+
     /// <summary>
     /// 处理商店中遗物被购买后的逻辑：添加到遗物系统、扣除金币并刷新UI显示。
     /// </summary>
@@ -135,14 +136,15 @@ public partial class Shop : Control
     /// <param name="goldCost">该遗物的价格</param>
     private void OnShopRelicBought(Relic relic, int goldCost)
     {
-        RelicHandler.AddRelic(relic);         // 添加遗物至玩家持有列表
-        RunStats.Gold -= goldCost;            // 扣除对应金币数量
+        RelicHandler.AddRelic(relic); // 添加遗物至玩家持有列表
+        RunStats.Gold -= goldCost; // 扣除对应金币数量
         if (relic is Coupons coupons)
         {
             coupons.AddShopModifier(this);
             UpdateItemCosts();
         }
-        UpdateItem();                         // 刷新商店物品价格显示
+
+        UpdateItem(); // 刷新商店物品价格显示
     }
 
     /// <summary>
@@ -153,7 +155,7 @@ public partial class Shop : Control
     {
         if (@event.IsActionPressed("left_mouse"))
         {
-            CardTooltipPopup.HideTooltip();   // 左键点击任意处则关闭提示窗口
+            CardTooltipPopup.HideTooltip(); // 左键点击任意处则关闭提示窗口
         }
     }
 
@@ -165,17 +167,17 @@ public partial class Shop : Control
     {
         if (@event.IsActionPressed("ui_cancel") && CardTooltipPopup.Visible)
         {
-            CardTooltipPopup.HideTooltip();   // 按下ESC或取消键时关闭提示窗口
+            CardTooltipPopup.HideTooltip(); // 按下ESC或取消键时关闭提示窗口
         }
     }
-    
+
     /// <summary>
     /// 填充商店内容，包括生成随机卡牌和遗物供玩家选择购买。
     /// </summary>
     public void PopulateShop()
     {
-        GenerateShopCards();                  // 生成商店卡牌
-        GenerateShopRelics();                 // 生成商店遗物
+        GenerateShopCards(); // 生成商店卡牌
+        GenerateShopRelics(); // 生成商店遗物
     }
 
     /// <summary>
@@ -193,9 +195,9 @@ public partial class Shop : Control
         // 实例化并配置每一张商店卡牌UI元素
         foreach (var card in shopCardArray)
         {
-            var newShopCard = ResourceFactories.ShopCardFactory();     // 创建新的商店卡牌实例
-            CardsContainer.AddChild(newShopCard);                     // 加入UI容器
-            newShopCard.Card = card;                                  // 设置对应的卡牌数据
+            var newShopCard = ResourceFactories.ShopCardFactory(); // 创建新的商店卡牌实例
+            CardsContainer.AddChild(newShopCard); // 加入UI容器
+            newShopCard.Card = card; // 设置对应的卡牌数据
 
             // 连接卡牌视觉组件的提示请求信号到全局提示弹窗
             newShopCard.CurrentCardMenuUi.CardVisuals.Connect(
@@ -203,7 +205,7 @@ public partial class Shop : Control
                 new Callable(CardTooltipPopup, CardTooltipPopup.MethodName.ShowTooltip));
             newShopCard.GoldCost = GetUpdatedShopCost(newShopCard.GoldCost);
 
-            newShopCard.Update(RunStats);                             // 更新其显示信息（例如价格）
+            newShopCard.Update(RunStats); // 更新其显示信息（例如价格）
         }
     }
 
@@ -218,17 +220,17 @@ public partial class Shop : Control
                 relic.CanAppearAsReward(PlayerStats) &&
                 !RelicHandler.HasRelic(relic.Id)).ToArray());
         // 打乱顺序         
-        RandomNumberProvider.Instance.ArrayShuffle(availableCards);               
-        var shopRelicArray = availableCards[..3];                     // 取前三个作为商店遗物
+        RandomNumberProvider.Instance.ArrayShuffle(availableCards);
+        var shopRelicArray = availableCards[..3]; // 取前三个作为商店遗物
 
         // 实例化并配置每一个商店遗物UI元素
         foreach (var relic in shopRelicArray)
         {
-            var newShopRelic = ResourceFactories.ShopRelicFactory();  // 创建新的商店遗物实例
-            RelicsContainer.AddChild(newShopRelic);                   // 加入UI容器
-            newShopRelic.Relic = relic;                               // 设置对应的遗物数据
+            var newShopRelic = ResourceFactories.ShopRelicFactory(); // 创建新的商店遗物实例
+            RelicsContainer.AddChild(newShopRelic); // 加入UI容器
+            newShopRelic.Relic = relic; // 设置对应的遗物数据
             newShopRelic.GoldCost = GetUpdatedShopCost(newShopRelic.GoldCost);
-            newShopRelic.Update(RunStats);                            // 更新其显示信息（例如价格）
+            newShopRelic.Update(RunStats); // 更新其显示信息（例如价格）
         }
     }
 
@@ -254,6 +256,7 @@ public partial class Shop : Control
             shopRelic.GoldCost = GetUpdatedShopCost(shopRelic.GoldCost);
         }
     }
+
     private int GetUpdatedShopCost(int goldCost)
     {
         return ModifierHandler.GetModifiedValue(Modifier.ModifierType.ShopCost, goldCost);
@@ -271,6 +274,7 @@ public partial class Shop : Control
             {
                 continue;
             }
+
             shopCard.Update(RunStats);
         }
 
@@ -281,6 +285,7 @@ public partial class Shop : Control
             {
                 continue;
             }
+
             shopRelic.Update(RunStats);
         }
     }

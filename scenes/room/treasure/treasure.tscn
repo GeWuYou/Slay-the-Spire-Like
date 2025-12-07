@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bpkjev36bycfm"]
+[gd_scene load_steps=21 format=3 uid="uid://bpkjev36bycfm"]
 
 [ext_resource type="Script" uid="uid://cju4hh7oca6mg" path="res://scripts/room/treasure/Treasure.cs" id="1_mhv6g"]
 [ext_resource type="Resource" uid="uid://bd4cmvgewxbja" path="res://resources/relic/coupons.tres" id="2_im37a"]
@@ -10,24 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://civ8f2oo0d8k7" path="res://art/gold.png" id="4_kl2uj"]
 [ext_resource type="Texture2D" uid="uid://isan6btj7dwy" path="res://art/tile_0091.png" id="5_b3ndx"]
 [ext_resource type="Resource" uid="uid://bntkxu8bpdcpd" path="res://resources/relic/reinforced_armor.tres" id="5_olp78"]
-
-[sub_resource type="Animation" id="Animation_c8gtt"]
-resource_name = "高亮"
-length = 1.75
-loop_mode = 1
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(1, 1)]
-}
+[ext_resource type="Resource" uid="uid://bfwx5a0admxa2" path="res://resources/relic/unlimited.tres" id="6_pt6f6"]
 
 [sub_resource type="Animation" id="Animation_k15c3"]
 length = 0.001
@@ -111,6 +94,24 @@ tracks/2/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_c8gtt"]
+resource_name = "高亮"
+length = 1.75
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pt6f6"]
 _data = {
 &"RESET": SubResource("Animation_k15c3"),
@@ -150,7 +151,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_mhv6g")
-TreasureRelicPool = Array[Object]([ExtResource("2_im37a"), ExtResource("3_pt6f6"), ExtResource("4_fdh7a"), ExtResource("5_olp78")])
+TreasureRelicPool = Array[Object]([ExtResource("2_im37a"), ExtResource("3_pt6f6"), ExtResource("4_fdh7a"), ExtResource("5_olp78"), ExtResource("6_pt6f6")])
 AnimationPlayer = NodePath("宝箱纹理/AnimationPlayer")
 "宝箱纹理" = NodePath("宝箱纹理")
 

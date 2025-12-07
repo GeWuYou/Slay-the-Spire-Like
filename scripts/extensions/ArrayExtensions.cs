@@ -1,7 +1,5 @@
-
 using System;
 using System.Collections.Generic;
-using SlayTheSpireLike.scripts.global;
 using SlayTheSpireLike.scripts.random;
 
 namespace SlayTheSpireLike.scripts.extensions;

@@ -47,17 +47,7 @@ public class RandomNumberProvider
         RandomNumberGenerator.Seed = whichSeed;
         RandomNumberGenerator.State = state;
     }
-
-    /// <summary>
-    /// 从数组中随机选择一个元素并返回
-    /// </summary>
-    /// <param name="array">要从中随机选择元素的数组</param>
-    /// <returns>从数组中随机选择的元素</returns>
-    public Variant ArrayPickRandom(Array<Variant> array)
-    {
-        return array[(int)(RandomNumberGenerator.Randi() % array.Count)];
-    }
-
+    
     /// <summary>
     /// 使用Fisher-Yates洗牌算法对数组进行随机打乱
     /// </summary>
