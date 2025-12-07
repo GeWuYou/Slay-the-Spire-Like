@@ -131,6 +131,7 @@ vertical_alignment = 1
 [node name="DeckPileView" parent="TopBar" instance=ExtResource("5_0tt4g")]
 unique_name_in_owner = true
 visible = false
+mouse_force_pass_scroll_events = true
 
 [node name="RelicTooltip" parent="TopBar" instance=ExtResource("11_g42ja")]
 unique_name_in_owner = true

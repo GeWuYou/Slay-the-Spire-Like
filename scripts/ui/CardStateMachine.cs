@@ -90,5 +90,6 @@ public partial class CardStateMachine : Node
         from.Exit();
         newState.Enter();
         _currentState = newState;
+        newState.PostEnter();
     }
 }

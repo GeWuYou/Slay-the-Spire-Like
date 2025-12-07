@@ -20,16 +20,14 @@ public partial class CardReleasedState : CardState
     {
         Played = false;
         if (CardUi.Targets.Count == 0) return;
-
         Played = true;
         CardUi.Play();
         _events.RaiseCardToolTipHideRequest();
+
     }
 
-    public override void OnInput(InputEvent @event)
+    public override void PostEnter()
     {
-        if (Played) return;
-
         EmitSignal(CardState.SignalName.TransitionRequested, this, (int)State.Base);
     }
 }
