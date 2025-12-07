@@ -37,6 +37,8 @@ public partial class MapRoom : Area2D
     [Signal]
     public delegate void SelectedEventHandler(Room room);
 
+    [Signal]
+    public delegate void ClickedEventHandler(Room room);
     /// <summary>
     /// 获取或设置当前房间是否可访问/可用。
     /// 设置该属性会调用延迟方法SetAvailable来更新UI表现。
@@ -172,6 +174,7 @@ public partial class MapRoom : Area2D
             return;
         }
         Room.IsSelected = true;
+        EmitSignal(SignalName.Clicked, Room);
         AnimationPlayer.Play("select");
     }
 

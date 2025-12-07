@@ -60,7 +60,7 @@ public partial class Map : Node2D
     /// 2D摄像机节点引用，用于控制地图的视图和缩放
     /// </summary>
     [Export]
-    public Camera2D Camera2D { get; set; } 
+    public Camera2D Camera2D { get; set; }
 
     /// <summary>
     /// 记录上一个访问的房间对象
@@ -142,7 +142,8 @@ public partial class Map : Node2D
         MapData = MapGenerator.GenerateMap();
         CreateMap();
     }
-    public void LoadMap(Array<Array<Room>> mapData,int floorsCompleted,Room lastRoom)
+
+    public void LoadMap(Array<Array<Room>> mapData, int floorsCompleted, Room lastRoom)
     {
         FloorsClimbed = floorsCompleted;
         MapData = mapData;
@@ -150,6 +151,7 @@ public partial class Map : Node2D
         CreateMap();
         UnlockFloor(floorsCompleted > 0 ? floorsCompleted : 0);
     }
+
     /// <summary>
     /// 创建地图可视化内容，包括房间及其连接线。
     /// 同时居中整个地图布局。
@@ -187,7 +189,8 @@ public partial class Map : Node2D
     {
         var mapRoom = ResourceFactories.MapRoomFactory();
         mapRoom.Room = room;
-        mapRoom.Selected += OnMapRoomSelected;
+        mapRoom.Connect(MapRoom.SignalName.Selected, new Callable(this, nameof(OnMapRoomSelected)));
+        mapRoom.Connect(MapRoom.SignalName.Clicked, new Callable(this, nameof(OnMapRoomClicked)));
         Rooms.AddChild(mapRoom);
         ConnectLines(room);
         if (room.IsSelected && room.Row < FloorsClimbed)
@@ -196,13 +199,7 @@ public partial class Map : Node2D
         }
     }
 
-    /// <summary>
-    /// 当某个地图房间被点击选择后触发此方法。
-    /// 将同层其他房间设为不可选，并更新最后访问的房间及已爬升楼层数。
-    /// 最终发出地图退出事件通知外部系统。
-    /// </summary>
-    /// <param name="room">用户所选择的房间对象</param>
-    private void OnMapRoomSelected(Room room)
+    private void OnMapRoomClicked(Room room)
     {
         foreach (var child in Rooms.GetChildren())
         {
@@ -216,7 +213,16 @@ public partial class Map : Node2D
                 mapRoom.Available = false;
             }
         }
+    }
 
+    /// <summary>
+    /// 当某个地图房间被点击选择后触发此方法。
+    /// 将同层其他房间设为不可选，并更新最后访问的房间及已爬升楼层数。
+    /// 最终发出地图退出事件通知外部系统。
+    /// </summary>
+    /// <param name="room">用户所选择的房间对象</param>
+    private void OnMapRoomSelected(Room room)
+    {
         LastRoom = room;
         FloorsClimbed++;
         Events.Instance.RaiseMapExited(room);
