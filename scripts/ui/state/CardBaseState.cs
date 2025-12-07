@@ -65,7 +65,7 @@ public partial class CardBaseState : CardState
 
     public override void OnMouseEntered()
     {
-        _mouseOverCard = false;
+        _mouseOverCard = true;
         
         // 检查卡片是否可执行且未被禁用，如果不满足条件则直接返回
         if (!CardUi.Playable || CardUi.Disabled)
