@@ -1,102 +1,245 @@
-﻿create-release:
-  name: Create GitHub Release
-  runs-on: ubuntu-latest
-  needs: [ export-windows-linux, export-macos ]
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+﻿name: Release on Tag
 
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: build-artifacts
+on:
+  push:
+    tags:
+      - '*'   # any tag like 1.0.0 or v1.0.0 will trigger
 
-    - name: Create Release (via actions/create-release)
-      id: create_release
-      uses: actions/create-release@v1
-      with:
-        tag_name: ${{ github.ref_name }}
-        release_name: Release ${{ github.ref_name }}
-        body: Automated release for tag ${{ github.ref_name }}
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# 关键：授予写入 contents 的权限，这样 GITHUB_TOKEN 能调用 releases API
+permissions:
+  contents: write
 
-    # ---------- 将下载的产物目录打包为 zip（以确保上传文件是 zip） ----------
-    - name: Zip Linux artifact
-      run: |
-        ART_DIR="build-artifacts/Slay-the-Spire-Like-linux"
-        ZIP_PATH="${ART_DIR}.zip"
-        if [ -d "$ART_DIR" ]; then
-          echo "Zipping $ART_DIR -> $ZIP_PATH"
-          rm -f "$ZIP_PATH"
-          (cd "$(dirname "$ART_DIR")" && zip -r "$(basename "$ZIP_PATH")" "$(basename "$ART_DIR")")
-        else
-          echo "Warning: $ART_DIR not found, skipping"
-        fi
+env:
+  GODOT_VERSION: 4.5.1
+  EXPORT_NAME: Slay-the-Spire-Like
 
-    - name: Zip macOS artifact
-      run: |
-        ART_DIR="build-artifacts/Slay-the-Spire-Like-macOS"
-        ZIP_PATH="${ART_DIR}.zip"
-        if [ -d "$ART_DIR" ]; then
-          echo "Zipping $ART_DIR -> $ZIP_PATH"
-          rm -f "$ZIP_PATH"
-          (cd "$(dirname "$ART_DIR")" && zip -r "$(basename "$ZIP_PATH")" "$(basename "$ART_DIR")")
-        else
-          echo "Warning: $ART_DIR not found, skipping"
-        fi
+jobs:
+  # 先在 ubuntu 上构建 Windows & Linux
+  export-windows-linux:
+    name: Build Windows & Linux (for Release)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          lfs: true
 
-    - name: Zip Windows artifact
-      run: |
-        ART_DIR="build-artifacts/Slay-the-Spire-Like-windows"
-        ZIP_PATH="${ART_DIR}.zip"
-        if [ -d "$ART_DIR" ]; then
-          echo "Zipping $ART_DIR -> $ZIP_PATH"
-          rm -f "$ZIP_PATH"
-          (cd "$(dirname "$ART_DIR")" && zip -r "$(basename "$ZIP_PATH")" "$(basename "$ART_DIR")")
-        else
-          echo "Warning: $ART_DIR not found, skipping"
-        fi
+      - name: Setup .NET (for restore/build)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
 
-    # ---------- 使用官方 action 上传每个 zip 到 Release ----------
-    - name: Upload Linux asset to Release
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build-artifacts/Slay-the-Spire-Like-linux.zip
-        asset_name: Slay-the-Spire-Like-linux.zip
-        asset_content_type: application/zip
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Restore NuGet packages
+        run: |
+          if [ -f "${{ env.EXPORT_NAME }}.sln" ]; then
+            dotnet restore "${{ env.EXPORT_NAME }}.sln"
+          else
+            echo "Solution file not found, skipping dotnet restore"
+          fi
 
-    - name: Upload macOS asset to Release
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build-artifacts/Slay-the-Spire-Like-macOS.zip
-        asset_name: Slay-the-Spire-Like-macOS.zip
-        asset_content_type: application/zip
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup Godot (includes export templates)
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: ${{ env.GODOT_VERSION }}
+          include-importer: true
+          include-templates: true
 
-    - name: Upload Windows asset to Release
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build-artifacts/Slay-the-Spire-Like-windows.zip
-        asset_name: Slay-the-Spire-Like-windows.zip
-        asset_content_type: application/zip
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build C# project (if applicable)
+        run: |
+          godot --headless --build-solutions --quit || echo "Godot build-solutions returned non-zero (ignored)"
 
-    - name: List uploaded release assets (debug)
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        REPO: ${{ github.repository }}
-        TAG: ${{ github.ref_name }}
-      run: |
-        RELEASE_INFO=$(curl -sSL -H "Authorization: token ${GITHUB_TOKEN}" \
-          "https://api.github.com/repos/${REPO}/releases/tags/${TAG}")
-        echo "$RELEASE_INFO" | jq '.assets | map({name: .name, size: .size, url: .browser_download_url})'
+      - name: Create export dirs
+        run: |
+          rm -rf build || true
+          mkdir -p build/windows
+          mkdir -p build/linux
+
+      - name: Export Windows Desktop (x86_64)
+        run: |
+          set -e
+          godot --headless --export-release "Windows Desktop" build/windows/${{ env.EXPORT_NAME }}.exe --quit
+
+      - name: Export Linux (x86_64)
+        run: |
+          set -e
+          godot --headless --export-release "Linux" build/linux/${{ env.EXPORT_NAME }}.x86_64 --quit
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-windows
+          path: build/windows/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-linux
+          path: build/linux/
+          if-no-files-found: error
+          retention-days: 30
+
+  # 在 macOS runner 上构建 macOS app
+  export-macos:
+    name: Build macOS (for Release)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup .NET (for restore/build)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore NuGet packages
+        run: |
+          if [ -f "${{ env.EXPORT_NAME }}.sln" ]; then
+            dotnet restore "${{ env.EXPORT_NAME }}.sln"
+          else
+            echo "Solution file not found, skipping dotnet restore"
+          fi
+
+      - name: Setup Godot on macOS (includes export templates)
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: ${{ env.GODOT_VERSION }}
+          include-importer: true
+          include-templates: true
+
+      - name: Build C# project (if applicable)
+        run: |
+          godot --headless --build-solutions --quit || echo "Godot build-solutions returned non-zero (ignored)"
+
+      - name: Create macOS export dir
+        run: mkdir -p build/macos
+
+      - name: Export macOS (.app)
+        run: |
+          set -e
+          godot --headless --export-release "macOS" build/macos/${{ env.EXPORT_NAME }}.app --quit
+
+      - name: Zip macOS app
+        run: |
+          cd build/macos || exit 0
+          if [ -d "${{ env.EXPORT_NAME }}.app" ]; then
+            zip -r ../${{ env.EXPORT_NAME }}-macOS.zip "${{ env.EXPORT_NAME }}.app"
+          else
+            echo ".app not found, skipping zip"
+          fi
+
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-macOS
+          path: build/${{ env.EXPORT_NAME }}-macOS.zip
+          if-no-files-found: error
+          retention-days: 30
+
+  # 最后创建 Release 并上传 artifacts（依赖上面两个构建 job）
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [ export-windows-linux, export-macos ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: build-artifacts
+
+      - name: Create Release (via actions/create-release)
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: Automated release for tag ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ---------- 将下载的产物目录打包为 zip（以确保上传文件是 zip） ----------
+      - name: Zip Linux artifact
+        run: |
+          ART_DIR="build-artifacts/Slay-the-Spire-Like-linux"
+          ZIP_PATH="${ART_DIR}.zip"
+          if [ -d "$ART_DIR" ]; then
+            echo "Zipping $ART_DIR -> $ZIP_PATH"
+            rm -f "$ZIP_PATH"
+            (cd "$(dirname "$ART_DIR")" && zip -r "$(basename "$ZIP_PATH")" "$(basename "$ART_DIR")")
+          else
+            echo "Warning: $ART_DIR not found, skipping"
+          fi
+
+      - name: Zip macOS artifact
+        run: |
+          ART_DIR="build-artifacts/Slay-the-Spire-Like-macOS"
+          ZIP_PATH="${ART_DIR}.zip"
+          if [ -d "$ART_DIR" ]; then
+            echo "Zipping $ART_DIR -> $ZIP_PATH"
+            rm -f "$ZIP_PATH"
+            (cd "$(dirname "$ART_DIR")" && zip -r "$(basename "$ZIP_PATH")" "$(basename "$ART_DIR")")
+          else
+            echo "Warning: $ART_DIR not found, skipping"
+          fi
+
+      - name: Zip Windows artifact
+        run: |
+          ART_DIR="build-artifacts/Slay-the-Spire-Like-windows"
+          ZIP_PATH="${ART_DIR}.zip"
+          if [ -d "$ART_DIR" ]; then
+            echo "Zipping $ART_DIR -> $ZIP_PATH"
+            rm -f "$ZIP_PATH"
+            (cd "$(dirname "$ART_DIR")" && zip -r "$(basename "$ZIP_PATH")" "$(basename "$ART_DIR")")
+          else
+            echo "Warning: $ART_DIR not found, skipping"
+          fi
+
+      # ---------- 使用官方 action 上传每个 zip 到 Release ----------
+      - name: Upload Linux asset to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build-artifacts/Slay-the-Spire-Like-linux.zip
+          asset_name: Slay-the-Spire-Like-linux.zip
+          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload macOS asset to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build-artifacts/Slay-the-Spire-Like-macOS.zip
+          asset_name: Slay-the-Spire-Like-macOS.zip
+          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Windows asset to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build-artifacts/Slay-the-Spire-Like-windows.zip
+          asset_name: Slay-the-Spire-Like-windows.zip
+          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: List uploaded release assets (debug)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          RELEASE_INFO=$(curl -sSL -H "Authorization: token ${GITHUB_TOKEN}" \
+            "https://api.github.com/repos/${REPO}/releases/tags/${TAG}")
+          echo "$RELEASE_INFO" | jq '.assets | map({name: .name, size: .size, url: .browser_download_url})'
+  
