@@ -24,6 +24,7 @@ public partial class Campfire : Control
 
     private async Task OnRestButtonPressed()
     {
+        RestButton.Disabled = true;
         PlayerStats.Heal(Mathf.CeilToInt(PlayerStats.MaxHeath*0.3));
         await SceneTransitionManager.Instance.PerformFadeEffect(OnFadeOutComplete);
     }
