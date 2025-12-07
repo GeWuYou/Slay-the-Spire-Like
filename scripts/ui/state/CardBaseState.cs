@@ -1,6 +1,7 @@
 using System;
 using global::SlayTheSpireLike.scripts.global;
 using Godot;
+using SlayTheSpireLike.scripts.extensions;
 
 namespace SlayTheSpireLike.scripts.ui.state;
 
@@ -25,8 +26,9 @@ public partial class CardBaseState : CardState
     {
         try
         {
+            GD.Print("进入基础状态");
             // 等待卡牌UI节点准备就绪
-            if (!CardUi.IsNodeReady()) await ToSignal(CardUi, "ready");
+            await CardUi.WaitUntilReady();
 
             if (CardUi.Tween != null && CardUi.Tween.IsRunning()) CardUi.Tween.Kill();
 
@@ -70,7 +72,6 @@ public partial class CardBaseState : CardState
         // 检查卡片是否可执行且未被禁用，如果不满足条件则直接返回
         if (!CardUi.Playable || CardUi.Disabled)
         {
-            GD.Print($"状态 可打出{!CardUi.Playable} 禁用{CardUi.Disabled}");
             return;
         }
 

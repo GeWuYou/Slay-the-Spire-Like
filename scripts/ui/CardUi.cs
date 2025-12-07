@@ -26,6 +26,7 @@ public partial class CardUi : Control
     private CharacterStats _characterStats;
     private bool _playable = true;
     public ModifierHandler PlayerModifierHandler { get; set; }
+
     /// <summary>
     ///     基础样式框，定义了卡片在默认状态下的外观。
     /// </summary>
@@ -75,7 +76,7 @@ public partial class CardUi : Control
         set
         {
             _characterStats = value;
-            _characterStats.StatsChanged += OnStatsChanged;
+            _characterStats.Connect(Stats.SignalName.StatsChanged, new Callable(this, nameof(OnStatsChanged)));
         }
     }
 
@@ -135,7 +136,7 @@ public partial class CardUi : Control
     private void OnStatsChanged()
     {
         if (!IsInstanceValid(this)) return;
-        
+
         Playable = _characterStats.CanPlayCard(Card);
     }
 
@@ -192,21 +193,24 @@ public partial class CardUi : Control
             _characterStats.StatsChanged -= OnStatsChanged;
         }
     }
+
     public ModifierHandler GetActiveEnemyModifierHandler()
     {
         if (Targets.Count == 0 || Targets.Count > 1 || Targets[0] is not Enemy enemy)
         {
             return null;
         }
+
         return enemy.ModifierHandler;
     }
 
     public void RequestTooltip()
     {
-       var enemyModifierHandler =  GetActiveEnemyModifierHandler();
-       var tooltip = Card.GetDescription(PlayerModifierHandler, enemyModifierHandler);
-       Events.Instance.RaiseCardToolTipShowRequest(Card.Icon,tooltip);
+        var enemyModifierHandler = GetActiveEnemyModifierHandler();
+        var tooltip = Card.GetDescription(PlayerModifierHandler, enemyModifierHandler);
+        Events.Instance.RaiseCardToolTipShowRequest(Card.Icon, tooltip);
     }
+
     private void OnCardDraggingOrAimingEnded(CardUi cardUi)
     {
         // 确保当前节点未被释放
@@ -290,7 +294,7 @@ public partial class CardUi : Control
             return;
         }
 
-        Card.Play(Targets, CharacterStats,PlayerModifierHandler);
+        Card.Play(Targets, CharacterStats, PlayerModifierHandler);
         QueueFree();
     }
 
