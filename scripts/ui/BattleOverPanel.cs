@@ -20,7 +20,7 @@ public partial class BattleOverPanel : Panel
 
     [Export] public Label Label { get; set; }
     [Export] public Button ContinueButton { get; set; }
-    [Export] public Button RestartButton { get; set; }
+    [Export] public Button MainMenuButton { get; set; }
     
     /// <summary>
     /// 当节点准备就绪时调用此方法
@@ -28,14 +28,9 @@ public partial class BattleOverPanel : Panel
     /// </summary>
     public override void _Ready()
     {
-        // 绑定继续按钮点击事件，点击后退出游戏
-        var sceneTree = GetTree();
         ContinueButton.Pressed += () => Events.Instance.RaiseBattleWon();
-        // 绑定重启按钮点击事件，点击后重新加载当前场景
-        RestartButton.Pressed += () =>
-        {
-            sceneTree.ReloadCurrentScene();
-        };
+        MainMenuButton.Pressed +=async () => await SceneTransitionManager.Instance.TransitionToScene(ResourceLoaderManager
+            .Instance.GetSceneLoader(GameConstants.ResourcePaths.MainMenuScene).Value);
         // 监听战斗结束界面请求事件
         Events.Instance.BattleOverScreenRequested += ShowScreen;
     }
@@ -56,7 +51,7 @@ public partial class BattleOverPanel : Panel
     {
         Label.Text = text;
         ContinueButton.Visible = type == Type.Win;
-        RestartButton.Visible = type == Type.Lose;
+        MainMenuButton.Visible = type == Type.Lose;
         Show();
         GetTree().Paused = true;
     }

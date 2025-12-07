@@ -17,22 +17,6 @@ tracks/0/keys = {
 "values": [1.0]
 }
 
-[sub_resource type="Animation" id="Animation_3qqtv"]
-resource_name = "fade_in"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("FadeRect:modulate:a")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 0.6, 1.0]
-}
-
 [sub_resource type="Animation" id="Animation_oxs4f"]
 resource_name = "fade_out"
 length = 0.45
@@ -47,6 +31,22 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_3qqtv"]
+resource_name = "fade_in"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeRect:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.6, 1.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_651m7"]
@@ -72,6 +72,7 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
 editor_description = "驱动 shader 参数与其他动画"
 libraries = {
 &"": SubResource("AnimationLibrary_651m7")
