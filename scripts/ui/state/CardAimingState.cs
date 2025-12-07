@@ -30,7 +30,6 @@ public partial class CardAimingState : CardState
     /// </summary>
     public override void Enter()
     {
-        GD.Print("进入瞄准状态");
         // 设置卡牌UI的颜色与状态文字
         CardUi.Targets.Clear();
 

@@ -5,7 +5,6 @@ using global::SlayTheSpireLike.scripts.global;
 using Godot;
 using SlayTheSpireLike.scripts.battle;
 using SlayTheSpireLike.scripts.campfire;
-using SlayTheSpireLike.scripts.core.save;
 using SlayTheSpireLike.scripts.map;
 using SlayTheSpireLike.scripts.random;
 using SlayTheSpireLike.scripts.relic_handler;
@@ -37,7 +36,7 @@ public partial class Run : Node
     [Export] public Map Map { get; set; }
     [Export] public RelicHandler RelicHandler { get; set; }
     [Export] public RelicTooltip RelicTooltip { get; set; }
-    [Export] public PauseMeun PauseMeun { get; set; }
+    [Export] public PauseMenu PauseMenu { get; set; }
     public CharacterStats PlayerStats { get; set; }
     public RunStats RunStats { get; set; }
     private SaveData _saveData;
@@ -80,7 +79,7 @@ public partial class Run : Node
     public override void _Ready()
 
     {
-        PauseMeun.Connect(PauseMeun.SignalName.SaveAndQuite,
+        PauseMenu.Connect(PauseMenu.SignalName.SaveAndQuite,
             Callable.From(OnSaveAndQuit));
         if (RunStartup.RunType == RunStartup.Type.NewRun)
         {
@@ -235,8 +234,6 @@ public partial class Run : Node
                 OnShopRoomEntered();
                 break;
             case Room.Type.Boss:
-                // ChangeView(ResourceLoaderManager.Instance
-                //     .GetSceneLoader(GameConstants.ResourcePaths.BossScene).Value);
                 OnBattleRoomEntered(room);
                 break;
             default:

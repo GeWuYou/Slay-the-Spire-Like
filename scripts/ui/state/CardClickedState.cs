@@ -15,7 +15,6 @@ public partial class CardClickedState : CardState
     /// </summary>
     public override void Enter()
     {
-        GD.Print("进入点击状态");
         // 启用拖放检测器
         CardUi.DropPointDetector.Monitoring = true;
         // 保存原始索引

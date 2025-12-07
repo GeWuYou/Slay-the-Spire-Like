@@ -18,11 +18,9 @@ public partial class CardReleasedState : CardState
 
     public override void Enter()
     {
-        GD.Print("进入发布状态");
         Played = false;
         if (CardUi.Targets.Count == 0) return;
         Played = true;
-        GD.Print("打出卡牌");
         CardUi.Play();
         _events.RaiseCardToolTipHideRequest();
 

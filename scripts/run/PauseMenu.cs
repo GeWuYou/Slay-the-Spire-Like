@@ -1,7 +1,8 @@
-using global::SlayTheSpireLike.scripts.global;
+using SlayTheSpireLike.scripts.global;
 using Godot;
 
-public partial class PauseMeun : CanvasLayer
+namespace SlayTheSpireLike.scripts.run;
+public partial class PauseMenu : CanvasLayer
 {
     [Signal]
     public delegate void SaveAndQuiteEventHandler();
@@ -19,6 +20,7 @@ public partial class PauseMeun : CanvasLayer
     private void OnSaveAndQuiteButtonPressed()
     {
         GetTree().Paused = false;
+        AudioPlayerManager.Instance.StopMusic();
         EmitSignal(SignalName.SaveAndQuite);
     }
 

@@ -26,7 +26,6 @@ public partial class CardBaseState : CardState
     {
         try
         {
-            GD.Print("进入基础状态");
             // 等待卡牌UI节点准备就绪
             await CardUi.WaitUntilReady();
 

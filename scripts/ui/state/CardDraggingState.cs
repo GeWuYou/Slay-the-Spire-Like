@@ -33,7 +33,6 @@ public partial class CardDraggingState : CardState
     /// </summary>
     public override void Enter()
     {
-        GD.Print("进入拖拽状态");
         // 获取UI层节点并将卡牌UI重新父级到该层
         var uiLayer = GetTree().GetFirstNodeInGroup("ui_layer");
         if (uiLayer != null) CardUi.Reparent(uiLayer);

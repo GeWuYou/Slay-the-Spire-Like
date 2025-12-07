@@ -11,12 +11,12 @@
 [ext_resource type="Texture2D" uid="uid://d0edy7thj8ce6" path="res://art/heart.png" id="6_ux63y"]
 [ext_resource type="PackedScene" uid="uid://doivqyn64o1xy" path="res://scenes/relic_handler/relic_handler.tscn" id="7_yeia0"]
 [ext_resource type="PackedScene" uid="uid://bvgisif8nw2eq" path="res://scenes/relic_handler/relic_tooltip.tscn" id="11_g42ja"]
-[ext_resource type="Script" uid="uid://dy5bw87qbd6ro" path="res://scripts/run/PauseMeun.cs" id="12_cnkn7"]
+[ext_resource type="Script" uid="uid://dy5bw87qbd6ro" path="res://scripts/run/PauseMenu.cs" id="12_cnkn7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7yo0l"]
 shadow_color = Color(0.61273354, 0.37137222, 0.49154884, 1)
 
-[node name="Run" type="Node" node_paths=PackedStringArray("CurrentView", "BattleButton", "ShopButton", "CampfireButton", "TreasureButton", "MapButton", "RewardsButton", "DeckPileView", "DeckButton", "GoldUi", "HealthUi", "Map", "RelicHandler", "RelicTooltip", "PauseMeun")]
+[node name="Run" type="Node" node_paths=PackedStringArray("CurrentView", "BattleButton", "ShopButton", "CampfireButton", "TreasureButton", "MapButton", "RewardsButton", "DeckPileView", "DeckButton", "GoldUi", "HealthUi", "Map", "RelicHandler", "RelicTooltip", "PauseMenu")]
 script = ExtResource("1_l7o68")
 CurrentView = NodePath("CurrentView")
 BattleButton = NodePath("DebugButtons/BattleButton")
@@ -33,7 +33,7 @@ HealthUi = NodePath("TopBar/BarItems/HealthUi")
 Map = NodePath("Map")
 RelicHandler = NodePath("TopBar/BarItems/RelicHandlerContainer/RelicHandler")
 RelicTooltip = NodePath("TopBar/RelicTooltip")
-PauseMeun = NodePath("PauseMeun")
+PauseMenu = NodePath("PauseMeun")
 
 [node name="Map" parent="." instance=ExtResource("1_8rlou")]
 
