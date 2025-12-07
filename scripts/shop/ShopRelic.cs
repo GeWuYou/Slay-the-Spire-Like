@@ -56,7 +56,7 @@ public partial class ShopRelic : VBoxContainer
 		PriceLabel.Text = GoldCost.ToString();
 
 		// 判断玩家是否有足够金币购买该遗物
-		if (runStats.Gold > GoldCost)
+		if (runStats.Gold >= GoldCost)
 		{
 			PriceLabel.RemoveThemeColorOverride("font_color");
 			BuyButton.Disabled = false;

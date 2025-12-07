@@ -65,7 +65,7 @@ public partial class ShopCard : VBoxContainer
         _priceLabel.Text = GoldCost.ToString();
 
         // 判断玩家是否有足够金币购买该卡牌
-        if (runStats.Gold > GoldCost)
+        if (runStats.Gold >= GoldCost)
         {
             _priceLabel.RemoveThemeColorOverride("font_color");
             _buyButton.Disabled = false;
