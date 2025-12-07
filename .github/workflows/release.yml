@@ -169,7 +169,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build-artifacts/Slay-the-Spire-Like-linux.zip
+          asset_path: build-artifacts/Slay-the-Spire-Like-linux
           asset_name: Slay-the-Spire-Like-linux.zip
           asset_content_type: application/zip
         env:
@@ -179,7 +179,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build-artifacts/Slay-the-Spire-Like-macOS.zip
+          asset_path: build-artifacts/Slay-the-Spire-Like-macOS
           asset_name: Slay-the-Spire-Like-macOS.zip
           asset_content_type: application/zip
         env:
@@ -189,7 +189,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build-artifacts/Slay-the-Spire-Like-windows.zip
+          asset_path: build-artifacts/Slay-the-Spire-Like-windows
           asset_name: Slay-the-Spire-Like-windows.zip
           asset_content_type: application/zip
         env:
