@@ -1,0 +1,230 @@
+﻿name: Release on Tag
+
+on:
+  push:
+    tags:
+      - '*'   # any tag like 1.0.0 or v1.0.0 will trigger
+
+env:
+  GODOT_VERSION: 4.5.1
+  EXPORT_NAME: Slay-the-Spire-Like
+
+jobs:
+  # 先在 ubuntu 上构建 Windows & Linux
+  export-windows-linux:
+    name: Build Windows & Linux (for Release)
+    runs-on: ubuntu-latest
+    outputs:
+      windows-artifact: ${{ steps.upload_windows.outputs.artifact-path || '' }}
+      linux-artifact: ${{ steps.upload_linux.outputs.artifact-path || '' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup .NET (for restore/build)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore NuGet packages
+        run: |
+          if [ -f "${{ env.EXPORT_NAME }}.sln" ]; then
+            dotnet restore "${{ env.EXPORT_NAME }}.sln"
+          else
+            echo "Solution file not found, skipping dotnet restore"
+          fi
+
+      - name: Setup Godot (includes export templates)
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: ${{ env.GODOT_VERSION }}
+          include-importer: true
+          include-templates: true
+
+      - name: Build C# project (if applicable)
+        run: |
+          godot --headless --build-solutions --quit || echo "Godot build-solutions returned non-zero (ignored)"
+
+      - name: Create export dirs
+        run: |
+          rm -rf build || true
+          mkdir -p build/windows
+          mkdir -p build/linux
+
+      - name: Export Windows Desktop (x86_64)
+        run: |
+          set -e
+          godot --headless --export-release "Windows Desktop" build/windows/${{ env.EXPORT_NAME }}.exe --quit
+
+      - name: Export Linux (x86_64)
+        run: |
+          set -e
+          godot --headless --export-release "Linux" build/linux/${{ env.EXPORT_NAME }}.x86_64 --quit
+
+      - name: Upload Windows artifact
+        id: upload_windows
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-windows
+          path: build/windows/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload Linux artifact
+        id: upload_linux
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-linux
+          path: build/linux/
+          if-no-files-found: error
+          retention-days: 30
+
+  # 在 macOS runner 上构建 macOS app
+  export-macos:
+    name: Build macOS (for Release)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup .NET (for restore/build)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore NuGet packages
+        run: |
+          if [ -f "${{ env.EXPORT_NAME }}.sln" ]; then
+            dotnet restore "${{ env.EXPORT_NAME }}.sln"
+          else
+            echo "Solution file not found, skipping dotnet restore"
+          fi
+
+      - name: Setup Godot on macOS (includes export templates)
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: ${{ env.GODOT_VERSION }}
+          include-importer: true
+          include-templates: true
+
+      - name: Build C# project (if applicable)
+        run: |
+          godot --headless --build-solutions --quit || echo "Godot build-solutions returned non-zero (ignored)"
+
+      - name: Create macOS export dir
+        run: mkdir -p build/macos
+
+      - name: Export macOS (.app)
+        run: |
+          set -e
+          godot --headless --export-release "macOS" build/macos/${{ env.EXPORT_NAME }}.app --quit
+
+      - name: Zip macOS app
+        run: |
+          cd build/macos || exit 0
+          if [ -d "${{ env.EXPORT_NAME }}.app" ]; then
+            zip -r ../${{ env.EXPORT_NAME }}-macOS.zip "${{ env.EXPORT_NAME }}.app"
+          else
+            echo ".app not found, skipping zip"
+          fi
+
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-macOS
+          path: build/${{ env.EXPORT_NAME }}-macOS.zip
+          if-no-files-found: error
+          retention-days: 30
+
+  # 最后创建 Release 并上传 artifacts（依赖上面两个构建 job）
+  create-release:
+    name: Create Release & upload assets
+    runs-on: ubuntu-latest
+    needs: [ export-windows-linux, export-macos ]
+    steps:
+      - name: Install gh CLI (if not present)
+        run: |
+          if ! command -v gh >/dev/null 2>&1; then
+            sudo apt update && sudo apt install -y gh
+          else
+            echo "gh already installed"
+          fi
+
+      - name: Authenticate gh
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download artifacts (windows)
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-windows
+          path: downloaded-artifacts/windows || true
+
+      - name: Download artifacts (linux)
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-linux
+          path: downloaded-artifacts/linux || true
+
+      - name: Download artifacts (macos)
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-macOS
+          path: downloaded-artifacts/macos || true
+
+      - name: Create Release (if not exists)
+        id: create_release
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          # If release exists, skip creating. Otherwise create it.
+          if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+            echo "release_exists=true" >> $GITHUB_OUTPUT
+          else
+            gh release create "$TAG_NAME" -t "Release $TAG_NAME" -n "Release for $TAG_NAME"
+            echo "release_exists=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Assets - Windows
+        if: always()
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          # upload any found executables / files in the downloaded path
+          shopt -s nullglob || true
+          for f in downloaded-artifacts/windows/*; do
+            if [ -f "$f" ]; then
+              gh release upload "$TAG_NAME" "$f" --clobber || echo "upload failed for $f"
+            fi
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Assets - Linux
+        if: always()
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          for f in downloaded-artifacts/linux/*; do
+            if [ -f "$f" ]; then
+              gh release upload "$TAG_NAME" "$f" --clobber || echo "upload failed for $f"
+            fi
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Assets - macOS
+        if: always()
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          for f in downloaded-artifacts/macos/*; do
+            if [ -f "$f" ]; then
+              gh release upload "$TAG_NAME" "$f" --clobber || echo "upload failed for $f"
+            fi
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
